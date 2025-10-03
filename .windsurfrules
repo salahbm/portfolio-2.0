@@ -21,6 +21,7 @@
 - Prefer iteration and modularization over code duplication
 - Use descriptive variable names with auxiliary verbs
 - Write concise, technical TypeScript code with accurate examples
+- use always kebab case for file names and directories
 
 ## Error Handling
 

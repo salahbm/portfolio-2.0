@@ -38,6 +38,12 @@ const config: StorybookConfig = {
         port: 6006,
         allowedHosts: ['localhost', '127.0.0.1', '0.0.0.0'],
       },
+      // Configure for Three.js support
+      optimizeDeps: {
+        include: ['@react-spring/three', '@react-three/drei', '@react-three/fiber', 'three'],
+      },
+      // Ensure proper handling of glTF and texture files
+      assetsInclude: ['**/*.glb', '**/*.gltf', '**/*.jpg', '**/*.png'],
     });
   },
 };

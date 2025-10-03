@@ -1,6 +1,6 @@
 import { describe, expect, it } from 'vitest';
 
-import { buttonVariants } from '../button';
+import { buttonVariants } from './button';
 
 describe('Button', () => {
   it('should have correct default variants', () => {

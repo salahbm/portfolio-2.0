@@ -49,6 +49,44 @@ export default tseslint.config(
       'react/button-has-type': 'error',
       'react/react-in-jsx-scope': ['off'],
 
+      // Ignore React Three Fiber specific props
+      'react/no-unknown-property': [
+        'warn',
+        {
+          ignore: [
+            'args',
+            'position',
+            'intensity',
+            'rotation',
+            'dispose',
+            'receiveShadow',
+            'castShadow',
+            'raycast',
+            'roughness',
+            'map',
+            'renderOrder',
+            'depthTest',
+            'depthWrite',
+            'alphaTest',
+            'scale',
+            'material-color',
+            'material-roughness',
+            'material-metalness',
+            'material-transparent',
+            'material-opacity',
+            'position-y',
+            'position-z',
+            'rotation-x',
+            'shadow-mapSize-width',
+            'shadow-mapSize-height',
+            'shadow-bias',
+            'target-position',
+            'emissive',
+            'emissiveIntensity',
+          ],
+        },
+      ],
+
       // Turn off react-refresh warning for multiple exports
       'react-refresh/only-export-components': 'off',
 

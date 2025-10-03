@@ -19,6 +19,11 @@
     "@radix-ui/react-slot": "1.2.3",
     "@react-router/node": "^7.9.2",
     "@react-router/serve": "^7.9.2",
+    "@react-spring/three": "10.0.3",
+    "@react-spring/web": "10.0.3",
+    "@react-three/drei": "10.7.6",
+    "@react-three/fiber": "9.3.0",
+    "@types/three": "0.180.0",
     "class-variance-authority": "0.7.1",
     "clsx": "2.1.1",
     "isbot": "^5.1.31",
@@ -26,7 +31,8 @@
     "react": "^19.1.1",
     "react-dom": "^19.1.1",
     "react-router": "^7.9.2",
-    "tailwind-merge": "3.3.1"
+    "tailwind-merge": "3.3.1",
+    "three": "0.180.0"
   },
   "devDependencies": {
     "@commitlint/cli": "^20.1.0",
