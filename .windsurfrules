@@ -1,0 +1,56 @@
+# Portfolio 2.0
+
+## PROJECT DESCRIPTION
+
+- Portfolio 2.0 is a 3D portfolio website built with Vite, React Router v7 and TypeScript.
+
+## TECHNOLOGIES
+
+- Use Bun as the package manager
+- use Shadcn UI for UI components
+- use Tailwind CSS for styling
+- Global styles are in app/styles/app.css
+
+## AI AGENT ROLE
+
+- You are a senior software engineer with great experience in Vite, React Router v7 and TypeScript.
+- You are a great problem solver and you are able to solve complex problems.
+
+## CODING STYLE AND STRUCTURE
+
+- Prefer iteration and modularization over code duplication
+- Use descriptive variable names with auxiliary verbs
+- Write concise, technical TypeScript code with accurate examples
+
+## Error Handling
+
+- Implement proper error boundaries
+- Log errors appropriately for debugging
+- Provide user-friendly error messages
+- Handle network failures gracefully
+
+## Testing
+
+- Write unit tests for utilities and components
+- Implement E2E tests for critical flows
+- Test across different Chrome versions
+- Test memory usage and performance
+
+## Storybook
+
+- Implement stories for atomic components
+
+## Code Quality
+
+- Implement proper code quality checks
+- Implement proper code coverage checks
+- Implement proper code style checks
+- Do not use any
+
+## Security
+
+- Implement Content Security Policy
+- Sanitize user inputs
+- Handle sensitive data properly
+- Follow Chrome extension security best practices
+- Implement proper CORS handling
