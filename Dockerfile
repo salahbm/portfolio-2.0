@@ -1,22 +1,25 @@
-FROM node:20-alpine AS development-dependencies-env
-COPY . /app
+# Base image with Bun installed
+FROM oven/bun:1 AS base
 WORKDIR /app
-RUN npm ci
 
-FROM node:20-alpine AS production-dependencies-env
-COPY ./package.json package-lock.json /app/
-WORKDIR /app
-RUN npm ci --omit=dev
+# Development dependencies
+FROM base AS development-dependencies
+COPY package.json bun.lock ./
+RUN bun install
 
-FROM node:20-alpine AS build-env
-COPY . /app/
-COPY --from=development-dependencies-env /app/node_modules /app/node_modules
-WORKDIR /app
-RUN npm run build
+# Build stage
+FROM development-dependencies AS build
+COPY . .
+RUN bun run build
 
-FROM node:20-alpine
-COPY ./package.json package-lock.json /app/
-COPY --from=production-dependencies-env /app/node_modules /app/node_modules
-COPY --from=build-env /app/build /app/build
-WORKDIR /app
-CMD ["npm", "run", "start"]
+# Production stage
+FROM base AS production
+COPY --from=development-dependencies /app/node_modules ./node_modules
+COPY --from=build /app/build ./build
+COPY package.json ./
+
+# Expose port 3000
+EXPOSE 3000
+
+# Start the application
+CMD ["bun", "run", "start"]

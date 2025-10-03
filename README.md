@@ -75,14 +75,118 @@ bun run build
 
 ### Docker Deployment
 
-To build and run using Docker:
+#### Prerequisites
+
+Make sure you have Docker installed on your machine. You can download it from [Docker's official website](https://www.docker.com/get-started).
+
+#### Building the Docker Image
+
+To build the Docker image for your 3D portfolio:
 
 ```bash
-docker build -t my-app .
-
-# Run the container
-docker run -p 3000:3000 my-app
+docker build -t portfolio-3d .
 ```
+
+This command builds a Docker image named `portfolio-3d` using the Dockerfile in your project.
+
+#### Running the Docker Container
+
+After building the image, you can run it as a container:
+
+```bash
+docker run -p 3000:3000 portfolio-3d
+```
+
+This command:
+
+- `-p 3000:3000`: Maps port 3000 of the container to port 3000 on your host machine
+- `portfolio-3d`: Uses the image we built in the previous step
+
+Your application will be available at `http://localhost:3000`.
+
+#### Development with Docker
+
+For development with hot-reloading, you can use Docker Compose. Create a `docker-compose.yml` file in your project root:
+
+```yaml
+version: '3'
+
+services:
+  app:
+    build:
+      context: .
+      target: development-dependencies
+    command: bun run dev
+    ports:
+      - '5173:5173'
+    volumes:
+      - .:/app
+      - /app/node_modules
+```
+
+Then run:
+
+```bash
+docker-compose up
+```
+
+#### Using the Docker Helper Script
+
+This project includes a helper script (`docker.sh`) to simplify Docker operations:
+
+```bash
+# Make the script executable (first time only)
+chmod +x docker.sh
+
+# Build the Docker image
+./docker.sh build
+
+# Run the Docker container
+./docker.sh run
+
+# Start development environment
+./docker.sh dev
+
+# Stop Docker Compose services
+./docker.sh stop
+
+# Clean up Docker resources
+./docker.sh clean
+```
+
+#### Docker Commands Reference
+
+- **List all running containers:**
+
+  ```bash
+  docker ps
+  ```
+
+- **Stop a running container:**
+
+  ```bash
+  docker stop <container_id>
+  ```
+
+- **Remove a container:**
+
+  ```bash
+  docker rm <container_id>
+  ```
+
+- **List all images:**
+
+  ```bash
+  docker images
+  ```
+
+- **Remove an image:**
+
+  ```bash
+  docker rmi <image_id>
+  ```
+
+#### Deployment Platforms
 
 The containerized application can be deployed to any platform that supports Docker, including:
 
