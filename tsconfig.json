@@ -20,6 +20,7 @@
       "@lib/*": ["./app/lib/*"],
       "@store/*": ["./app/store/*"],
       "@types/*": ["./app/types/*"],
+      "@pages/*": ["./app/pages/*"],
       "@vite-env/*": ["./app/vite-env/*"]
     },
     "esModuleInterop": true,

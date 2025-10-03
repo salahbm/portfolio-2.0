@@ -144,8 +144,14 @@ chmod +x docker.sh
 # Run the Docker container
 ./docker.sh run
 
-# Start development environment
+# Start all development services (app + storybook)
 ./docker.sh dev
+
+# Start only the app service
+./docker.sh dev-app
+
+# Start only the Storybook service
+./docker.sh storybook
 
 # Stop Docker Compose services
 ./docker.sh stop

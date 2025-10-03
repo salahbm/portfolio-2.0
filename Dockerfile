@@ -4,6 +4,12 @@ WORKDIR /app
 
 # Development dependencies
 FROM base AS development-dependencies
+# Install xdg-utils and create a dummy xdg-open script
+RUN apt-get update && apt-get install -y xdg-utils && apt-get clean
+# Create a dummy xdg-open script that does nothing but return success
+RUN echo '#!/bin/sh\nexit 0' > /usr/local/bin/xdg-open && chmod +x /usr/local/bin/xdg-open
+# Set environment variable to disable Storybook telemetry
+ENV STORYBOOK_DISABLE_TELEMETRY=1
 COPY package.json bun.lock ./
 RUN bun install
 

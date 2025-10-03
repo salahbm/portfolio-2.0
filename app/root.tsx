@@ -1,10 +1,11 @@
 import { Outlet } from 'react-router';
 
-import type { RouteLinksFunction } from './+types/root';
 import { ErrorBoundary } from '@/components/error';
 import { RootLayout } from '@/components/layout';
 import { fontLinks } from '@/lib/fonts';
 import { defaultMeta } from '@/lib/meta';
+
+import type { RouteLinksFunction } from './+types/root';
 import '@/styles/app.css';
 
 export const links: RouteLinksFunction = () => [...fontLinks()];

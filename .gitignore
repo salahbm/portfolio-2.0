@@ -48,3 +48,6 @@ Thumbs.db
 .vercel/
 .netlify/
 .turbo/
+
+*storybook.log
+storybook-static
