@@ -132,4 +132,9 @@ body {
   body {
     @apply bg-background text-foreground;
   }
+
+  /* Storybook */
+  #storybook-root {
+    @apply !m-0 !p-0;
+  }
 }

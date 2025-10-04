@@ -6,4 +6,10 @@ import tsconfigPaths from 'vite-tsconfig-paths';
 export default defineConfig({
   plugins: [tailwindcss(), reactRouter(), tsconfigPaths()],
   assetsInclude: ['**/*.glb', '**/*.hdr', '**/*.jpg', '**/*.jpeg', '**/*.png'],
+  // Allow JavaScript files for Three.js logic
+  optimizeDeps: {
+    esbuildOptions: {
+      target: 'esnext',
+    },
+  },
 });
