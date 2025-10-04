@@ -32,13 +32,15 @@ function onWindowResize() {
 
   renderer.setSize(window.innerWidth, window.innerHeight);
 }
+
 function loadModel() {
   const loader = new GLTFLoader();
   loader.load(
     robot,
     function (gltf) {
       model = gltf.scene as THREE.Group;
-      scene.add(model);
+      // Add model to group instead of scene
+      group.add(model); // Changed from scene.add(model)
 
       mixer = new THREE.AnimationMixer(model);
 
@@ -50,11 +52,10 @@ function loadModel() {
     },
     progress => {
       const progressPercentage = (progress.loaded / progress.total) * 100;
-      if (progressPercentage) alert('Loading progress:' + progressPercentage + '%');
+      if (progressPercentage) console.log('Loading progress:', progressPercentage + '%');
     },
     function (e) {
       const errorMsg = `Error loading model: ${e}`;
-      // eslint-disable-next-line no-console
       console.error(errorMsg);
     }
   );
@@ -149,7 +150,6 @@ function animate(): void {
     delta,
     orbitControls,
     actions,
-    camera,
     group,
     followGroup,
     floor,

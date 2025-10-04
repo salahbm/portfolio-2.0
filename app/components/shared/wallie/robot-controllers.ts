@@ -53,10 +53,6 @@ const controls = {
   floorDecale: 0,
 };
 
-function unwrapRad(r: number) {
-  return Math.atan2(Math.sin(r), Math.cos(r));
-}
-
 function setWeight(action: THREE.AnimationAction, weight: number) {
   action.enabled = true;
   action.setEffectiveTimeScale(1);
@@ -85,7 +81,6 @@ function updateCharacter({
   delta,
   orbitControls,
   actions,
-  camera,
   group,
   followGroup,
   floor,
@@ -94,7 +89,6 @@ function updateCharacter({
   delta: number;
   orbitControls: OrbitControls;
   actions: { [key: string]: THREE.AnimationAction };
-  camera: THREE.Camera;
   group: THREE.Group;
   followGroup: THREE.Group;
   floor: THREE.Mesh;
@@ -103,17 +97,15 @@ function updateCharacter({
   const fade = controls.fadeDuration;
   const key = controls.key;
   const up = controls.up;
-  const ease = controls.ease;
-  const rotate = controls.rotate;
   const position = controls.position;
-  const azimuth = orbitControls.getAzimuthalAngle();
+  const rotate = controls.rotate;
 
-  const active = key[0] === 0 && key[1] === 0 ? false : true;
+  // Determine if character is moving
+  const active = key[0] !== 0 || key[1] !== 0 ? true : false;
   const play = active ? (key[2] ? 'Running' : 'Walking') : 'Idle';
 
-  // change animation
-
-  if (controls.current.state != play) {
+  // Change animation
+  if (controls.current.state !== play) {
     const current = actions[play];
     const old = actions[controls.current.state];
     controls.current.state = play;
@@ -123,30 +115,37 @@ function updateCharacter({
     current.reset().fadeIn(fade).play();
   }
 
-  // move object
-
+  // Move and rotate object
   if (controls.current.state !== 'Idle') {
-    // run/walk velocity
+    // Run/walk velocity
     const velocity =
-      controls.current.state == 'Running' ? controls.runVelocity : controls.walkVelocity;
+      controls.current.state === 'Running' ? controls.runVelocity : controls.walkVelocity;
 
-    // direction with key
-    ease.set(key[1], 0, key[0]).multiplyScalar(velocity * delta);
+    // Direction from keys (forward/backward and left/right)
+    const moveDirection = new THREE.Vector3(key[1], 0, key[0]).normalize();
 
-    // calculate camera direction
-    const angle = unwrapRad(Math.atan2(ease.x, ease.z) + azimuth);
-    rotate.setFromAxisAngle(up, angle);
+    // Apply camera rotation to movement direction
+    const azimuth = orbitControls.getAzimuthalAngle();
+    moveDirection.applyAxisAngle(up, azimuth);
 
-    // apply camera angle on ease
-    controls.ease.applyAxisAngle(up, azimuth);
+    // Scale by velocity and delta
+    moveDirection.multiplyScalar(velocity * delta);
 
-    position.add(ease);
-    camera.position.add(ease);
+    // Update position
+    position.add(moveDirection);
 
+    // Calculate rotation to face movement direction
+    if (moveDirection.length() > 0) {
+      const angle = Math.atan2(moveDirection.x, moveDirection.z);
+      rotate.setFromAxisAngle(up, angle);
+      group.quaternion.slerp(rotate, controls.rotateSpeed); // Smooth rotation
+    }
+
+    // Update group position
     group.position.copy(position);
-    group.quaternion.rotateTowards(rotate, controls.rotateSpeed);
 
-    orbitControls.target.copy(position).add({ x: 0, y: 1, z: 0 });
+    // Update camera and follow group
+    orbitControls.target.copy(position).add(new THREE.Vector3(0, 1, 0));
     followGroup.position.copy(position);
 
     // Move the floor without any limit
@@ -157,7 +156,6 @@ function updateCharacter({
   }
 
   if (mixer) mixer.update(delta);
-
   orbitControls.update();
 }
 
@@ -169,39 +167,35 @@ function onKeyDown(event: KeyboardEvent): void {
     case 'ArrowUp':
     case 'KeyW':
     case 'KeyZ':
-      key[0] = -1;
+      key[0] = -1; // Forward
       break;
     case 'ArrowDown':
     case 'KeyS':
-      key[0] = 1;
+      key[0] = 1; // Backward
       break;
     case 'ArrowLeft':
     case 'KeyA':
-    case 'KeyQ':
-      key[1] = -1;
+      key[1] = -1; // Left
       break;
     case 'ArrowRight':
     case 'KeyD':
-      key[1] = 1;
+      key[1] = 1; // Right
       break;
     case 'ShiftLeft':
     case 'ShiftRight':
-      key[2] = 1;
+      key[2] = 1; // Run
       break;
   }
 
   // Handle action keys (states and emotions) from keyMap
   if (keyMap[event.code]) {
     const mapping = keyMap[event.code];
-
     if (mapping.type === 'state') {
-      // Change the state directly
       controls.current.state = mapping.action;
     } else if (
       mapping.type === 'emotion' &&
       typeof controls.current[mapping.action] === 'function'
     ) {
-      // Trigger the emotion callback
       (controls.current[mapping.action] as () => void)();
     }
   }
@@ -221,7 +215,6 @@ function onKeyUp(event: KeyboardEvent): void {
       break;
     case 'ArrowLeft':
     case 'KeyA':
-    case 'KeyQ':
       key[1] = key[1] < 0 ? 0 : key[1];
       break;
     case 'ArrowRight':
