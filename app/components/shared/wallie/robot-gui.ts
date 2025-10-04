@@ -1,9 +1,9 @@
 import * as THREE from 'three';
 import { GUI } from 'three/addons/libs/lil-gui.module.min.js';
 
+import { controls, fadeToAction } from './robot-controllers';
+
 let gui: GUI;
-let activeAction: THREE.AnimationAction;
-let previousAction: THREE.AnimationAction;
 
 // Define a more specific type for the face object with morphTargetDictionary and morphTargetInfluences
 interface MorphTargetMesh extends THREE.Mesh {
@@ -17,26 +17,7 @@ let actions: { [key: string]: THREE.AnimationAction };
 const states = ['Idle', 'Walking', 'Running', 'Dance', 'Death', 'Sitting', 'Standing'];
 const emotions = ['Jump', 'Yes', 'No', 'Wave', 'Punch', 'ThumbsUp'];
 
-// Define an interface for the api object that allows dynamic properties
-interface ApiObject {
-  state: string;
-  // Allow any string key with a function value
-  [key: string]: string | (() => void);
-}
-
-// Create api object with the interface
-const api: ApiObject = { state: 'Walking' };
-
-function fadeToAction(name: string, duration: number) {
-  previousAction = activeAction;
-  activeAction = actions[name];
-
-  if (previousAction !== activeAction) {
-    previousAction.fadeOut(duration);
-  }
-
-  activeAction.reset().setEffectiveTimeScale(1).setEffectiveWeight(1).fadeIn(duration).play();
-}
+// fadeToAction function is now imported from robot-controllers.ts
 
 function createGUI(
   model: THREE.Group,
@@ -49,9 +30,24 @@ function createGUI(
 
   gui.title('Robot');
 
-  // Use the mixer passed from wallie-logic.ts
+  // Use the mixer passed from robot-logic.ts
 
-  actions = {};
+  actions = {
+    Idle: mixer.clipAction(animations[0]),
+    Walking: mixer.clipAction(animations[1]),
+    Running: mixer.clipAction(animations[2]),
+    Dance: mixer.clipAction(animations[3]),
+    Death: mixer.clipAction(animations[4]),
+    Sitting: mixer.clipAction(animations[5]),
+    Standing: mixer.clipAction(animations[6]),
+
+    Jump: mixer.clipAction(animations[7]),
+    Yes: mixer.clipAction(animations[8]),
+    No: mixer.clipAction(animations[9]),
+    Wave: mixer.clipAction(animations[10]),
+    Punch: mixer.clipAction(animations[11]),
+    ThumbsUp: mixer.clipAction(animations[12]),
+  };
 
   for (let i = 0; i < animations.length; i++) {
     const clip = animations[i];
@@ -68,10 +64,10 @@ function createGUI(
 
   const statesFolder = gui.addFolder('States');
 
-  const clipCtrl = statesFolder.add(api, 'state').options(states);
+  const clipCtrl = statesFolder.add(controls.current, 'state').options(states);
 
   clipCtrl.onChange(function () {
-    fadeToAction(api.state, 0.5);
+    fadeToAction(controls.current.state, 0.5, actions);
   });
 
   statesFolder.open();
@@ -80,24 +76,26 @@ function createGUI(
 
   const emoteFolder = gui.addFolder('Emotions');
 
-  function createEmoteCallback(name: string) {
-    api[name] = function () {
-      fadeToAction(name, 0.2);
+  function createEmotionCallback(name: string) {
+    function callback(): void {
+      fadeToAction(name, 0.2, actions);
 
       mixer.addEventListener('finished', restoreState);
-    };
+    }
 
-    emoteFolder.add(api, name);
+    controls.current[name] = callback;
+
+    emoteFolder.add(controls.current, name);
   }
 
   function restoreState() {
     mixer.removeEventListener('finished', restoreState);
 
-    fadeToAction(api.state, 0.2);
+    fadeToAction(controls.current.state, 0.2, actions);
   }
 
   for (let i = 0; i < emotions.length; i++) {
-    createEmoteCallback(emotions[i]);
+    createEmotionCallback(emotions[i]);
   }
 
   emoteFolder.open();
@@ -113,19 +111,16 @@ function createGUI(
     expressionFolder.add(face.morphTargetInfluences, String(i), 0, 1, 0.01).name(expressions[i]);
   }
 
-  activeAction = actions['Walking'];
-  activeAction.play();
+  // Initialize activeAction
+  fadeToAction('Idle', 0, actions);
 
   expressionFolder.open();
 
   return {
     gui,
     mixer,
-    activeAction,
-    previousAction,
     face,
     actions,
-    api,
   };
 }
 
