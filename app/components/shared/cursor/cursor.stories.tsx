@@ -7,13 +7,11 @@ import type { Meta } from '@storybook/react-vite';
 export const CursorWrapper = () => {
   return (
     <Suspense fallback={<div>Loading 3D components...</div>}>
-      <div className="flex items-center justify-center w-screen h-dvh cursor-none">
+      <div className="flex items-center justify-center w-screen h-dvh">
         <Cursor />
 
-        <div className="flex gap-4">
-          <button type="button" data-cursor="default">
-            Default
-          </button>
+        <div className="flex gap-10 flex-wrap cursor-none">
+          <span data-cursor="default">Default</span>
           <button type="button" data-cursor="pointer">
             Pointer
           </button>

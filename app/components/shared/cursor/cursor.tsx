@@ -1,6 +1,3 @@
-'use client';
-
-import { gsap } from 'gsap';
 import {
   MousePointer2,
   MousePointerClick,
@@ -10,6 +7,9 @@ import {
   TextCursor,
 } from 'lucide-react';
 import { useRef, useEffect, useState } from 'react';
+
+import { useIsMobile } from '@/hooks/common/use-device';
+import { cn } from '@/lib/utils';
 
 type CursorType = 'default' | 'pointer' | 'click' | 'hand' | 'grab' | 'text';
 
@@ -22,15 +22,44 @@ const Icon = {
   text: TextCursor,
 };
 
-export function Cursor() {
-  const cursorRef = useRef<HTMLDivElement>(null);
-  const [cursorType, setCursorType] = useState<CursorType>('default');
-  const requestRef = useRef<number | null>(null);
-  const pos = useRef({ x: window.innerWidth / 2, y: window.innerHeight / 2 });
-  const target = useRef({ x: window.innerWidth / 2, y: window.innerHeight / 2 });
+const colorMap: Record<CursorType, string> = {
+  default: 'text-gray-500',
+  pointer: 'text-blue-400',
+  click: 'text-green-400',
+  hand: 'text-yellow-400',
+  grab: 'text-pink-400',
+  text: 'text-purple-400',
+};
 
-  // 🪄 Smooth movement
+export function Cursor() {
+  const cursorRef = useRef<HTMLSpanElement>(null);
+  const innerRef = useRef<HTMLSpanElement>(null);
+  const [cursorType, setCursorType] = useState<CursorType>('default');
+  const cursorTypeRef = useRef<CursorType>('default');
+  const isMobile = useIsMobile();
+  const pos = useRef({ x: 0, y: 0 });
+  const target = useRef({ x: 0, y: 0 });
+
   useEffect(() => {
+    cursorTypeRef.current = cursorType;
+  }, [cursorType]);
+
+  // hide system cursor
+  useEffect(() => {
+    if (isMobile) return;
+
+    const style = document.createElement('style');
+    style.innerHTML = `
+      html, body, button, a, input, textarea, * { cursor: none !important; }
+    `;
+    document.head.appendChild(style);
+    return () => style.remove();
+  }, [isMobile]);
+
+  // smooth follow motion
+  useEffect(() => {
+    if (isMobile) return;
+
     const move = (e: MouseEvent) => {
       target.current.x = e.clientX;
       target.current.y = e.clientY;
@@ -38,43 +67,40 @@ export function Cursor() {
     window.addEventListener('mousemove', move);
 
     const render = () => {
-      pos.current.x += (target.current.x - pos.current.x) * 0.15;
-      pos.current.y += (target.current.y - pos.current.y) * 0.15;
+      pos.current.x += (target.current.x - pos.current.x) * 0.35;
+      pos.current.y += (target.current.y - pos.current.y) * 0.35;
 
-      gsap.set(cursorRef.current, {
-        x: pos.current.x,
-        y: pos.current.y,
-        xPercent: -50,
-        yPercent: -50,
-      });
-
-      requestRef.current = requestAnimationFrame(render);
+      if (cursorRef.current) {
+        cursorRef.current.style.transform = `translate(${pos.current.x}px, ${pos.current.y}px) translate(-50%, -50%)`;
+      }
+      requestAnimationFrame(render);
     };
+    requestAnimationFrame(render);
+    return () => window.removeEventListener('mousemove', move);
+  }, [isMobile]);
 
-    requestRef.current = requestAnimationFrame(render);
-    return () => {
-      window.removeEventListener('mousemove', move);
-      if (requestRef.current) cancelAnimationFrame(requestRef.current);
-    };
-  }, []);
-
-  // 🖱️ Click pulse
+  // Click feedback
   useEffect(() => {
+    if (isMobile) return;
+    // Desktop: normal click behavior
     const onDown = () => {
-      gsap.to(cursorRef.current, {
-        scale: 0.8,
-        duration: 0.15,
-        ease: 'power2.out',
-        yoyo: true,
-        repeat: 1,
-      });
+      if (cursorTypeRef.current !== 'pointer') return;
+      setCursorType('click');
+
+      innerRef.current?.animate(
+        [{ transform: 'scale(1)' }, { transform: 'scale(1.4)' }, { transform: 'scale(1)' }],
+        { duration: 150, easing: 'ease-out' }
+      );
+
+      setTimeout(() => setCursorType('pointer'), 150);
     };
     window.addEventListener('mousedown', onDown);
     return () => window.removeEventListener('mousedown', onDown);
-  }, []);
+  }, [isMobile]);
 
-  // ✨ Dynamic state — optional hooks
+  // hover detection
   useEffect(() => {
+    if (isMobile) return;
     const addHoverListeners = (selector: string, type: CursorType) => {
       document.querySelectorAll(selector).forEach(el => {
         el.addEventListener('mouseenter', () => setCursorType(type));
@@ -87,23 +113,25 @@ export function Cursor() {
     addHoverListeners('[data-cursor="hand"]', 'hand');
     addHoverListeners('[data-cursor="grab"]', 'grab');
     addHoverListeners('input, textarea, [data-cursor="text"]', 'text');
-  }, []);
+  }, [isMobile]);
 
   const IconComponent = Icon[cursorType];
 
   return (
-    <div
+    <span
       ref={cursorRef}
-      className="
-        fixed top-0 left-0 z-[9999]
-        w-10 h-10 rounded-full
-        flex items-center justify-center
-        text-gray-900 dark:text-gray-100
-        mix-blend-difference pointer-events-none
-        transition-transform duration-150 ease-out
-      "
+      aria-hidden="true"
+      className={cn(
+        'fixed top-0 left-0 z-[9999] pointer-events-none transition-transform duration-150 ease-out',
+        isMobile ? 'hidden' : ''
+      )}
     >
-      <IconComponent size={30} className="text-red-500" />
-    </div>
+      <span ref={innerRef} className="block transition-transform duration-150 ease-out">
+        <IconComponent
+          size={cursorType === 'click' ? 36 : 28}
+          className={cn('mix-blend-difference', colorMap[cursorType])}
+        />
+      </span>
+    </span>
   );
 }
