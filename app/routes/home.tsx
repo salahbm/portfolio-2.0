@@ -1,4 +1,4 @@
-import { Welcome } from '../welcome/welcome';
+import Hero from '@/pages/hero';
 
 export function meta() {
   return [
@@ -8,5 +8,5 @@ export function meta() {
 }
 
 export default function Home() {
-  return <Welcome />;
+  return <Hero />;
 }
