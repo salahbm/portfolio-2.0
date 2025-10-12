@@ -20,7 +20,7 @@ const ThemeToggleWrapper = ({
 };
 
 const meta = {
-  title: 'Shared/ThemeToggle',
+  title: 'Shared/Theme Toggle',
   component: ThemeToggleWrapper,
   parameters: {
     layout: 'centered',
