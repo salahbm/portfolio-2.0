@@ -1,86 +1,117 @@
-import { a } from '@react-spring/three';
-import { useSpring } from '@react-spring/web';
-import { Canvas } from '@react-three/fiber';
-import { useState, Suspense } from 'react';
+import { motion, AnimatePresence } from 'motion/react';
+import { useState, useEffect } from 'react';
 
-import { Switch } from './switch';
-import styles from './theme.module.css';
+import moonImg from '@/assets/moon.png';
+import sunImg from '@/assets/sun.png';
+import { cn } from '@/lib/utils';
 
-function ThemeToggle() {
-  const [toggle, set] = useState(0);
-  // Set up a shared spring which simply animates the toggle above
-  // We use this spring to interpolate all the colors, position and rotations
-  const [{ x }] = useSpring(
-    { x: toggle, config: { mass: 5, tension: 1000, friction: 50, precision: 0.0001 } },
-    [toggle]
-  );
+import Clouds from './clouds';
+import Stars from './stars';
 
-  const color = x.to([0, 1], ['#7fffd4', '#ff2']);
-
-  return (
-    <div className={styles.container}>
-      <Canvas
-        orthographic // Use orthographic projection (no perspective distortion)
-        shadows // Enable shadow rendering
-        dpr={[1, 2]} // Device pixel ratio: use 1 on low-end devices, 2 on high-end
-        camera={{
-          // Camera settings to make the switch face the user:
-          zoom: 60, // Higher zoom = closer view (like zooming in)
-          position: [20, 180, 0], // Position camera directly in front of the switch
-          // x: 0 (centered horizontally)
-          // y: 0 (centered vertically)
-          // z: 10 (distance from the scene - positive z is toward the viewer)
-          fov: 105, // Field of view in degrees (lower = less perspective distortion)
-          // Note: fov has less effect in orthographic mode but still matters for internal calculations
-        }}
-      >
-        {/* Ambient light provides overall soft illumination to the entire scene */}
-        <ambientLight intensity={0.2} /> {/* Slightly increased for better visibility */}
-        {/* Main directional light - like sunlight, coming from front-right-top */}
-        <directionalLight position={[5, 5, 10]} intensity={1} />
-        {/* Animated directional light that changes color based on toggle state */}
-        {/* Coming from behind to create rim lighting effect */}
-        <a.directionalLight position={[0, 2, -10]} intensity={0.5} color={color} />
-        {/* Animated point light that changes color based on toggle state */}
-        {/* Positioned in front of the switch to illuminate it directly */}
-        <a.pointLight position={[0, 0, 8]} distance={10} intensity={3} color={color} />
-        {/* Animated spotlight that casts shadows and changes color */}
-        <a.spotLight
-          color={color}
-          position={[-10, 180, 10]} // Positioned above and in front for dramatic lighting
-          angle={0.2} // Wider angle for broader illumination
-          intensity={1.5} // Slightly reduced to prevent washing out
-          shadow-mapSize-width={2048} // High-resolution shadow map
-          shadow-mapSize-height={2048} // High-resolution shadow map
-          shadow-bias={-0.00001} // Prevents shadow acne (visual artifacts)
-          castShadow // Enable shadow casting
-          target-position={[0, 0, 0]} // Points directly at the switch
-        />
-        {/* Valley background is now applied as CSS background to the container */}
-        {/* Clear background to ensure visibility of all elements */}
-        <mesh position={[0, 0, -10]} renderOrder={-2000}>
-          <planeGeometry args={[50, 50]} />
-          <a.meshBasicMaterial color={x.to([0, 1], ['#e6f7ff', '#ff9'])} />
-        </mesh>
-        <Suspense fallback={null}>
-          <Switch x={x} set={set} />
-        </Suspense>
-        {/* Ground plane that receives shadows */}
-        <mesh
-          receiveShadow // Enable shadow receiving
-          renderOrder={1000} // Render after other objects
-          position={[0, -1.5, 0]} // Positioned below the switch
-          rotation={[-Math.PI / 2, 0, 0]} // Rotated to be horizontal (facing up)
-        >
-          <planeGeometry args={[15, 15]} /> {/* Larger plane for better shadow area */}
-          <a.shadowMaterial
-            transparent
-            opacity={x.to(x => 0.15 + x * 0.2)} // Dynamic opacity based on toggle state
-          />
-        </mesh>
-      </Canvas>
-    </div>
-  );
+export interface ThemeToggleProps {
+  initialDark?: boolean;
+  onToggle?: (isDark: boolean) => void;
 }
 
-export { ThemeToggle };
+export function ThemeToggle({ initialDark = false, onToggle }: ThemeToggleProps) {
+  const [isDark, setIsDark] = useState(initialDark);
+
+  // Add/remove dark mode class
+  useEffect(() => {
+    document.documentElement.classList.toggle('dark', isDark);
+  }, [isDark]);
+
+  // 🌗 click toggle
+  const handleToggle = () => {
+    const newDarkState = !isDark;
+    setIsDark(newDarkState);
+    if (onToggle) {
+      onToggle(newDarkState);
+    }
+  };
+
+  return (
+    <motion.button
+      layout
+      onClick={handleToggle}
+      className={cn(
+        // base frame structure
+        'relative w-48 h-20 rounded-full p-2 overflow-hidden transition-all duration-700 shadow-[inset_2px_2px_4px_rgba(255,255,255,0.7),_inset_-2px_-4px_8px_rgba(0,0,0,0.2),_0_6px_12px_rgba(0,0,0,0.25)]',
+
+        // theme color variations (matte plastic feel)
+        isDark
+          ? 'bg-gradient-to-br from-slate-700 to-slate-900 border-5 border-slate-500 shadow-[inset_2px_2px_5px_rgba(255,255,255,0.1),_inset_-2px_-4px_6px_rgba(0,0,0,0.5),_0_4px_8px_rgba(0,0,0,0.3)]'
+          : 'bg-gradient-to-br from-blue-200/80 to-sky-400/80 border-5 border-blue-300 shadow-[inset_2px_2px_5px_rgba(255,255,255,0.6),_inset_-2px_-4px_6px_rgba(0,0,0,0.25),_0_4px_8px_rgba(0,0,0,0.15)]'
+      )}
+      transition={{ duration: 0.6, ease: 'easeInOut' }}
+    >
+      {/* ☁️ Clouds (Day) */}
+      <Clouds isDark={isDark} />
+
+      {/* 🌟 Stars (Night) */}
+      <Stars isDark={isDark} />
+
+      {/* 🌞 / 🌙 Moving knob with multi-layer glow */}
+      <motion.div
+        layout
+        className="absolute top-2 w-16 h-16 rounded-full flex items-center justify-center z-[10]"
+        animate={{
+          x: isDark ? '-5%' : '170%', // moon left, sun right
+          rotate: isDark ? -10 : 10, // subtle tilt
+        }}
+        transition={{ type: 'spring', stiffness: 400, damping: 25 }}
+      >
+        {/* Multiple layered light glows */}
+        {[...Array(5)].map((_, i) => (
+          <motion.div
+            key={i}
+            className="absolute inset-0 rounded-full blur-[20px]"
+            animate={{
+              scale: [1, 1.2 + i * 0.05, 1],
+              opacity: [0.3 + i * 0.1, 0.7 - i * 0.1, 0.3 + i * 0.1],
+            }}
+            transition={{
+              duration: 2 + i * 0.4,
+              repeat: Infinity,
+              ease: 'easeInOut',
+              delay: i * 0.2,
+            }}
+            style={{
+              background: isDark
+                ? 'radial-gradient(circle, rgba(160,180,255,0.5), rgba(160,180,255,0) 70%)'
+                : 'radial-gradient(circle, rgba(255,220,100,0.7), rgba(255,220,100,0) 70%)',
+              zIndex: 0,
+            }}
+          />
+        ))}
+
+        {/* Icon (Moon or Sun) */}
+        <AnimatePresence mode="wait" initial={false}>
+          {isDark ? (
+            <motion.img
+              key="moon"
+              src={moonImg}
+              alt="Moon"
+              initial={{ rotate: -90, opacity: 0, scale: 0.8 }}
+              animate={{ rotate: 0, opacity: 1, scale: 1 }}
+              exit={{ rotate: 90, opacity: 0, scale: 0.8 }}
+              transition={{ duration: 0.4 }}
+              className="w-[50px] h-[50px] object-contain relative z-[11] drop-shadow-[0_0_15px_rgba(160,180,255,0.7)]"
+            />
+          ) : (
+            <motion.img
+              key="sun"
+              src={sunImg}
+              alt="Sun"
+              initial={{ rotate: 90, opacity: 0, scale: 0.8 }}
+              animate={{ rotate: 0, opacity: 0.8, scale: 1 }}
+              exit={{ rotate: -90, opacity: 0, scale: 0.8 }}
+              transition={{ duration: 0.4 }}
+              className="w-[50px] h-[50px] object-contain relative z-[11] drop-shadow-[0_0_18px_rgba(255,220,100,0.7)]"
+            />
+          )}
+        </AnimatePresence>
+      </motion.div>
+    </motion.button>
+  );
+}

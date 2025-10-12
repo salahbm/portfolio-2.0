@@ -43,7 +43,7 @@ const config: StorybookConfig = {
         include: ['@react-spring/three', '@react-three/drei', '@react-three/fiber', 'three'],
       },
       // Ensure proper handling of glTF and texture files
-      assetsInclude: ['**/*.glb', '**/*.gltf', '**/*.jpg', '**/*.png'],
+      assetsInclude: ['**/*.glb', '**/*.gltf', '**/*.jpg', '**/*.jpeg', '**/*.png'],
     });
   },
 };
