@@ -3,6 +3,7 @@
 
 @import './cursor.css';
 @import './fonts.css';
+@import './scroll-bar.css';
 
 @custom-variant dark (&:is(.dark *));
 
@@ -125,7 +126,7 @@ body {
     @apply border-border outline-ring/50;
   }
   body {
-    @apply bg-background text-foreground transition-colors duration-500 font-sphere;
+    @apply bg-background text-foreground transition-colors duration-300 font-sphere;
     line-height: 1.65; /* gives vertical breathing room */
     letter-spacing: 0.03em; /* opens up bubbly shapes */
   }
