@@ -34,47 +34,13 @@ const ColorMap: Record<CursorType, string> = {
 
 export function Cursor() {
   const isMobile = useIsMobile();
-
   const cursorRef = useRef<HTMLSpanElement>(null);
   const innerRef = useRef<HTMLSpanElement>(null);
-
   const [cursorType, setCursorType] = useState<CursorType>('default');
   const cursorTypeRef = useRef<CursorType>('default');
   const visibleRef = useRef(false);
 
-  // --- Hide native cursor globally & persist on refocus
-  useEffect(() => {
-    if (isMobile) return;
-
-    const STYLE_ID = 'hide-system-cursor';
-    const ensureHidden = () => {
-      if (!document.getElementById(STYLE_ID)) {
-        const style = document.createElement('style');
-        style.id = STYLE_ID;
-        style.innerHTML = `html, body, * { cursor: none !important; }`;
-        document.head.appendChild(style);
-      }
-      document.body.style.cursor = 'none';
-    };
-
-    ensureHidden();
-    const onFocus = () => ensureHidden();
-    const onVis = () => {
-      if (document.visibilityState === 'visible') setTimeout(ensureHidden, 0);
-    };
-    window.addEventListener('focus', onFocus);
-    document.addEventListener('visibilitychange', onVis);
-
-    return () => {
-      window.removeEventListener('focus', onFocus);
-      document.removeEventListener('visibilitychange', onVis);
-      document.body.style.cursor = '';
-      const s = document.getElementById(STYLE_ID);
-      if (s) s.remove();
-    };
-  }, [isMobile]);
-
-  // --- Instant follow + window-edge hide/show
+  // --- Manual cursor hide/show (no global CSS)
   useEffect(() => {
     if (isMobile) return;
     const cursor = cursorRef.current;
@@ -89,43 +55,32 @@ export function Cursor() {
       cursor.style.opacity = '0';
     };
 
-    // Pointer moves INSIDE viewport -> update position + ensure visible
     const onPointerMove = (e: PointerEvent) => {
-      // If we somehow got a move while hidden due to blur/leave, show it.
       if (!visibleRef.current) show();
-      // Instant follow
       cursor.style.transform = `translate(${e.clientX}px, ${e.clientY}px) translate(-50%, -50%)`;
     };
 
-    // True page exit (to browser UI) -> mouseout with relatedTarget === null
-    const onMouseOut = (e: MouseEvent) => {
-      // Leaving the document entirely
-      if (!e.relatedTarget) hide();
-    };
-
-    // Fallback page exit from root element (covers some browsers)
-    const onDocLeave = () => hide();
-
-    // Lose app focus (alt-tab, click omnibox, etc.)
+    const onMouseEnter = () => show();
+    const onMouseLeave = () => hide();
     const onBlur = () => hide();
-
-    // Regain focus does NOT automatically show; we wait for pointermove.
-    // (Pointermove happens as soon as user re-enters, and we call show there.)
+    const onFocus = () => show();
 
     window.addEventListener('pointermove', onPointerMove, { passive: true });
-    document.addEventListener('mouseout', onMouseOut, { passive: true });
-    document.documentElement.addEventListener('mouseleave', onDocLeave, { passive: true });
+    document.addEventListener('mouseenter', onMouseEnter);
+    document.addEventListener('mouseleave', onMouseLeave);
     window.addEventListener('blur', onBlur);
+    window.addEventListener('focus', onFocus);
 
     return () => {
       window.removeEventListener('pointermove', onPointerMove);
-      document.removeEventListener('mouseout', onMouseOut);
-      document.documentElement.removeEventListener('mouseleave', onDocLeave);
+      document.removeEventListener('mouseenter', onMouseEnter);
+      document.removeEventListener('mouseleave', onMouseLeave);
       window.removeEventListener('blur', onBlur);
+      window.removeEventListener('focus', onFocus);
     };
   }, [isMobile]);
 
-  // --- Click feedback (only when in pointer mode)
+  // --- Click feedback (click pulse)
   useEffect(() => {
     if (isMobile) return;
     const onDown = () => {
@@ -141,22 +96,18 @@ export function Cursor() {
     return () => window.removeEventListener('pointerdown', onDown);
   }, [isMobile]);
 
-  // --- Hover type switching via delegation (cheap & robust)
+  // --- Hover type switching
   useEffect(() => {
     if (isMobile) return;
 
     const resolveType = (el: Element | null): CursorType => {
       if (!el) return 'default';
-      // explicit data-cursor
       const withData = (el.closest('[data-cursor]') as HTMLElement | null)?.dataset.cursor as
         | CursorType
         | undefined;
       if (withData) return withData;
-
-      // semantic fallbacks
       if (el.closest('a,button,[role="button"]')) return 'pointer';
-      if (el.closest('input,textarea, p, h1, h2, h3, h4, [contenteditable="true"]')) return 'text';
-
+      if (el.closest('input,textarea,p,h1,h2,h3,h4,[contenteditable="true"]')) return 'text';
       return 'default';
     };
 
@@ -168,26 +119,10 @@ export function Cursor() {
       }
     };
 
-    const onOut = (e: PointerEvent) => {
-      // Ignore internal bubbling; only reset if leaving to an element that doesn't imply a type
-      const next = resolveType(e.relatedTarget as Element | null);
-      if (next !== cursorTypeRef.current) {
-        cursorTypeRef.current = next;
-        setCursorType(next);
-      }
-    };
-
-    // Use pointer events so it works for pen/mouse uniformly
     document.addEventListener('pointerover', onOver, { passive: true });
-    document.addEventListener('pointerout', onOut, { passive: true });
-
-    return () => {
-      document.removeEventListener('pointerover', onOver);
-      document.removeEventListener('pointerout', onOut);
-    };
+    return () => document.removeEventListener('pointerover', onOver);
   }, [isMobile]);
 
-  // keep ref in sync (used by pointerdown logic)
   useEffect(() => {
     cursorTypeRef.current = cursorType;
   }, [cursorType]);
@@ -200,11 +135,13 @@ export function Cursor() {
     <span
       ref={cursorRef}
       aria-hidden="true"
-      // opacity transitions give a nice fade; remove transition-* if you want instant hide
       className={cn(
-        'fixed top-0 left-0 z-[9999] pointer-events-none transition-opacity duration-120 ease-out will-change-transform'
+        'fixed top-0 left-0 z-[9999] pointer-events-none transition-opacity duration-150 ease-out will-change-transform'
       )}
-      style={{ opacity: 0, transform: 'translate(-50%, -50%)' }}
+      style={{
+        opacity: 0,
+        transform: 'translate(-50%, -50%)',
+      }}
     >
       <span ref={innerRef} className="block">
         <Icon

@@ -8,5 +8,9 @@ export function meta() {
 }
 
 export default function Home() {
-  return <Hero />;
+  return (
+    <main>
+      <Hero />
+    </main>
+  );
 }
