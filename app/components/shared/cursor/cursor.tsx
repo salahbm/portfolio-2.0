@@ -1,4 +1,3 @@
-'use client';
 import {
   MousePointer2,
   MousePointerClick,
@@ -7,7 +6,7 @@ import {
   HandGrab,
   TextCursor,
 } from 'lucide-react';
-import { useEffect, useRef, useState } from 'react';
+import { useCallback, useEffect, useRef, useState } from 'react';
 
 import { useIsMobile } from '@/hooks/common/use-device';
 import { cn } from '@/lib/utils';
@@ -33,72 +32,112 @@ const ColorMap: Record<CursorType, string> = {
 };
 
 export function Cursor() {
-  const isMobile = useIsMobile();
-  const cursorRef = useRef<HTMLSpanElement>(null);
-  const innerRef = useRef<HTMLSpanElement>(null);
-  const [cursorType, setCursorType] = useState<CursorType>('default');
-  const cursorTypeRef = useRef<CursorType>('default');
-  const visibleRef = useRef(false);
+  const { isTouchable } = useIsMobile();
 
-  // --- Manual cursor hide/show (no global CSS)
-  useEffect(() => {
-    if (isMobile) return;
+  const [cursorType, setCursorType] = useState<CursorType>('default');
+
+  const visibleRef = useRef(false);
+  const innerRef = useRef<HTMLSpanElement>(null);
+  const cursorRef = useRef<HTMLSpanElement>(null);
+  const cursorTypeRef = useRef<CursorType>('default');
+  const styleRef = useRef<HTMLStyleElement | null>(null);
+
+  const applyHideStyle = () => {
+    if (styleRef.current) {
+      document.head.removeChild(styleRef.current);
+    }
+    const style = document.createElement('style');
+    style.innerHTML = `* { cursor: none !important; }`;
+    document.head.appendChild(style);
+    styleRef.current = style;
+  };
+
+  const show = useCallback(() => {
     const cursor = cursorRef.current;
     if (!cursor) return;
+    visibleRef.current = true;
+    cursor.style.opacity = '1';
+    applyHideStyle(); // Re-apply the hide style every time we show
+  }, []);
 
-    const show = () => {
-      visibleRef.current = true;
-      cursor.style.opacity = '1';
-    };
-    const hide = () => {
-      visibleRef.current = false;
-      cursor.style.opacity = '0';
-    };
+  const hide = useCallback(() => {
+    const cursor = cursorRef.current;
+    if (!cursor) return;
+    visibleRef.current = false;
+    cursor.style.opacity = '0';
+  }, []);
 
-    const onPointerMove = (e: PointerEvent) => {
+  const onPointerMove = useCallback(
+    (e: PointerEvent) => {
+      const cursor = cursorRef.current;
+      if (!cursor) return;
       if (!visibleRef.current) show();
       cursor.style.transform = `translate(${e.clientX}px, ${e.clientY}px) translate(-50%, -50%)`;
-    };
+    },
+    [show]
+  );
 
-    const onMouseEnter = () => show();
-    const onMouseLeave = () => hide();
-    const onBlur = () => hide();
-    const onFocus = () => show();
+  // --- Hide native cursor globally and manual custom cursor hide/show
+  useEffect(() => {
+    if (isTouchable) return;
 
-    window.addEventListener('pointermove', onPointerMove, { passive: true });
-    document.addEventListener('mouseenter', onMouseEnter);
-    document.addEventListener('mouseleave', onMouseLeave);
-    window.addEventListener('blur', onBlur);
-    window.addEventListener('focus', onFocus);
+    // Initial apply
+    applyHideStyle();
+
+    window.addEventListener('pointermove', onPointerMove);
+    document.addEventListener('mouseenter', show);
+    document.addEventListener('mouseleave', hide);
+    window.addEventListener('blur', hide);
+    window.addEventListener('focus', show);
 
     return () => {
+      if (styleRef.current) {
+        document.head.removeChild(styleRef.current);
+        styleRef.current = null;
+      }
       window.removeEventListener('pointermove', onPointerMove);
-      document.removeEventListener('mouseenter', onMouseEnter);
-      document.removeEventListener('mouseleave', onMouseLeave);
-      window.removeEventListener('blur', onBlur);
-      window.removeEventListener('focus', onFocus);
+      document.removeEventListener('mouseenter', show);
+      document.removeEventListener('mouseleave', hide);
+      window.removeEventListener('blur', hide);
+      window.removeEventListener('focus', show);
     };
-  }, [isMobile]);
+  }, [isTouchable, onPointerMove, show, hide]);
+
+  // --- Add document focus/blur for better handling in fullscreen
+  useEffect(() => {
+    if (isTouchable) return;
+
+    const onDocFocus = () => show();
+    const onDocBlur = () => hide();
+
+    document.addEventListener('focus', onDocFocus);
+    document.addEventListener('blur', onDocBlur);
+
+    return () => {
+      document.removeEventListener('focus', onDocFocus);
+      document.removeEventListener('blur', onDocBlur);
+    };
+  }, [isTouchable, show, hide]);
 
   // --- Click feedback (click pulse)
   useEffect(() => {
-    if (isMobile) return;
+    if (isTouchable) return;
     const onDown = () => {
       if (cursorTypeRef.current !== 'pointer') return;
       setCursorType('click');
       innerRef.current?.animate(
         [{ transform: 'scale(1)' }, { transform: 'scale(1.25)' }, { transform: 'scale(1)' }],
-        { duration: 120, easing: 'ease-out' }
+        { duration: 150, easing: 'ease-out' }
       );
-      setTimeout(() => setCursorType('pointer'), 120);
+      setTimeout(() => setCursorType('pointer'), 150);
     };
     window.addEventListener('pointerdown', onDown);
     return () => window.removeEventListener('pointerdown', onDown);
-  }, [isMobile]);
+  }, [isTouchable]);
 
   // --- Hover type switching
   useEffect(() => {
-    if (isMobile) return;
+    if (isTouchable) return;
 
     const resolveType = (el: Element | null): CursorType => {
       if (!el) return 'default';
@@ -121,13 +160,13 @@ export function Cursor() {
 
     document.addEventListener('pointerover', onOver, { passive: true });
     return () => document.removeEventListener('pointerover', onOver);
-  }, [isMobile]);
+  }, [isTouchable]);
 
   useEffect(() => {
     cursorTypeRef.current = cursorType;
   }, [cursorType]);
 
-  if (isMobile) return null;
+  if (isTouchable) return null;
 
   const Icon = IconMap[cursorType];
 

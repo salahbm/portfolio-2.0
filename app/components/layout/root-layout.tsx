@@ -11,6 +11,7 @@ export function RootLayout({ children }: RootLayoutProps) {
       <head>
         <meta charSet="utf-8" />
         <meta name="viewport" content="width=device-width, initial-scale=1" />
+        <link href="/app/styles/app.css" rel="stylesheet" />
         <Meta />
         <Links />
       </head>

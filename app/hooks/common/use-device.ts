@@ -4,6 +4,7 @@ const MOBILE_BREAKPOINT = 768;
 
 export function useIsMobile() {
   const [isMobile, setIsMobile] = React.useState<boolean | undefined>(undefined);
+  const [isTouchable, setIsTouchable] = React.useState<boolean | undefined>(undefined);
 
   React.useEffect(() => {
     const mql = window.matchMedia(`(max-width: ${MOBILE_BREAKPOINT - 1}px)`);
@@ -15,5 +16,18 @@ export function useIsMobile() {
     return () => mql.removeEventListener('change', onChange);
   }, []);
 
-  return !!isMobile;
+  React.useEffect(() => {
+    const mql = window.matchMedia(`(any-pointer: coarse)`);
+    const onChange = () => {
+      setIsTouchable(mql.matches);
+    };
+    mql.addEventListener('change', onChange);
+    setIsTouchable(mql.matches);
+    return () => mql.removeEventListener('change', onChange);
+  }, []);
+
+  return {
+    isMobile: !!isMobile,
+    isTouchable: !!isTouchable,
+  };
 }
