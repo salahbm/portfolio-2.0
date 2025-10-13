@@ -1,11 +1,12 @@
 import type { RouteMetaFunction } from '@/+types/root';
 
 // Application constants
-const APP_NAME = '3D Portfolio';
-const APP_DESCRIPTION = 'A modern 3D portfolio built with React Router and Three.js';
-const AUTHOR = 'Salah';
-const TWITTER_HANDLE = '@salah';
-const THEME_COLOR = '#000000';
+const APP_NAME = 'Muhammad (Salah)';
+const APP_DESCRIPTION =
+  'For better experience, use a desktop device. Modern 3D portfolio built with React Router and Three.js';
+const AUTHOR = 'Muhammad (Salah)';
+const TWITTER_HANDLE = '@salahbm';
+const THEME_COLOR = 'var(--background)';
 
 /**
  * Default meta tags for the application
@@ -14,7 +15,10 @@ export const defaultMeta: RouteMetaFunction = () => {
   return [
     { title: APP_NAME },
     { name: 'description', content: APP_DESCRIPTION },
-    { name: 'viewport', content: 'width=device-width, initial-scale=1' },
+    {
+      name: 'viewport',
+      content: 'width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no',
+    },
     { name: 'author', content: AUTHOR },
     { name: 'twitter:card', content: 'summary_large_image' },
     { name: 'twitter:creator', content: TWITTER_HANDLE },

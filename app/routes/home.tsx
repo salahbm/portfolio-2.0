@@ -1,12 +1,8 @@
 import { MaskMouse } from '@/components/shared/mask-mouse';
+import { defaultMeta } from '@/lib/meta';
 import Hero from '@/pages/hero';
 
-export function meta() {
-  return [
-    { title: 'New React Router App' },
-    { name: 'description', content: 'Welcome to React Router!' },
-  ];
-}
+export const meta = defaultMeta;
 
 export default function Home() {
   return (
