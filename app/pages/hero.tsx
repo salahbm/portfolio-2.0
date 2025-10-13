@@ -1,5 +1,4 @@
-import { useState } from 'react';
-
+import { ThemeToggle } from '@/components/shared/theme-toggle';
 import { cn } from '@/lib/utils';
 
 const colorVars = [
@@ -33,27 +32,17 @@ const gradientClasses = [
 ];
 
 export default function Hero() {
-  const [dark, setDark] = useState(false);
-
   return (
     <div
       className={cn(
         'min-h-screen transition-colors duration-700 p-8 space-y-16',
-        dark ? 'dark bg-background text-foreground' : 'bg-background text-foreground'
+        'bg-background text-foreground'
       )}
     >
       {/* Header */}
       <div className="flex justify-between items-center">
-        <h1 className="text-4xl font-bold tracking-tight">
-          {dark ? '🌙 Night Mode' : '🌞 Day Mode'}
-        </h1>
-        <button
-          type="button"
-          onClick={() => setDark(!dark)}
-          className="rounded-lg bg-primary text-primary-foreground px-4 py-2 font-medium shadow-md transition-all hover:scale-105"
-        >
-          Toggle Theme
-        </button>
+        <h1 className="text-4xl font-bold tracking-tight">Theme Mode</h1>
+        <ThemeToggle />
       </div>
 
       {/* Color Tokens */}

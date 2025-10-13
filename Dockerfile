@@ -11,7 +11,9 @@ RUN echo '#!/bin/sh\nexit 0' > /usr/local/bin/xdg-open && chmod +x /usr/local/bi
 # Set environment variable to disable Storybook telemetry
 ENV STORYBOOK_DISABLE_TELEMETRY=1
 COPY package.json bun.lock ./
+# Explicitly install postcss and autoprefixer
 RUN bun install
+RUN bun add -d postcss autoprefixer
 
 # Build stage
 FROM development-dependencies AS build

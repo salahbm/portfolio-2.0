@@ -6,47 +6,47 @@ import cloudImg from '@/assets/cloud.png';
 
 export interface CloudsProps {
   isDark: boolean;
+  width?: number;
+  height?: number;
 }
 
-const Clouds = ({ isDark }: CloudsProps) => {
+const Clouds = ({ isDark, width = 128, height = 56 }: CloudsProps) => {
   const cloudRefs = useRef<HTMLDivElement[]>([]);
 
   useEffect(() => {
     const currentClouds = cloudRefs.current;
 
-    // clear old tweens first
+    // stop any old animations
     currentClouds.forEach(el => el && gsap.killTweensOf(el));
 
     if (!isDark) {
       currentClouds.forEach((el, i) => {
         if (!el) return;
 
-        // individual speed / depth
-        const drift = i < 2 ? 80 : 120; // bigger drift range
+        // simple gentle drift within small area
+        const drift = i % 2 === 0 ? 15 : 12;
         const direction = i % 2 === 0 ? 1 : -1;
-
-        // start position: random
         const startX = direction === 1 ? -drift : drift;
+
         gsap.set(el, { x: startX, y: Math.random() * 8 - 4 });
 
-        // build looping horizontal drift
         const tl = gsap.timeline({ repeat: -1, defaults: { ease: 'sine.inOut' } });
         tl.to(el, {
-          duration: 10 + Math.random() * 4,
+          duration: 5 + Math.random() * 4,
           x: direction * drift,
-          y: '+=' + (Math.random() * 8 - 4),
-          rotation: (Math.random() - 0.5) * 6,
+          y: '+=' + (Math.random() * 3 - 1.5),
+          rotation: (Math.random() - 0.5) * 3,
         }).to(el, {
-          duration: 10 + Math.random() * 4,
+          duration: 5 + Math.random() * 2,
           x: -direction * drift,
-          y: '-=' + (Math.random() * 8 - 4),
-          rotation: (Math.random() - 0.5) * 6,
+          y: '-=' + (Math.random() * 3 - 1.5),
+          rotation: (Math.random() - 0.5) * 3,
         });
 
-        // subtle scaling “puff”
+        // subtle scaling “puff” animation
         gsap.to(el, {
-          scale: 0.95 + Math.random() * 0.1,
-          duration: 3 + Math.random() * 2,
+          scale: 0.95 + Math.random() * 0.05,
+          duration: 2 + Math.random() * 1.5,
           repeat: -1,
           yoyo: true,
           ease: 'sine.inOut',
@@ -71,9 +71,10 @@ const Clouds = ({ isDark }: CloudsProps) => {
           exit={{ opacity: 0 }}
           transition={{ duration: 0.8 }}
           className="absolute inset-0 overflow-hidden pointer-events-none"
+          style={{ width, height }}
         >
-          {/* Background layer (larger, slower) */}
-          {[...Array(4)].map((_, i) => (
+          {/* Background clouds (larger, slower) */}
+          {[...Array(3)].map((_, i) => (
             <div
               key={`bg-cloud-${i}`}
               ref={el => {
@@ -81,37 +82,35 @@ const Clouds = ({ isDark }: CloudsProps) => {
               }}
               className="absolute"
               style={{
-                top: `${8 + i * 8}px`,
-                left: `${10 + i * 60}px`,
-                width: `${40 + i * 10}px`,
+                top: i * 10,
+                left: i * 22,
+                width: 25 + i * 8,
                 zIndex: 1,
                 filter: 'blur(1px)',
+                opacity: 0.2 * (i + 1),
               }}
             >
-              <img src={cloudImg} alt="Background Cloud" className="w-full h-auto opacity-50" />
+              <img src={cloudImg} alt="Cloud" className="w-full h-auto" />
             </div>
           ))}
 
-          {/* Foreground layer (smaller, faster) */}
+          {/* Foreground clouds (smaller, faster) */}
           {[...Array(8)].map((_, i) => (
             <div
               key={`fg-cloud-${i}`}
               ref={el => {
-                if (el) cloudRefs.current[i + 2] = el;
+                if (el) cloudRefs.current[i + 3] = el;
               }}
               className="absolute"
               style={{
-                top: `${18 + i * 10}px`,
-                left: `${i * 45 + 25}px`,
-                width: `${28 + Math.random() * 10}px`,
+                top: i + Math.random() * 8,
+                left: i * 18,
+                width: 20 + Math.random() * 7,
                 zIndex: 2,
+                opacity: 0.3 * (i + 1),
               }}
             >
-              <img
-                src={cloudImg}
-                alt="Foreground Cloud"
-                className="w-full h-auto opacity-75 drop-shadow-sm"
-              />
+              <img src={cloudImg} alt="Cloud" className="w-full h-auto drop-shadow-sm" />
             </div>
           ))}
         </motion.div>

@@ -6,42 +6,52 @@ import starImg from '@/assets/star.png';
 
 export interface StarsProps {
   isDark: boolean;
+  width?: number;
+  height?: number;
 }
 
-const Stars = ({ isDark }: StarsProps) => {
+const Stars = ({ isDark, width = 128, height = 56 }: StarsProps) => {
   const starRefs = useRef<HTMLDivElement[]>([]);
 
-  // Animate stars with twinkling effect
   useEffect(() => {
-    // Store refs in local variable to avoid React warnings
-    const currentStarRefs = starRefs.current;
+    const currentStars = starRefs.current;
+    currentStars.forEach(el => el && gsap.killTweensOf(el));
 
     if (isDark) {
-      // twinkle stars - create blinking effect
-      currentStarRefs.forEach(el => {
-        if (el) {
-          // Create a blinking effect with opacity
-          gsap.to(el, {
-            opacity: 0.2, // fade almost completely out
-            duration: 0.8 + Math.random() * 1.2,
-            repeat: -1,
-            yoyo: true,
-            ease: 'power1.inOut',
-            delay: Math.random() * 1.5, // random delay for each star
-          });
-        }
+      currentStars.forEach(el => {
+        if (!el) return;
+
+        gsap.to(el, {
+          opacity: 0.2 + Math.random() * 0.5,
+          duration: 0.8 + Math.random() * 1.2,
+          repeat: -1,
+          yoyo: true,
+          ease: 'sine.inOut',
+          delay: Math.random() * 1.5,
+        });
       });
     }
 
-    // Cleanup animations when effect changes
     return () => {
-      currentStarRefs.forEach(el => {
-        if (el) gsap.killTweensOf(el);
-      });
+      currentStars.forEach(el => el && gsap.killTweensOf(el));
     };
   }, [isDark]);
 
   if (!isDark) return null;
+
+  // Stars positioned based on fixed container proportions
+  const stars = [
+    { top: 4, left: 6, size: 10, rotate: 15 },
+    { top: 10, left: 30, size: 6, rotate: 45 },
+    { top: 8, right: 6, size: 12, rotate: -20 },
+    { top: 14, right: 28, size: 9, rotate: 60 },
+    { bottom: 6, left: 10, size: 14, rotate: 30 },
+    { bottom: 10, left: 45, size: 11, rotate: -15 },
+    { bottom: 8, right: 10, size: 7, rotate: 75 },
+    { bottom: 12, right: 36, size: 10, rotate: -45 },
+    { bottom: 16, right: 60, size: 8, rotate: 35 },
+    { bottom: 20, right: 20, size: 15, rotate: 15 },
+  ];
 
   return (
     <AnimatePresence>
@@ -52,84 +62,29 @@ const Stars = ({ isDark }: StarsProps) => {
           animate={{ opacity: 1 }}
           exit={{ opacity: 0 }}
           transition={{ duration: 0.6 }}
-          className="absolute inset-0"
+          className="absolute inset-0 overflow-hidden pointer-events-none"
+          style={{ width, height }}
         >
-          {/* Create a grid of stars with fixed positions to prevent overlapping */}
-          {/* Top row - smaller stars */}
-          <div
-            ref={el => {
-              if (el) starRefs.current[0] = el;
-            }}
-            className="absolute top-2 left-4"
-            style={{ width: '10px', transform: 'rotate(15deg)' }}
-          >
-            <img src={starImg} alt="Star" className="w-full h-auto" />
-          </div>
-          <div
-            ref={el => {
-              if (el) starRefs.current[1] = el;
-            }}
-            className="absolute top-4 left-24"
-            style={{ width: '8px', transform: 'rotate(45deg)' }}
-          >
-            <img src={starImg} alt="Star" className="w-full h-auto" />
-          </div>
-          <div
-            ref={el => {
-              if (el) starRefs.current[2] = el;
-            }}
-            className="absolute top-3 right-6"
-            style={{ width: '12px', transform: 'rotate(-20deg)' }}
-          >
-            <img src={starImg} alt="Star" className="w-full h-auto" />
-          </div>
-          <div
-            ref={el => {
-              if (el) starRefs.current[3] = el;
-            }}
-            className="absolute top-5 right-28"
-            style={{ width: '9px', transform: 'rotate(60deg)' }}
-          >
-            <img src={starImg} alt="Star" className="w-full h-auto" />
-          </div>
-
-          {/* Bottom row - larger stars, away from the moon's path */}
-          <div
-            ref={el => {
-              if (el) starRefs.current[4] = el;
-            }}
-            className="absolute bottom-3 left-8"
-            style={{ width: '14px', transform: 'rotate(30deg)' }}
-          >
-            <img src={starImg} alt="Star" className="w-full h-auto" />
-          </div>
-          <div
-            ref={el => {
-              if (el) starRefs.current[5] = el;
-            }}
-            className="absolute bottom-6 left-32"
-            style={{ width: '11px', transform: 'rotate(-15deg)' }}
-          >
-            <img src={starImg} alt="Star" className="w-full h-auto" />
-          </div>
-          <div
-            ref={el => {
-              if (el) starRefs.current[6] = el;
-            }}
-            className="absolute bottom-4 right-10"
-            style={{ width: '13px', transform: 'rotate(75deg)' }}
-          >
-            <img src={starImg} alt="Star" className="w-full h-auto" />
-          </div>
-          <div
-            ref={el => {
-              if (el) starRefs.current[7] = el;
-            }}
-            className="absolute bottom-7 right-36"
-            style={{ width: '10px', transform: 'rotate(-45deg)' }}
-          >
-            <img src={starImg} alt="Star" className="w-full h-auto" />
-          </div>
+          {stars.map((star, i) => (
+            <div
+              key={`star-${i}`}
+              ref={el => {
+                if (el) starRefs.current[i] = el;
+              }}
+              className="absolute"
+              style={{
+                top: star.top,
+                left: star.left,
+                right: star.right,
+                bottom: star.bottom,
+                width: `${star.size}px`,
+                transform: `rotate(${star.rotate}deg)`,
+                opacity: 0.9,
+              }}
+            >
+              <img src={starImg} alt="Star" className="w-full h-auto" />
+            </div>
+          ))}
         </motion.div>
       )}
     </AnimatePresence>
