@@ -2,6 +2,7 @@
 @import 'tw-animate-css';
 
 @import './cursor.css';
+@import './fonts.css';
 
 @custom-variant dark (&:is(.dark *));
 
@@ -9,8 +10,12 @@
   --font-sans:
     'Inter', ui-sans-serif, system-ui, sans-serif, 'Apple Color Emoji', 'Segoe UI Emoji',
     'Segoe UI Symbol', 'Noto Color Emoji';
-}
 
+  /* 🎨 Add your display fonts for Tailwind font utilities */
+  --font-babygemoy: 'Babygemoy', sans-serif;
+  --font-higherjump: 'HigherJump', sans-serif;
+  --font-milkyway: 'Milkyway', sans-serif;
+}
 html,
 body {
   @apply bg-white dark:bg-gray-950;
@@ -119,7 +124,9 @@ body {
     @apply border-border outline-ring/50;
   }
   body {
-    @apply bg-background text-foreground transition-colors duration-500;
+    @apply bg-background text-foreground transition-colors duration-500 font-milkyway;
+    line-height: 1.65; /* gives vertical breathing room */
+    letter-spacing: 0.03em; /* opens up bubbly shapes */
   }
 
   /* Storybook */

@@ -58,6 +58,12 @@ export default function Hero() {
 
       {/* Color Tokens */}
       <section>
+        <div className="flex justify-between my-8 items-center gap-4">
+          <h1 className="font-babygemoy text-4xl text-gradient-lilac">Font Babygemoy</h1>
+          <h1 className="font-higherjump text-4xl">Font HigherJump</h1>
+          <h1 className="font-milkyway text-4xl">Font Milkyway</h1>
+        </div>
+
         <h2 className="text-2xl font-semibold mb-4">🎨 Color Tokens</h2>
         <div className="grid sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4">
           {colorVars.map(color => (
