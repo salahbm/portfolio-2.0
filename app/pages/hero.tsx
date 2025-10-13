@@ -58,7 +58,7 @@ export default function Hero() {
 
       {/* Color Tokens */}
       <section>
-        <div className="flex justify-between my-8 items-center gap-4">
+        <div className="flex justify-between my-8 items-center gap-4 flex-wrap">
           <h1 className="font-babygemoy text-4xl text-gradient-lilac">Font Babygemoy</h1>
           <h1 className="font-higherjump text-4xl">Font HigherJump</h1>
           <h1 className="font-milkyway text-4xl">Font Milkyway</h1>

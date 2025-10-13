@@ -18,3 +18,10 @@
   font-style: normal;
   font-display: swap;
 }
+
+@font-face {
+  font-family: 'Sphere';
+  src: url('../assets/fonts/SphereSans.ttf') format('truetype');
+  font-style: normal;
+  font-display: swap;
+}

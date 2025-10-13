@@ -15,6 +15,7 @@
   --font-babygemoy: 'Babygemoy', sans-serif;
   --font-higherjump: 'HigherJump', sans-serif;
   --font-milkyway: 'Milkyway', sans-serif;
+  --font-sphere: 'Sphere', sans-serif;
 }
 html,
 body {
@@ -124,7 +125,7 @@ body {
     @apply border-border outline-ring/50;
   }
   body {
-    @apply bg-background text-foreground transition-colors duration-500 font-milkyway;
+    @apply bg-background text-foreground transition-colors duration-500 font-sphere;
     line-height: 1.65; /* gives vertical breathing room */
     letter-spacing: 0.03em; /* opens up bubbly shapes */
   }
@@ -136,19 +137,19 @@ body {
 }
 
 @layer utilities {
+  .flex-center {
+    @apply flex items-center justify-center;
+  }
+
+  .flex-between {
+    @apply flex items-center justify-between;
+  }
+
+  .flex-between-start {
+    @apply flex items-start justify-between;
+  }
+
   /* === Gradients === */
-
-  .bg-gradient-lilac {
-    @apply bg-gradient-to-tr from-[oklch(0.82_0.12_320)] via-[oklch(0.88_0.06_270)] to-[oklch(0.9_0.07_320)];
-  }
-
-  .bg-gradient-dark {
-    @apply bg-gradient-to-tr from-[oklch(0.22_0.04_300)] via-[oklch(0.45_0.1_320)] to-[oklch(0.6_0.08_270)];
-  }
-
-  .bg-gradient-glow {
-    @apply bg-gradient-to-tr from-[oklch(0.74_0.15_320)] via-[oklch(0.6_0.08_270)] to-[oklch(0.82_0.12_320)];
-  }
 
   .text-gradient-lilac {
     background-image: linear-gradient(
@@ -165,6 +166,18 @@ body {
     background-image: linear-gradient(45deg, oklch(0.74 0.15 320), oklch(0.6 0.08 270));
     -webkit-background-clip: text;
     -webkit-text-fill-color: transparent;
+  }
+
+  .bg-gradient-lilac {
+    @apply bg-gradient-to-tr from-[oklch(0.82_0.12_320)] via-[oklch(0.88_0.06_270)] to-[oklch(0.9_0.07_320)];
+  }
+
+  .bg-gradient-dark {
+    @apply bg-gradient-to-tr from-[oklch(0.22_0.04_300)] via-[oklch(0.45_0.1_320)] to-[oklch(0.6_0.08_270)];
+  }
+
+  .bg-gradient-glow {
+    @apply bg-gradient-to-tr from-[oklch(0.74_0.15_320)] via-[oklch(0.6_0.08_270)] to-[oklch(0.82_0.12_320)];
   }
 
   .bg-gradient-sunrise {

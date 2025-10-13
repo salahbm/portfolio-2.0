@@ -5,10 +5,18 @@ const config: Config = {
   content: ['./index.html', './app/**/*.{ts,tsx,js,jsx}', './src/**/*.{ts,tsx,js,jsx}'],
   theme: {
     extend: {
+      screens: {
+        sm: '640px',
+        md: '768px',
+        lg: '1024px',
+        xl: '1280px',
+        '2xl': '1536px',
+      },
       fontFamily: {
         babygemoy: ['var(--font-babygemoy)'],
         higherjump: ['var(--font-higherjump)'],
         milkyway: ['var(--font-milkyway)'],
+        sphere: ['var(--font-sphere)'],
         inter: ['Inter', 'sans-serif'],
       },
       colors: {

@@ -146,7 +146,7 @@ export function Cursor() {
         | undefined;
       if (withData) return withData;
       if (el.closest('a,button,[role="button"]')) return 'pointer';
-      if (el.closest('input,textarea,p,h1,h2,h3,h4,[contenteditable="true"]')) return 'text';
+      if (el.closest('input,textarea,[contenteditable="true"]')) return 'text';
       return 'default';
     };
 
