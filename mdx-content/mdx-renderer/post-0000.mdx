@@ -1,0 +1,64 @@
+---
+title: 'MDX Renderer Post #0000'
+publishedAt: '2024-05-07'
+summary: 'MDX Renderer post page'
+category: 'Open Source'
+---
+
+<Callout title='Callout' icon='ℹ️'>
+  For testing purposes only. MDX Renderer page renders markdown components for
+  visual testing.
+</Callout>
+<br />
+
+# h1 - The awesome company
+
+## h2 - Brings developers a complete toolkit
+
+### h3 - Some collaboration features
+
+#### h4 - Make your product remarkably fast and efficient
+
+##### h5 - Building features for collaboration
+
+###### h6 - Presence and broadcast events
+
+This a paragraph with the Lorem ipsum dolor sit amet, consectetur adipiscing elit. Mauris scelerisque rhoncus arcu sit amet vulputate. Pellentesque sit amet porta arcu. Aenean aliquet mi in nulla hendrerit porttitor. Morbi venenatis sagittis est eu cursus. Pellentesque in vulputate nisl, sit amet scelerisque nisl. Etiam sed interdum ex. Aliquam eu tellus malesuada, tincidunt eros sed, suscipit neque. Vestibulum vel velit sit amet magna vulputate convallis. Integer eget vulputate neque, at accumsan urna. Etiam consectetur velit ac metus vestibulum elementum.
+
+> The awesome company provides developers with a complete toolkit to embed performant collaboration features to your product remarkably fast.
+
+<br />
+
+<InlineCode>npm i @sugardarius/code-component</InlineCode>
+
+<br />
+
+[>Go to home (internal link)](/)<br />
+[>An external link](https://nextjs.org/)
+
+<br />
+
+<TagLink href='https://nextjs.org/'>This is a tag link</TagLink>
+
+<br />
+
+```tsx
+import { cn } from '@/lib/utils'
+
+export const InlineLink = ({
+  href,
+  className,
+  children,
+  ...props
+}: React.AnchorHTMLAttributes<HTMLAnchorElement>) => (
+  <a
+    href={href}
+    target='_blank'
+    rel='noopener noreferrer'
+    className={cn('font-bold underline-offset-2 hover:underline', className)}
+    {...props}
+  >
+    {children}
+  </a>
+)
+```

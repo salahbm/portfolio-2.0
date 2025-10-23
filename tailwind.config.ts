@@ -1,55 +1,109 @@
-import type { Config } from 'tailwindcss';
+import type { Config } from 'tailwindcss'
+import { fontFamily } from 'tailwindcss/defaultTheme'
 
-const config: Config = {
-  darkMode: 'class',
-  content: ['./index.html', './app/**/*.{ts,tsx,js,jsx}', './src/**/*.{ts,tsx,js,jsx}'],
+import typographyPlugin from '@tailwindcss/typography'
+import animationsPlugin from 'tailwindcss-animate'
+
+import { dragPlugin } from './_tailwind-plugins/drag-plugin'
+import { vfxBackgroundsPlugin } from './_tailwind-plugins/vfx-backgrounds-plugin'
+import { vfxBorderBeamPlugin } from './_tailwind-plugins/vfx-border-beam-plugin'
+
+const config = {
+  darkMode: ['class'],
+  content: [
+    './pages/**/*.{ts,tsx}',
+    './components/**/*.{ts,tsx}',
+    './app/**/*.{ts,tsx}',
+    './src/**/*.{ts,tsx}',
+  ],
+  prefix: '',
+  safelist: [
+    // VFX Presence Cursor
+    'text-violet-700',
+    'bg-violet-700',
+    'text-orange-600',
+    'bg-orange-600',
+    'text-sky-600',
+    'bg-sky-600',
+    'text-fuchsia-500',
+    'bg-fuchsia-500',
+  ],
   theme: {
-    extend: {
+    container: {
+      center: true,
+      padding: '2rem',
       screens: {
-        sm: '640px',
-        md: '768px',
-        lg: '1024px',
-        xl: '1280px',
-        '2xl': '1536px',
+        '2xl': '1400px',
       },
+    },
+    extend: {
       fontFamily: {
-        babygemoy: ['var(--font-babygemoy)'],
-        higherjump: ['var(--font-higherjump)'],
-        milkyway: ['var(--font-milkyway)'],
-        sphere: ['var(--font-sphere)'],
-        inter: ['Inter', 'sans-serif'],
+        sans: ['var(--font-geist-sans)', ...fontFamily.sans],
+        mono: ['var(--font-geist-mono)', ...fontFamily.mono],
       },
       colors: {
-        background: 'oklch(var(--background))',
-        foreground: 'oklch(var(--foreground))',
-        card: 'oklch(var(--card))',
-        'card-foreground': 'oklch(var(--card-foreground))',
-        popover: 'oklch(var(--popover))',
-        'popover-foreground': 'oklch(var(--popover-foreground))',
-        primary: 'oklch(var(--primary))',
-        'primary-foreground': 'oklch(var(--primary-foreground))',
-        secondary: 'oklch(var(--secondary))',
-        'secondary-foreground': 'oklch(var(--secondary-foreground))',
-        accent: 'oklch(var(--accent))',
-        'accent-foreground': 'oklch(var(--accent-foreground))',
-        muted: 'oklch(var(--muted))',
-        'muted-foreground': 'oklch(var(--muted-foreground))',
-        border: 'oklch(var(--border))',
-        input: 'oklch(var(--input))',
-        ring: 'oklch(var(--ring))',
-        destructive: 'oklch(var(--destructive))',
-        'destructive-foreground': 'oklch(var(--destructive-foreground))',
+        border: 'hsl(var(--border))',
+        input: 'hsl(var(--input))',
+        ring: 'hsl(var(--ring))',
+        background: 'hsl(var(--background))',
+        foreground: 'hsl(var(--foreground))',
+        primary: {
+          DEFAULT: 'hsl(var(--primary))',
+          foreground: 'hsl(var(--primary-foreground))',
+        },
+        secondary: {
+          DEFAULT: 'hsl(var(--secondary))',
+          foreground: 'hsl(var(--secondary-foreground))',
+        },
+        destructive: {
+          DEFAULT: 'hsl(var(--destructive))',
+          foreground: 'hsl(var(--destructive-foreground))',
+        },
+        muted: {
+          DEFAULT: 'hsl(var(--muted))',
+          foreground: 'hsl(var(--muted-foreground))',
+        },
+        accent: {
+          DEFAULT: 'hsl(var(--accent))',
+          foreground: 'hsl(var(--accent-foreground))',
+        },
+        popover: {
+          DEFAULT: 'hsl(var(--popover))',
+          foreground: 'hsl(var(--popover-foreground))',
+        },
+        card: {
+          DEFAULT: 'hsl(var(--card))',
+          foreground: 'hsl(var(--card-foreground))',
+        },
       },
-
       borderRadius: {
-        sm: 'calc(var(--radius) - 4px)',
-        md: 'calc(var(--radius) - 2px)',
         lg: 'var(--radius)',
-        xl: 'calc(var(--radius) + 4px)',
+        md: 'calc(var(--radius) - 2px)',
+        sm: 'calc(var(--radius) - 4px)',
+      },
+      keyframes: {
+        'accordion-down': {
+          from: { height: '0' },
+          to: { height: 'var(--radix-accordion-content-height)' },
+        },
+        'accordion-up': {
+          from: { height: 'var(--radix-accordion-content-height)' },
+          to: { height: '0' },
+        },
+      },
+      animation: {
+        'accordion-down': 'accordion-down 0.2s ease-out',
+        'accordion-up': 'accordion-up 0.2s ease-out',
       },
     },
   },
-  plugins: [],
-};
+  plugins: [
+    typographyPlugin,
+    animationsPlugin,
+    dragPlugin,
+    vfxBackgroundsPlugin,
+    vfxBorderBeamPlugin,
+  ],
+} satisfies Config
 
-export default config;
+export default config
