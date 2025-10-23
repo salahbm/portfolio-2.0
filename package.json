@@ -2,8 +2,29 @@
   "name": "portfolio-2.0",
   "version": "1.0.0",
   "private": true,
+  "license": "MIT",
+  "author": "Salah",
+  "description": "Portfolio 2.0",
+  "homepage": "https://www.salah.uz",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/salah/portfolio-2.0.git"
+  },
+  "bugs": {
+    "url": "https://github.com/salah/portfolio-2.0/issues"
+  },
+  "keywords": [
+    "portfolio",
+    "nextjs",
+    "react",
+    "typescript",
+    "tailwindcss",
+    "shadcn",
+    "ui",
+    "threejs"
+  ],
   "scripts": {
-    "dev": "next dev --turbopack --experimental-https",
+    "dev": "next dev --turbopack",
     "build": "next build --turbopack",
     "start": "next start",
     "lint": "eslint ."

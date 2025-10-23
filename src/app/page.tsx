@@ -15,6 +15,11 @@ import { CraftBentoItem } from '@/components/bento/craft-bento-item'
 export default async function HomePage() {
   return (
     <PageContent className='justify-center gap-0'>
+      <h1 className='font-milkyway text-4xl font-bold'>milkyway</h1>
+      <h1 className='font-higherjump text-4xl font-bold'>higherjump</h1>
+      <h1 className='font-babygemoy text-4xl font-bold'>babygemoy</h1>
+      <h1 className='font-lader-regular text-4xl font-bold'>lader-regular</h1>
+      <h1 className='font-lader-medium text-4xl font-bold'>lader-medium</h1>
       <BentoGrid>
         <HeroBentoItem />
         <GitHubBentoItem />

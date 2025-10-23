@@ -1,5 +1,4 @@
 import type { Config } from 'tailwindcss'
-import { fontFamily } from 'tailwindcss/defaultTheme'
 
 import typographyPlugin from '@tailwindcss/typography'
 import animationsPlugin from 'tailwindcss-animate'
@@ -38,8 +37,13 @@ const config = {
     },
     extend: {
       fontFamily: {
-        sans: ['var(--font-geist-sans)', ...fontFamily.sans],
-        mono: ['var(--font-geist-mono)', ...fontFamily.mono],
+        sans: ['var(--font-geist-sans)', 'system-ui'],
+        mono: ['var(--font-geist-mono)', 'monospace'],
+        babygemoy: ['var(--font-babygemoy)'],
+        higherjump: ['var(--font-higherjump)'],
+        milkyway: ['var(--font-milkyway)'],
+        'lader-regular': ['var(--font-lader-regular)'],
+        'lader-medium': ['var(--font-lader-medium)'],
       },
       colors: {
         border: 'hsl(var(--border))',

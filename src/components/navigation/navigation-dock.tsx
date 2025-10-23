@@ -68,7 +68,7 @@ export function NavigationDock() {
             <TwitterLogoIcon className='h-4 w-4' />
           </NavigationDockItemExternalLink>
           <NavigationDockItemExternalLink
-            href={siteConfig.socialLinks.bluesky.url}
+            href={siteConfig.socialLinks.instagram.url}
             tooltipLabel='Bluesky 🦋'
             name='Bluesky 🦋'
           >

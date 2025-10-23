@@ -16,7 +16,15 @@ import { NavigationDock } from '@/components/navigation/navigation-dock'
 import { MagnifyingGlass } from '@/components/lab/magnifying-glass/magnifying-glass'
 import { TailwindIndicator } from '@/components/ui-helpers/tailwind-indicator'
 
-import './globals.css'
+import {
+  babyGemoy,
+  higherJump,
+  laderMedium,
+  laderRegular,
+  milkyway,
+} from './font'
+
+import '@/styles/globals.css'
 
 export const metadata: Metadata = {
   metadataBase: new URL(baseUrl),
@@ -78,7 +86,11 @@ export default function RootLayout({
         className={cn(
           GeistSans.variable,
           GeistMono.variable,
-          'font-sans antialiased'
+          babyGemoy.variable,
+          higherJump.variable,
+          milkyway.variable,
+          laderRegular.variable,
+          laderMedium.variable
         )}
       >
         <ProvidersTree>

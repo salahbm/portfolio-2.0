@@ -404,14 +404,14 @@ export function CommandCenterDialog({
             </>
           ),
         }),
-        createCommandWithSuggestion('bluesky', {
-          value: siteConfig.socialLinks.bluesky.url,
-          searchValue: 'bluesky',
+        createCommandWithSuggestion('instagram', {
+          value: siteConfig.socialLinks.instagram.url,
+          searchValue: 'instagram',
           onSelect: handleSelectSocialLink,
           children: (
             <>
               <BlueskyLogoIcon className='h-4 w-4' />
-              Bluesky 🦋
+              Instagram
             </>
           ),
         }),

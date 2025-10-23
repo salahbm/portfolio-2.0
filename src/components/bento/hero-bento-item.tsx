@@ -78,10 +78,10 @@ export function HeroBentoItem() {
                   <span className='max-md:hidden'>-&nbsp;</span> Currently at
                   <TagLink
                     href='https://liveblocks.io/'
-                    className='mx-1.5 cursor-none'
+                    className='mx-1.5 cursor-none font-milkyway'
                   >
                     <LiveblocksLogoIcon className='mr-1 inline-flex size-3' />
-                    Liveblocks
+                    Momenti
                   </TagLink>
                   🚀
                 </span>

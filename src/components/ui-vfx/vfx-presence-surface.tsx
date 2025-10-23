@@ -3,7 +3,6 @@
 import Image from 'next/image'
 
 import { useRef, useState } from 'react'
-import { createPortal } from 'react-dom'
 
 import useEvent from 'react-use-event-hook'
 
@@ -16,9 +15,7 @@ import {
 
 import { cn, pick } from '@/lib/utils'
 import { getRandomUsername } from '@/lib/random-username'
-
-import { useMounted } from '@/hooks/use-mounted'
-import { Cursor } from '@/components/ui/cursor'
+import { useCursorContext } from '../cursor'
 
 const CURSOR_COLORS = ['violet-700', 'orange-600', 'sky-600', 'fuchsia-500']
 
@@ -44,14 +41,13 @@ const PresenceCursor = ({
 }) => {
   return (
     <motion.div
-      className='pointer-events-none absolute left-0 top-0 z-10'
+      className='pointer-events-none absolute -top-2 left-3 z-10'
       style={{ x, y }}
       initial={{ opacity: 0 }}
       animate={{ opacity: 1 }}
       exit={{ opacity: 0 }}
     >
       <div className='flex flex-row gap-1'>
-        <Cursor className={cn('size-5', `text-${color}`)} />
         <motion.div
           className={cn(
             '-ml-2.5 mt-3 flex h-7 flex-row items-center gap-1.5 rounded-full pl-1.5 pr-2',
@@ -80,20 +76,6 @@ const PresenceCursor = ({
   )
 }
 
-const Portal = ({ children }: { children: React.ReactNode }) => {
-  const mounted = useMounted()
-  if (!mounted) {
-    return null
-  }
-
-  return createPortal(
-    <div className='pointer-events-none absolute left-0 top-0 h-screen w-screen'>
-      {children}
-    </div>,
-    document.body
-  )
-}
-
 export function VFXPresenceSurface({
   className,
   disabled,
@@ -103,6 +85,8 @@ export function VFXPresenceSurface({
   disabled?: boolean
   children?: React.ReactNode
 }) {
+  const { setColor } = useCursorContext()
+
   const surfaceRef = useRef<HTMLDivElement>(null)
   const previousCursorColorRef = useRef<string | null>(null)
 
@@ -115,8 +99,11 @@ export function VFXPresenceSurface({
   const handleMouseMove = useEvent(
     (e: React.MouseEvent<HTMLDivElement>): void => {
       if (!disabled) {
-        x.set(e.clientX + window.scrollX)
-        y.set(e.clientY + window.scrollY)
+        const rect = surfaceRef.current?.getBoundingClientRect()
+        if (rect) {
+          x.set(e.clientX - rect.left)
+          y.set(e.clientY - rect.top)
+        }
       }
     }
   )
@@ -129,15 +116,20 @@ export function VFXPresenceSurface({
 
         setIsCursorInside(true)
         setCursorColor(cursorColor)
+        setColor(cursorColor)
 
-        x.set(e.clientX + window.scrollX)
-        y.set(e.clientY + window.scrollY)
+        const rect = surfaceRef.current?.getBoundingClientRect()
+        if (rect) {
+          x.set(e.clientX - rect.left)
+          y.set(e.clientY - rect.top)
+        }
       }
     }
   )
 
   const handleMouseLeave = useEvent((): void => {
     setIsCursorInside(false)
+    setColor('gray-500')
   })
 
   const username = getRandomUsername()
@@ -149,23 +141,21 @@ export function VFXPresenceSurface({
       onMouseLeave={handleMouseLeave}
       onMouseMove={handleMouseMove}
       className={cn(
-        'relative flex size-full cursor-none flex-col [border-radius:inherit]',
+        'relative flex size-full overflow-hidden [border-radius:inherit]',
         className
       )}
     >
-      <Portal>
-        <AnimatePresence>
-          {isCursorInside ? (
-            <PresenceCursor
-              key={username}
-              x={x}
-              y={y}
-              username={username}
-              color={cursorColor}
-            />
-          ) : null}
-        </AnimatePresence>
-      </Portal>
+      <AnimatePresence>
+        {isCursorInside ? (
+          <PresenceCursor
+            key={username}
+            x={x}
+            y={y}
+            username={username}
+            color={cursorColor}
+          />
+        ) : null}
+      </AnimatePresence>
       {children}
     </div>
   )
