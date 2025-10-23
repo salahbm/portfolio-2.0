@@ -31,7 +31,7 @@ export function TwitterBentoItem() {
                 </div>
                 <div className='flex flex-col'>
                   <h1 className='text-sm font-semibold leading-4 tracking-tighter'>
-                    Aurélien
+                    Muhammad (Salah)
                   </h1>
                   <span className='text-xs text-muted-foreground'>
                     {siteConfig.socialLinks.twitter.name}

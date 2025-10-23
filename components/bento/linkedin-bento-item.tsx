@@ -9,7 +9,7 @@ export function LinkedInBentoItem() {
     <SocialBentoItem
       href={siteConfig.socialLinks.linkedin.url}
       name='LinkedIn'
-      accountName='Aurélien'
+      accountName='Muhammad (Salah)'
       icon={<LinkedInSquareIcon className='size-6' />}
     >
       <LinkedInChatWidget />

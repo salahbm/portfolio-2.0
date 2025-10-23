@@ -42,3 +42,13 @@ certificates
 
 # user local config
 .npmrc
+
+
+# bun
+bun.lockb
+bun.lock
+
+
+# env
+.env
+!.env.example

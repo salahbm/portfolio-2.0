@@ -2,9 +2,9 @@ import { createSafeRouteHandler } from '@sugardarius/anzen'
 import { geolocation } from '@vercel/functions'
 
 // NOTE:
-// Fallback on San Francisco (randomly selected for testing).
+// Fallback on Seoul, South Korea (randomly selected for testing).
 // Defined as strings as `geolocation` returns strings
-const LAT_LONG_FALLBACK = ['37.7595', '-122.4367']
+const LAT_LONG_FALLBACK = ['37.5665', '126.9780']
 
 export const GET = createSafeRouteHandler(
   {
