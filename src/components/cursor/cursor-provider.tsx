@@ -132,8 +132,11 @@ export const CursorProvider: React.FC<{ children: React.ReactNode }> = ({
     installHideStyle()
     // …then again after Blink finishes restoring system cursor
     requestAnimationFrame(() => installHideStyle())
-    // …and once more with a tiny timeout to catch late paths
+    // …and multiple times with increasing delays to catch all late paths
     setTimeout(() => installHideStyle(), 60)
+    setTimeout(() => installHideStyle(), 120)
+    setTimeout(() => installHideStyle(), 200)
+    setTimeout(() => installHideStyle(), 400)
   }, [installHideStyle, show])
 
   const onBlur = useCallback(() => {
@@ -145,12 +148,20 @@ export const CursorProvider: React.FC<{ children: React.ReactNode }> = ({
   // Visibility change (tab switches)
   useEffect(() => {
     const handleVis = () => {
-      if (document.visibilityState === 'visible') onFocus()
-      else onBlur()
+      if (document.visibilityState === 'visible') {
+        onFocus()
+        // Extra aggressive re-hide after visibility change
+        const intervals = [0, 50, 100, 200, 400, 800]
+        intervals.forEach((delay) => {
+          setTimeout(() => installHideStyle(), delay)
+        })
+      } else {
+        onBlur()
+      }
     }
     document.addEventListener('visibilitychange', handleVis)
     return () => document.removeEventListener('visibilitychange', handleVis)
-  }, [onFocus, onBlur])
+  }, [onFocus, onBlur, installHideStyle])
 
   // Core lifecycle hooks
   useEffect(() => {
@@ -201,6 +212,72 @@ export const CursorProvider: React.FC<{ children: React.ReactNode }> = ({
     show,
     hide,
   ])
+
+  // --- Add document focus/blur for better handling in fullscreen
+  useEffect(() => {
+    if (isMobile) return
+
+    const onDocFocus = () => show()
+    const onDocBlur = () => hide()
+
+    document.addEventListener('focus', onDocFocus)
+    document.addEventListener('blur', onDocBlur)
+
+    return () => {
+      document.removeEventListener('focus', onDocFocus)
+      document.removeEventListener('blur', onDocBlur)
+    }
+  }, [isMobile, show, hide])
+
+  // --- Click feedback (click pulse)
+  useEffect(() => {
+    if (isMobile) return
+    const onDown = () => {
+      if (cursorTypeRef.current !== 'pointer') return
+      setCursorType('click')
+      // pointerdown click feedback — use transform scale to avoid position issues
+      const el = cursorRef.current
+      if (el) {
+        el.animate(
+          [
+            { transform: 'translate(-50%, -50%) scale(1)' },
+            { transform: 'translate(-50%, -50%) scale(1.25)' },
+            { transform: 'translate(-50%, -50%) scale(1)' },
+          ],
+          { duration: 150, easing: 'ease-out' }
+        )
+      }
+      setTimeout(() => setCursorType('pointer'), 150)
+    }
+    window.addEventListener('pointerdown', onDown)
+    return () => window.removeEventListener('pointerdown', onDown)
+  }, [isMobile])
+
+  // --- Hover type switching
+  useEffect(() => {
+    if (isMobile) return
+
+    const resolveType = (el: Element | null): CursorType => {
+      if (!el) return 'default'
+      const withData = (el.closest('[data-cursor]') as HTMLElement | null)
+        ?.dataset.cursor as CursorType | undefined
+      if (withData) return withData
+      if (el.closest('a,button,[role="button"]')) return 'pointer'
+      if (el.closest('input,textarea,[contenteditable="true"]')) return 'text'
+      return 'default'
+    }
+
+    const onOver = (e: PointerEvent) => {
+      const next = resolveType(e.target as Element)
+      if (next !== cursorTypeRef.current) {
+        cursorTypeRef.current = next
+        setCursorType(next)
+      }
+    }
+
+    document.addEventListener('pointerover', onOver, { passive: true })
+    return () => document.removeEventListener('pointerover', onOver)
+  }, [isMobile])
 
   useEffect(() => {
     cursorTypeRef.current = cursorType

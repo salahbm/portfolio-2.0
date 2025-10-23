@@ -69,8 +69,8 @@ export function NavigationDock() {
           </NavigationDockItemExternalLink>
           <NavigationDockItemExternalLink
             href={siteConfig.socialLinks.instagram.url}
-            tooltipLabel='Bluesky 🦋'
-            name='Bluesky 🦋'
+            tooltipLabel='Instagram'
+            name='Instagram'
           >
             <BlueskyLogoIcon className='h-4 w-4' />
           </NavigationDockItemExternalLink>

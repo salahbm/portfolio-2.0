@@ -25,6 +25,7 @@ import {
 } from './font'
 
 import '@/styles/globals.css'
+import { Dock } from '@/components/dock'
 
 export const metadata: Metadata = {
   metadataBase: new URL(baseUrl),
@@ -99,6 +100,7 @@ export default function RootLayout({
               <div className='flex w-full flex-1 flex-col'>{children}</div>
             </div>
             <NavigationDock />
+            <Dock />
           </main>
           <Toaster />
           <MagnifyingGlass />
