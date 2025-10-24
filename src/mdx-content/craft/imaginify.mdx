@@ -1,0 +1,87 @@
+---
+title: 'Imaginify: AI Image Studio'
+publishedAt: '2024-05-24'
+summary: 'Building a Next.js SaaS that layers Cloudinary AI transformations on top of Clerk auth and a Stripe-powered credit economy.'
+category: 'Lab / Open Source'
+githubURL: 'https://github.com/username/imaginify-ai-sass'
+image: '/medias/mdx-content/imaginify-ai-sass.webp'
+---
+
+# Imaginify AI Image Studio
+
+Imaginify is a Next.js 14 playground where we bolt together Clerk authentication, MongoDB, Cloudinary, and Stripe to offer a self-serve studio for AI-assisted image edits. It feels like a SaaS product, but it’s compact enough to study in an afternoon.
+
+## Why this project / motivation
+
+I wanted a hands-on way to explore how modern SaaS teams stitch together hosted AI services with usage-based billing. Rather than training a model, we lean on Cloudinary’s transformation APIs and spend our time solving product problems: onboarding, credit metering, and a responsive editing workflow.
+
+## What it does / overview
+
+Once you sign in with Clerk, you can upload an image and pick from transformation presets like <InlineCode>restore</InlineCode>, <InlineCode>removeBackground</InlineCode>, <InlineCode>fill</InlineCode>, <InlineCode>remove</InlineCode>, or <InlineCode>recolor</InlineCode>. The homepage highlights each capability and lists your saved creations by pulling MongoDB documents enriched with Cloudinary metadata.【F:app/(root)/page.tsx†L1-L40】【F:constant/index.ts†L1-L82】
+
+Credits keep the experience grounded: every upload and transformation decrements a balance, and Stripe Checkout makes it easy to buy more. Completed transformations can be inspected, updated, or downloaded from their detail pages, closing the loop on the creative workflow.【F:components/shared/TransformationForm.tsx†L1-L195】【F:components/shared/TransformedImage.tsx†L1-L78】
+
+## How it works (architecture, APIs, or hooks)
+
+The app leans on the Next.js App Router with server actions for data mutations and server-side rendering for gallery views. A typical request flows like this:
+
+1. **Auth & routing** — `authMiddleware` makes every route private except the landing page and webhook endpoints, so unauthenticated visitors are redirected to Clerk’s hosted screens.【F:middleware.ts†L1-L8】
+2. **Persistence** — A shared <InlineCode>connectToDatabase</InlineCode> helper ensures Mongoose reuses cached connections in the serverless environment.【F:lib/database/mongoose.ts†L1-L33】
+3. **Media intelligence** — The Cloudinary SDK powers both search and delivery. Upload widgets live on the client, while server actions query transformations and Cloudinary Search expressions to paginate results.【F:components/shared/MediaUploader.tsx†L1-L78】【F:lib/actions/image.actions.ts†L1-L143】
+4. **Billing** — Stripe Checkout sessions embed plan metadata; when a payment succeeds, the Stripe webhook persists a <InlineCode>Transaction</InlineCode> document and bumps the user’s credit balance.【F:lib/actions/transaction.actions.ts†L1-L52】【F:app/api/webhooks/stripe/route.ts†L1-L39】
+5. **Identity sync** — Clerk webhooks listen for user lifecycle events, mirroring profile changes into MongoDB and storing the database ID in Clerk’s public metadata for future lookups.【F:app/api/webhooks/clerk/route.ts†L1-L98】
+
+<Callout icon='💡'>
+  Because everything funnels through typed server actions, you get optimistic UI
+  updates without hand-rolling API routes for every mutation.
+</Callout>
+
+## Code snippets (use <InlineCode> for small code and fenced tsx or ts for examples</InlineCode>)
+
+Here’s the core of the transformation workflow. It debounces form updates, merges Cloudinary configs, consumes credits, and persists the transformed asset back to MongoDB:
+
+```tsx
+// components/shared/TransformationForm.tsx
+const onTransformHandler = async () => {
+  setIsTransforming(true)
+
+  setTransformationConfig(
+    deepMergeObjects(newTransformation, transformationConfig)
+  )
+
+  setNewTransformation(null)
+
+  startTransition(async () => {
+    await updateCredits(userId, creditFee)
+  })
+}
+```
+
+Once the config settles, we generate a signed Cloudinary URL and either create or update an image document:
+
+```tsx
+const imageData = {
+  title: values.title,
+  publicId: image?.publicId,
+  transformationType: type,
+  width: image?.width,
+  height: image?.height,
+  config: transformationConfig,
+  secureURL: image?.secureURL,
+  transformationURL: transformationUrl,
+  aspectRatio: values.aspectRatio,
+  prompt: values.prompt,
+  color: values.color,
+}
+```
+
+## Demo / Media if applicable (use `<RoundedVideo>` or `<Image>` components)
+
+<Image
+  src='/medias/mdx-content/imaginify-ai-sass.webp'
+  alt='Imaginify dashboard showing before/after transformation'
+/>
+
+## Conclusion (reflective summary of developer benefits or learnings)
+
+Imaginify shows how far you can get by orchestrating best-in-class services: Clerk simplifies auth, Cloudinary gives us AI superpowers, Stripe handles payments, and MongoDB stores the trail. The patterns here—typed server actions, webhook-driven sync, and declarative transformations—transfer directly to any modern SaaS you might build next.

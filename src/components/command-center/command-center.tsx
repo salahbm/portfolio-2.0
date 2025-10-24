@@ -53,7 +53,6 @@ export function CommandCenter({ className }: { className?: string }) {
     stiffness: 150,
     mass: 0.01,
   })
-  console.log(`LOGGING 👀:`, isLockedRef.current)
   useEffect(() => {
     if (isLockedRef.current) {
       spring.set(40)

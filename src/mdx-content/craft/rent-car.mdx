@@ -1,0 +1,150 @@
+---
+title: 'Myeongshin Vehicle Sharing App Overview'
+publishedAt: '2024-04-15'
+summary: 'Exploring how a Flutter, Firebase, and REST-powered app helps employees reserve shared vehicles with confidence.'
+category: 'Open Source'
+githubURL: 'https://github.com/username/flutter-car-reservation'
+image: '/medias/mdx-content/flutter-car-reservation.webp'
+---
+
+# Myeongshin Vehicle Sharing App
+
+The Myeongshin vehicle sharing app is a Flutter project designed to allow company employees to reserve and manage corporate vehicles via smartphone. This article explores how state management via Provider, integration with Firebase Cloud Messaging, and the network layer including automatic token refresh work together.
+
+## Why this project / motivation
+
+Company vehicles are difficult to track for reservations and usage when demand is concentrated. We wanted to provide a mobile experience where employees can transparently check vehicle inventory, points, insurance terms, and receive notifications. We chose Flutter because it allows rapid deployment to iOS, Android, and web from a single codebase.
+
+## What it does / overview
+
+When the app runs, <InlineCode>MultiProvider</InlineCode> provides global core states such as user information, available points, and reservation dates, and all routes operate under <InlineCode>MaterialApp</InlineCode> set to Korean locale. Once Firebase initialization and permission requests are complete, users can handle the entire process within the app: login, vehicle search, reservation, reservation history check, point inquiry, terms confirmation, and inquiry submission.
+
+<Callout icon='💡'>
+  By sharing the navigation key when push notifications from Firebase Messaging
+  are received, you can always return to the main flow.
+</Callout>
+
+## How it works (architecture, APIs, or hooks)
+
+The architecture is divided into three axes.
+
+1. **App bootstrap** – Initialize Firebase in <InlineCode>main.dart</InlineCode>, request push, location, and camera permissions, then run <InlineCode>MyApp</InlineCode> wrapped in Provider.
+2. **Service layer** – <InlineCode>Agent</InlineCode> in <InlineCode>utils/agent.dart</InlineCode> handles all HTTP calls and automatically refreshes tokens when they expire.
+3. **UI flow** – The reservation screen composes date changes, insurance guidance, terms agreement, and payment button on one page, then moves to the congratulations screen and reservation history page on success.
+
+Firebase Cloud Messaging notification handling abstracts <InlineCode>NotificationService</InlineCode> to respond differently when the app is in foreground, background, or terminated states. It manages Android channel initialization, local notification display, and background handler registration in one place.
+
+## Code snippets (use <InlineCode> for small code and fenced tsx or ts for examples</InlineCode>)
+
+The app entry point consists of Firebase initialization, permission requests, and Provider registration.
+
+```dart
+// lib/main.dart
+runApp(
+  MultiProvider(
+    providers: [
+      ChangeNotifierProvider(create: (_) => PointsProvider()),
+      ChangeNotifierProvider(create: (_) => UserProvider()),
+      ChangeNotifierProvider(create: (_) => DateProvider()),
+    ],
+    child: const MyApp(),
+  ),
+);
+```
+
+Shared navigator key, route map, and Korean locale settings are defined within <InlineCode>MyApp</InlineCode>.
+
+```dart
+// lib/app.dart
+return MaterialApp(
+  title: '명신 차량 공유',
+  initialRoute: Routes.mainScreen,
+  navigatorKey: navigatorKey,
+  debugShowCheckedModeBanner: false,
+  theme: ThemeData(scaffoldBackgroundColor: COLORS.white),
+  routes: {
+    Routes.mainScreen: (context) => const AuthenticationFlowScreen(),
+    Routes.signUp: (context) => const SignUpScreen(),
+    Routes.signIn: (context) => const SignIn(),
+    Routes.forgotPassword: (context) => const SendCodeScreen(),
+    Routes.resetPwd: (context) => const ResetPasswordScreen(...),
+  },
+  supportedLocales: const [Locale('ko', 'KR')],
+  locale: const Locale('ko', 'KR'),
+);
+```
+
+HTTP 클라이언트는 토큰 만료를 감지해 자동으로 갱신하고, 401/403 응답 시 보안 저장소를 정리합니다.
+
+```dart
+// lib/utils/agent.dart
+Future<http.Response> get(String endpoint) async {
+  await checkAndRefreshToken();
+  final url = Uri.parse('$_baseUrl$endpoint');
+  final response = await http.get(url, headers: await _headers());
+  _handleResponse(response);
+  return response;
+}
+
+void _handleResponse(http.Response response) {
+  if (response.body.isEmpty) return;
+  if (response.statusCode < 200 || response.statusCode >= 300) {
+    if (response.statusCode == 401 || response.statusCode == 403) {
+      clearAllTokens();
+    }
+    final resBody = jsonFormatter(response);
+    if (response.statusCode >= 500) {
+      throw '다시 시도해주세요.';
+    }
+    throw (resBody['message'] ?? resBody['error'] ?? response.reasonPhrase);
+  }
+}
+```
+
+예약 화면은 사용자가 날짜를 조정하고, 약관을 모두 체크한 뒤 결제를 트리거합니다. 성공하면 포인트를 다시 가져오고, 예약 내역으로 이동하죠.
+
+```dart
+// lib/screens/reservation/reserve_car/index.dart
+void handleOnReserve() async {
+  if (!allChecked) {
+    return fireAlert(context, '이용 약관에 동의해주세요.', () {});
+  }
+  if (_startDate.isAfter(_endDate) || _startDate.isBefore(DateTime.now())) {
+    return fireToast(context, '예약 시간을 확인하십시오', isError: true);
+  }
+
+  setState(() => isLoading = true);
+  try {
+    await CarService().reserveCar({
+      'carId': widget.car['id'],
+      'rentalStartDate': _startDate.toIso8601String(),
+      'rentalEndDate': _endDate.toIso8601String(),
+      'rentalLocationId': widget.car['rentalLocationId'],
+      'returnLocationId': widget.car['rentalLocationId'],
+      'isBusiness': widget.isBusiness,
+    });
+    if (!mounted) return;
+    Navigator.push(context, MaterialPageRoute(builder: (_) => Success(...)));
+    await Provider.of<PointsProvider>(context, listen: false).fetchTotalPoints();
+  } catch (e) {
+    if (!mounted) return;
+    fireAlert(context, e.toString(), () {});
+  } finally {
+    setState(() {
+      isLoading = false;
+      allChecked = false;
+    });
+  }
+}
+```
+
+## Demo / Media if applicable (use `<RoundedVideo>` or `<Image>` components)
+
+<RoundedVideo
+  src='/medias/mdx-content/flutter-car-reservation-demo.mp4'
+  title='차량 예약 흐름 시연'
+/>
+
+## Conclusion (reflective summary of developer benefits or learnings)
+
+이 프로젝트는 Flutter의 선언형 UI와 Provider 상태 관리, 그리고 Firebase Cloud Messaging·보안 토큰 재발급 로직을 결합해 실제 업무에서 쓰일 수 있는 차량 공유 경험을 완성합니다. 명확한 서비스 계층과 신뢰도 높은 알림 시스템 덕분에 개발자는 새로운 기능을 빠르게 추가하고, 사용자는 예약 상태를 놓치지 않을 수 있죠. 전체 소스는 GitHub에서 직접 확인하고 여러분의 조직 환경에 맞게 확장해 보세요.

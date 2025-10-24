@@ -51,7 +51,7 @@ export function DockDrawer({
           aria-label='Open navigation drawer'
           onClick={() => setOpen(true)}
           className={cn(
-            'group relative mx-auto flex h-11 w-11 items-center justify-center rounded-2xl',
+            'group relative mx-auto flex aspect-video h-11 items-center justify-center gap-2 rounded-2xl',
             'bg-gradient-lilac',
             'border border-white/20 shadow-md backdrop-blur-xl',
             'transition-all duration-300 ease-out hover:shadow-lg hover:brightness-105 active:scale-95',
@@ -68,7 +68,7 @@ export function DockDrawer({
             strokeWidth={1.8}
           />
 
-          <span className='absolute bottom-1 text-[10px] font-medium text-[oklch(0.25_0.05_270)/0.8]'>
+          <span className='text-sm font-medium text-[oklch(0.25_0.05_270)/0.8]'>
             Menu
           </span>
         </button>

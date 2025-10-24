@@ -30,7 +30,7 @@ const StackItem = ({ Icon, ...props }: TechStackItem) => (
 
 export default function TechStackPage() {
   return (
-    <PageContent>
+    <PageContent className='mb-40'>
       <PageHero
         title='Tech Stack'
         description='A look at the programming languages, technologies, libraries and dev tools I use and play with.'

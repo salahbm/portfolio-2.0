@@ -1,6 +1,6 @@
 'use client'
 
-import { Fragment, useEffect, useRef, useState } from 'react'
+import { useEffect, useRef, useState } from 'react'
 import Link from 'next/link'
 import { usePathname } from 'next/navigation'
 
@@ -28,100 +28,97 @@ const Dock = () => {
   useEffect(() => setWidth(ref.current?.clientWidth), [])
 
   return (
-    <Fragment>
+    <div className='fixed inset-x-0 bottom-6 z-40 flex justify-center'>
       {/* Mobile/Tablet Drawer */}
+
       <DockDrawer
         pathname={pathname}
         navigationItems={navigationItems}
         className='sticky bottom-4 lg:hidden'
       />
-
       {/* Desktop Dock */}
-      <div className='fixed inset-x-0 bottom-6 z-40 hidden justify-center lg:flex'>
-        <div className='flex w-full justify-center'>
-          <DockContext.Provider
-            value={{ hovered, width, isLocked, setIsLocked }}
+
+      <div className='hidden w-full justify-center lg:flex'>
+        <DockContext.Provider value={{ hovered, width, isLocked, setIsLocked }}>
+          <nav
+            ref={ref}
+            className='bg-grid flex-center h-14 rounded-2xl border bg-popover p-2'
+            onMouseEnter={() => setHovered(true)}
+            onMouseLeave={() => setHovered(false)}
           >
-            <nav
-              ref={ref}
-              className='bg-grid flex-center h-14 rounded-2xl border bg-popover p-2'
-              onMouseEnter={() => setHovered(true)}
-              onMouseLeave={() => setHovered(false)}
+            <ul
+              className='flex items-center justify-center space-x-1'
+              data-cursor='pointer'
             >
-              <ul
-                className='flex items-center justify-center space-x-1'
-                data-cursor='pointer'
-              >
-                {navigationItems.map((item) => {
-                  const isActive =
-                    item.href === '/craft'
-                      ? pathname.startsWith(item.href)
-                      : item.href === pathname
+              {navigationItems.map((item) => {
+                const isActive =
+                  item.href === '/craft'
+                    ? pathname.startsWith(item.href)
+                    : item.href === pathname
 
-                  return (
-                    <Tooltip key={item.name}>
-                      <TooltipTrigger asChild>
-                        <Link href={item.href}>
-                          <DockItem
-                            id={`dock-${item.name}`}
-                            isActive={isActive}
-                            src={`/dock/${item.icon ?? item.name}.png`}
-                            alt={item.name}
-                            priority={item.name === 'home'}
-                          />
-                        </Link>
-                      </TooltipTrigger>
-                      <TooltipContent
-                        sideOffset={8}
-                        className='flex flex-row items-center gap-1'
-                      >
-                        <span className='capitalize'>{item.label}</span>
-                        <span className='pointer-events-none flex select-none items-center gap-1 rounded border bg-muted px-1.5 text-[10px] font-medium tracking-[2px] text-muted-foreground'>
-                          {item.shortcutLabel && `(${item.shortcutLabel})`}
-                        </span>
-                      </TooltipContent>
-                    </Tooltip>
-                  )
-                })}
-
-                <li className='self-center' aria-hidden='true'>
-                  <hr className='mx-2 h-12 w-px border-none bg-border' />
-                </li>
-
-                {/* Social links */}
-                {Object.entries(siteConfig.socialLinks).map(([key, link]) => (
-                  <Tooltip key={key}>
+                return (
+                  <Tooltip key={item.name}>
                     <TooltipTrigger asChild>
-                      <a
-                        href={link.url}
-                        target='_blank'
-                        rel='noopener noreferrer'
-                      >
-                        <DockItem id={`dock-${key}`} src={link.src} alt={key} />
-                      </a>
+                      <Link href={item.href}>
+                        <DockItem
+                          id={`dock-${item.name}`}
+                          isActive={isActive}
+                          src={`/dock/${item.icon ?? item.name}.png`}
+                          alt={item.name}
+                          priority={item.name === 'home'}
+                        />
+                      </Link>
                     </TooltipTrigger>
-                    <TooltipContent sideOffset={8}>
-                      {key.charAt(0).toUpperCase() + key.slice(1)}
+                    <TooltipContent
+                      sideOffset={8}
+                      className='flex flex-row items-center gap-1'
+                    >
+                      <span className='capitalize'>{item.label}</span>
+                      <span className='pointer-events-none flex select-none items-center gap-1 rounded border bg-muted px-1.5 text-[10px] font-medium tracking-[2px] text-muted-foreground'>
+                        {item.shortcutLabel && `(${item.shortcutLabel})`}
+                      </span>
                     </TooltipContent>
                   </Tooltip>
-                ))}
+                )
+              })}
 
-                <li className='self-center' aria-hidden='true'>
-                  <hr className='mx-2 h-12 w-px border-none bg-border' />
-                </li>
+              <li className='self-center' aria-hidden='true'>
+                <hr className='mx-2 h-12 w-px border-none bg-border' />
+              </li>
 
-                <li>
-                  <CommandCenter />
-                </li>
-                <li>
-                  <ColorModeDropdownSwitcher />
-                </li>
-              </ul>
-            </nav>
-          </DockContext.Provider>
-        </div>
+              {/* Social links */}
+              {Object.entries(siteConfig.socialLinks).map(([key, link]) => (
+                <Tooltip key={key}>
+                  <TooltipTrigger asChild>
+                    <a
+                      href={link.url}
+                      target='_blank'
+                      rel='noopener noreferrer'
+                    >
+                      <DockItem id={`dock-${key}`} src={link.src} alt={key} />
+                    </a>
+                  </TooltipTrigger>
+                  <TooltipContent sideOffset={8}>
+                    {key.charAt(0).toUpperCase() + key.slice(1)}
+                  </TooltipContent>
+                </Tooltip>
+              ))}
+
+              <li className='self-center' aria-hidden='true'>
+                <hr className='mx-2 h-12 w-px border-none bg-border' />
+              </li>
+
+              <li>
+                <CommandCenter />
+              </li>
+              <li>
+                <ColorModeDropdownSwitcher />
+              </li>
+            </ul>
+          </nav>
+        </DockContext.Provider>
       </div>
-    </Fragment>
+    </div>
   )
 }
 

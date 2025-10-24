@@ -9,7 +9,6 @@ export function Cursor() {
   const { isMobile } = useUserAgent()
   const mounted = useMounted()
   const { color, cursorType, cursorRef, x, y } = useCursorContext()
-  console.log(`file: cursor-mask.tsx:12 ~ color:`, color)
   const Icon = IconMap[cursorType]
 
   if (isMobile || !mounted) return null

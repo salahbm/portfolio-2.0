@@ -1,7 +1,6 @@
 'use client'
 
 import Link from 'next/link'
-import { format } from 'date-fns'
 import {
   ClockIcon,
   BeakerIcon,
@@ -10,6 +9,7 @@ import {
 
 import { CategoryTag } from '@/components/content/category-tag'
 import { BentoCard } from '@/components/grids/bento-card'
+import { format, parseISO } from 'date-fns'
 
 export function CraftCard({
   slug,
@@ -25,8 +25,7 @@ export function CraftCard({
   publishedAt: string
 }) {
   const isLab = category?.includes('Lab')
-  const dateTime = new Date(publishedAt)
-  const published = format(dateTime, 'MMMM yyyy')
+  const parsedDate = parseISO(publishedAt)
 
   return (
     <BentoCard className='col-span-2' variant='grid'>
@@ -55,10 +54,10 @@ export function CraftCard({
               <div className='flex items-center gap-1'>
                 <ClockIcon className='size-3' />
                 <time
-                  dateTime={dateTime.toISOString()}
+                  dateTime={parsedDate.toISOString()}
                   className='text-xs font-semibold text-muted-foreground'
                 >
-                  {published}
+                  {format(parsedDate, 'MMM d, yyyy')}
                 </time>
               </div>
             </div>

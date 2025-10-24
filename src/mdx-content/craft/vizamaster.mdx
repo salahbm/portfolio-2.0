@@ -1,0 +1,173 @@
+---
+title: 'Global Talent Portal with Next.js 14'
+publishedAt: '2024-06-09'
+summary: 'Building VIZA MASTER, a multilingual recruitment platform with Next.js, Prisma, and NextAuth.'
+category: 'Open Source'
+githubURL: 'https://github.com/username/bsgroup'
+image: '/medias/mdx-content/bsgroup.webp'
+---
+
+# VIZA MASTER multilingual talent hub
+
+VIZA MASTER is a full-stack hiring platform built with Next.js 14 that helps the team spotlight global job opportunities while letting administrators curate content from the same codebase. The project lives in the <InlineCode>bsgroup</InlineCode> repository and leans on Prisma, NextAuth, UploadThing, and TanStack Query to keep data, authentication, and content management in sync.
+
+## Why this project / motivation
+
+The team needed a single codebase that could serve a marketing site, a public job board, and an internal dashboard—without sacrificing multilingual support. Traditional monolithic CMSes made localization, authenticated uploads, and real-time admin tools difficult to orchestrate. By adopting Next.js 14’s App Router and a modern React tooling stack, we were able to ship a bespoke experience for candidates and operators alike.
+
+## What it does / overview
+
+- Localized landing pages, about, partners, and results experiences backed by <InlineCode>next-intl</InlineCode>.
+- A secure admin area where staff manage countries, vacancies, and editorial content.
+- Integrated uploads for imagery and attachments with UploadThing’s dropzone flow.
+- Email capture powered by EmailJS and validated with Zod.
+- Interactive 3D globe visualizations that highlight hiring hotspots.
+
+<Callout icon='💡'>
+  The repository URL is referenced in the frontmatter so readers can jump
+  straight to the code on GitHub.
+</Callout>
+
+## How it works (architecture, APIs, or hooks)
+
+Localization is handled at the layout level. The <InlineCode>LocaleLayout</InlineCode> sets the current locale with <InlineCode>setRequestLocale</InlineCode>, injects the shared providers, and wires metadata for SEO and social sharing across languages. Suspense boundaries and the global toaster keep UX polished while the Vercel Analytics hook tracks engagement.
+
+```tsx
+<html lang={locale} suppressHydrationWarning>
+  <body className={cn(poppins.className)}>
+    <AppProvider>
+      <Suspense fallback={<Loading />}>{children}</Suspense>
+      <Toaster />
+      <Analytics debug={false} />
+    </AppProvider>
+  </body>
+</html>
+```
+
+Inside <InlineCode>AppProvider</InlineCode> we layer providers for translations, TanStack Query, and theming. Query caching is customized to avoid noisy refetching while still surfacing DevTools for admins during development.
+
+```tsx
+const [queryClient] = useState(
+  () =>
+    new QueryClient({
+      defaultOptions: {
+        queries: {
+          retry: 0,
+          refetchOnMount: false,
+          refetchOnWindowFocus: false,
+          refetchOnReconnect: false,
+        },
+        mutations: {
+          retry: 0,
+        },
+      },
+      queryCache: new QueryCache({
+        onError: (error, query) => {
+          console.log(error, query)
+        },
+      }),
+      mutationCache: new MutationCache({
+        onError: (error, mutation) => {
+          console.log(error, mutation)
+        },
+      }),
+    })
+)
+```
+
+Authentication rides on NextAuth’s credentials provider. When an admin signs in, we look up their record with Prisma, hash new passwords on the fly, and propagate the user ID into the JWT session payload. Prisma itself is wrapped in a singleton so local development avoids spawning duplicate clients.
+
+```ts
+const user = await DB.admin.findUnique({
+  where: { email },
+})
+
+if (user) {
+  const isPasswordCorrect = await bcrypt.compare(password, user.password)
+  if (!isPasswordCorrect) return null
+  return user
+} else {
+  const hashedPassword = await bcrypt.hash(password, 10)
+  const newUser = await DB.admin.create({
+    data: { name, email, password: hashedPassword },
+  })
+  return newUser
+}
+```
+
+The admin dashboard fetches data on the server, then hydrates client-side tables that use Suspense and React Error Boundary to keep things resilient. Countries and vacancies are displayed through TanStack React Table with filterable columns and pagination.
+
+```tsx
+const countriesData = await fetchAllCountries()
+const vacanciesData = await fetchAllVacancies()
+
+;<TableClientWrapper tableType='countries' initialData={countriesData} />
+```
+
+Public-facing pages reuse the same Prisma models. For example, the jobs page aggregates country-level vacancy counts, sorts them, and then renders a grid of cards alongside an interactive WebGL globe that is dynamically imported client-side and only rendered if the browser supports it.
+
+```tsx
+const countries = await fetchCountriesWithActiveJobCounts()
+const vacanciesCount = countries.reduce(
+  (total, c) => total + (c._count.jobs || 0),
+  0
+)
+
+const GlobeView = useMemo(
+  () => dynamic(() => import('./globe-comp'), { ssr: false }),
+  []
+)
+```
+
+Uploads and email automation round out the feature set. UploadThing routes are locked down through a custom <InlineCode>handleAdmin</InlineCode> guard, while contact submissions travel through a <InlineCode>useSendEmail</InlineCode> mutation that validates inputs with Zod, dispatches the message via EmailJS, and surfaces toast notifications on success or failure.
+
+## Code snippets (useful references)
+
+```tsx
+<CodeBlock language='tsx'>{`export const routing = defineRouting({
+  locales: ['en', 'ru', 'uz'],
+  defaultLocale: 'en',
+  localePrefix: 'always',
+  pathnames: {
+    '/': '/',
+  },
+});`}</CodeBlock>
+
+<CodeBlock language='tsx'>{`<UploadDropzone
+  endpoint={endpoint}
+  onClientUploadComplete={(res) => {
+    onChange(res?.[0].url);
+  }}
+  onUploadError={(error) => {
+    toast({
+      title: 'Error',
+      description: `${error?.message}`,
+      variant: 'destructive',
+    });
+  }}
+/>`}</CodeBlock>
+
+<CodeBlock language='tsx'>{`return (
+  <Card className="w-full space-y-8">
+    <form onSubmit={handleSubmit(onSubmit)} className="space-y-4">
+      <Input id="name" {...register('name')} />
+      <Input id="email" type="email" {...register('email')} />
+      <Textarea id="message" {...register('message')} />
+      <Button type="submit" disabled={isSubmitting || !isValid}>
+        {isSubmitting ? t('submit.sending') : t('submit.default')}
+      </Button>
+    </form>
+  </Card>
+);`}</CodeBlock>
+```
+
+## Demo / Media if applicable (use `<RoundedVideo>` or `<Image>` components)
+
+<Image
+  src='/medias/mdx-content/bsgroup.webp'
+  alt='Screenshot of the VIZA MASTER multilingual dashboard'
+/>
+
+## Conclusion (reflective summary of developer benefits or learnings)
+
+By combining Next.js 14, Prisma, NextAuth, Next Intl, TanStack Query, and UploadThing, we built a cohesive recruitment experience that speaks three languages and keeps administrators productive. The modular provider setup, guarded upload pipelines, and dynamic visualizations make the platform flexible enough for future growth while remaining approachable for contributors exploring the repository.

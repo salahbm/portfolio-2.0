@@ -93,9 +93,7 @@ export default function RootLayout({
         <ProvidersTree>
           <main className='relative flex h-dvh w-screen flex-col overflow-hidden'>
             <div className='flex h-full w-full flex-col overflow-y-auto'>
-              <div className='flex w-full flex-1 flex-col overflow-x-hidden'>
-                {children}
-              </div>
+              <div className='flex w-full flex-1 flex-col'>{children}</div>
             </div>
             <Dock />
           </main>

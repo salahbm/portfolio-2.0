@@ -87,7 +87,7 @@ async function getMDXData(dirName: string): Promise<Pages> {
 export async function getMDXPages(
   contentSrc: 'blog' | 'craft' | 'mdx-renderer'
 ): Promise<Pages> {
-  const dirName = path.join(process.cwd(), 'mdx-content/' + contentSrc)
+  const dirName = path.join(process.cwd(), 'src/mdx-content/' + contentSrc)
   const pages = await getMDXData(dirName)
 
   return pages

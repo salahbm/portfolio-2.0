@@ -1,0 +1,88 @@
+---
+title: 'Pray Tracker Monorepo'
+publishedAt: '2024-05-20'
+summary: 'A full-stack prayer companion built with Expo, NestJS, and Next.js inside a Turborepo.'
+category: 'Open Source'
+githubURL: 'https://github.com/salahbm/pray-tracker'
+image: '/medias/mdx-content/pray-tracker.webp'
+---
+
+# Pray Tracker Monorepo
+
+A single Turborepo powers Pray Tracker, a prayer companion that spans an Expo mobile app, a NestJS API, and a Next.js marketing site. Everything is tuned for real-time prayer logging, multilingual support, and friend-powered accountability.
+
+## Why this project / motivation
+
+Prayer tracking is incredibly personal yet often disconnected across devices. We wanted a setup that keeps daily prayers, reminders, and community features in sync without sacrificing developer velocity. The monorepo approach lets us treat the product as one experience: backend schemas, Expo screens, and marketing copy live side by side, so changes ship together.
+
+## What it does / overview
+
+- **Mobile app (Expo + React Native)** delivers the core experience with offline-friendly logging, translations, and TanStack Query for networking.
+- **Backend (NestJS + Prisma)** exposes REST endpoints for prayers, friends, and leaderboards while enforcing localized errors through a global filter.
+- **Web (Next.js 14)** hosts marketing pages and auth flows, reusing the same query client patterns as mobile.
+- **Shared packages** (ESLint, TypeScript presets, and UI primitives) keep linting, typing, and design tokens consistent everywhere.
+
+Together they create a cohesive prayer companion with scored leaderboards, daily insights, and Better Auth integration.
+
+## How it works (architecture, APIs, or hooks)
+
+Everything starts from a NestJS application configured in <InlineCode>apps/backend</InlineCode>. We bootstrap the server with strict validation, custom CORS, and a localized exception filter so every client sees consistent errors regardless of language.【F:apps/backend/src/main.ts†L1-L35】【F:apps/backend/src/common/filters/http-exception.filter.ts†L1-L90】 The service layer leans on Prisma to upsert daily prayer logs and calculate per-user stats in a single pass, which keeps mobile dashboards fast.【F:apps/backend/src/modules/prayers/prayers.service.ts†L1-L145】 Leaderboard endpoints aggregate global and friend-only rankings by combining Prisma queries with pagination metadata for the app’s scoreboards.【F:apps/backend/src/modules/leaderboard/leaderboard.service.ts†L1-L96】
+
+On the device side, Expo bootstraps through a stack router that loads fonts, guards sessions, and defers rendering until splash assets finish. Global providers wrap the app with TanStack Query, theming, i18n, and React Native portals so bottom sheets and toasts behave consistently.【F:apps/mobile/app/App.tsx†L1-L41】【F:apps/mobile/providers/root.tsx†L1-L25】 The query provider wires in failure handling, toast feedback, and custom <InlineCode>ApiError</InlineCode> handling, which keeps network logic declarative inside screens while surfacing localized messages from the backend.【F:apps/mobile/providers/query.tsx†L1-L64】 Meanwhile the i18n provider syncs Expo translations with Zod’s error maps, ensuring validation feedback respects the current locale.【F:apps/mobile/providers/i18n-provider.tsx†L1-L45】
+
+The Next.js marketing app follows the same provider pattern, sharing typography and query caching so authenticated dashboards can live beside content pages without additional wiring.【F:apps/web/src/app/layout.tsx†L1-L43】 This reuse is the main monorepo win: once a provider is tuned, every surface benefits.
+
+## Code snippets (use <InlineCode> for small code and fenced tsx or ts for examples</InlineCode>)
+
+Here are some representative pieces that make the stack tick:
+
+```ts
+// apps/backend/src/main.ts
+app.useGlobalFilters(new HttpExceptionFilter())
+app.useGlobalPipes(
+  new ValidationPipe({
+    whitelist: true,
+    forbidNonWhitelisted: true,
+    transform: true,
+  })
+)
+app.enableCors({ origin: ALLOWED_ORIGINS, credentials: true })
+```
+
+```ts
+// apps/backend/src/modules/prayers/prayers.service.ts
+return this.prisma.prayer.upsert({
+  where: { userId_date: { userId, date: new Date(date) } },
+  update: prayerData,
+  create: { userId, date: new Date(date), ...prayerData },
+})
+```
+
+```tsx
+// apps/mobile/providers/query.tsx
+const [queryClient] = useState(
+  () =>
+    new QueryClient({
+      defaultOptions: {
+        queries: { retry: 0, refetchOnWindowFocus: false },
+        mutations: { retry: 0 },
+      },
+      queryCache: new QueryCache({
+        onError: (error, query) => errorHandler(error),
+      }),
+      mutationCache: new MutationCache({
+        onError: (error) => errorHandler(error),
+        onSuccess: (data) =>
+          data.success && fireToast.success(data.message ?? 'Success'),
+      }),
+    })
+)
+```
+
+## Demo / Media if applicable (use `<RoundedVideo>` or `<Image>` components)
+
+<Image src='/medias/mdx-content/pray-tracker.webp' alt='Pray Tracker screens' />
+
+## Conclusion (reflective summary of developer benefits or learnings)
+
+By centering everything in one Turborepo, we get end-to-end type safety, localized errors, and consistent UX primitives across Expo, NestJS, and Next.js. That means faster iteration, simpler onboarding, and the flexibility to experiment—whether it’s a new leaderboard view or another integration powered by the same Prisma models. If you want to dive deeper, the source is open on [GitHub](https://github.com/salahbm/pray-tracker).
