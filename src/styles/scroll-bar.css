@@ -9,13 +9,13 @@
 
 /* Track (background of the scrollbar) */
 ::-webkit-scrollbar-track {
-  background: var(--background);
+  background: hsl(var(--background));
   border-radius: 9999px;
 }
 
 /* Scroll thumb (the draggable handle) */
 ::-webkit-scrollbar-thumb {
-  background: var(--accent);
+  background: hsl(var(--accent));
   border-radius: 9999px;
   border: 2px solid var(--background);
   transition: background 0.5s ease;
@@ -23,34 +23,34 @@
 
 /* Hover state — highlight with accent */
 ::-webkit-scrollbar-thumb:hover {
-  background: var(--accent);
+  background: hsl(var(--accent));
 }
 
 /* Corner when both scrollbars appear */
 ::-webkit-scrollbar-corner {
-  background: var(--background);
+  background: hsl(var(--background));
 }
 
 /* === Firefox (cross-browser consistency) === */
 * {
   scrollbar-width: thin;
-  scrollbar-color: var(--accent) var(--background);
+  scrollbar-color: hsl(var(--accent)) hsl(var(--background));
 }
 
 /* === Dark Mode Variant === */
 .dark ::-webkit-scrollbar-track {
-  background: var(--background);
+  background: hsl(var(--background));
 }
 
 .dark ::-webkit-scrollbar-thumb {
-  background: var(--accent);
-  border-color: var(--background);
+  background: hsl(var(--accent));
+  border-color: hsl(var(--background));
 }
 
 .dark ::-webkit-scrollbar-thumb:hover {
-  background: var(--accent);
+  background: hsl(var(--accent));
 }
 
 .dark * {
-  scrollbar-color: var(--accent) var(--background);
+  scrollbar-color: hsl(var(--accent)) hsl(var(--background));
 }

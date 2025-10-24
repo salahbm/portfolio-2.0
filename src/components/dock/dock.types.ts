@@ -1,16 +1,16 @@
-import { HTMLAttributes, ReactNode } from 'react'
+import { HTMLAttributes } from 'react'
 
 export type DockContextType = {
   hovered: boolean
   width?: number
+  isLocked: boolean
+  setIsLocked: (isLocked: boolean) => void
 }
 
 export type DockItemProps = HTMLAttributes<HTMLLIElement> & {
   id?: string
-  href?: string
-  external?: boolean
-  tooltip?: string
   isActive?: boolean
-  onClick?: () => void
-  children: ReactNode
+  src: string
+  alt: string
+  priority?: boolean
 }

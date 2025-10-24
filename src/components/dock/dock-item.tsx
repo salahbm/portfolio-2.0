@@ -1,4 +1,5 @@
 'use client'
+
 import { useEffect, useRef, useState } from 'react'
 import {
   motion,
@@ -6,24 +7,32 @@ import {
   useSpring,
   useTransform,
 } from 'motion/react'
-import { DockContextType, DockItemProps } from './dock.types'
+import Image from 'next/image'
 import { useDock } from './dock-provider'
+import type { DockContextType, DockItemProps } from './dock.types'
 import { useCursorContext } from '../cursor'
 
-const DockItem = ({ id, isActive = false, children }: DockItemProps) => {
+const DockItem = ({
+  id,
+  isActive = false,
+  src,
+  alt,
+  priority,
+}: DockItemProps) => {
   const ref = useRef<HTMLDivElement>(null)
   const { x } = useCursorContext()
   const dock = useDock() as DockContextType
 
-  const [elCenterX, setElCenterX] = useState<number>(0)
+  const [centerX, setCenterX] = useState(0)
+  const [hasError, setHasError] = useState(false)
   const controls = useAnimationControls()
 
+  // Responsive motion size
   const dimension = useTransform(x, (mouseX) => {
+    if (!dock?.width) return 40
     return (
       40 +
-      38 *
-        Math.cos((((mouseX - elCenterX) / (dock.width ?? 0)) * Math.PI) / 2) **
-          58
+      38 * Math.cos((((mouseX - centerX) / dock.width) * Math.PI) / 2) ** 58
     )
   })
 
@@ -34,27 +43,29 @@ const DockItem = ({ id, isActive = false, children }: DockItemProps) => {
   })
 
   useEffect(() => {
-    return dimension.onChange((val) => {
+    if (dock?.isLocked) {
+      spring.set(40)
+      return
+    }
+    const unsubscribe = dimension.on('change', (val) => {
       if (dock?.hovered) {
         spring.set(val)
       } else {
         spring.set(40)
       }
     })
-  }, [spring, dimension, dock?.hovered])
+
+    return () => unsubscribe()
+  }, [dimension, spring, dock])
 
   useEffect(() => {
-    const rect = ref.current ? ref.current.getBoundingClientRect() : null
-    if (rect) setElCenterX(rect.x + rect.width / 2)
-  }, [])
-
-  useEffect(() => {
-    const resize = () => {
-      const rect = ref.current ? ref.current.getBoundingClientRect() : null
-      if (rect) setElCenterX(rect.x + rect.width / 2)
+    const updateCenter = () => {
+      const rect = ref.current?.getBoundingClientRect()
+      if (rect) setCenterX(rect.x + rect.width / 2)
     }
-    document.addEventListener('resize', resize)
-    return () => document.removeEventListener('resize', resize)
+    updateCenter()
+    window.addEventListener('resize', updateCenter)
+    return () => window.removeEventListener('resize', updateCenter)
   }, [])
 
   return (
@@ -63,43 +74,31 @@ const DockItem = ({ id, isActive = false, children }: DockItemProps) => {
         ref={ref}
         id={id}
         className='ui-box cursor-pointer'
-        data-cursor='pointer'
         aria-describedby={id}
         animate={controls}
         custom={spring}
         transition={{
-          default: {
-            duration: 0.2,
-          },
-          translateY: {
-            duration: 0.4,
-            ease: 'easeInOut',
-            times: [0, 0.5, 1],
-          },
+          default: { duration: 0.2 },
+          translateY: { duration: 0.4, ease: 'easeInOut' },
         }}
-        style={{
-          height: spring,
-          width: spring,
-        }}
-        whileHover={{
-          backgroundColor: 'hsl(209, 81.2%, 84.5%)',
-          borderColor: 'hsl(206, 81.9%, 65.3%)',
-          boxShadow:
-            '0 4px 6px -1px rgb(0 0 0 / 0.1), 0 2px 4px -2px rgb(0 0 0 / 0.1)',
-        }}
-        whileTap={{ scale: 0.85 }}
-        whileFocus={{
-          backgroundColor: 'hsl(209, 81.2%, 84.5%)',
-          borderColor: 'hsl(206, 81.9%, 65.3%)',
-          boxShadow:
-            '0 4px 6px -1px rgb(0 0 0 / 0.1), 0 2px 4px -2px rgb(0 0 0 / 0.1)',
-        }}
+        style={{ width: spring, height: spring }}
+        whileTap={{ scale: 0.95 }}
       >
-        {children}
+        <Image
+          src={hasError ? '/dock/launchpad.png' : src}
+          alt={alt}
+          fill
+          sizes='100vw'
+          quality={100}
+          priority={priority}
+          className='rounded-lg object-contain p-0.5'
+          onError={() => setHasError(true)}
+        />
       </motion.div>
+
       {isActive && (
         <span
-          className='absolute -bottom-2.5 left-1/2 h-1 w-1 -translate-x-1/2 rounded-full bg-foreground'
+          className='absolute -bottom-1.5 left-1/2 h-1 w-1 -translate-x-1/2 rounded-full bg-foreground'
           aria-hidden='true'
         />
       )}

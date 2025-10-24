@@ -14,6 +14,7 @@ export type NavigationItem = {
   label: string
   shortcutLabel: string
   shortcutKeys: Keys
+  icon?: string
 }
 
 export const navigationItems: NavigationItem[] = [
@@ -23,6 +24,7 @@ export const navigationItems: NavigationItem[] = [
     label: 'home',
     shortcutLabel: 'G+H',
     shortcutKeys: 'g+h',
+    icon: 'home',
   },
   {
     href: '/tech-stack',
@@ -30,6 +32,7 @@ export const navigationItems: NavigationItem[] = [
     label: 'tech stack',
     shortcutLabel: 'G+T',
     shortcutKeys: 'G+T',
+    icon: 'settings',
   },
   {
     href: '/work',
@@ -37,6 +40,7 @@ export const navigationItems: NavigationItem[] = [
     label: 'work',
     shortcutLabel: 'G+W',
     shortcutKeys: 'g+w',
+    icon: 'mission-control',
   },
   {
     href: '/craft',
@@ -44,6 +48,7 @@ export const navigationItems: NavigationItem[] = [
     label: 'craft',
     shortcutLabel: 'G+C',
     shortcutKeys: 'g+c',
+    icon: 'tips',
   },
 ]
 

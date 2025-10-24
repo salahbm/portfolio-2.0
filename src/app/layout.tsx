@@ -1,3 +1,5 @@
+import '@/styles/globals.css'
+
 import type { Metadata, Viewport } from 'next'
 
 import { GeistSans } from 'geist/font/sans'
@@ -10,11 +12,8 @@ import { cn } from '@/lib/utils'
 import { env } from '@/config/env'
 import { baseUrl, siteConfig } from '@/config/site-config'
 
-import { Toaster } from '@/components/ui/sonner'
 import { ProvidersTree } from '@/components/providers/providers-tree'
-import { NavigationDock } from '@/components/navigation/navigation-dock'
-import { MagnifyingGlass } from '@/components/lab/magnifying-glass/magnifying-glass'
-import { TailwindIndicator } from '@/components/ui-helpers/tailwind-indicator'
+import { Dock } from '@/components/dock'
 
 import {
   babyGemoy,
@@ -23,9 +22,6 @@ import {
   laderRegular,
   milkyway,
 } from './font'
-
-import '@/styles/globals.css'
-import { Dock } from '@/components/dock'
 
 export const metadata: Metadata = {
   metadataBase: new URL(baseUrl),
@@ -95,16 +91,14 @@ export default function RootLayout({
         )}
       >
         <ProvidersTree>
-          <main className='flex h-dvh w-screen flex-col overflow-hidden'>
+          <main className='relative flex h-dvh w-screen flex-col overflow-hidden'>
             <div className='flex h-full w-full flex-col overflow-y-auto'>
-              <div className='flex w-full flex-1 flex-col'>{children}</div>
+              <div className='flex w-full flex-1 flex-col overflow-x-hidden'>
+                {children}
+              </div>
             </div>
-            <NavigationDock />
             <Dock />
           </main>
-          <Toaster />
-          <MagnifyingGlass />
-          <TailwindIndicator />
         </ProvidersTree>
         <Analytics />
         <SpeedInsights />

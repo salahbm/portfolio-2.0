@@ -2,6 +2,7 @@
 import { useEffect, useRef } from 'react'
 import gsap from 'gsap'
 import ScrollTrigger from 'gsap/ScrollTrigger'
+import './story.component.css'
 
 const WORDS = [
   'design.',
@@ -19,6 +20,15 @@ const WORDS = [
   'optimize.',
   'scale.',
   'repeat.',
+]
+
+const GRADIENT_COLORS = [
+  'linear-gradient(to right, #FF0000, #FF7F00)',
+  'linear-gradient(to right, #FF7F00, #FFFF00)',
+  'linear-gradient(to right, #FFFF00, #00FF00)',
+  'linear-gradient(to right, #00FF00, #0000FF)',
+  'linear-gradient(to right, #0000FF, #4B0082)',
+  'linear-gradient(to right, #4B0082, #8F00FF)',
 ]
 
 export function ScrollStory() {
@@ -83,7 +93,7 @@ export function ScrollStory() {
         </h2>
 
         <ul
-          className='word-list scroll-snap-y space-y-[50vh] pb-[50vh] pt-[50vh] text-4xl font-semibold md:text-6xl'
+          className='word-list scroll-snap-y space-y-[10vh] pb-[10vh] pt-[10vh] text-4xl font-semibold md:text-6xl'
           style={{ '--count': WORDS.length } as React.CSSProperties}
         >
           {WORDS.map((word, i) => (
@@ -95,7 +105,16 @@ export function ScrollStory() {
               className='scroll-item scroll-snap-center'
               style={{ '--i': i } as React.CSSProperties}
             >
-              {word}
+              <span
+                className='gradient-text'
+                style={
+                  {
+                    '--gradient-color': GRADIENT_COLORS[i],
+                  } as React.CSSProperties
+                }
+              >
+                {word}
+              </span>
             </li>
           ))}
         </ul>
@@ -106,67 +125,6 @@ export function ScrollStory() {
           …and I love turning ideas into meaningful digital experiences.
         </p>
       </div>
-
-      <style jsx>{`
-        .scroll-story {
-          scroll-snap-type: y proximity;
-        }
-
-        .sticky-heading {
-          height: fit-content;
-          background: linear-gradient(
-            to bottom,
-            currentColor 60%,
-            color-mix(in oklch, currentColor, transparent 50%)
-          );
-          background-clip: text;
-          -webkit-background-clip: text;
-          -webkit-text-fill-color: transparent;
-        }
-
-        .word-list {
-          list-style: none;
-          padding: 0;
-          margin: 0;
-        }
-
-        .scroll-item {
-          opacity: 0.2;
-          transition: opacity 0.3s ease;
-        }
-
-        .scroll-item:first-of-type {
-          opacity: 1;
-        }
-
-        /* CSS Scroll-driven animations for modern browsers */
-        @supports (animation-timeline: scroll()) and (animation-range: 0% 100%) {
-          .scroll-item {
-            animation-name: brighten;
-            animation-fill-mode: both;
-            animation-timing-function: linear;
-            animation-range: cover calc(50% - 1lh) calc(50% + 1lh);
-            animation-timeline: view();
-          }
-
-          .scroll-item:last-of-type {
-            --end-opacity: 1;
-          }
-
-          @keyframes brighten {
-            0% {
-              opacity: 0.2;
-            }
-            50% {
-              opacity: 1;
-              filter: brightness(1.2);
-            }
-            100% {
-              opacity: var(--end-opacity, 0.2);
-            }
-          }
-        }
-      `}</style>
     </section>
   )
 }

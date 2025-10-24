@@ -1,27 +1,85 @@
 'use client'
 
 import { usePathname } from 'next/navigation'
-import { useEffect, useState } from 'react'
+import { useEffect, useRef, useState } from 'react'
 
 import useEvent from 'react-use-event-hook'
 import { useHotkeys } from 'react-hotkeys-hook'
 
 import { cn } from '@/lib/utils'
-import { Button } from '@/components/ui/button'
 import { navigationMenuTriggerStyle } from '@/components/ui/navigation-menu'
 import {
   Tooltip,
   TooltipTrigger,
   TooltipContent,
 } from '@/components/ui/tooltip'
+import {
+  motion,
+  useAnimationControls,
+  useSpring,
+  useTransform,
+} from 'motion/react'
 import { VFXConfettiSurface } from '@/components/ui-vfx/vfx-confetti-surface'
 import { CommandIcon } from '@/components/icons/command-icon'
 
 import { CommandCenterDialog } from '@/components/command-center/command-center-dialog'
 import { QRCodeDialog } from '@/components/command-center/qrcode-dialog'
 import { KeyboardShortcutsDialog } from '@/components/command-center/keyboard-shortcuts-dialog'
+import Image from 'next/image'
+import { useCursorContext } from '../cursor'
+import { useDock } from '../dock'
+import { DockContextType } from '../dock/dock.types'
 
 export function CommandCenter({ className }: { className?: string }) {
+  const ref = useRef<HTMLDivElement>(null)
+  const { x } = useCursorContext()
+  const dock = useDock() as DockContextType
+  const isLockedRef = useRef(dock?.isLocked)
+
+  const [centerX, setCenterX] = useState(0)
+  const controls = useAnimationControls()
+
+  // Responsive motion size
+  const dimension = useTransform(x, (mouseX) => {
+    if (!dock?.width) return 40
+    return (
+      40 +
+      38 * Math.cos((((mouseX - centerX) / dock.width) * Math.PI) / 2) ** 58
+    )
+  })
+
+  const spring = useSpring(40, {
+    damping: 10,
+    stiffness: 150,
+    mass: 0.01,
+  })
+  console.log(`LOGGING 👀:`, isLockedRef.current)
+  useEffect(() => {
+    if (isLockedRef.current) {
+      spring.set(40)
+      return
+    }
+    const unsubscribe = dimension.on('change', (val) => {
+      if (dock?.hovered) {
+        spring.set(val)
+      } else {
+        spring.set(40)
+      }
+    })
+
+    return () => unsubscribe()
+  }, [dimension, spring, dock])
+
+  useEffect(() => {
+    const updateCenter = () => {
+      const rect = ref.current?.getBoundingClientRect()
+      if (rect) setCenterX(rect.x + rect.width / 2)
+    }
+    updateCenter()
+    window.addEventListener('resize', updateCenter)
+    return () => window.removeEventListener('resize', updateCenter)
+  }, [])
+
   const pathname = usePathname()
 
   const [commandDialogOpen, setCommandDialogOpen] = useState<boolean>(false)
@@ -64,23 +122,50 @@ export function CommandCenter({ className }: { className?: string }) {
     setKeyboardShortcutsDialogOpen(true)
   })
 
+  useEffect(() => {
+    isLockedRef.current = dock?.isLocked
+  }, [dock?.isLocked])
+
   return (
     <div className='flex flex-col'>
       <Tooltip>
         <TooltipTrigger asChild>
-          <Button
-            variant='ghost'
-            className={cn(
-              navigationMenuTriggerStyle(),
-              'flex h-9 w-9 flex-col items-center justify-center rounded-full p-0 data-[active]:bg-accent',
-              className
-            )}
-            onClick={handleButtonClick}
-            aria-label='Command Center'
-          >
-            <CommandIcon className='h-4 w-4 stroke-[1.5px]' />
-          </Button>
+          <button type='button' onClick={handleButtonClick}>
+            <motion.div
+              ref={ref}
+              className='lg:ui-box relative hidden cursor-pointer'
+              animate={controls}
+              custom={spring}
+              transition={{
+                default: { duration: 0.2 },
+                translateY: { duration: 0.4, ease: 'easeInOut' },
+              }}
+              style={{ width: spring, height: spring }}
+              whileTap={{ scale: 0.95 }}
+            >
+              <Image
+                src='/dock/finder.png'
+                alt='Command Center'
+                fill
+                sizes='100vw'
+                quality={100}
+                priority={true}
+                className='rounded-lg object-contain'
+              />
+            </motion.div>
+            <span
+              className={cn(
+                navigationMenuTriggerStyle(),
+                'flex-center aspect-square rounded-xl border p-4 data-[active]:bg-accent lg:hidden',
+                className
+              )}
+              aria-label='Command Center'
+            >
+              <CommandIcon className='size-4 stroke-[1.5px]' />
+            </span>
+          </button>
         </TooltipTrigger>
+
         <TooltipContent
           className='flex flex-row items-center gap-1'
           sideOffset={8}

@@ -36,7 +36,7 @@ const CommandDialog = ({
   return (
     <Dialog {...props}>
       <DialogContent
-        className='overflow-hidden p-0'
+        className='w-[calc(100vw-2rem)] overflow-hidden rounded-lg p-0 md:w-full'
         onEscapeKeyDown={onEscapeKeyDown}
       >
         <VisuallyHidden.Root>
