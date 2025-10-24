@@ -37,9 +37,7 @@ export const useCursorContext = () => {
  * Strongest possible "hide native cursor" rule:
  * - Transparent 1x1 GIF as cursor URL (works even when 'none' is ignored for a frame)
  * - Fallback to 'none'
- * - Apply to html and all descendants
- * Notes:
- *   data:image/gif;base64,R0lGODlhAQABAAAAACw= is a minimal transparent GIF; we use a common variant below.
+ * - Apply to html and all descendants, including pseudo-elements
  */
 const TRANSPARENT_CURSOR =
   "url('data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///ywAAAAAAQABAAACAUwAOw==') 0 0, none"
@@ -65,27 +63,33 @@ export const CursorProvider: React.FC<{ children: React.ReactNode }> = ({
   const x = useMotionValue(0)
   const y = useMotionValue(0)
 
-  // ----- Install / re-install the global hide style
+  // --- style tag install/uninstall ---
 
   const installHideStyle = useCallback(() => {
-    // remove any stale tag first
+    // Never hide cursor on mobile/tablet
+    if (isMobile) return
+
+    // Remove any stale tag first
     const prev = document.getElementById(STYLE_ID)
     if (prev?.parentNode) prev.parentNode.removeChild(prev)
 
     const style = document.createElement('style')
     style.id = STYLE_ID
-    // Highest specificity + !important to beat site/UA styles
     style.textContent = `
-      html.cursor-hidden, html.cursor-hidden * {
+      html.cursor-hidden,
+      html.cursor-hidden body,
+      html.cursor-hidden body *,
+      html.cursor-hidden *::before,
+      html.cursor-hidden *::after {
         cursor: ${TRANSPARENT_CURSOR} !important;
       }
     `
-    // rAF: ensure we apply *after* Chrome restores focus styles
+    // rAF to apply after UA focus restorations
     requestAnimationFrame(() => {
       document.head.appendChild(style)
       document.documentElement.classList.add('cursor-hidden')
     })
-  }, [])
+  }, [isMobile])
 
   const uninstallHideStyle = useCallback(() => {
     document.documentElement.classList.remove('cursor-hidden')
@@ -93,7 +97,36 @@ export const CursorProvider: React.FC<{ children: React.ReactNode }> = ({
     if (style?.parentNode) style.parentNode.removeChild(style)
   }, [])
 
-  // ----- show/hide helpers (just opacity gate for your visual cursor)
+  // Optional: also apply to same-origin iframes (safe try/catch for cross-origin)
+  const installHideStyleInFrames = useCallback(() => {
+    if (isMobile) return
+    const frames = Array.from(document.querySelectorAll('iframe'))
+    for (const frame of frames) {
+      try {
+        const doc = frame.contentDocument
+        if (!doc) continue
+        const prev = doc.getElementById(STYLE_ID)
+        if (prev?.parentNode) prev.parentNode.removeChild(prev)
+        const style = doc.createElement('style')
+        style.id = STYLE_ID
+        style.textContent = `
+          html.cursor-hidden,
+          html.cursor-hidden body,
+          html.cursor-hidden body *,
+          html.cursor-hidden *::before,
+          html.cursor-hidden *::after {
+            cursor: ${TRANSPARENT_CURSOR} !important;
+          }
+        `
+        doc.head.appendChild(style)
+        doc.documentElement.classList.add('cursor-hidden')
+      } catch {
+        // cross-origin; ignore
+      }
+    }
+  }, [isMobile])
+
+  // --- show/hide helpers for the visual cursor element (opacity gate only) ---
   const show = useCallback(() => {
     const el = cursorRef.current
     if (!el) return
@@ -108,15 +141,15 @@ export const CursorProvider: React.FC<{ children: React.ReactNode }> = ({
     el.style.opacity = '0'
   }, [])
 
-  // ----- ultra-fast re-hide paths
+  // --- ultra-fast re-hide paths ---
 
-  // 1) First pointer event after focus/return: re-assert hide before the next paint
+  // Capture-phase pointer handler: re-assert hide before app handlers run
   const onPointerAny = useEvent(() => {
-    // Synchronous + rAF + micro-delays to cover all Blink paths
     installHideStyle()
+    installHideStyleInFrames()
   })
 
-  // 2) Mouse move (if you track a visual cursor, keep it too)
+  // Next-move positioning for visual cursor
   const onMouseMove = useEvent((e: MouseEvent) => {
     const el = cursorRef.current
     if (!el) return
@@ -125,60 +158,102 @@ export const CursorProvider: React.FC<{ children: React.ReactNode }> = ({
     y.set(e.clientY)
   })
 
-  // 3) Focus regain (omnibox/tab switch fix): re-apply multiple times in a short window
+  // After focus, ensure the NEXT user action re-applies hide pre-paint
+  const armOneShotRehide = useCallback(() => {
+    if (isMobile) return
+    const onceRehide = () => {
+      installHideStyle()
+      installHideStyleInFrames()
+      window.removeEventListener('pointermove', onceRehide, true)
+      window.removeEventListener('pointerover', onceRehide, true)
+      window.removeEventListener('pointerdown', onceRehide, true)
+    }
+    window.addEventListener('pointermove', onceRehide, {
+      capture: true,
+      once: true,
+    })
+    window.addEventListener('pointerover', onceRehide, {
+      capture: true,
+      once: true,
+    })
+    window.addEventListener('pointerdown', onceRehide, {
+      capture: true,
+      once: true,
+    })
+  }, [isMobile, installHideStyle, installHideStyleInFrames])
+
+  // Focus regain (omnibox/tab switch) — multiple assertions to cover late UA restores
   const onFocus = useCallback(() => {
+    if (isMobile) return
     show()
-    // Immediately assert…
     installHideStyle()
-    // …then again after Blink finishes restoring system cursor
-    requestAnimationFrame(() => installHideStyle())
-    // …and multiple times with increasing delays to catch all late paths
+    installHideStyleInFrames()
+    requestAnimationFrame(() => {
+      installHideStyle()
+      installHideStyleInFrames()
+    })
+    armOneShotRehide()
     setTimeout(() => installHideStyle(), 60)
     setTimeout(() => installHideStyle(), 120)
     setTimeout(() => installHideStyle(), 200)
     setTimeout(() => installHideStyle(), 400)
-  }, [installHideStyle, show])
+  }, [
+    isMobile,
+    show,
+    installHideStyle,
+    installHideStyleInFrames,
+    armOneShotRehide,
+  ])
 
   const onBlur = useCallback(() => {
     hide()
-    // Keep the style installed; we don’t remove it on blur,
-    // so coming back is instantaneous.
+    // Keep style installed so coming back is instantaneous
   }, [hide])
 
   // Visibility change (tab switches)
   useEffect(() => {
+    if (isMobile) return
     const handleVis = () => {
       if (document.visibilityState === 'visible') {
         onFocus()
-        // Extra aggressive re-hide after visibility change
-        const intervals = [0, 50, 100, 200, 400, 800]
-        intervals.forEach((delay) => {
+        ;[0, 50, 100, 200, 400, 800].forEach((delay) => {
           setTimeout(() => installHideStyle(), delay)
         })
       } else {
         onBlur()
       }
     }
-    document.addEventListener('visibilitychange', handleVis)
-    return () => document.removeEventListener('visibilitychange', handleVis)
-  }, [onFocus, onBlur, installHideStyle])
+    document.addEventListener('visibilitychange', handleVis, { capture: true })
+    return () =>
+      document.removeEventListener('visibilitychange', handleVis, {
+        capture: true,
+      })
+  }, [isMobile, onFocus, onBlur, installHideStyle])
 
   // Core lifecycle hooks
   useEffect(() => {
-    if (isMobile || !mounted) return
+    // If mobile/tablet, ensure any residue is removed and bail out
+    if (isMobile || !mounted) {
+      uninstallHideStyle()
+      return
+    }
 
-    // Initial install (if the doc is already focused, hide right away)
+    // Initial install (if the doc is already focused, show cursor immediately)
     installHideStyle()
+    installHideStyleInFrames()
     if (document.hasFocus()) show()
 
-    // Fast-path listeners
+    // Persistent fast-path listeners
     window.addEventListener('mousemove', onMouseMove, { passive: true })
-    // Capture-level pointer events fire *before* page handlers: great for re-hide
     window.addEventListener('pointermove', onPointerAny, {
       passive: true,
       capture: true,
     })
     window.addEventListener('pointerover', onPointerAny, {
+      passive: true,
+      capture: true,
+    })
+    window.addEventListener('pointerdown', onPointerAny, {
       passive: true,
       capture: true,
     })
@@ -192,8 +267,15 @@ export const CursorProvider: React.FC<{ children: React.ReactNode }> = ({
 
     return () => {
       window.removeEventListener('mousemove', onMouseMove)
-      window.removeEventListener('pointermove', onPointerAny, { capture: true })
-      window.removeEventListener('pointerover', onPointerAny, { capture: true })
+      window.removeEventListener('pointermove', onPointerAny, {
+        capture: true,
+      })
+      window.removeEventListener('pointerover', onPointerAny, {
+        capture: true,
+      })
+      window.removeEventListener('pointerdown', onPointerAny, {
+        capture: true,
+      })
       window.removeEventListener('focus', onFocus)
       window.removeEventListener('blur', onBlur)
       document.removeEventListener('mouseenter', show)
@@ -204,6 +286,7 @@ export const CursorProvider: React.FC<{ children: React.ReactNode }> = ({
     isMobile,
     mounted,
     installHideStyle,
+    installHideStyleInFrames,
     uninstallHideStyle,
     onMouseMove,
     onPointerAny,
@@ -213,29 +296,28 @@ export const CursorProvider: React.FC<{ children: React.ReactNode }> = ({
     hide,
   ])
 
-  // --- Add document focus/blur for better handling in fullscreen
+  // Document-level focus/blur (capture) for better handling in fullscreen; desktop only
   useEffect(() => {
     if (isMobile) return
 
     const onDocFocus = () => show()
     const onDocBlur = () => hide()
 
-    document.addEventListener('focus', onDocFocus)
-    document.addEventListener('blur', onDocBlur)
+    document.addEventListener('focus', onDocFocus, true)
+    document.addEventListener('blur', onDocBlur, true)
 
     return () => {
-      document.removeEventListener('focus', onDocFocus)
-      document.removeEventListener('blur', onDocBlur)
+      document.removeEventListener('focus', onDocFocus, true)
+      document.removeEventListener('blur', onDocBlur, true)
     }
   }, [isMobile, show, hide])
 
-  // --- Click feedback (click pulse)
+  // Click feedback pulse when in "pointer" mode
   useEffect(() => {
     if (isMobile) return
     const onDown = () => {
       if (cursorTypeRef.current !== 'pointer') return
       setCursorType('click')
-      // pointerdown click feedback — use transform scale to avoid position issues
       const el = cursorRef.current
       if (el) {
         el.animate(
@@ -253,7 +335,7 @@ export const CursorProvider: React.FC<{ children: React.ReactNode }> = ({
     return () => window.removeEventListener('pointerdown', onDown)
   }, [isMobile])
 
-  // --- Hover type switching
+  // Hover type switching
   useEffect(() => {
     if (isMobile) return
 
@@ -279,6 +361,7 @@ export const CursorProvider: React.FC<{ children: React.ReactNode }> = ({
     return () => document.removeEventListener('pointerover', onOver)
   }, [isMobile])
 
+  // Keep ref mirror in sync
   useEffect(() => {
     cursorTypeRef.current = cursorType
   }, [cursorType])

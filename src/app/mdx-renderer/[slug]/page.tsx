@@ -4,7 +4,7 @@ import { getMDXPages } from '@/db/mdx-content'
 
 import { Separator } from '@/components/ui/separator'
 import { PageContent } from '@/components/content/page-content'
-import { PageHero } from '@/components/content/page-hero'
+import { PageHeader } from '@/components/content/page-header'
 import { MDXContentRenderer } from '@/components/mdx/mdx-content-renderer'
 
 type StaticParam = { slug: string }
@@ -30,7 +30,7 @@ export default async function MDXRendererSlugPage(props: {
 
   return (
     <PageContent>
-      <PageHero
+      <PageHeader
         title={page.metadata.title}
         description={page.metadata.summary}
         variant='mdx'

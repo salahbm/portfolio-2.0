@@ -34,7 +34,6 @@ export function CommandCenter({ className }: { className?: string }) {
   const ref = useRef<HTMLDivElement>(null)
   const { x } = useCursorContext()
   const dock = useDock() as DockContextType
-  const isLockedRef = useRef(dock?.isLocked)
 
   const [centerX, setCenterX] = useState(0)
   const controls = useAnimationControls()
@@ -53,21 +52,6 @@ export function CommandCenter({ className }: { className?: string }) {
     stiffness: 150,
     mass: 0.01,
   })
-  useEffect(() => {
-    if (isLockedRef.current) {
-      spring.set(40)
-      return
-    }
-    const unsubscribe = dimension.on('change', (val) => {
-      if (dock?.hovered) {
-        spring.set(val)
-      } else {
-        spring.set(40)
-      }
-    })
-
-    return () => unsubscribe()
-  }, [dimension, spring, dock])
 
   useEffect(() => {
     const updateCenter = () => {
@@ -122,8 +106,28 @@ export function CommandCenter({ className }: { className?: string }) {
   })
 
   useEffect(() => {
-    isLockedRef.current = dock?.isLocked
-  }, [dock?.isLocked])
+    if (commandDialogOpen || !dock?.width || dock?.isLocked) {
+      spring.set(40)
+      return
+    }
+    const unsubscribe = dimension.on('change', (val) => {
+      if (dock?.hovered) {
+        spring.set(val)
+      } else {
+        spring.set(40)
+      }
+    })
+
+    return () => unsubscribe()
+  }, [dimension, spring, dock, commandDialogOpen])
+
+  useEffect(() => {
+    if (commandDialogOpen) {
+      dock?.addLock('command-center')
+    } else {
+      dock?.removeLock('command-center')
+    }
+  }, [dock, commandDialogOpen])
 
   return (
     <div className='flex flex-col'>
@@ -132,7 +136,7 @@ export function CommandCenter({ className }: { className?: string }) {
           <button type='button' onClick={handleButtonClick}>
             <motion.div
               ref={ref}
-              className='lg:ui-box relative hidden cursor-pointer'
+              className='lg:dock-item-box relative hidden cursor-pointer'
               animate={controls}
               custom={spring}
               transition={{
@@ -146,8 +150,7 @@ export function CommandCenter({ className }: { className?: string }) {
                 src='/dock/finder.png'
                 alt='Command Center'
                 fill
-                sizes='100vw'
-                quality={100}
+                sizes='100px'
                 priority={true}
                 className='rounded-lg object-contain'
               />

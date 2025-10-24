@@ -52,7 +52,7 @@ export function DockDrawer({
           onClick={() => setOpen(true)}
           className={cn(
             'group relative mx-auto flex aspect-video h-11 items-center justify-center gap-2 rounded-2xl',
-            'bg-gradient-lilac',
+            'bg-gradient-glow',
             'border border-white/20 shadow-md backdrop-blur-xl',
             'transition-all duration-300 ease-out hover:shadow-lg hover:brightness-105 active:scale-95',
             className

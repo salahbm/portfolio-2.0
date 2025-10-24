@@ -108,7 +108,11 @@ export function ColorModeDropdownSwitcher({
   })
 
   useEffect(() => {
-    dock?.setIsLocked?.(open)
+    if (open) {
+      dock?.addLock('color-mode-switcher')
+    } else {
+      dock?.removeLock('color-mode-switcher')
+    }
   }, [dock, open])
 
   return (
@@ -124,7 +128,7 @@ export function ColorModeDropdownSwitcher({
             <div>
               <motion.div
                 ref={ref}
-                className='lg:ui-box relative hidden cursor-pointer'
+                className='lg:dock-item-box relative hidden cursor-pointer'
                 animate={controls}
                 custom={spring}
                 transition={{
@@ -138,9 +142,8 @@ export function ColorModeDropdownSwitcher({
                   src={hasError ? '/dock/settings.png' : '/dock/weather.png'}
                   alt='Theme Switcher'
                   fill
-                  sizes='100vw'
-                  quality={100}
-                  priority={false}
+                  sizes='100px'
+                  priority
                   className='rounded-lg object-contain p-0.5'
                   onError={() => setHasError(true)}
                 />

@@ -1,6 +1,6 @@
 'use client'
 
-import { useEffect, useRef, useState } from 'react'
+import { useCallback, useEffect, useMemo, useRef, useState } from 'react'
 import Link from 'next/link'
 import { usePathname } from 'next/navigation'
 
@@ -22,15 +22,30 @@ const Dock = () => {
   const ref = useRef<HTMLElement>(null)
   const [hovered, setHovered] = useState(false)
   const [width, setWidth] = useState<number | undefined>()
+  const locksRef = useRef<Set<string>>(new Set())
   const [isLocked, setIsLocked] = useState(false)
   const pathname = usePathname()
 
   useEffect(() => setWidth(ref.current?.clientWidth), [])
 
+  const addLock = useCallback((lockId: string) => {
+    locksRef.current.add(lockId)
+    setIsLocked(locksRef.current.size > 0)
+  }, [])
+
+  const removeLock = useCallback((lockId: string) => {
+    locksRef.current.delete(lockId)
+    setIsLocked(locksRef.current.size > 0)
+  }, [])
+
+  const dockContextValue = useMemo(
+    () => ({ hovered, width, isLocked, addLock, removeLock }),
+    [hovered, width, isLocked, addLock, removeLock]
+  )
+
   return (
     <div className='fixed inset-x-0 bottom-6 z-40 flex justify-center'>
       {/* Mobile/Tablet Drawer */}
-
       <DockDrawer
         pathname={pathname}
         navigationItems={navigationItems}
@@ -39,10 +54,10 @@ const Dock = () => {
       {/* Desktop Dock */}
 
       <div className='hidden w-full justify-center lg:flex'>
-        <DockContext.Provider value={{ hovered, width, isLocked, setIsLocked }}>
+        <DockContext.Provider value={dockContextValue}>
           <nav
             ref={ref}
-            className='bg-grid flex-center h-14 rounded-2xl border bg-popover p-2'
+            className='dock-grid flex-center h-14 rounded-2xl border bg-popover p-2'
             onMouseEnter={() => setHovered(true)}
             onMouseLeave={() => setHovered(false)}
           >

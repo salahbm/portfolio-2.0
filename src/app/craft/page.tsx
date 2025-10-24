@@ -4,7 +4,7 @@ import { getMDXPages } from '@/db/mdx-content'
 import { sortPagesByPublicationDate } from '@/lib/mdx-content'
 
 import { Separator } from '@/components/ui/separator'
-import { PageHero } from '@/components/content/page-hero'
+import { PageHeader } from '@/components/content/page-header'
 import { PageContent } from '@/components/content/page-content'
 import { CraftGrid } from '@/components/grids/craft-grid'
 import { CraftCard } from '@/components/grids/craft-card'
@@ -20,7 +20,7 @@ export default async function CraftPage() {
 
   return (
     <PageContent>
-      <PageHero
+      <PageHeader
         title='Craft'
         description='A look at my personal craft and contributions '
       />

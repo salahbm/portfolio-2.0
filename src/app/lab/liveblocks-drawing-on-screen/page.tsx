@@ -4,7 +4,7 @@ import {
   LabPageContent,
   LabPageHeader,
 } from '@/components/content/lab-page'
-import { PageHero } from '@/components/content/page-hero'
+import { PageHeader } from '@/components/content/page-header'
 
 import { WindowFrame } from '@/components/lab/window-frame'
 import { DrawingOnScreenFrame } from '@/components/lab/drawing-on-screen/drawing-on-screen-frame'
@@ -14,7 +14,7 @@ export default function LiveblocksDrawingOnScreenPage() {
     <LabPage>
       <LabPageContent>
         <LabPageHeader className='flex-none'>
-          <PageHero
+          <PageHeader
             title='Liveblocks drawing on screen'
             description='A lab experiment to draw on screen using liveblocks.io'
           />

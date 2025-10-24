@@ -4,7 +4,8 @@ export type DockContextType = {
   hovered: boolean
   width?: number
   isLocked: boolean
-  setIsLocked: (isLocked: boolean) => void
+  addLock: (lockId: string) => void
+  removeLock: (lockId: string) => void
 }
 
 export type DockItemProps = HTMLAttributes<HTMLLIElement> & {

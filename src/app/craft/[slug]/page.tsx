@@ -11,7 +11,7 @@ import { Separator } from '@/components/ui/separator'
 
 import { MDXContentRenderer } from '@/components/mdx/mdx-content-renderer'
 import { PageContent } from '@/components/content/page-content'
-import { PageHero } from '@/components/content/page-hero'
+import { PageHeader } from '@/components/content/page-header'
 import { GitHubRepositoryLink } from '@/components/content/github-repository-link'
 import { CategoryTag } from '@/components/content/category-tag'
 
@@ -81,7 +81,7 @@ export default async function CraftSlugPage(props: {
 
   return (
     <PageContent>
-      <PageHero
+      <PageHeader
         title={page.metadata.title}
         description={page.metadata.summary}
         variant='mdx'

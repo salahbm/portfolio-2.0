@@ -129,7 +129,7 @@ export function VFXPresenceSurface({
 
   const handleMouseLeave = useEvent((): void => {
     setIsCursorInside(false)
-    setColor('gray-500')
+    setColor(null)
   })
 
   const username = getRandomUsername()

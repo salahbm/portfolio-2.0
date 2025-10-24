@@ -73,7 +73,7 @@ const DockItem = ({
       <motion.div
         ref={ref}
         id={id}
-        className='ui-box cursor-pointer'
+        className='dock-item-box cursor-pointer'
         aria-describedby={id}
         animate={controls}
         custom={spring}
@@ -88,8 +88,7 @@ const DockItem = ({
           src={hasError ? '/dock/launchpad.png' : src}
           alt={alt}
           fill
-          sizes='100vw'
-          quality={100}
+          sizes='100px'
           priority={priority}
           className='rounded-lg object-contain p-0.5'
           onError={() => setHasError(true)}

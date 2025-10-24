@@ -10,7 +10,7 @@ import { ClaapIcon } from '@/components/icons/claap-icon'
 
 import { Separator } from '@/components/ui/separator'
 import { PageContent } from '@/components/content/page-content'
-import { PageHero } from '@/components/content/page-hero'
+import { PageHeader } from '@/components/content/page-header'
 import { InlineLink } from '@/components/content/inline-link'
 import { TagLink } from '@/components/content/tag-link'
 import { WorkCard } from '@/components/grids/work-card'
@@ -27,7 +27,7 @@ export const metadata: Metadata = {
 export default function WorkPage() {
   return (
     <PageContent>
-      <PageHero
+      <PageHeader
         title='Work'
         description='A look at my professional work and contributions.'
       />
