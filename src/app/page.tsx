@@ -1,40 +1,25 @@
-import { PageContent } from '@/components/content/page-content'
-import { BentoGrid } from '@/components/grids/bento-grid'
+import { ScrollStory } from '@/components/scroll-story'
 
-import { SmartStack } from '@/components/lab/smart-stack'
-
-import { GitHubBentoItem } from '@/components/bento/github-bento-item'
-import { HeroBentoItem } from '@/components/bento/hero-bento-item'
-import { TwitterBentoItem } from '@/components/bento/twitter-bento-item'
-import { LinkedInBentoItem } from '@/components/bento/linkedin-bento-item'
-import { StandByBentoItem } from '@/components/bento/stand-by-bento-item'
-import { TechStackBentoItem } from '@/components/bento/tech-stack-bento-item'
-import { WorkBentoItem } from '@/components/bento/work-bento-item'
-import { CraftBentoItem } from '@/components/bento/craft-bento-item'
-
-export default async function HomePage() {
+export default function AboutPage() {
   return (
-    <PageContent className='justify-center gap-0'>
-      <h1 className='font-milkyway text-4xl font-bold'>milkyway</h1>
-      <h1 className='font-higherjump text-4xl font-bold'>higherjump</h1>
-      <h1 className='font-babygemoy text-4xl font-bold'>babygemoy</h1>
-      <h1 className='font-lader-regular text-4xl font-bold'>lader-regular</h1>
-      <h1 className='font-lader-medium text-4xl font-bold'>lader-medium</h1>
-      <BentoGrid>
-        <HeroBentoItem />
-        <GitHubBentoItem />
-        <TwitterBentoItem />
-        <LinkedInBentoItem />
-        <SmartStack
-          className='col-span-2 row-span-1 min-h-full max-lg:min-h-[220px] max-md:min-h-[180px]'
-          roundedValuePx={16}
-        >
-          <StandByBentoItem />
-          <TechStackBentoItem />
-          <WorkBentoItem />
-          <CraftBentoItem />
-        </SmartStack>
-      </BentoGrid>
-    </PageContent>
+    <div className='min-h-screen bg-white text-black dark:bg-black dark:text-white'>
+      <section className='flex flex-col items-center justify-center py-40 text-center'>
+        <h1 className='mb-6 text-6xl font-extrabold md:text-8xl'>About Me</h1>
+        <p className='max-w-2xl text-xl text-gray-600 dark:text-gray-300'>
+          Hey, I’m Muhammad — a full-stack engineer who enjoys crafting clean,
+          performant web experiences using TypeScript, Next.js, and Tailwind.
+        </p>
+      </section>
+
+      <ScrollStory />
+
+      <section className='py-40 text-center'>
+        <h2 className='mb-4 text-5xl font-bold'>Let’s build something cool</h2>
+        <p className='text-lg text-gray-600 dark:text-gray-300'>
+          I’m always excited to collaborate on creative ideas or solve complex
+          engineering problems.
+        </p>
+      </section>
+    </div>
   )
 }
