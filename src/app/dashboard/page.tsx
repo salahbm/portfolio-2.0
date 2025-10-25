@@ -1,6 +1,5 @@
 import { PageContent } from '@/components/content/page-content'
 import { BentoGrid } from '@/components/grids/bento-grid'
-
 import { SmartStack } from '@/components/lab/smart-stack'
 
 import { GitHubBentoItem } from '@/components/bento/github-bento-item'
@@ -11,6 +10,8 @@ import { StandByBentoItem } from '@/components/bento/stand-by-bento-item'
 import { TechStackBentoItem } from '@/components/bento/tech-stack-bento-item'
 import { WorkBentoItem } from '@/components/bento/work-bento-item'
 import { CraftBentoItem } from '@/components/bento/craft-bento-item'
+import { MusicBentoItem } from '@/components/bento/music-bento-item'
+import { WeatherBentoItem } from '@/components/bento/weather-bento-item'
 
 export default async function DashboardPage() {
   return (
@@ -34,6 +35,8 @@ export default async function DashboardPage() {
           <WorkBentoItem />
           <CraftBentoItem />
         </SmartStack>
+        <MusicBentoItem />
+        <WeatherBentoItem />
       </BentoGrid>
     </PageContent>
   )

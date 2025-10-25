@@ -135,3 +135,35 @@ export const rippleWaveTransition = (
 
   return tl
 }
+
+export function animateRippleWave(
+  tl: gsap.core.Timeline,
+  elements: HTMLElement[],
+  content: HTMLElement
+): void {
+  tl.set(elements, { scaleX: 0, opacity: 1, transformOrigin: 'left center' })
+  tl.to(elements, {
+    scaleX: 1,
+    duration: 0.5,
+    ease: 'power2.inOut',
+    stagger: { amount: 0.2 },
+  })
+  tl.to(
+    content,
+    { opacity: 0, scale: 0.95, duration: 0.3, ease: 'power2.in' },
+    '-=0.5'
+  )
+  tl.to(elements, {
+    scaleX: 0,
+    transformOrigin: 'right center',
+    duration: 0.35,
+    ease: 'power2.inOut',
+    stagger: { amount: 0.15 },
+  })
+  tl.fromTo(
+    content,
+    { opacity: 0, scale: 1.05 },
+    { opacity: 1, scale: 1, duration: 0.5, ease: 'power2.out' },
+    '-=0.4'
+  )
+}
