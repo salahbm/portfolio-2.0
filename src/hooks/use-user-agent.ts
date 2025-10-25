@@ -42,11 +42,13 @@ type UseUserAgentReturnType = {
   isSafari: boolean
   isFirefox: boolean
   isMobile: boolean
+  isTouchDevice: boolean
 }
 
 export function useUserAgent(): UseUserAgentReturnType {
   const [browser, setBrowser] = useState<Browser>('undetermined')
   const [deviceType, setDeviceType] = useState<DeviceType>('undetermined')
+  const [isTouchDevice, setIsTouchDevice] = useState(false)
 
   useIsomorphicLayoutEffect(() => {
     const browser = getBrowser()
@@ -54,6 +56,10 @@ export function useUserAgent(): UseUserAgentReturnType {
 
     setBrowser(browser)
     setDeviceType(deviceType)
+  }, [])
+
+  useIsomorphicLayoutEffect(() => {
+    setIsTouchDevice('ontouchstart' in window)
   }, [])
 
   const isSafari = browser === 'Safari'
@@ -64,5 +70,5 @@ export function useUserAgent(): UseUserAgentReturnType {
 
   const isMobile = isTablet || isSmartphone
 
-  return { isSafari, isFirefox, isMobile } as const
+  return { isSafari, isFirefox, isMobile, isTouchDevice } as const
 }

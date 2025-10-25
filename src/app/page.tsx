@@ -1,3 +1,4 @@
+import { FlipBoard } from '@/components/flipboard'
 import { ScrollStory } from '@/components/scroll-story'
 
 export default function AboutPage() {
@@ -20,6 +21,8 @@ export default function AboutPage() {
           engineering problems.
         </p>
       </section>
+
+      <FlipBoard />
     </div>
   )
 }

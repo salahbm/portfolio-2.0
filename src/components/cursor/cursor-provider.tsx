@@ -47,7 +47,7 @@ const STYLE_ID = 'cursor-hide-style__force'
 export const CursorProvider: React.FC<{ children: React.ReactNode }> = ({
   children,
 }) => {
-  const { isMobile } = useUserAgent()
+  const { isTouchDevice } = useUserAgent()
   const mounted = useMounted()
 
   // public state
@@ -58,16 +58,21 @@ export const CursorProvider: React.FC<{ children: React.ReactNode }> = ({
   const cursorRef = useRef<HTMLSpanElement>(null)
   const isVisibleRef = useRef(false)
   const cursorTypeRef = useRef<CursorType>('default')
+  const lastMousePosRef = useRef({ x: 0, y: 0 })
 
-  // motion values (if you render a visual cursor elsewhere)
-  const x = useMotionValue(0)
-  const y = useMotionValue(0)
+  // motion values - initialize with current mouse position
+  const x = useMotionValue(
+    typeof window !== 'undefined' ? window.innerWidth / 2 : 0
+  )
+  const y = useMotionValue(
+    typeof window !== 'undefined' ? window.innerHeight / 2 : 0
+  )
 
   // --- style tag install/uninstall ---
 
   const installHideStyle = useCallback(() => {
     // Never hide cursor on mobile/tablet
-    if (isMobile) return
+    if (isTouchDevice) return
 
     // Remove any stale tag first
     const prev = document.getElementById(STYLE_ID)
@@ -89,7 +94,7 @@ export const CursorProvider: React.FC<{ children: React.ReactNode }> = ({
       document.head.appendChild(style)
       document.documentElement.classList.add('cursor-hidden')
     })
-  }, [isMobile])
+  }, [isTouchDevice])
 
   const uninstallHideStyle = useCallback(() => {
     document.documentElement.classList.remove('cursor-hidden')
@@ -99,7 +104,7 @@ export const CursorProvider: React.FC<{ children: React.ReactNode }> = ({
 
   // Optional: also apply to same-origin iframes (safe try/catch for cross-origin)
   const installHideStyleInFrames = useCallback(() => {
-    if (isMobile) return
+    if (isTouchDevice) return
     const frames = Array.from(document.querySelectorAll('iframe'))
     for (const frame of frames) {
       try {
@@ -124,7 +129,7 @@ export const CursorProvider: React.FC<{ children: React.ReactNode }> = ({
         // cross-origin; ignore
       }
     }
-  }, [isMobile])
+  }, [isTouchDevice])
 
   // --- show/hide helpers for the visual cursor element (opacity gate only) ---
   const show = useCallback(() => {
@@ -151,8 +156,7 @@ export const CursorProvider: React.FC<{ children: React.ReactNode }> = ({
 
   // Next-move positioning for visual cursor
   const onMouseMove = useEvent((e: MouseEvent) => {
-    const el = cursorRef.current
-    if (!el) return
+    lastMousePosRef.current = { x: e.clientX, y: e.clientY }
     if (!isVisibleRef.current) show()
     x.set(e.clientX)
     y.set(e.clientY)
@@ -160,7 +164,7 @@ export const CursorProvider: React.FC<{ children: React.ReactNode }> = ({
 
   // After focus, ensure the NEXT user action re-applies hide pre-paint
   const armOneShotRehide = useCallback(() => {
-    if (isMobile) return
+    if (isTouchDevice) return
     const onceRehide = () => {
       installHideStyle()
       installHideStyleInFrames()
@@ -180,12 +184,17 @@ export const CursorProvider: React.FC<{ children: React.ReactNode }> = ({
       capture: true,
       once: true,
     })
-  }, [isMobile, installHideStyle, installHideStyleInFrames])
+  }, [isTouchDevice, installHideStyle, installHideStyleInFrames])
 
   // Focus regain (omnibox/tab switch) — multiple assertions to cover late UA restores
   const onFocus = useCallback(() => {
-    if (isMobile) return
+    if (isTouchDevice) return
     show()
+    // Update cursor position to last known position
+    x.set(lastMousePosRef.current.x)
+    y.set(lastMousePosRef.current.y)
+
+    // Aggressive re-application schedule to combat browser cursor restoration
     installHideStyle()
     installHideStyleInFrames()
     requestAnimationFrame(() => {
@@ -193,16 +202,21 @@ export const CursorProvider: React.FC<{ children: React.ReactNode }> = ({
       installHideStyleInFrames()
     })
     armOneShotRehide()
-    setTimeout(() => installHideStyle(), 60)
-    setTimeout(() => installHideStyle(), 120)
-    setTimeout(() => installHideStyle(), 200)
-    setTimeout(() => installHideStyle(), 400)
+    // Extended schedule with more frequent checks
+    ;[16, 32, 60, 100, 120, 200, 300, 400, 600, 1000].forEach((delay) => {
+      setTimeout(() => {
+        installHideStyle()
+        installHideStyleInFrames()
+      }, delay)
+    })
   }, [
-    isMobile,
+    isTouchDevice,
     show,
     installHideStyle,
     installHideStyleInFrames,
     armOneShotRehide,
+    x,
+    y,
   ])
 
   const onBlur = useCallback(() => {
@@ -212,13 +226,19 @@ export const CursorProvider: React.FC<{ children: React.ReactNode }> = ({
 
   // Visibility change (tab switches)
   useEffect(() => {
-    if (isMobile) return
+    if (isTouchDevice) return
     const handleVis = () => {
       if (document.visibilityState === 'visible') {
         onFocus()
-        ;[0, 50, 100, 200, 400, 800].forEach((delay) => {
-          setTimeout(() => installHideStyle(), delay)
-        })
+        // More aggressive schedule for visibility changes
+        ;[0, 16, 32, 50, 100, 150, 200, 300, 400, 600, 800, 1200].forEach(
+          (delay) => {
+            setTimeout(() => {
+              installHideStyle()
+              installHideStyleInFrames()
+            }, delay)
+          }
+        )
       } else {
         onBlur()
       }
@@ -228,12 +248,18 @@ export const CursorProvider: React.FC<{ children: React.ReactNode }> = ({
       document.removeEventListener('visibilitychange', handleVis, {
         capture: true,
       })
-  }, [isMobile, onFocus, onBlur, installHideStyle])
+  }, [
+    isTouchDevice,
+    onFocus,
+    onBlur,
+    installHideStyle,
+    installHideStyleInFrames,
+  ])
 
   // Core lifecycle hooks
   useEffect(() => {
     // If mobile/tablet, ensure any residue is removed and bail out
-    if (isMobile || !mounted) {
+    if (isTouchDevice || !mounted) {
       uninstallHideStyle()
       return
     }
@@ -283,7 +309,7 @@ export const CursorProvider: React.FC<{ children: React.ReactNode }> = ({
       uninstallHideStyle()
     }
   }, [
-    isMobile,
+    isTouchDevice,
     mounted,
     installHideStyle,
     installHideStyleInFrames,
@@ -298,7 +324,7 @@ export const CursorProvider: React.FC<{ children: React.ReactNode }> = ({
 
   // Document-level focus/blur (capture) for better handling in fullscreen; desktop only
   useEffect(() => {
-    if (isMobile) return
+    if (isTouchDevice) return
 
     const onDocFocus = () => show()
     const onDocBlur = () => hide()
@@ -310,34 +336,37 @@ export const CursorProvider: React.FC<{ children: React.ReactNode }> = ({
       document.removeEventListener('focus', onDocFocus, true)
       document.removeEventListener('blur', onDocBlur, true)
     }
-  }, [isMobile, show, hide])
+  }, [isTouchDevice, show, hide])
 
-  // Click feedback pulse when in "pointer" mode
+  // Click feedback pulse when in "pointer" or "hand" mode
   useEffect(() => {
-    if (isMobile) return
+    if (isTouchDevice) return
     const onDown = () => {
-      if (cursorTypeRef.current !== 'pointer') return
-      setCursorType('click')
-      const el = cursorRef.current
-      if (el) {
-        el.animate(
-          [
-            { transform: 'translate(-50%, -50%) scale(1)' },
-            { transform: 'translate(-50%, -50%) scale(1.25)' },
-            { transform: 'translate(-50%, -50%) scale(1)' },
-          ],
-          { duration: 150, easing: 'ease-out' }
-        )
+      const current = cursorTypeRef.current
+      if (current === 'pointer') {
+        setCursorType('click')
+        setTimeout(() => setCursorType('pointer'), 150)
+      } else if (current === 'hand') {
+        setCursorType('grab')
       }
-      setTimeout(() => setCursorType('pointer'), 150)
+    }
+    const onUp = () => {
+      const current = cursorTypeRef.current
+      if (current === 'grab') {
+        setCursorType('hand')
+      }
     }
     window.addEventListener('pointerdown', onDown)
-    return () => window.removeEventListener('pointerdown', onDown)
-  }, [isMobile])
+    window.addEventListener('pointerup', onUp)
+    return () => {
+      window.removeEventListener('pointerdown', onDown)
+      window.removeEventListener('pointerup', onUp)
+    }
+  }, [isTouchDevice])
 
   // Hover type switching
   useEffect(() => {
-    if (isMobile) return
+    if (isTouchDevice) return
 
     const resolveType = (el: Element | null): CursorType => {
       if (!el) return 'default'
@@ -359,21 +388,37 @@ export const CursorProvider: React.FC<{ children: React.ReactNode }> = ({
 
     document.addEventListener('pointerover', onOver, { passive: true })
     return () => document.removeEventListener('pointerover', onOver)
-  }, [isMobile])
+  }, [isTouchDevice])
 
   // Keep ref mirror in sync
   useEffect(() => {
     cursorTypeRef.current = cursorType
   }, [cursorType])
 
+  // MutationObserver to detect and combat any cursor style changes
+  useEffect(() => {
+    if (isTouchDevice || !mounted) return
+
+    const observer = new MutationObserver(() => {
+      // If html doesn't have cursor-hidden class, re-apply
+      if (!document.documentElement.classList.contains('cursor-hidden')) {
+        installHideStyle()
+      }
+    })
+
+    observer.observe(document.documentElement, {
+      attributes: true,
+      attributeFilter: ['class', 'style'],
+    })
+
+    return () => observer.disconnect()
+  }, [isTouchDevice, mounted, installHideStyle])
+
   return (
     <CursorContext.Provider
       value={{ cursorType, setCursorType, cursorRef, x, y, color, setColor }}
     >
       {children}
-      {/* If you render a visual mask cursor, mount it here or elsewhere.
-          This span only controls opacity for "show/hide". */}
-      <span ref={cursorRef} aria-hidden='true' style={{ opacity: 0 }} />
     </CursorContext.Provider>
   )
 }

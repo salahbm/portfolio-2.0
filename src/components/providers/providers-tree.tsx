@@ -6,6 +6,7 @@ import { Cursor, CursorProvider } from '@/components/cursor'
 import { Toaster } from '@/components/ui/sonner'
 import { MagnifyingGlass } from '@/components/lab/magnifying-glass/magnifying-glass'
 import { TailwindIndicator } from '@/components/ui-helpers/tailwind-indicator'
+import { PageTransition } from '@/components/page-transition'
 
 export function ProvidersTree({ children }: { children: React.ReactNode }) {
   return (
@@ -16,7 +17,9 @@ export function ProvidersTree({ children }: { children: React.ReactNode }) {
       disableTransitionOnChange
     >
       <CursorProvider>
-        <TooltipProvider>{children}</TooltipProvider>
+        <TooltipProvider>
+          <PageTransition>{children}</PageTransition>
+        </TooltipProvider>
         <Cursor />
         <Toaster />
         <MagnifyingGlass />
