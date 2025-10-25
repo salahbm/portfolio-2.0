@@ -17,6 +17,7 @@ import {
 } from '@/components/ui/tooltip'
 import { CommandCenter } from '@/components/command-center/command-center'
 import { ColorModeDropdownSwitcher } from '@/components/color-mode/color-mode-dropdown-switcher'
+import { MusicPlayerSwitcher } from '@/components/music/music-player-switcher'
 
 const Dock = () => {
   const ref = useRef<HTMLElement>(null)
@@ -126,8 +127,13 @@ const Dock = () => {
               <li>
                 <CommandCenter />
               </li>
+
               <li>
                 <ColorModeDropdownSwitcher />
+              </li>
+
+              <li>
+                <MusicPlayerSwitcher />
               </li>
             </ul>
           </nav>

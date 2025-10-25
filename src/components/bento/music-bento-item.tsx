@@ -1,7 +1,7 @@
 'use client'
 
 import { BentoCard } from '@/components/grids/bento-card'
-import { MusicPlayerWidget } from '@/components/widgets/music-player-widget'
+import { MusicPlayerWidget } from '@/components/music/music-player-widget'
 
 export function MusicBentoItem() {
   return (

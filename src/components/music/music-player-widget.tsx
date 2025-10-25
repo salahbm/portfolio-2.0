@@ -1,6 +1,6 @@
 'use client'
 
-import { useState, useEffect, useRef } from 'react'
+import { useState, useEffect, useRef, useCallback } from 'react'
 import { motion, AnimatePresence } from 'framer-motion'
 import {
   PlayIcon,
@@ -10,6 +10,7 @@ import {
   SpeakerWaveIcon,
 } from '@heroicons/react/24/solid'
 import { cn } from '@/lib/utils'
+import { useMusicPlayerStore } from '../../store/music-player-store'
 
 interface Song {
   id: number
@@ -66,12 +67,34 @@ const songs: Song[] = [
 ]
 
 export function MusicPlayerWidget() {
-  const [currentSongIndex, setCurrentSongIndex] = useState(0)
-  const [isPlaying, setIsPlaying] = useState(false)
+  const isPlaying = useMusicPlayerStore((state) => state.isPlaying)
+  const currentSongIndex = useMusicPlayerStore(
+    (state) => state.currentSongIndex
+  )
+  const setIsPlaying = useMusicPlayerStore((state) => state.setIsPlaying)
+  const setCurrentSongIndex = useMusicPlayerStore(
+    (state) => state.setCurrentSongIndex
+  )
   const [progress, setProgress] = useState(0)
   const audioRef = useRef<HTMLAudioElement | null>(null)
 
   const currentSong = songs[currentSongIndex]
+
+  const handleNext = useCallback(() => {
+    const nextIndex = (currentSongIndex + 1) % songs.length
+    setCurrentSongIndex(nextIndex)
+    setProgress(0)
+    setIsPlaying(true)
+  }, [currentSongIndex, setCurrentSongIndex, setIsPlaying])
+
+  const handlePrevious = useCallback(() => {
+    const prevIndex = (currentSongIndex - 1 + songs.length) % songs.length
+    setCurrentSongIndex(prevIndex)
+    setProgress(0)
+    setIsPlaying(true)
+  }, [currentSongIndex, setCurrentSongIndex, setIsPlaying])
+
+  const handlePlayPause = () => setIsPlaying(!isPlaying)
 
   // Handle play / pause and progress tracking
   useEffect(() => {
@@ -98,21 +121,7 @@ export function MusicPlayerWidget() {
       audio.removeEventListener('timeupdate', updateProgress)
       audio.removeEventListener('ended', handleNext)
     }
-  }, [isPlaying, currentSongIndex])
-
-  const handlePlayPause = () => setIsPlaying(!isPlaying)
-
-  const handleNext = () => {
-    setCurrentSongIndex((prev) => (prev + 1) % songs.length)
-    setProgress(0)
-    setIsPlaying(true)
-  }
-
-  const handlePrevious = () => {
-    setCurrentSongIndex((prev) => (prev - 1 + songs.length) % songs.length)
-    setProgress(0)
-    setIsPlaying(true)
-  }
+  }, [isPlaying, currentSongIndex, handleNext])
 
   const formatTime = (seconds: number) => {
     const mins = Math.floor(seconds / 60)

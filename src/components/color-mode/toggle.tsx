@@ -40,22 +40,26 @@ export function WeatherToggle({
       )}
     >
       {/* Background Atmosphere */}
-      <Clouds
-        isDark={isDark}
-        width={ref.current?.offsetWidth}
-        height={ref.current?.offsetHeight}
-      />
-      <Stars
-        isDark={isDark}
-        width={ref.current?.offsetWidth}
-        height={ref.current?.offsetHeight}
-      />
+      <div className='absolute inset-0 z-[5]'>
+        <Clouds
+          isDark={isDark}
+          width={ref.current?.offsetWidth}
+          height={ref.current?.offsetHeight}
+        />
+      </div>
+      <div className='absolute inset-0 z-[6]'>
+        <Stars
+          isDark={isDark}
+          width={ref.current?.offsetWidth}
+          height={ref.current?.offsetHeight}
+        />
+      </div>
 
       {/* Centered Glow Directly Behind Icon */}
       {[...Array(4)].map((_, i) => (
         <motion.div
           key={i}
-          className='absolute left-1/2 top-[38%] z-0 -translate-x-1/2 -translate-y-1/2 rounded-full blur-[35px]'
+          className='absolute left-1/2 top-[35%] z-[15] -translate-x-1/2 -translate-y-1/2 rounded-full blur-[35px]'
           animate={{
             scale: [1, 1.15 + i * 0.05, 1],
             opacity: [0.4 + i * 0.1, 0.7 - i * 0.1, 0.4 + i * 0.1],
@@ -96,8 +100,8 @@ export function WeatherToggle({
             src='/weather/moon.png'
             alt='Moon'
             initial={{ y: 20, opacity: 0, scale: 0.9 }}
-            animate={{ y: -5, opacity: 1, scale: 1 }}
-            exit={{ y: -15, opacity: 0, scale: 0.9 }}
+            animate={{ y: -15, opacity: 1, scale: 1 }}
+            exit={{ y: -25, opacity: 0, scale: 0.9 }}
             transition={{ duration: 0.6, ease: 'easeInOut' }}
             className='z-20 size-16 drop-shadow-[0_0_25px_rgba(170,190,255,0.9)]'
           />
@@ -107,7 +111,7 @@ export function WeatherToggle({
             src='/weather/sun.png'
             alt='Sun'
             initial={{ y: -10, opacity: 0, scale: 0.9 }}
-            animate={{ y: -5, opacity: 1, scale: 1 }}
+            animate={{ y: -15, opacity: 1, scale: 1 }}
             exit={{ y: 15, opacity: 0, scale: 0.9 }}
             transition={{ duration: 0.6, ease: 'easeInOut' }}
             className='z-20 size-16 drop-shadow-[0_0_35px_rgba(255,230,120,0.9)]'
