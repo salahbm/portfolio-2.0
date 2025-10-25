@@ -1,6 +1,6 @@
 'use client'
 
-import { useEffect, useRef, useState } from 'react'
+import { Fragment, useEffect, useRef, useState } from 'react'
 import Image from 'next/image'
 import {
   motion,
@@ -22,18 +22,17 @@ import { useCursorContext } from '@/components/cursor'
 import { useDock } from '@/components/dock'
 import { DockContextType } from '@/components/dock/dock.types'
 import { PlayIcon, PauseIcon } from '@heroicons/react/24/solid'
+import { useHotkeys } from 'react-hotkeys-hook'
+import { useUserAgent } from '@/hooks/use-user-agent'
 
 export function MusicPlayerSwitcher() {
   const ref = useRef<HTMLDivElement>(null)
   const { x } = useCursorContext()
   const dock = useDock() as DockContextType
-
-  const [centerX, setCenterX] = useState(0)
-  const [hasError, setHasError] = useState(false)
   const controls = useAnimationControls()
+  const [centerX, setCenterX] = useState(0)
 
-  const isPlaying = useMusicPlayerStore((state) => state.isPlaying)
-  const togglePlayPause = useMusicPlayerStore((state) => state.togglePlayPause)
+  const { isMobile } = useUserAgent()
 
   // Responsive motion size
   const dimension = useTransform(x, (mouseX) => {
@@ -51,11 +50,30 @@ export function MusicPlayerSwitcher() {
   })
 
   useEffect(() => {
+    const updateCenter = () => {
+      const rect = ref.current?.getBoundingClientRect()
+      if (rect) setCenterX(rect.x + rect.width / 2)
+    }
+    updateCenter()
+    window.addEventListener('resize', updateCenter)
+    return () => window.removeEventListener('resize', updateCenter)
+  }, [])
+
+  const isPlaying = useMusicPlayerStore((state) => state.isPlaying)
+  const togglePlayPause = useMusicPlayerStore((state) => state.togglePlayPause)
+
+  useHotkeys(
+    'meta+m',
+    (): void => {
+      togglePlayPause()
+    },
+    {
+      enabled: true,
+    }
+  )
+
+  useEffect(() => {
     const unsubscribe = dimension.on('change', (val) => {
-      if (dock?.isLocked) {
-        spring.set(40)
-        return
-      }
       if (dock?.hovered) {
         spring.set(val)
       } else {
@@ -66,15 +84,26 @@ export function MusicPlayerSwitcher() {
     return () => unsubscribe()
   }, [dimension, spring, dock])
 
-  useEffect(() => {
-    const updateCenter = () => {
-      const rect = ref.current?.getBoundingClientRect()
-      if (rect) setCenterX(rect.x + rect.width / 2)
-    }
-    updateCenter()
-    window.addEventListener('resize', updateCenter)
-    return () => window.removeEventListener('resize', updateCenter)
-  }, [])
+  if (isMobile)
+    return (
+      <button
+        onClick={togglePlayPause}
+        className={cn(
+          navigationMenuTriggerStyle(),
+          'flex-center relative aspect-square rounded-xl border p-4 data-[active]:bg-accent lg:hidden [&_svg]:shrink-0'
+        )}
+      >
+        {isPlaying ? (
+          <Fragment>
+            <PauseIcon className='h-4 w-4 rotate-0 scale-100 transition-all dark:-rotate-90 dark:scale-0' />
+            <span className='absolute right-0 top-0 size-2 animate-pulse rounded-full bg-green-500' />
+          </Fragment>
+        ) : (
+          <PlayIcon className='h-4 w-4 rotate-0 scale-100 transition-all dark:-rotate-90 dark:scale-0' />
+        )}
+        <span className='sr-only'>Toggle color mode</span>
+      </button>
+    )
 
   return (
     <Tooltip>
@@ -97,13 +126,12 @@ export function MusicPlayerSwitcher() {
             whileTap={{ scale: 0.95 }}
           >
             <Image
-              src={hasError ? '/dock/itunes.png' : '/dock/itunes.png'}
+              src='/dock/itunes.png'
               alt='Music Player'
               fill
               sizes='100px'
               priority
               className='rounded-lg object-contain p-0.5'
-              onError={() => setHasError(true)}
             />
             {/* Play/Pause indicator overlay */}
             <div className='absolute inset-0 flex items-center justify-center rounded-lg bg-black/30 opacity-0 transition-opacity hover:opacity-100'>
@@ -132,6 +160,9 @@ export function MusicPlayerSwitcher() {
       </TooltipTrigger>
       <TooltipContent sideOffset={8}>
         {isPlaying ? 'Pause' : 'Play'} Music
+        <span className='pointer-events-none flex select-none items-center gap-1 rounded border bg-muted px-1.5 text-[10px] font-medium tracking-[2px] text-muted-foreground'>
+          Cmd+M
+        </span>
       </TooltipContent>
     </Tooltip>
   )

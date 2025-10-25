@@ -133,7 +133,7 @@ export function MusicPlayerWidget() {
   const remainingTime = currentSong.duration - currentTime
 
   return (
-    <div className='relative flex aspect-square w-full max-w-sm flex-col overflow-hidden rounded-2xl bg-neutral-100 shadow-xl transition-all duration-300 dark:bg-neutral-900'>
+    <div className='relative flex h-full w-full max-w-sm flex-col overflow-hidden rounded-2xl bg-neutral-100 shadow-xl transition-all duration-300 dark:bg-neutral-900'>
       {/* Background with gradient + image */}
       <AnimatePresence mode='wait'>
         <motion.div
@@ -204,7 +204,7 @@ export function MusicPlayerWidget() {
 
         {/* Bottom: Controls */}
         <div className='mb-3 flex flex-col items-center gap-3'>
-          <div className='flex items-center justify-center gap-5'>
+          <div className='flex items-center justify-center gap-1 lg:gap-5'>
             <motion.button
               whileTap={{ scale: 0.9 }}
               onClick={handlePrevious}
@@ -216,7 +216,7 @@ export function MusicPlayerWidget() {
             <motion.button
               whileTap={{ scale: 0.95 }}
               onClick={handlePlayPause}
-              className='rounded-full bg-gradient-to-br from-rose-500 to-purple-500 p-4 text-white shadow-md hover:shadow-lg'
+              className='flex-center rounded-full bg-gradient-to-br from-rose-500 to-purple-500 p-4 text-white shadow-md hover:shadow-lg'
             >
               <AnimatePresence mode='wait'>
                 {isPlaying ? (

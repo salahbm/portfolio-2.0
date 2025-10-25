@@ -129,7 +129,7 @@ const Clouds = ({ isDark, width = 210, height = 210 }: CloudsProps) => {
                 left: `${cloud.left}%`,
                 width: `${Math.max(5, cloud.width - i)}px`,
                 opacity: cloud.opacity,
-                zIndex: 2,
+                zIndex: 1,
               }}
             >
               <Image

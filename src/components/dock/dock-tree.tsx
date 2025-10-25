@@ -123,17 +123,14 @@ const Dock = () => {
               <li className='self-center' aria-hidden='true'>
                 <hr className='mx-2 h-12 w-px border-none bg-border' />
               </li>
-
               <li>
-                <CommandCenter />
+                <MusicPlayerSwitcher />
               </li>
-
               <li>
                 <ColorModeDropdownSwitcher />
               </li>
-
               <li>
-                <MusicPlayerSwitcher />
+                <CommandCenter />
               </li>
             </ul>
           </nav>

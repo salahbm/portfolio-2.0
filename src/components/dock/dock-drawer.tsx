@@ -21,6 +21,7 @@ import { TwitterLogoIcon } from '@/components/icons/twitter-logo-icon'
 import { BlueskyLogoIcon } from '@/components/icons/bluesky-logo-icon'
 import { CommandCenter } from '@/components/command-center/command-center'
 import { ColorModeDropdownSwitcher } from '@/components/color-mode/color-mode-dropdown-switcher'
+import { MusicPlayerSwitcher } from '../music/music-player-switcher'
 
 const socialIconMap = {
   github: GitHubLogoIcon,
@@ -129,6 +130,7 @@ export function DockDrawer({
           {/* Utilities */}
           <div className='mx-auto mt-6 flex w-full max-w-[496px] items-center justify-center gap-3 border-t pt-4'>
             <CommandCenter />
+            <MusicPlayerSwitcher />
             <ColorModeDropdownSwitcher />
           </div>
         </div>
