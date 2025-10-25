@@ -22,7 +22,6 @@ import {
   laderRegular,
   milkyway,
 } from './font'
-import { MusicPlayerWidget } from '@/components/music/music-player-widget'
 
 export const metadata: Metadata = {
   metadataBase: new URL(baseUrl),
@@ -101,10 +100,6 @@ export default function RootLayout({
         </ProvidersTree>
         <Analytics />
         <SpeedInsights />
-
-        <div className='pointer-events-none fixed inset-0 opacity-0'>
-          <MusicPlayerWidget />
-        </div>
       </body>
     </html>
   )

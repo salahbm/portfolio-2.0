@@ -11,60 +11,7 @@ import {
 } from '@heroicons/react/24/solid'
 import { cn } from '@/lib/utils'
 import { useMusicPlayerStore } from '../../store/music-player-store'
-
-interface Song {
-  id: number
-  title: string
-  artist: string
-  album: string
-  image: string
-  gradient: string
-  audio: string
-  duration: number
-}
-
-const songs: Song[] = [
-  {
-    id: 1,
-    title: 'Sato',
-    artist: 'Uzbek Music',
-    album: 'Uzbek Music',
-    image: '/music/sato-navo.webp',
-    gradient: 'from-purple-500 via-pink-500 to-red-500',
-    audio: '/music/sato-uzbek.mp3',
-    duration: 386, // 6:26
-  },
-  {
-    id: 2,
-    title: 'Lofi Hip Hop',
-    artist: 'Soulful Beats',
-    album: 'Soulful Beats',
-    image: '/music/lofi.jpg',
-    gradient: 'from-blue-500 via-cyan-500 to-teal-500',
-    audio: '/music/lofi-hiphop.mp3',
-    duration: 213, // 3:33
-  },
-  {
-    id: 3,
-    title: 'Where you are',
-    artist: 'Halal Beats',
-    album: 'Juma Vibes',
-    image: '/music/halal-beats.jpg',
-    gradient: 'from-orange-500 via-rose-500 to-pink-500',
-    audio: '/music/halal-beats.mp3',
-    duration: 163, // 2:43
-  },
-  {
-    id: 4,
-    title: 'Hotel California',
-    artist: 'The Eagles',
-    album: 'Hotel California',
-    image: '/music/hotel-california.jpg',
-    gradient: 'from-yellow-500 via-orange-500 to-red-500',
-    audio: '/music/hotel-california.mp3',
-    duration: 390, // 6:30
-  },
-]
+import { songs } from './songs'
 
 export function MusicPlayerWidget() {
   const isPlaying = useMusicPlayerStore((state) => state.isPlaying)
@@ -102,7 +49,17 @@ export function MusicPlayerWidget() {
     if (!audio) return
 
     if (isPlaying) {
-      audio.play()
+      // Handle autoplay restrictions
+      const playPromise = audio.play()
+      if (playPromise !== undefined) {
+        playPromise.catch((error) => {
+          // Browser prevented autoplay - user needs to interact first
+          if (error.name === 'NotAllowedError') {
+            console.log('Autoplay prevented - user interaction required')
+            setIsPlaying(false)
+          }
+        })
+      }
     } else {
       audio.pause()
     }
@@ -121,7 +78,40 @@ export function MusicPlayerWidget() {
       audio.removeEventListener('timeupdate', updateProgress)
       audio.removeEventListener('ended', handleNext)
     }
-  }, [isPlaying, currentSongIndex, handleNext])
+  }, [isPlaying, currentSongIndex, handleNext, setIsPlaying])
+
+  useEffect(() => {
+    const attemptAutoplay = async () => {
+      try {
+        const audio = new Audio(currentSong.audio)
+        audio.loop = true
+        audioRef.current = audio
+        await audio.play()
+        setIsPlaying(true)
+      } catch {
+        console.log('Autoplay failed, waiting for user interaction')
+        const handleFirstInteraction = async () => {
+          try {
+            await audioRef.current?.play()
+            setIsPlaying(true)
+            document.removeEventListener('click', handleFirstInteraction)
+          } catch (err) {
+            console.error('Playback failed after interaction:', err)
+          }
+        }
+        document.addEventListener('click', handleFirstInteraction)
+      }
+    }
+
+    attemptAutoplay()
+
+    return () => {
+      if (audioRef.current) {
+        audioRef.current.pause()
+        audioRef.current = null
+      }
+    }
+  }, [currentSong.audio, setIsPlaying])
 
   const formatTime = (seconds: number) => {
     const mins = Math.floor(seconds / 60)
