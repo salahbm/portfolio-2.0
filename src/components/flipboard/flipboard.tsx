@@ -75,7 +75,7 @@ export function FlipBoard() {
             pad={line.pad}
             color={line.color}
             alignment={line.alignment}
-            length={12}
+            length={15}
           />
         ))}
       </div>

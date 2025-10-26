@@ -1,11 +1,12 @@
-import { FlipBoard } from '@/components/flipboard'
+import { Billboard3D } from '@/components/billboard'
 import { ScrollStory } from '@/components/scroll-story'
 
 export default function AboutPage() {
   return (
     <div className='min-h-screen bg-white text-black dark:bg-black dark:text-white'>
-      <FlipBoard />
-
+      <div className='flex justify-end'>
+        <Billboard3D />
+      </div>
       <section className='flex flex-col items-center justify-center py-40 text-center'>
         <h1 className='mb-6 text-6xl font-extrabold md:text-8xl'>About Me</h1>
         <p className='max-w-2xl text-xl text-gray-600 dark:text-gray-300'>
