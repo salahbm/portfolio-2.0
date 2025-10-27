@@ -8,7 +8,7 @@ const ContentSecurityPolicy = `
   media-src 'self';
   font-src 'self' data:;
   object-src 'self';
-  connect-src *;
+  connect-src * blob:;
   frame-src 'self' data:;
   frame-ancestors 'none';
   form-action 'self';

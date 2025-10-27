@@ -12,7 +12,7 @@ export function BillboardModel() {
   return (
     <group
       ref={groupRef}
-      scale={[0.18, 0.145, 0.16]}
+      scale={[0.18, 0.145, 0.15]}
       rotation={[0, 5.5, 0]} // faces camera
       position={[0, -1.4, 0]}
     >
@@ -25,22 +25,35 @@ export function BillboardModel() {
         intensity={15}
       />
 
-      {/* FlipBoard sits flush against front face */}
+      {/* FlipBoard integrated seamlessly into billboard screen */}
       <Html
         transform
         occlude
-        position={[0, 14.63, 2.05]} // center of screen area
+        position={[0, 16, 6]} // perfectly flush with screen surface
         rotation={[0, Math.PI / 2, 0]}
-        distanceFactor={5.5} // smaller = larger in world space
+        distanceFactor={5} // adjusted for perfect scale match
         style={{
           pointerEvents: 'auto',
-          width: '470px',
-          height: '300px',
-          transform: 'scale(2.12)',
+          transform: 'scale(1.8)',
           zIndex: 1,
         }}
+        className='billboard-flipboard-container'
       >
-        <FlipBoard />
+        <div
+          style={{
+            width: '100%',
+            height: '100%',
+            display: 'flex',
+            alignItems: 'center',
+            justifyContent: 'center',
+            background: 'hsl(0 0% 8%)', // match billboard screen
+            padding: '10px',
+            borderRadius: '8px',
+            boxShadow: 'inset 0 0 30px rgba(0,0,0,0.5)',
+          }}
+        >
+          <FlipBoard />
+        </div>
       </Html>
     </group>
   )

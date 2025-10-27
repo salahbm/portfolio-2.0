@@ -16,20 +16,20 @@
 
 .board {
   display: flex;
-  gap: 0.5ch;
+  gap: 0.3ch;
   flex-direction: column;
   text-transform: uppercase;
   font-family: 'Roboto Mono', monospace, ui-monospace, 'Courier New', monospace;
-  background: hsl(0 0% 10%);
+  background: transparent; /* transparent to show billboard screen */
   align-items: center;
   justify-content: center;
   width: fit-content;
-  border-radius: 4px;
+  padding: 8px 12px;
   overflow: hidden;
 }
 .flip-line {
   display: flex;
-  gap: 0.5ch;
+  gap: 0.3ch;
 }
 .flip {
   --font-level: 8;
