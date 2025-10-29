@@ -2,84 +2,125 @@ import { gsap } from 'gsap'
 import SplitType from 'split-type'
 
 export const animateHeroText = (element: HTMLElement): (() => void) => {
-  const split = new SplitType(element, { types: 'words,chars' })
+  // Get all direct child spans (sections)
+  const sections = Array.from(element.children) as HTMLElement[]
+  const masterTl = gsap.timeline()
+  const splitInstances: SplitType[] = []
 
-  const tl = gsap.timeline({ defaults: { ease: 'power3.out' } })
+  sections.forEach((section) => {
+    const delay = parseFloat(
+      section.getAttribute('data-animation-delay') || '0'
+    )
 
-  // Animate words with stagger
-  tl.from(split.words, {
-    yPercent: 100,
-    opacity: 0,
-    rotateX: -90,
-    scale: 0.8,
-    duration: 1,
-    stagger: {
-      each: 0.03,
-      ease: 'power2.out',
-    },
+    // Split each section into chars for character-by-character animation
+    const split = new SplitType(section, {
+      types: 'chars,words',
+      tagName: 'span',
+    })
+
+    splitInstances.push(split)
+
+    if (split.chars) {
+      // Animate characters with stagger
+      masterTl.from(
+        split.chars,
+        {
+          opacity: 0,
+          y: 20,
+          rotateX: -90,
+          transformOrigin: '50% 50%',
+          duration: 0.6,
+          ease: 'back.out(1.5)',
+          stagger: {
+            amount: 0.4,
+            from: 'start',
+          },
+        },
+        delay
+      )
+    }
   })
+
+  // Animate location highlights AFTER text appears
+  const highlights = element.querySelectorAll('.group')
+  if (highlights.length > 0) {
+    masterTl.from(
+      highlights,
+      {
+        scale: 0.9,
+        opacity: 0,
+        duration: 0.6,
+        ease: 'back.out(1.7)',
+        stagger: 0.2,
+      },
+      '+=0.3' // Delay after text animation
+    )
+  }
 
   // Add subtle continuous animation to gradient text
   const gradientSpans = element.querySelectorAll('.text-gradient-lilac')
   gradientSpans.forEach((span) => {
     gsap.to(span, {
       backgroundPosition: '200% center',
-      duration: 3,
+      duration: 4,
       repeat: -1,
       yoyo: true,
       ease: 'sine.inOut',
     })
   })
 
-  return () => split.revert()
+  return () => {
+    splitInstances.forEach((split) => {
+      split.revert()
+    })
+  }
 }
 
 export const animateIcons = (icons: HTMLElement[]): (() => void) => {
-  // Initial entrance animation
+  // Initial entrance animation - faster and simpler
   gsap.fromTo(
     icons,
-    { scale: 0, rotate: -180, opacity: 0, y: -50 },
+    { scale: 0, opacity: 0, y: -20 },
     {
       scale: 1,
-      rotate: 0,
       opacity: 1,
       y: 0,
-      duration: 1.5,
-      ease: 'elastic.out(1, 0.5)',
+      duration: 0.6,
+      ease: 'back.out(1.7)',
       stagger: {
-        each: 0.15,
+        each: 0.08,
         from: 'random',
       },
     }
   )
 
-  // Continuous floating animation
+  // Continuous floating animation - lighter and smoother
   icons.forEach((icon, index) => {
-    // Floating movement
+    // Floating movement - reduced range for subtlety
     gsap.to(icon, {
-      y: `random(-${10 + index * 2}, ${10 + index * 2})`,
-      x: `random(-${8 + index}, ${8 + index})`,
-      duration: `random(3, 6)`,
+      y: `random(-8, 8)`,
+      x: `random(-6, 6)`,
+      duration: `random(2.5, 4)`,
+      repeat: -1,
+      yoyo: true,
+      ease: 'sine.inOut',
+      delay: index * 0.15,
+    })
+
+    // Rotation animation - smaller angles
+    gsap.to(icon, {
+      rotate: `random(-8, 8)`,
+      duration: `random(3, 5)`,
       repeat: -1,
       yoyo: true,
       ease: 'sine.inOut',
       delay: index * 0.2,
     })
 
-    // Rotation animation
+    // Scale pulse - more subtle
     gsap.to(icon, {
-      rotate: `random(-15, 15)`,
-      duration: `random(4, 8)`,
-      repeat: -1,
-      yoyo: true,
-      ease: 'sine.inOut',
-      delay: index * 0.3,
-    })
-
-    // Scale pulse
-    gsap.to(icon, {
-      scale: `random(0.95, 1.05)`,
-      duration: `random(2, 4)`,
+      scale: `random(0.97, 1.03)`,
+      duration: `random(2, 3)`,
       repeat: -1,
       yoyo: true,
       ease: 'sine.inOut',

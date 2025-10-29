@@ -96,8 +96,4 @@
     -webkit-text-stroke: 2px currentColor;
     letter-spacing: 0.05ch;
   }
-
-  body {
-    height: 400vh; /* Scroll range trigger */
-  }
 }

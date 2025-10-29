@@ -4,7 +4,8 @@ import './journey.component.css'
 
 export function JourneySection() {
   return (
-    <section className='fluid bg-transparent text-neutral-100'>
+    <section className='fluid text-neutral-100'>
+      <div className='absolute inset-0 -z-10 bg-gradient-to-br from-purple-50 via-blue-50 to-pink-50 dark:from-purple-950/20 dark:via-blue-950/20 dark:to-pink-950/20' />
       <div className='heading'>
         <div className='measure' />
         <h1 className='select-none'>

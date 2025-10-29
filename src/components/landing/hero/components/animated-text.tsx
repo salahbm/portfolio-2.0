@@ -2,6 +2,7 @@
 
 import { useEffect, useRef } from 'react'
 import { animateHeroText } from '@/components/landing/hero/utils/hero-animation'
+import { cn } from '@/lib/utils'
 
 interface AnimatedTextProps {
   children: React.ReactNode
@@ -16,10 +17,7 @@ export function AnimatedText({ children, className }: AnimatedTextProps) {
   }, [])
 
   return (
-    <h1
-      ref={ref}
-      className={`text-balance font-extrabold leading-tight ${className}`}
-    >
+    <h1 ref={ref} className={cn('text-balance', className)}>
       {children}
     </h1>
   )
