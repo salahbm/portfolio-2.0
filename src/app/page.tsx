@@ -1,10 +1,12 @@
 import { Billboard3D } from '@/components/billboard'
 import { ScrollStory } from '@/components/scroll-story'
 import { HeroSection, CTASection } from '@/components/landing'
+import { Hero } from '@/components/landing/hero/hero-view'
 
 export default function HomePage() {
   return (
     <div className='min-h-screen bg-white text-black dark:bg-black dark:text-white'>
+      <Hero />
       {/* Hero section with GSAP animations */}
       <HeroSection />
 
