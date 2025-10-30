@@ -2,7 +2,8 @@
 
 import { Fragment, useEffect, useRef, useState } from 'react'
 import { FlipLine, FlipLineRef } from './flipboard-line'
-import './flipboard.component.css'
+import { useInView } from '@/hooks/use-in-view'
+import useEvent from 'react-use-event-hook'
 
 interface LineConfig {
   text: string
@@ -12,59 +13,60 @@ interface LineConfig {
 }
 
 const LINES: LineConfig[] = [
-  { text: 'Bukhara,', pad: 1, alignment: 'left', color: 'hsl(120,70%,90%)' },
+  { text: 'Bukhara,', pad: 1, alignment: 'left' },
   { text: 'Uzbekistan', pad: 2, alignment: 'right' },
-  { text: '-', pad: 3, alignment: 'right', color: 'hsl(44,82%,49%)' },
-  { text: 'Seoul,', pad: 4, alignment: 'right', color: 'hsl(200,80%,90%)' },
+  {
+    text: '------------',
+    pad: 3,
+    alignment: 'right',
+    color: 'hsl(44,82%,49%)',
+  },
+  { text: 'Seoul,', pad: 4, alignment: 'right' },
   { text: 'South Korea', pad: 5, alignment: 'right' },
 ]
 
 export function FlipBoard() {
   const lineRefs = useRef<(FlipLineRef | null)[]>([])
   const [isAnimating, setIsAnimating] = useState(false)
-  const animationTimeoutRef = useRef<NodeJS.Timeout | null>(null)
+  const [boardRef, isInView] = useInView<HTMLDivElement>({ threshold: 0.25 })
+
+  const triggerAnimation = useEvent(() => {
+    if (isAnimating || !isInView) return
+
+    setIsAnimating(true)
+    lineRefs.current.forEach((line) => line?.reset())
+
+    setTimeout(() => {
+      LINES.forEach((line, index) => {
+        const formatted =
+          line.alignment === 'right'
+            ? line.text.toLowerCase().padStart(12, ' ')
+            : line.text.toLowerCase().padEnd(12, ' ')
+        lineRefs.current[index]?.run(formatted)
+      })
+
+      setTimeout(() => {
+        setIsAnimating(false)
+      }, 2500)
+    }, 100)
+  })
+
+  // Automatically trigger when the board becomes visible
+  useEffect(() => {
+    if (isInView) triggerAnimation()
+  }, [isInView, triggerAnimation])
 
   useEffect(() => {
     document.documentElement.style.setProperty('--perspective', '1')
   }, [])
 
-  const handleMouseEnter = () => {
-    // Only run animation if not currently animating
-    if (isAnimating) return
-
-    setIsAnimating(true)
-
-    // Run the flip animation for all lines
-    LINES.forEach((line, index) => {
-      const formatted =
-        line.alignment === 'right'
-          ? line.text.toLowerCase().padStart(12, ' ')
-          : line.text.toLowerCase().padEnd(12, ' ')
-      lineRefs.current[index]?.run(formatted)
-    })
-
-    // Clear any existing timeout
-    if (animationTimeoutRef.current) {
-      clearTimeout(animationTimeoutRef.current)
-    }
-
-    // Animation duration: ~2 seconds (accounting for stagger and flip duration)
-    animationTimeoutRef.current = setTimeout(() => {
-      setIsAnimating(false)
-    }, 2000)
-  }
-
-  useEffect(() => {
-    return () => {
-      if (animationTimeoutRef.current) {
-        clearTimeout(animationTimeoutRef.current)
-      }
-    }
-  }, [])
-
   return (
     <Fragment>
-      <div className='board' onMouseEnter={handleMouseEnter}>
+      <div
+        ref={boardRef}
+        className='w-fit cursor-pointer select-none items-center justify-center overflow-hidden px-2 py-3 uppercase'
+        onClick={triggerAnimation}
+      >
         {LINES.map((line, index) => (
           <FlipLine
             key={index}
@@ -75,7 +77,7 @@ export function FlipBoard() {
             pad={line.pad}
             color={line.color}
             alignment={line.alignment}
-            length={15}
+            length={12}
           />
         ))}
       </div>

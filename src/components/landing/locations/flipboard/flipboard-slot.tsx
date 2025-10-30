@@ -1,9 +1,11 @@
 'use client'
 
-import { useEffect, useRef, useImperativeHandle, forwardRef } from 'react'
+import { useRef, useImperativeHandle, forwardRef } from 'react'
 import gsap from 'gsap'
+import './flipboard.component.css'
 
-const DEFAULT_CHARACTERS = 'abcdefghijklmnopqrstuvwxyz1234567890'
+const DEFAULT_CHARACTERS =
+  'abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789,-'
 
 interface FlipSlotProps {
   characters?: string
@@ -13,150 +15,133 @@ interface FlipSlotProps {
 
 export interface FlipSlotRef {
   flip: (character: string, delay?: number) => void
-  setChars: (value: string) => void
+  reset: () => void
   setColor: (value: string) => void
 }
 
 export const FlipSlot = forwardRef<FlipSlotRef, FlipSlotProps>(
   ({ characters = DEFAULT_CHARACTERS, color = 'canvasText', pad = 0 }, ref) => {
     const elementRef = useRef<HTMLDivElement>(null)
-    const charsRef = useRef<string[]>(Array.from(` ${characters} `))
-    const padRef = useRef(pad)
-    const timelineRef = useRef<gsap.core.Timeline | null>(null)
-    const scrubberRef = useRef<gsap.core.Tween | null>(null)
+    const currentCharRef = useRef<string>(' ')
+    const animatingRef = useRef(false)
 
-    const generateTimeline = () => {
-      if (!elementRef.current) return
+    const flipToChar = (targetChar: string, delay = 0) => {
+      if (!elementRef.current || animatingRef.current) return
 
-      const currentTimeline = timelineRef.current
-      const scrubber = scrubberRef.current
+      const chars = Array.from(` ${characters} `)
+      const currentChar = currentCharRef.current
 
-      if (currentTimeline) currentTimeline.kill()
-      if (scrubber) scrubber.kill()
+      // --- Fix: fallback if character doesn't exist ---
+      const isKnownChar = chars.includes(targetChar)
+      const safeTarget = isKnownChar ? targetChar : ' '
+
+      // Always animate even if the same char (to show “tick” effect)
+      animatingRef.current = true
 
       const [foldTop, foldBottom, unfoldTop, unfoldBottom] = Array.from(
         elementRef.current.querySelectorAll('div')
       ) as HTMLDivElement[]
 
-      const chars = charsRef.current
+      // Setup text
+      foldTop.innerText = foldBottom.innerText = currentChar
+      unfoldTop.innerText = unfoldBottom.innerText = safeTarget
 
-      gsap.set([foldTop, unfoldBottom], { clearProps: 'all' })
+      // Reset transforms
+      gsap.set([foldTop, foldBottom, unfoldTop, unfoldBottom], {
+        clearProps: 'all',
+      })
+      gsap.set(foldTop, { rotateX: 0 })
+      gsap.set(foldBottom, { filter: 'brightness(1)' })
+      gsap.set(unfoldTop, { filter: 'brightness(0)' })
+      gsap.set(unfoldBottom, { rotateX: 180 })
 
-      unfoldTop.innerText = unfoldBottom.innerText = chars[1] || ' '
-      foldTop.innerText = foldBottom.innerText = chars[0] || ' '
+      const numFlips = pad > 0 ? Math.floor(Math.random() * 3) + 2 : 1
+      const flipDuration = 0.3
 
-      const timeline = gsap
-        .timeline({
-          paused: true,
-          repeat: chars.length - 2,
-          onRepeat: () => {
-            const index = Math.floor(timeline.totalTime() / timeline.duration())
-            const next = chars[index % chars.length] || ' '
-            const current = chars[(index + 1) % chars.length] || ' '
-            unfoldTop.innerText = unfoldBottom.innerText = current
-            foldTop.innerText = foldBottom.innerText = next
-          },
-        })
-        .fromTo(
-          unfoldBottom,
-          { rotateX: 180 },
-          {
-            rotateX: 0,
-            duration: 1,
-          },
-          0
+      const tl = gsap.timeline({
+        delay,
+        onComplete: () => {
+          currentCharRef.current = safeTarget
+          animatingRef.current = false
+        },
+      })
+
+      for (let i = 0; i < numFlips; i++) {
+        const isLast = i === numFlips - 1
+        const nextChar = isLast
+          ? safeTarget
+          : chars[Math.floor(Math.random() * chars.length)]
+
+        if (i > 0) {
+          tl.call(() => {
+            foldTop.innerText = foldBottom.innerText = currentCharRef.current
+            unfoldTop.innerText = unfoldBottom.innerText = nextChar
+            gsap.set(foldTop, { rotateX: 0 })
+            gsap.set(foldBottom, { filter: 'brightness(1)' })
+            gsap.set(unfoldTop, { filter: 'brightness(0)' })
+            gsap.set(unfoldBottom, { rotateX: 180 })
+          })
+        }
+
+        tl.to(
+          foldTop,
+          { rotateX: -180, duration: flipDuration, ease: 'power2.in' },
+          `flip${i}`
         )
-        .fromTo(
+        tl.to(
+          foldBottom,
+          {
+            filter: 'brightness(0)',
+            duration: flipDuration,
+            ease: 'power2.in',
+          },
+          `flip${i}`
+        )
+        tl.to(
           unfoldTop,
-          { filter: 'brightness(0)' },
           {
             filter: 'brightness(1)',
-            duration: 1,
+            duration: flipDuration,
+            ease: 'power2.out',
           },
-          0
+          `flip${i}`
         )
-        .fromTo(
-          foldTop,
-          { rotateX: 0 },
-          {
-            duration: 1,
-            rotateX: -180,
-          },
-          0
-        )
-        .fromTo(
-          foldBottom,
-          { filter: 'brightness(1)' },
-          {
-            duration: 1,
-            filter: 'brightness(0)',
-          },
-          0
+        tl.to(
+          unfoldBottom,
+          { rotateX: 0, duration: flipDuration, ease: 'power2.out' },
+          `flip${i}`
         )
 
-      const duration = timeline.totalDuration()
-      const newScrubber = gsap.to(timeline, {
-        totalTime: duration,
-        repeat: -1,
-        paused: true,
-        duration: duration,
-        ease: 'none',
-      })
-      newScrubber.time(timeline.totalDuration())
-
-      timelineRef.current = timeline
-      scrubberRef.current = newScrubber
+        if (!isLast) currentCharRef.current = nextChar
+      }
     }
 
-    useEffect(() => {
-      gsap.defaults({
-        duration: 1,
-        ease: 'none',
+    const reset = () => {
+      if (!elementRef.current) return
+
+      const [foldTop, foldBottom, unfoldTop, unfoldBottom] = Array.from(
+        elementRef.current.querySelectorAll('div')
+      ) as HTMLDivElement[]
+
+      currentCharRef.current = ' '
+      ;[foldTop, foldBottom, unfoldTop, unfoldBottom].forEach((el) => {
+        el.innerText = ' '
       })
 
-      generateTimeline()
+      gsap.set([foldTop, foldBottom, unfoldTop, unfoldBottom], {
+        clearProps: 'all',
+      })
+      gsap.set(foldTop, { rotateX: 0 })
+      gsap.set(foldBottom, { filter: 'brightness(1)' })
+      gsap.set(unfoldTop, { filter: 'brightness(0)' })
+      gsap.set(unfoldBottom, { rotateX: 180 })
 
-      return () => {
-        timelineRef.current?.kill()
-        scrubberRef.current?.kill()
-      }
-    }, [])
+      animatingRef.current = false
+    }
 
     useImperativeHandle(ref, () => ({
-      flip: (character: string, delay = 0) => {
-        const chars = charsRef.current
-        const timeline = timelineRef.current
-        const scrubber = scrubberRef.current
-
-        if (!timeline || !scrubber) return
-
-        const currentIndex = chars.indexOf(
-          chars[Math.floor(timeline.totalTime())] || ' '
-        )
-        const desiredIndex =
-          chars.indexOf(character) !== -1 ? chars.indexOf(character) : 0
-
-        const shift =
-          currentIndex > desiredIndex
-            ? chars.length - 1 - currentIndex + desiredIndex
-            : desiredIndex - currentIndex
-
-        const padding =
-          currentIndex === desiredIndex
-            ? 0
-            : padRef.current * (chars.length - 1)
-
-        gsap.to(scrubber, {
-          delay,
-          totalTime: `+=${shift + padding}`,
-          ease: 'power1.out',
-          duration: (shift + padding) * gsap.utils.random(0.02, 0.06),
-        })
-      },
-      setChars: (value: string) => {
-        charsRef.current = Array.from(` ${value} `)
-        generateTimeline()
-      },
+      flip: flipToChar,
+      reset,
       setColor: (value: string) => {
         elementRef.current?.style.setProperty('--color', value)
       },
@@ -168,10 +153,10 @@ export const FlipSlot = forwardRef<FlipSlotRef, FlipSlotProps>(
         className='flip'
         style={{ '--color': color } as React.CSSProperties}
       >
-        <div></div>
-        <div></div>
-        <div></div>
-        <div></div>
+        <div> </div>
+        <div> </div>
+        <div> </div>
+        <div> </div>
       </div>
     )
   }

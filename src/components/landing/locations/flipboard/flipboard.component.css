@@ -1,50 +1,56 @@
-/* Flipboard Component Styles */
+/* ====================================================================== */
+/* 🎯 FLIP SLOT CORE ANIMATION STYLES                                     */
+/* ====================================================================== */
 
-/* Flip slot animations */
+/* 
+   Each .flip element represents a single character "tile" 
+   on the flipboard (like airport split-flap displays).
+   It contains 4 stacked <div>s that animate between top/bottom halves 
+   to simulate a mechanical flip motion.
+*/
+
+/* --- Stage 1: Define per-child flip layer behavior ------------------- */
+
+/* 2nd div = folded top half (starts flipped 180° and hidden) */
 .flip > div:nth-of-type(2) {
   z-index: 2;
   transform: rotateX(-180deg);
   backface-visibility: hidden;
+  will-change: transform;
 }
 
+/* 3rd div = unfolded top half (visible layer during transition) */
 .flip div:nth-of-type(3) {
   z-index: 3;
   backface-visibility: hidden;
+  will-change: filter;
 }
 
-/* Board and line layout */
+/* --- Stage 2: Main flip container ------------------------------------ */
 
-.board {
-  display: flex;
-  gap: 0.3ch;
-  flex-direction: column;
-  text-transform: uppercase;
-  font-family: 'Roboto Mono', monospace, ui-monospace, 'Courier New', monospace;
-  background: transparent; /* transparent to show billboard screen */
-  align-items: center;
-  justify-content: center;
-  width: fit-content;
-  padding: 8px 12px;
-  overflow: hidden;
-}
-.flip-line {
-  display: flex;
-  gap: 0.3ch;
-}
 .flip {
   --font-level: 8;
   font-size: 2.5rem;
   color: var(--color, currentColor);
+  font-family: var(--font-syne); /* brand monospace look */
   width: 1.5ch;
   line-height: 1.2;
   display: inline-block;
   height: 1lh;
   text-align: center;
   position: relative;
+
+  /* Enable 3D transform space for internal divs */
   transform-style: preserve-3d;
   perspective: calc(var(--perspective, 1) * 1em);
+
+  /* Optimize GPU usage for animation-heavy elements */
+  will-change: transform;
 }
 
+/* --- Stage 3: Decorative side highlights ------------------------------ */
+
+/* Subtle metallic "hinge" reflections on both sides of the flap */
 .flip::before,
 .flip::after {
   content: '';
@@ -55,24 +61,33 @@
   top: 50%;
   translate: 0 -50%;
 }
+
 .flip::before {
-  left: 0;
+  left: 0; /* left highlight */
 }
 
 .flip::after {
-  right: 0;
+  right: 0; /* right highlight */
 }
+
+/* --- Stage 4: Flip holder for internal sub-layers -------------------- */
+
 .flip .flip-holder {
   position: absolute;
   inset: 0;
   transform-style: preserve-3d;
+  will-change: transform;
 }
+
+/* --- Stage 5: Internal flap segments --------------------------------- */
 
 .flip div {
   position: absolute;
-  transform-style: preserve-3d;
-  overflow: hidden;
   inset: 0;
+  overflow: hidden;
+  transform-style: preserve-3d;
+
+  /* Subtle inner gradient for depth & light reflection */
   background:
     radial-gradient(100% 100% at 50% 100%, hsl(0 0% 60% / 0.2), transparent),
     hsl(0 0% 15%);
@@ -91,6 +106,7 @@
   );
 }
 
+/* Bottom half of the character tile */
 .flip div:nth-of-type(even) {
   clip-path: polygon(
     0 60%,

@@ -3,7 +3,7 @@
 import { useRef, useImperativeHandle, forwardRef, useEffect } from 'react'
 import { FlipSlot, FlipSlotRef } from './flipboard-slot'
 
-const DEFAULT_CHARACTERS = 'abcdefghijklmnopqrstuvwxyz'
+const DEFAULT_CHARACTERS = 'abcdefghijklmnopqrstuvwxyz-'
 
 interface FlipLineProps {
   text?: string
@@ -16,8 +16,8 @@ interface FlipLineProps {
 
 export interface FlipLineRef {
   run: (text: string) => void
+  reset: () => void
   setColor: (color: string) => void
-  setPad: (pad: number) => void
 }
 
 export const FlipLine = forwardRef<FlipLineRef, FlipLineProps>(
@@ -45,6 +45,10 @@ export const FlipLine = forwardRef<FlipLineRef, FlipLineProps>(
       // eslint-disable-next-line react-hooks/exhaustive-deps
     }, [])
 
+    const reset = () => {
+      slotRefs.current.forEach((slot) => slot?.reset())
+    }
+
     const run = (update: string) => {
       const letters = Array.from(update.padEnd(length, ' '))
       for (let i = 0; i < Math.min(letters.length, length); i++) {
@@ -54,17 +58,14 @@ export const FlipLine = forwardRef<FlipLineRef, FlipLineProps>(
 
     useImperativeHandle(ref, () => ({
       run,
+      reset,
       setColor: (newColor: string) => {
         slotRefs.current.forEach((slot) => slot?.setColor(newColor))
-      },
-      setPad: (_newPad: number) => {
-        // Pad is set on individual slots, so we'd need to recreate them
-        // For now, this is a no-op as pad is set at creation time
       },
     }))
 
     return (
-      <div className='flip-line'>
+      <div className='flex gap-x-0.5'>
         {Array.from({ length }).map((_, i) => (
           <FlipSlot
             key={i}
