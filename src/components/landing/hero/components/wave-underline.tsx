@@ -30,11 +30,11 @@ export function WaveUnderline() {
     >
       <path
         ref={pathRef}
-        d='M0,5 Q10,8 20,5 T40,5 T60,5 T80,5 T100,5'
+        d='M0,5 Q10,0 20,5 T40,5 T60,5 T80,5 T100,5'
         fill='none'
         stroke='currentColor'
         strokeWidth='4'
-        className='text-violet-500'
+        className='text-lime-400'
       />
     </svg>
   )

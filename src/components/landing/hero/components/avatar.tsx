@@ -81,14 +81,14 @@ const AvatarView: React.FC = () => {
   return (
     <div
       ref={avatarRef}
-      className='group relative flex h-fit w-[300px] items-center justify-center lg:min-w-[600px]'
+      className='flex-center group relative w-[150px] lg:w-[200px]'
       onMouseEnter={() => hoverTrig?.fire()}
       onMouseLeave={() => idleTrig?.fire()}
     >
       <RiveComponent
         style={{
-          width: '100%',
-          maxWidth: 600,
+          width: '200px',
+          maxWidth: '200px',
           height: 'auto',
           aspectRatio: '1/1',
         }}
@@ -96,9 +96,9 @@ const AvatarView: React.FC = () => {
 
       {!isLoaded && (
         <div className='absolute inset-0 flex items-center justify-center bg-background/40 backdrop-blur-sm'>
-          <div className='relative h-1 w-40 overflow-hidden rounded-full bg-violet-950/30'>
-            {/* eslint-disable-next-line tailwindcss/classnames-order */}
-            <span className='animate-loading-bar absolute inset-y-0 left-0 w-1/3 bg-gradient-to-r from-violet-400 to-fuchsia-400' />
+          <div className='relative h-16 w-16'>
+            <span className='absolute inset-0 rounded-full border-4 border-violet-950/30' />
+            <span className='border-gradient absolute inset-0 animate-spin rounded-full border-4 border-l-fuchsia-400 border-t-transparent border-t-violet-400' />
           </div>
         </div>
       )}

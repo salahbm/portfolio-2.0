@@ -93,11 +93,6 @@ const config = {
           from: { height: 'var(--radix-accordion-content-height)' },
           to: { height: '0' },
         },
-        'loading-bar': {
-          '0%': { left: '0%', width: '0%' },
-          '50%': { left: '0%', width: '100%' },
-          '100%': { left: '100%', width: '0%' },
-        },
       },
       animation: {
         'accordion-down': 'accordion-down 0.2s ease-out',
