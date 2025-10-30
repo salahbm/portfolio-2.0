@@ -18,11 +18,11 @@ export function HeroText() {
   return (
     <div
       ref={ref}
-      className='font-monument-extended relative mb-5 text-center sm:text-left'
+      className='font-monument-extended relative text-center sm:text-left'
     >
       {/* Greeting */}
 
-      <h1
+      {/* <h1
         className='text-[clamp(1.5rem,4vw,2.5rem)] leading-tight tracking-wide'
         onMouseEnter={() => hoverTrig?.fire()}
         onMouseLeave={() => idleTrig?.fire()}
@@ -33,17 +33,17 @@ export function HeroText() {
             <WaveUnderline />
           </span>
         </span>
-      </h1>
+      </h1> */}
 
       <h1
         data-animation-delay='0.4'
-        className='text-gradient-lilac mt-2 whitespace-nowrap font-lader-medium text-[clamp(2.5rem,8vw,5rem)] leading-none'
+        className='text-gradient-lilac mt-2 whitespace-nowrap text-2xl leading-none lg:text-4xl'
       >
         Muhammad
       </h1>
 
       {/* Title */}
-      <h1 className='mt-2 text-[clamp(1rem,2.5vw,1.5rem)] tracking-wide'>
+      <h1 className='mt-2 text-xl tracking-wide'>
         <span data-animation-delay='0.6'>a full-stack software engineer</span>
       </h1>
     </div>

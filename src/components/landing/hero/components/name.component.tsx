@@ -17,7 +17,7 @@ const NameComponent: React.FC = () => {
     <section className='flex-center sticky bottom-0 left-0 right-0 px-20 align-bottom'>
       <p
         id='name-salah'
-        className='font-monument-extended whitespace-nowrap text-center leading-none text-[#c6ff79]'
+        className='font-monument-extended whitespace-nowrap text-center leading-none text-primary'
         onMouseEnter={() => happyTrig?.fire()}
         onMouseLeave={() => idleTrig?.fire()}
       >

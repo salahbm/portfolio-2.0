@@ -9,11 +9,12 @@ export function WaveUnderline() {
   useEffect(() => {
     if (!pathRef.current) return
 
-    // Always animate the wave
+    // Define two wave states
+    const wave2 = 'M0,5 Q10,10 20,5 T40,5 T60,5 T80,5 T100,5'
+
+    // Animate between the two
     gsap.to(pathRef.current, {
-      attr: {
-        d: 'M0,5 Q10,0 20,5 T40,5 T60,5 T80,5 T100,5',
-      },
+      attr: { d: wave2 },
       duration: 1.5,
       repeat: -1,
       yoyo: true,
@@ -34,7 +35,7 @@ export function WaveUnderline() {
         fill='none'
         stroke='currentColor'
         strokeWidth='4'
-        className='text-lime-400'
+        className='text-[#6c29e2]'
       />
     </svg>
   )

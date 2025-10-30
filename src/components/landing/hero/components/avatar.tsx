@@ -81,14 +81,14 @@ const AvatarView: React.FC = () => {
   return (
     <div
       ref={avatarRef}
-      className='flex-center group relative w-[150px] lg:w-[200px]'
+      className='flex-center group relative w-[80px] lg:w-[150px]'
       onMouseEnter={() => hoverTrig?.fire()}
       onMouseLeave={() => idleTrig?.fire()}
     >
       <RiveComponent
         style={{
-          width: '200px',
-          maxWidth: '200px',
+          width: 160,
+          maxWidth: 160,
           height: 'auto',
           aspectRatio: '1/1',
         }}
