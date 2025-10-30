@@ -1,9 +1,7 @@
 import React from 'react'
 import { LocationHighlight } from './location-highlight'
 
-interface ILocationsViewProps {}
-
-const LocationsView: React.FC<ILocationsViewProps> = (props) => {
+const LocationsView: React.FC = () => {
   return (
     <div className='flex min-h-screen items-center justify-center'>
       {' '}

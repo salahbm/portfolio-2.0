@@ -2,6 +2,7 @@ import { ScrollStory } from '@/components/scroll-story'
 import { Hero } from '@/components/landing/hero/hero-view'
 import { JourneySection } from '@/components/landing/journey'
 import { LocationsView } from '@/components/landing/locations'
+import { Billboard3D } from '@/components/landing/locations/components/billboard'
 
 export default function HomePage() {
   return (
@@ -16,12 +17,12 @@ export default function HomePage() {
       </article>
 
       {/* 3D Billboard showcase */}
-      {/* <section
+      <section
         id='billboard'
         className='flex min-h-screen items-center justify-center py-20'
       >
         <Billboard3D />
-      </section> */}
+      </section>
 
       {/* Story section with scroll animations */}
       <ScrollStory />

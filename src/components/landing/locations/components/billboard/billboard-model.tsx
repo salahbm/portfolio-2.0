@@ -13,43 +13,28 @@ export function BillboardModel() {
     <group
       ref={groupRef}
       scale={[0.18, 0.145, 0.15]}
-      rotation={[0, 5.5, 0]} // faces camera
+      rotation={[0, 5.5, 0]}
       position={[0, -1.4, 0]}
     >
       <primitive object={scene} />
 
-      <rectAreaLight
-        args={['#ffffff', 15, 3, 1]}
-        position={[0, 13.6, -0.4]} // just in front of screen
-        rotation={[0, 1.6, 0]}
-        intensity={15}
-      />
-
-      {/* FlipBoard integrated seamlessly into billboard screen */}
+      {/* FlipBoard inside billboard screen */}
       <Html
         transform
         occlude
-        position={[0, 16, 6]} // perfectly flush with screen surface
+        position={[0, 16, 6]}
         rotation={[0, Math.PI / 2, 0]}
-        distanceFactor={5} // adjusted for perfect scale match
+        distanceFactor={5}
         style={{
           pointerEvents: 'auto',
           transform: 'scale(1.8)',
-          zIndex: 1,
         }}
-        className='billboard-flipboard-container'
       >
         <div
+          className='billboard-screen flex items-center justify-center rounded-lg bg-neutral-900 p-3 text-neutral-100 shadow-inner dark:bg-neutral-100 dark:text-neutral-900'
           style={{
             width: '100%',
             height: '100%',
-            display: 'flex',
-            alignItems: 'center',
-            justifyContent: 'center',
-            background: 'hsl(0 0% 8%)', // match billboard screen
-            padding: '10px',
-            borderRadius: '8px',
-            boxShadow: 'inset 0 0 30px rgba(0,0,0,0.5)',
           }}
         >
           <FlipBoard />
