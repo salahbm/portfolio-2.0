@@ -1,51 +1,56 @@
+'use client'
 import { AnimatedText } from '@/components/landing/hero/components/animated-text'
-import { LocationHighlight } from '@/components/landing/hero/components/location-highlight'
+import { WaveUnderline } from '@/components/landing/hero/components/wave-underline'
+import { useAvatarStore } from '@/store/avatar-store'
 
 export function HeroText() {
+  const { hoverTrig, happyTrig, idleTrig } = useAvatarStore()
   return (
-    <AnimatedText className='font-header flex flex-col items-center gap-6 text-center text-foreground sm:gap-8 lg:items-start lg:text-left'>
+    <div className='flex flex-col items-center gap-6 text-center text-foreground sm:gap-8 md:gap-10 lg:items-start lg:text-left'>
       {/* Greeting */}
-      <span
-        className='block text-2xl font-normal tracking-wide sm:text-3xl md:text-4xl'
-        data-animation-delay='0'
-      >
-        Hey there! I&apos;m
-      </span>
 
-      {/* Name with gradient - block display for proper gradient rendering */}
-      <span
-        className='text-gradient-lilac block text-4xl font-black leading-tight tracking-tight sm:text-5xl md:text-6xl lg:text-7xl'
-        data-animation-delay='0.3'
+      <AnimatedText
+        className='block text-2xl font-light tracking-wide sm:text-3xl md:text-4xl lg:text-5xl xl:text-6xl'
+        onMouseEnter={() => hoverTrig?.fire()}
+        onMouseLeave={() => idleTrig?.fire()}
       >
-        Muhammad (Salah)
-      </span>
+        <span data-animation-delay='0' className='relative inline-block'>
+          Hey <span className='wave-animation'>👋</span>
+          <span className='absolute bottom-2 left-0 w-4/5 sm:w-[70%] md:w-3/5 lg:w-full'>
+            <WaveUnderline />
+          </span>
+        </span>
+      </AnimatedText>
+
+      {/* Name with gradient */}
+      <div className='flex flex-col items-center gap-3 lg:items-start lg:gap-4'>
+        <AnimatedText className='block text-2xl font-light tracking-wide sm:text-2xl md:text-3xl lg:text-4xl xl:text-5xl'>
+          <span data-animation-delay='0.2'>I&apos;m</span>
+        </AnimatedText>
+
+        <AnimatedText
+          onMouseEnter={() => happyTrig?.fire()}
+          onMouseLeave={() => idleTrig?.fire()}
+        >
+          <span
+            data-animation-delay='0.4'
+            className='text-gradient-lilac block whitespace-nowrap text-5xl font-black leading-none tracking-tight sm:text-7xl md:text-8xl lg:text-9xl xl:text-[10rem]'
+          >
+            Muhammad
+          </span>
+          <span
+            data-animation-delay='0.6'
+            className='text-gradient-lilac block whitespace-nowrap text-5xl font-black leading-none tracking-tight sm:text-7xl md:text-8xl lg:text-9xl xl:text-[10rem]'
+          >
+            (Salah)
+          </span>
+        </AnimatedText>
+      </div>
 
       {/* Title */}
-      <span
-        className='block text-xl font-normal tracking-wide sm:text-2xl md:text-3xl'
-        data-animation-delay='0.6'
-      >
-        — a full-stack software engineer
-      </span>
-
-      {/* Location info - single line with proper spacing */}
-      <span
-        className='mt-4 block max-w-4xl text-lg font-light leading-relaxed text-muted-foreground sm:text-xl md:text-2xl'
-        data-animation-delay='0.9'
-      >
-        originally from{' '}
-        <LocationHighlight
-          name='Bukhara, Uzbekistan'
-          gradient='bg-gradient-to-r from-violet-500/30 to-purple-400/30'
-          className='font-milkyway text-lg font-normal sm:text-xl md:text-2xl'
-        />
-        , now creating cool things in{' '}
-        <LocationHighlight
-          name='Seoul, South Korea'
-          gradient='bg-gradient-to-r from-fuchsia-500/30 to-violet-400/30'
-          className='font-babygemoy text-lg font-normal sm:text-xl md:text-2xl'
-        />
-      </span>
-    </AnimatedText>
+      <AnimatedText className='block text-xl font-light tracking-wide sm:text-2xl md:text-3xl lg:text-4xl xl:text-5xl'>
+        <span data-animation-delay='0.8'>a full-stack software engineer</span>
+      </AnimatedText>
+    </div>
   )
 }

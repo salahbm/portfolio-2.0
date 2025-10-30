@@ -117,11 +117,18 @@
       oklch(0.85 0.15 320)
     );
     background-size: 200% 100%;
-    background-clip: text;
     -webkit-background-clip: text;
     -webkit-text-fill-color: transparent;
-    /* Fallback for browsers that don't support background-clip */
-    color: oklch(0.85 0.15 320);
+    background-clip: text;
+  }
+
+  /* Ensure gradient works with SplitType children */
+  .text-gradient-lilac * {
+    background: inherit;
+    background-size: inherit;
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-clip: text;
   }
 
   .text-gradient-dark {
@@ -132,10 +139,46 @@
     );
     -webkit-background-clip: text;
     -webkit-text-fill-color: transparent;
+    background-clip: text;
+    color: oklch(0.85 0.15 320);
   }
 
   .bg-gradient-lilac {
     @apply bg-gradient-to-tr from-[oklch(0.82_0.12_320)] via-[oklch(0.88_0.06_270)] to-[oklch(0.9_0.07_320)];
+  }
+
+  /* Hand wave animation */
+  @keyframes wave {
+    0% {
+      transform: rotate(0deg);
+    }
+    10% {
+      transform: rotate(14deg);
+    }
+    20% {
+      transform: rotate(-8deg);
+    }
+    30% {
+      transform: rotate(14deg);
+    }
+    40% {
+      transform: rotate(-4deg);
+    }
+    50% {
+      transform: rotate(10deg);
+    }
+    60% {
+      transform: rotate(0deg);
+    }
+    100% {
+      transform: rotate(0deg);
+    }
+  }
+
+  .wave-animation {
+    animation: wave 2.5s infinite;
+    transform-origin: 70% 70%;
+    display: inline-block;
   }
 
   .bg-gradient-dark {

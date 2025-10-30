@@ -1,15 +1,13 @@
 'use client'
 
 import { useEffect, useRef } from 'react'
-import { animateHeroText } from '@/components/landing/hero/utils/hero-animation'
-import { cn } from '@/lib/utils'
+import { animateHeroText } from '@/lib/hero-animations'
 
-interface AnimatedTextProps {
+interface AnimatedTextProps extends React.HTMLAttributes<HTMLHeadingElement> {
   children: React.ReactNode
-  className?: string
 }
 
-export function AnimatedText({ children, className }: AnimatedTextProps) {
+export function AnimatedText({ children, ...props }: AnimatedTextProps) {
   const ref = useRef<HTMLHeadingElement>(null)
 
   useEffect(() => {
@@ -17,7 +15,7 @@ export function AnimatedText({ children, className }: AnimatedTextProps) {
   }, [])
 
   return (
-    <h1 ref={ref} className={cn('text-balance', className)}>
+    <h1 ref={ref} {...props}>
       {children}
     </h1>
   )

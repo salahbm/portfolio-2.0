@@ -39,10 +39,9 @@ const config = {
       fontFamily: {
         sans: ['var(--font-geist-sans)', 'system-ui'],
         mono: ['var(--font-geist-mono)', 'monospace'],
-        babygemoy: ['var(--font-babygemoy)'],
-        higherjump: ['var(--font-higherjump)'],
         milkyway: ['var(--font-milkyway)'],
-        'lader-regular': ['var(--font-lader-regular)'],
+        'monument-extended': ['var(--font-monument-extended)'],
+        syne: ['var(--font-syne)'],
         'lader-medium': ['var(--font-lader-medium)'],
       },
       colors: {
@@ -94,10 +93,16 @@ const config = {
           from: { height: 'var(--radix-accordion-content-height)' },
           to: { height: '0' },
         },
+        'loading-bar': {
+          '0%': { left: '0%', width: '0%' },
+          '50%': { left: '0%', width: '100%' },
+          '100%': { left: '100%', width: '0%' },
+        },
       },
       animation: {
         'accordion-down': 'accordion-down 0.2s ease-out',
         'accordion-up': 'accordion-up 0.2s ease-out',
+        'loading-bar': 'loading-bar 1.4s ease-in-out infinite',
       },
     },
   },

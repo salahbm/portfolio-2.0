@@ -1,122 +1,107 @@
 'use client'
 
-import React, { useEffect, useState } from 'react'
+import React, { useEffect, useRef } from 'react'
 import { useRive, useStateMachineInput } from '@rive-app/react-canvas'
+import { useAvatarStore } from '@/store/avatar-store'
+import gsap from 'gsap'
 
 const STATE_MACHINE = 'State Machine 1'
 
 const AvatarView: React.FC = () => {
-  const [isLoaded, setIsLoaded] = useState(false)
+  const avatarRef = useRef<HTMLDivElement>(null)
+  const { setRive, setIsLoaded, setTriggers, isLoaded, hoverTrig, idleTrig } =
+    useAvatarStore()
 
   const { rive, RiveComponent } = useRive({
     src: '/rive/avatar.riv',
     stateMachines: STATE_MACHINE,
     autoplay: true,
-    onLoad: () => {
-      setIsLoaded(true)
-      console.log('Rive loaded successfully')
-    },
-    onLoadError: (error) => {
-      console.error('Rive load error:', error)
-    },
+    onLoadError: (error) => console.error('❌ Rive load error:', error),
   })
 
-  // Get Trigger inputs from the state machine
-  const hoverTrig = useStateMachineInput(rive, STATE_MACHINE, 'hover', false)
-  const sadTrig = useStateMachineInput(rive, STATE_MACHINE, 'sad', false)
-  const thinkingTrig = useStateMachineInput(
+  const hoverInput = useStateMachineInput(rive, STATE_MACHINE, 'hover', false)
+  const sadInput = useStateMachineInput(rive, STATE_MACHINE, 'sad', false)
+  const thinkingInput = useStateMachineInput(
     rive,
     STATE_MACHINE,
     'thinking',
     false
   )
-  const happyTrig = useStateMachineInput(rive, STATE_MACHINE, 'happy', false)
-  const idleTrig = useStateMachineInput(rive, STATE_MACHINE, 'idle', false)
+  const happyInput = useStateMachineInput(rive, STATE_MACHINE, 'happy', false)
+  const idleInput = useStateMachineInput(rive, STATE_MACHINE, 'idle', false)
 
   useEffect(() => {
-    if (rive) {
-      console.log('Rive instance:', rive)
-      console.log('State machines:', rive.stateMachineNames)
+    if (
+      rive &&
+      hoverInput &&
+      idleInput &&
+      sadInput &&
+      thinkingInput &&
+      happyInput
+    ) {
+      setRive(rive)
+      setTriggers({
+        hoverTrig: hoverInput,
+        sadTrig: sadInput,
+        thinkingTrig: thinkingInput,
+        happyTrig: happyInput,
+        idleTrig: idleInput,
+      })
+      setIsLoaded(true)
+      console.log('✅ Rive fully ready')
     }
-  }, [rive])
+  }, [
+    rive,
+    hoverInput,
+    sadInput,
+    thinkingInput,
+    happyInput,
+    idleInput,
+    setRive,
+    setTriggers,
+    setIsLoaded,
+  ])
+
+  useEffect(() => {
+    if (isLoaded && avatarRef.current) {
+      gsap.fromTo(
+        avatarRef.current,
+        { scale: 0.5, delay: 0.5, rotate: -20, opacity: 0 },
+        {
+          scale: 1,
+          rotate: 0,
+          opacity: 1,
+          duration: 1.2,
+          ease: 'power3.out',
+        }
+      )
+    }
+  }, [isLoaded])
 
   return (
-    <div className='flex flex-col items-center gap-4'>
-      {/* Avatar container */}
-      <div
-        className='group relative overflow-hidden rounded-2xl border-2 border-violet-500/20 bg-gradient-to-br from-violet-500/5 to-fuchsia-500/5 p-4 backdrop-blur-sm transition-all duration-300 hover:border-violet-500/40 hover:shadow-xl hover:shadow-violet-500/20'
-        onMouseEnter={() => {
-          console.log('Mouse enter, firing hover')
-          hoverTrig?.fire()
+    <div
+      ref={avatarRef}
+      className='group relative flex h-fit w-[300px] items-center justify-center lg:min-w-[600px]'
+      onMouseEnter={() => hoverTrig?.fire()}
+      onMouseLeave={() => idleTrig?.fire()}
+    >
+      <RiveComponent
+        style={{
+          width: '100%',
+          maxWidth: 600,
+          height: 'auto',
+          aspectRatio: '1/1',
         }}
-        onMouseLeave={() => {
-          console.log('Mouse leave, firing idle')
-          idleTrig?.fire()
-        }}
-      >
-        {!isLoaded && (
-          <div className='flex h-60 w-60 items-center justify-center'>
-            <div className='h-8 w-8 animate-spin rounded-full border-4 border-violet-500 border-t-transparent' />
-          </div>
-        )}
-        <RiveComponent
-          style={{
-            width: 240,
-            height: 240,
-            opacity: isLoaded ? 1 : 0,
-            transition: 'opacity 0.3s',
-          }}
-        />
-      </div>
+      />
 
-      {/* Action buttons */}
-      <div className='flex flex-wrap items-center justify-center gap-2'>
-        <button
-          className='rounded-lg border border-violet-500/30 bg-violet-500/10 px-3 py-1.5 text-sm font-medium transition-all hover:border-violet-500/50 hover:bg-violet-500/20'
-          onClick={() => {
-            console.log('Hover button clicked')
-            hoverTrig?.fire()
-          }}
-        >
-          👋 Hover
-        </button>
-        <button
-          className='rounded-lg border border-blue-500/30 bg-blue-500/10 px-3 py-1.5 text-sm font-medium transition-all hover:border-blue-500/50 hover:bg-blue-500/20'
-          onClick={() => {
-            console.log('Sad button clicked')
-            sadTrig?.fire()
-          }}
-        >
-          😢 Sad
-        </button>
-        <button
-          className='rounded-lg border border-purple-500/30 bg-purple-500/10 px-3 py-1.5 text-sm font-medium transition-all hover:border-purple-500/50 hover:bg-purple-500/20'
-          onClick={() => {
-            console.log('Thinking button clicked')
-            thinkingTrig?.fire()
-          }}
-        >
-          🤔 Thinking
-        </button>
-        <button
-          className='rounded-lg border border-pink-500/30 bg-pink-500/10 px-3 py-1.5 text-sm font-medium transition-all hover:border-pink-500/50 hover:bg-pink-500/20'
-          onClick={() => {
-            console.log('Happy button clicked')
-            happyTrig?.fire()
-          }}
-        >
-          😊 Happy
-        </button>
-        <button
-          className='rounded-lg border border-gray-500/30 bg-gray-500/10 px-3 py-1.5 text-sm font-medium transition-all hover:border-gray-500/50 hover:bg-gray-500/20'
-          onClick={() => {
-            console.log('Idle button clicked')
-            idleTrig?.fire()
-          }}
-        >
-          😐 Idle
-        </button>
-      </div>
+      {!isLoaded && (
+        <div className='absolute inset-0 flex items-center justify-center bg-background/40 backdrop-blur-sm'>
+          <div className='relative h-1 w-40 overflow-hidden rounded-full bg-violet-950/30'>
+            {/* eslint-disable-next-line tailwindcss/classnames-order */}
+            <span className='animate-loading-bar absolute inset-y-0 left-0 w-1/3 bg-gradient-to-r from-violet-400 to-fuchsia-400' />
+          </div>
+        </div>
+      )}
     </div>
   )
 }

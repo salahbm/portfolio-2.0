@@ -1,12 +1,14 @@
 'use client'
 
 import { useEffect, useRef } from 'react'
-import { animateIcons } from '@/components/landing/hero/utils/hero-animation'
+import { animateIcons } from '@/lib/hero-animations'
 import {
   CodeBracketIcon,
   SparklesIcon,
   CommandLineIcon,
   CpuChipIcon,
+  ComputerDesktopIcon,
+  CurrencyDollarIcon,
 } from '@heroicons/react/24/solid'
 import {
   RocketIcon,
@@ -49,6 +51,9 @@ export function HeroIcons() {
       {/* Center scattered icons for depth */}
       <SparklesIcon className='absolute left-1/4 top-[35%] h-4 w-4 text-violet-300 opacity-30 sm:h-5 sm:w-5 md:left-[28%] lg:h-6 lg:w-6' />
       <StarIcon className='absolute right-1/4 top-[40%] h-4 w-4 text-fuchsia-300 opacity-30 sm:h-5 sm:w-5 md:right-[28%] lg:h-6 lg:w-6' />
+
+      <ComputerDesktopIcon className='absolute left-[10%] top-1/2 h-6 w-6 text-violet-400 opacity-60 sm:h-8 sm:w-8 md:left-[12%] md:top-[52%] lg:h-10 lg:w-10' />
+      <CurrencyDollarIcon className='absolute bottom-[30%] right-[20%] h-6 w-6 text-violet-400 opacity-60 sm:h-8 sm:w-8 md:bottom-[12%] md:right-[12%] lg:h-10 lg:w-10' />
     </div>
   )
 }
