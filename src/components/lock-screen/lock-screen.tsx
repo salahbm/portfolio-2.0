@@ -7,17 +7,9 @@ import { AnimatePresence, motion } from 'motion/react'
 
 interface LockScreenProps {
   onLoadComplete?: () => void
-  loadingDuration?: number
-  userName?: string
-  avatarUrl?: string
 }
 
-export const LockScreen: React.FC<LockScreenProps> = ({
-  onLoadComplete,
-  loadingDuration = 3000,
-  userName = 'Salah',
-  avatarUrl = '/images/avatar.webp',
-}) => {
+export const LockScreen: React.FC<LockScreenProps> = ({ onLoadComplete }) => {
   const [progress, setProgress] = useState(0)
   const [currentTime, setCurrentTime] = useState(new Date())
   const [isLoading, setIsLoading] = useState(true) // start in loading state
@@ -66,7 +58,7 @@ export const LockScreen: React.FC<LockScreenProps> = ({
 
     const step = () => {
       const elapsed = Date.now() - startTime
-      const next = Math.min((elapsed / loadingDuration) * 100, 100)
+      const next = Math.min((elapsed / 2000) * 100, 100)
       setProgress(next)
       if (next < 100) {
         raf.id = requestAnimationFrame(step)
@@ -78,7 +70,7 @@ export const LockScreen: React.FC<LockScreenProps> = ({
 
     raf.id = requestAnimationFrame(step)
     return () => cancelAnimationFrame(raf.id)
-  }, [isLoading, loadingDuration])
+  }, [isLoading])
 
   const dismiss = useCallback(() => {
     if (!containerRef.current) return
@@ -193,8 +185,8 @@ export const LockScreen: React.FC<LockScreenProps> = ({
           className='relative h-24 w-24 overflow-hidden rounded-full shadow-[0_0_30px_rgba(255,255,255,0.12)] ring-4 ring-white/15 md:h-28 md:w-28'
         >
           <Image
-            src={avatarUrl}
-            alt={userName}
+            src='/medias/images/avatar.webp'
+            alt='Salah'
             fill
             className='translate-y-[8%] object-cover object-top' // slight downward offset
             priority
@@ -207,7 +199,7 @@ export const LockScreen: React.FC<LockScreenProps> = ({
 
         {/* Username */}
         <div className='select-none text-xl font-light tracking-wide md:text-2xl'>
-          {userName}
+          Salah
         </div>
 
         {/* Progress only (no spinner) then Start */}

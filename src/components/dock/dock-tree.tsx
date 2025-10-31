@@ -16,7 +16,7 @@ import {
   TooltipContent,
 } from '@/components/ui/tooltip'
 import { CommandCenter } from '@/components/command-center/command-center'
-import { ColorModeDropdownSwitcher } from '@/components/color-mode/color-mode-dropdown-switcher'
+import { ColorModeDropdownSwitcher } from '@/components/color-mode/theme-switcher'
 import { MusicPlayerSwitcher } from '@/components/music/music-player-switcher'
 
 const Dock = () => {

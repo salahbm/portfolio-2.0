@@ -16,18 +16,21 @@ import {
 } from '@/components/ui/drawer'
 
 import { NavigationDockItemLink } from '@/components/dock/dock-link'
-import { GitHubLogoIcon, LinkedInLogoIcon } from '@radix-ui/react-icons'
+import {
+  GitHubLogoIcon,
+  InstagramLogoIcon,
+  LinkedInLogoIcon,
+} from '@radix-ui/react-icons'
 import { TwitterLogoIcon } from '@/components/icons/twitter-logo-icon'
-import { BlueskyLogoIcon } from '@/components/icons/bluesky-logo-icon'
 import { CommandCenter } from '@/components/command-center/command-center'
-import { ColorModeDropdownSwitcher } from '@/components/color-mode/color-mode-dropdown-switcher'
+import { ColorModeDropdownSwitcher } from '@/components/color-mode/theme-switcher'
 import { MusicPlayerSwitcher } from '../music/music-player-switcher'
 
 const socialIconMap = {
   github: GitHubLogoIcon,
   linkedin: LinkedInLogoIcon,
   twitter: TwitterLogoIcon,
-  instagram: BlueskyLogoIcon,
+  instagram: InstagramLogoIcon,
 }
 
 export function DockDrawer({

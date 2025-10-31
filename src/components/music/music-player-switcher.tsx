@@ -95,13 +95,13 @@ export function MusicPlayerSwitcher() {
       >
         {isPlaying ? (
           <Fragment>
-            <PauseIcon className='h-4 w-4 rotate-0 scale-100 transition-all dark:-rotate-90 dark:scale-0' />
+            <PauseIcon className='h-4 w-4 scale-100 transition-all' />
             <span className='absolute right-0 top-0 size-2 animate-pulse rounded-full bg-green-500' />
           </Fragment>
         ) : (
-          <PlayIcon className='h-4 w-4 rotate-0 scale-100 transition-all dark:-rotate-90 dark:scale-0' />
+          <PlayIcon className='h-4 w-4 scale-100 transition-all' />
         )}
-        <span className='sr-only'>Toggle color mode</span>
+        <span className='sr-only'>Toggle music player</span>
       </button>
     )
 

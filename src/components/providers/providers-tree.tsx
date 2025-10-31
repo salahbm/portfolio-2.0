@@ -13,20 +13,14 @@ export function ProvidersTree({ children }: { children: React.ReactNode }) {
   return (
     <ThemeProvider
       attribute='class'
-      defaultTheme='system'
+      defaultTheme='dark'
       enableSystem
       disableTransitionOnChange
     >
       <CursorProvider>
         <TooltipProvider>
           <PageTransition>
-            <LockScreenProvider
-              loadingDuration={1600}
-              userName='Salah'
-              avatarUrl='/medias/images/avatar.webp'
-            >
-              {children}
-            </LockScreenProvider>
+            <LockScreenProvider>{children}</LockScreenProvider>
           </PageTransition>
         </TooltipProvider>
         <Cursor />

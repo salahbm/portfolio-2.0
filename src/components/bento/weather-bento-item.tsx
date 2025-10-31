@@ -1,7 +1,7 @@
 'use client'
 
 import { BentoCard } from '@/components/grids/bento-card'
-import { WeatherToggle } from '@/components/color-mode/toggle'
+import { WeatherToggle } from '@/components/color-mode/theme-widget-toggle'
 
 export function WeatherBentoItem() {
   return (

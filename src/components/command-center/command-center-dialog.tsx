@@ -9,7 +9,6 @@ import {
   ArrowRightIcon,
   SunIcon,
   MoonIcon,
-  ComputerDesktopIcon,
   QrCodeIcon,
   MagnifyingGlassIcon,
 } from '@heroicons/react/24/outline'
@@ -17,6 +16,7 @@ import {
   GitHubLogoIcon,
   LinkedInLogoIcon,
   CopyIcon,
+  InstagramLogoIcon,
 } from '@radix-ui/react-icons'
 
 import { toast } from 'sonner'
@@ -44,7 +44,6 @@ import {
 import { Badge } from '@/components/ui/badge'
 
 import { TwitterLogoIcon } from '@/components/icons/twitter-logo-icon'
-import { BlueskyLogoIcon } from '../icons/bluesky-logo-icon'
 import { CommandIcon } from '@/components/icons/command-icon'
 import { ReturnIcon } from '@/components/icons/return-icon'
 import { SelectIcon } from '@/components/icons/select-icon'
@@ -410,7 +409,7 @@ export function CommandCenterDialog({
           onSelect: handleSelectSocialLink,
           children: (
             <>
-              <BlueskyLogoIcon className='h-4 w-4' />
+              <InstagramLogoIcon className='h-4 w-4' />
               Instagram
             </>
           ),
@@ -467,16 +466,6 @@ export function CommandCenterDialog({
             <ActivatableCommandItemContent active={theme === 'dark'}>
               <MoonIcon className='h-4 w-4' />
               Dark
-            </ActivatableCommandItemContent>
-          ),
-        }),
-        createCommandWithSuggestion('system', {
-          value: 'system',
-          onSelect: handleSelectColorMode,
-          children: (
-            <ActivatableCommandItemContent active={theme === 'system'}>
-              <ComputerDesktopIcon className='h-4 w-4' />
-              System
             </ActivatableCommandItemContent>
           ),
         }),

@@ -12,6 +12,7 @@ import { WorkBentoItem } from '@/components/bento/work-bento-item'
 import { CraftBentoItem } from '@/components/bento/craft-bento-item'
 import { MusicBentoItem } from '@/components/bento/music-bento-item'
 import { WeatherBentoItem } from '@/components/bento/weather-bento-item'
+import { InstagramBentoItem } from '@/components/bento/instagram-bento-item'
 
 export default async function DashboardPage() {
   return (
@@ -21,6 +22,7 @@ export default async function DashboardPage() {
         <GitHubBentoItem />
         <TwitterBentoItem />
         <LinkedInBentoItem />
+        <InstagramBentoItem />
         <SmartStack
           className='col-span-2 row-span-1 min-h-full max-lg:min-h-[220px] max-md:min-h-[180px]'
           roundedValuePx={16}
