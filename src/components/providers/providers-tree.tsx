@@ -23,7 +23,7 @@ export function ProvidersTree({ children }: { children: React.ReactNode }) {
             <LockScreenProvider
               loadingDuration={1600}
               userName='Salah'
-              avatarUrl='/avatar.jpg' // Add your avatar image to /public/avatar.jpg
+              avatarUrl='/medias/images/avatar.webp'
             >
               {children}
             </LockScreenProvider>

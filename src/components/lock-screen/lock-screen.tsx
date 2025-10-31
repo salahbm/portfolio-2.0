@@ -16,7 +16,7 @@ export const LockScreen: React.FC<LockScreenProps> = ({
   onLoadComplete,
   loadingDuration = 3000,
   userName = 'Salah',
-  avatarUrl = '/avatar.jpg',
+  avatarUrl = '/images/avatar.webp',
 }) => {
   const [progress, setProgress] = useState(0)
   const [currentTime, setCurrentTime] = useState(new Date())
@@ -186,20 +186,21 @@ export const LockScreen: React.FC<LockScreenProps> = ({
         className='absolute bottom-14 left-1/2 flex -translate-x-1/2 flex-col items-center gap-5 text-white'
       >
         {/* Avatar */}
-        <div className='relative h-24 w-24 overflow-hidden rounded-full shadow-[0_0_30px_rgba(255,255,255,0.12)] ring-4 ring-white/15 md:h-28 md:w-28'>
+        <div
+          style={{
+            background: 'linear-gradient(135deg, #667eea 0%, #764ba2 100%)', // fallback gradient
+          }}
+          className='relative h-24 w-24 overflow-hidden rounded-full shadow-[0_0_30px_rgba(255,255,255,0.12)] ring-4 ring-white/15 md:h-28 md:w-28'
+        >
           <Image
             src={avatarUrl}
             alt={userName}
             fill
-            className='object-cover'
+            className='translate-y-[8%] object-cover object-top' // slight downward offset
             priority
             onError={(e) => {
               const target = e.target as HTMLImageElement
               target.style.display = 'none'
-              if (target.parentElement) {
-                target.parentElement.style.background =
-                  'linear-gradient(135deg, #667eea 0%, #764ba2 100%)'
-              }
             }}
           />
         </div>

@@ -41,9 +41,9 @@ interface LockScreenProviderProps {
  */
 export const LockScreenProvider: React.FC<LockScreenProviderProps> = ({
   children,
-  loadingDuration = 3000,
+  loadingDuration = 1600,
   userName = 'Salah',
-  avatarUrl = '/medias/avatar.jpg',
+  avatarUrl = '/images/avatar.webp',
   enabled = true,
 }) => {
   const [isLoading, setIsLoading] = useState(enabled)
