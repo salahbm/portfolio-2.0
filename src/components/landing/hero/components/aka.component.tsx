@@ -101,9 +101,9 @@ export default function AkaComponent() {
     <div
       id='aka-container'
       ref={containerRef}
-      className='absolute -top-10 -rotate-12 lg:right-0 lg:top-0'
+      className='absolute -right-4 -top-8 -rotate-12 lg:right-0 lg:top-0'
     >
-      <div className='relative select-none font-milkyway text-[clamp(3rem,6vw,12rem)] leading-none tracking-tight'>
+      <div className='relative select-none font-milkyway text-[clamp(2rem,6vw,12rem)] leading-none tracking-tight'>
         {layerColors.map((layer, i) => (
           <span
             key={i}

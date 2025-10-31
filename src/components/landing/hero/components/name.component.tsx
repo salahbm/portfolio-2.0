@@ -14,10 +14,10 @@ const NameComponent: React.FC = () => {
   }, [])
 
   return (
-    <section className='flex-center sticky bottom-0 left-0 right-0 px-20 align-bottom'>
+    <section className='flex-center sticky bottom-24 left-0 right-0 px-20 align-bottom lg:bottom-0'>
       <p
         id='name-salah'
-        className='font-monument-extended whitespace-nowrap text-center leading-none text-primary'
+        className='transform-3d inline-block whitespace-nowrap text-center font-monument-extended leading-none text-primary'
         onMouseEnter={() => happyTrig?.fire()}
         onMouseLeave={() => idleTrig?.fire()}
       >

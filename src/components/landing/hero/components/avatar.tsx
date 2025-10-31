@@ -81,7 +81,7 @@ const AvatarView: React.FC = () => {
   return (
     <div
       ref={avatarRef}
-      className='flex-center group relative w-[80px] lg:w-[150px]'
+      className='flex-center group relative w-[120px] lg:w-[150px]'
       onMouseEnter={() => hoverTrig?.fire()}
       onMouseLeave={() => idleTrig?.fire()}
     >

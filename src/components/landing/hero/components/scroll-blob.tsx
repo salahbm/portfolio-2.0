@@ -2,9 +2,11 @@
 
 import { useEffect, useRef, useState } from 'react'
 import { motion, useAnimation } from 'motion/react'
+import { useUserAgent } from '@/hooks/use-user-agent'
 
 export default function ScrollBlob() {
   const controls = useAnimation()
+  const { isMobile } = useUserAgent()
   const blobRef = useRef<SVGPathElement>(null)
   const [hovered, setHovered] = useState(false)
   const [deform, setDeform] = useState({ tx: 0, ty: 0, s: 1 })
@@ -13,19 +15,19 @@ export default function ScrollBlob() {
   useEffect(() => {
     controls
       .start({
-        scale: [0.8, 1],
+        scale: [0.7, 1],
         opacity: [0, 1],
         transition: { duration: 1, ease: 'easeOut' },
       })
       .then(() => {
         controls.start({
-          scale: [1, 1.05, 1],
+          scale: [1, 1.05, 1.03, 1.04, 1.02, 1.01, 1],
           transition: { repeat: Infinity, duration: 3, ease: 'easeInOut' },
         })
       })
   }, [controls])
 
-  // === Interactive deformation effect ===
+  // === Pointer deformation ===
   function onPointerMove(e: React.PointerEvent<SVGSVGElement>) {
     const el = blobRef.current
     if (!el) return
@@ -47,74 +49,93 @@ export default function ScrollBlob() {
     setHovered(false)
   }
 
-  // === Click: smooth scroll to next section ===
+  // === Click scroll to next section ===
   const handleScroll = () => {
     const nextSection = document.querySelector('section:nth-of-type(2)')
     if (nextSection) {
-      nextSection.scrollIntoView({
-        behavior: 'smooth',
-        block: 'start',
-      })
+      nextSection.scrollIntoView({ behavior: 'smooth', block: 'start' })
     } else {
-      // Fallback to scrolling one viewport height
-      window.scrollTo({
-        top: window.innerHeight,
-        behavior: 'smooth',
-      })
+      window.scrollTo({ top: window.innerHeight, behavior: 'smooth' })
     }
   }
 
+  // === Blob paths ===
+  const defaultPath =
+    'M50,-60C70,-40,90,-20,90,0C90,20,70,40,50,60C30,80,10,100,-10,100C-30,100,-50,80,-70,60C-90,40,-100,20,-100,0C-100,-20,-90,-40,-70,-60C-50,-80,-30,-100,-10,-100C10,-100,30,-80,50,-60Z'
+  const hoveredPath =
+    'M55,-65C75,-45,95,-25,95,0C95,25,75,45,55,65C35,85,15,105,-10,105C-35,105,-55,85,-75,65C-95,45,-105,25,-105,0C-105,-25,-95,-45,-75,-65C-55,-85,-35,-105,-10,-105C15,-105,35,-85,55,-65Z'
+
   return (
-    <div className='absolute right-5 top-5 translate-y-1/2'>
+    <div className='absolute right-7 top-8'>
       <motion.div
         animate={controls}
-        className='group relative flex size-[150px] cursor-pointer items-center justify-center'
         onClick={handleScroll}
+        className={`group relative flex cursor-pointer items-center justify-center ${
+          isMobile ? 'size-20' : 'size-24 lg:size-[150px]'
+        }`}
       >
         <svg
-          width='150'
-          height='150'
+          width={isMobile ? '100' : '150'}
+          height={isMobile ? '100' : '150'}
           viewBox='0 0 200 200'
           className='overflow-visible'
+          xmlns='http://www.w3.org/2000/svg'
           onPointerEnter={() => setHovered(true)}
           onPointerLeave={onPointerLeave}
           onPointerMove={onPointerMove}
         >
-          <motion.path
-            ref={blobRef}
-            d={
-              hovered
-                ? 'M55,-65C75,-45,95,-25,95,0C95,25,75,45,55,65C35,85,15,105,-10,105C-35,105,-55,85,-75,65C-95,45,-105,25,-105,0C-105,-25,-95,-45,-75,-65C-55,-85,-35,-105,-10,-105C15,-105,35,-85,55,-65Z'
-                : 'M50,-60C70,-40,90,-20,90,0C90,20,70,40,50,60C30,80,10,100,-10,100C-30,100,-50,80,-70,60C-90,40,-100,20,-100,0C-100,-20,-90,-40,-70,-60C-50,-80,-30,-100,-10,-100C10,-100,30,-80,50,-60Z'
-            }
-            animate={{
-              transform: `translate(${deform.tx}px, ${deform.ty}px) scale(${
-                hovered ? deform.s + 0.1 : deform.s
-              })`,
-            }}
-            transition={{
-              duration: 0.5,
-              ease: [0.25, 0.1, 0.25, 1],
-            }}
-            fill='hsl(var(--primary))'
-            transform='translate(100 100)'
-            style={{
-              transformBox: 'fill-box',
-              transformOrigin: '50% 50%',
-            }}
-          />
+          <g transform='translate(100, 100)'>
+            <motion.path
+              ref={blobRef}
+              d={hovered ? hoveredPath : defaultPath}
+              animate={{
+                x: deform.tx,
+                y: deform.ty,
+                scale: hovered ? deform.s + 0.1 : deform.s,
+              }}
+              transition={{
+                duration: 0.5,
+                ease: [0.25, 0.1, 0.25, 1],
+              }}
+              fill='hsl(var(--primary))'
+              style={{ transformOrigin: 'center' }}
+            />
+          </g>
         </svg>
 
-        {/* Centered Text - positioned absolutely to center over blob */}
-        <div className='pointer-events-none absolute left-1/2 top-1/2 flex -translate-x-1/2 -translate-y-1/2 flex-col items-center justify-center gap-4'>
-          {/* "Scroll" text: appears on hover */}
-          <p className='-rotate-90 font-mono text-sm text-primary-foreground opacity-0 transition-all duration-500 group-hover:opacity-100'>
-            Scroll
-          </p>
-          {/* ↓ Arrow always visible and centered */}
-          <p className='font-mono text-2xl leading-none text-primary-foreground'>
-            ↓
-          </p>
+        {/* Centered Text & Arrow */}
+        {/* Centered Text & Arrow */}
+        <div className='pointer-events-none absolute inset-0 flex items-center justify-center'>
+          <motion.div
+            className='flex flex-col items-center justify-center'
+            animate={{
+              y: hovered ? 4 : 0, // whole group shifts subtly
+            }}
+            transition={{ duration: 0.4, ease: 'easeOut' }}
+          >
+            <motion.p
+              className='font-mono text-sm text-primary-foreground'
+              animate={{
+                opacity: hovered ? 1 : 0,
+                y: hovered ? 3 : -6, // appears and pushes down slightly
+                marginBottom: 5,
+              }}
+              transition={{ duration: 0.4, ease: 'easeOut' }}
+              style={{ rotate: -90 }}
+            >
+              Scroll
+            </motion.p>
+
+            <motion.p
+              className='font-mono text-2xl leading-none text-primary-foreground'
+              animate={{
+                y: hovered ? 15 : -10, // arrow moves down as text appears
+              }}
+              transition={{ duration: 0.2, ease: 'easeOut' }}
+            >
+              ↓
+            </motion.p>
+          </motion.div>
         </div>
       </motion.div>
     </div>

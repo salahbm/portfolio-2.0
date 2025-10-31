@@ -69,7 +69,7 @@ export function DockDrawer({
             strokeWidth={1.8}
           />
 
-          <span className='text-sm font-medium text-[oklch(0.25_0.05_270)/0.8]'>
+          <span className='text-sm font-medium text-primary-foreground'>
             Menu
           </span>
         </button>
