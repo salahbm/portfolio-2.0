@@ -123,7 +123,7 @@ export function MusicPlayerWidget() {
   const remainingTime = currentSong.duration - currentTime
 
   return (
-    <div className='relative flex h-full w-full max-w-sm flex-col overflow-hidden rounded-2xl bg-neutral-100 shadow-xl transition-all duration-300 dark:bg-neutral-900'>
+    <div className='relative flex aspect-square h-full w-full max-w-sm flex-col overflow-hidden rounded-2xl shadow-xl transition-all duration-300'>
       {/* Background with gradient + image */}
       <AnimatePresence mode='wait'>
         <motion.div

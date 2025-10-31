@@ -6,7 +6,7 @@ import { InstagramLogoIcon, PaperPlaneIcon } from '@radix-ui/react-icons'
 
 export function InstagramChatWidget() {
   return (
-    <div className='flex h-full flex-col p-2'>
+    <div className='flex h-full flex-col p-3'>
       {/* === Header === */}
       <div className='flex w-full flex-col items-center justify-center'>
         <div className='flex w-full items-center justify-between gap-2'>
@@ -33,12 +33,12 @@ export function InstagramChatWidget() {
       </motion.div>
 
       {/* === Input Bar Mock === */}
-      <div className='mt-auto flex w-full items-center gap-2 rounded-full border bg-muted px-2 py-1 backdrop-blur-sm'>
+      <div className='mt-auto flex w-full items-center gap-2 rounded-full border bg-muted p-0.5 px-1.5 backdrop-blur-sm'>
         <span className='text-xs font-semibold text-neutral-300'>
           @mkhd.salah
         </span>
         <button className='bg-gradient-sunrise ml-auto rounded-full p-1 text-primary'>
-          <PaperPlaneIcon className='size-4' />
+          <PaperPlaneIcon className='size-3' />
         </button>
       </div>
     </div>
