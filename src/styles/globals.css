@@ -1,4 +1,7 @@
+@import './wave.css';
 @import './scroll-bar.css';
+@import './bg-gradient.css';
+@import './text-gradient.css';
 
 @tailwind base;
 @tailwind components;
@@ -7,84 +10,90 @@
 @layer base {
   :root {
     /* Core background & text */
-    --background: 0 0% 100%;
-    --foreground: 222 47% 11%;
+    --background: 223 30% 98%;
+    --foreground: 226 55% 10%;
 
     /* Cards & surfaces */
     --card: 0 0% 100%;
-    --card-foreground: 222 47% 11%;
+    --card-foreground: 226 55% 10%;
 
-    /* Brand / Accent */
-    --primary: 83 100% 74%; /* Bright lime-green (#c6ff79) */
-    --primary-foreground: 0 0% 10%;
+    /* Primary (balanced indigo-cyan gradient hue) */
+    --primary: 228 68% 60%; /* indigo-cyan hybrid (#5b7bff) */
+    --primary-foreground: 0 0% 100%;
 
-    /* Secondary (for subtle surfaces) */
-    --secondary: 85 30% 96%;
-    --secondary-foreground: 222 47% 15%;
+    /* Secondary (soft desaturated blue) */
+    --secondary: 223 42% 96%;
+    --secondary-foreground: 226 45% 20%;
 
-    /* Accent for interactions (hover, focus) */
-    --accent: 83 90% 60%;
-    --accent-foreground: 0 0% 10%;
+    /* Accent (violet-blue highlight, from top waves) */
+    --accent: 250 70% 72%;
+    --accent-foreground: 0 0% 100%;
 
-    /* Muted, border, ring */
-    --muted: 85 20% 95%;
-    --muted-foreground: 222 10% 35%;
-    --border: 85 20% 85%;
-    --ring: 83 100% 74%;
+    /* Muted / Border / Ring */
+    --muted: 225 20% 94%;
+    --muted-foreground: 226 20% 35%;
+    --border: 225 15% 85%;
+    --ring: 228 68% 60%;
 
     /* Radius */
     --radius: 0.75rem;
 
-    /* Syntax highlighting (slightly adjusted for warmth) */
-    --sh-keyword: #b084ff;
-    --sh-string: #e6c27a;
-    --sh-function: #9ad54b;
-    --sh-variable: #f6a26c;
-    --sh-comment: #7a887a;
-    --sh-number: #f6a26c;
-    --sh-boolean: #ffb3a1;
+    /* Gradient tokens (lock-screen wave layers) */
+    --bg-indigo: 226 62% 33%; /* upper indigo wave */
+    --bg-blue: 224 70% 28%; /* deep navy ridge */
+    --bg-cyan: 200 85% 50%; /* bright cyan accent */
+    --bg-teal: 190 55% 30%; /* lower greenish band */
+    --bg-navy: 224 68% 8%; /* dark base */
+
+    /* Syntax highlighting */
+    --sh-keyword: #a7b4ff;
+    --sh-string: #f5d68a;
+    --sh-function: #86c9ff;
+    --sh-variable: #ffb48f;
+    --sh-comment: #7e8697;
+    --sh-number: #ffb48f;
+    --sh-boolean: #c9a6ff;
   }
 
   .dark {
     /* Base backgrounds */
-    --background: 222 13% 12%;
+    --background: 225 22% 10%;
     --foreground: 0 0% 98%;
 
     /* Cards */
-    --card: 222 13% 10%;
+    --card: 225 25% 12%;
     --card-foreground: 0 0% 98%;
 
-    /* Brand / Accent */
-    --primary: 83 90% 65%;
-    --primary-foreground: 0 0% 10%;
+    /* Primary / Accent */
+    --primary: 227 85% 64%; /* vivid indigo-cyan blend */
+    --primary-foreground: 222 20% 10%;
+    --accent: 250 70% 70%; /* violet shimmer */
+    --accent-foreground: 222 20% 8%;
 
-    /* Secondary */
-    --secondary: 222 10% 20%;
+    /* Secondary / Muted / Border */
+    --secondary: 225 20% 18%;
     --secondary-foreground: 0 0% 95%;
+    --muted: 225 16% 22%;
+    --muted-foreground: 220 12% 70%;
+    --border: 225 16% 26%;
+    --ring: 227 85% 64%;
 
-    /* Accent */
-    --accent: 83 85% 60%;
-    --accent-foreground: 0 0% 10%;
-
-    /* Muted / Border */
-    --muted: 222 10% 25%;
-    --muted-foreground: 220 10% 70%;
-    --border: 222 10% 25%;
-    --ring: 83 90% 65%;
+    /* Dark gradient tokens */
+    --bg-indigo: 226 62% 28%;
+    --bg-blue: 224 70% 20%;
+    --bg-cyan: 200 90% 48%;
+    --bg-teal: 190 50% 25%;
+    --bg-navy: 224 68% 7%;
   }
-}
 
-@layer base {
   * {
     @apply border-border;
-    @apply selection:bg-violet-400 dark:selection:bg-violet-700;
+    @apply selection:bg-primary/20 dark:selection:bg-primary/20;
   }
   body {
     @apply bg-background font-lader-medium text-foreground antialiased;
   }
-}
 
-@layer base {
   ::view-transition-old(root),
   ::view-transition-new(root) {
     animation: none;
@@ -104,149 +113,5 @@
 
   .flex-between-start {
     @apply flex items-start justify-between;
-  }
-
-  /* === Gradients === */
-
-  .text-gradient-lilac {
-    background: linear-gradient(
-      90deg,
-      oklch(0.85 0.15 320),
-      oklch(0.92 0.12 310),
-      oklch(0.88 0.14 280),
-      oklch(0.85 0.15 320)
-    );
-    background-size: 200% 100%;
-    -webkit-background-clip: text;
-    -webkit-text-fill-color: transparent;
-    background-clip: text;
-  }
-
-  /* Ensure gradient works with SplitType children */
-  .text-gradient-lilac * {
-    background: inherit;
-    background-size: inherit;
-    -webkit-background-clip: text;
-    -webkit-text-fill-color: transparent;
-    background-clip: text;
-  }
-
-  .text-gradient-dark {
-    background: linear-gradient(
-      45deg,
-      oklch(0.74 0.15 320),
-      oklch(0.6 0.08 270)
-    );
-    -webkit-background-clip: text;
-    -webkit-text-fill-color: transparent;
-    background-clip: text;
-    color: oklch(0.85 0.15 320);
-  }
-
-  .bg-gradient-lilac {
-    @apply bg-gradient-to-tr from-[oklch(0.82_0.12_320)] via-[oklch(0.88_0.06_270)] to-[oklch(0.9_0.07_320)];
-  }
-
-  /* Hand wave animation */
-  @keyframes wave {
-    0% {
-      transform: rotate(0deg);
-    }
-    10% {
-      transform: rotate(14deg);
-    }
-    20% {
-      transform: rotate(-8deg);
-    }
-    30% {
-      transform: rotate(14deg);
-    }
-    40% {
-      transform: rotate(-4deg);
-    }
-    50% {
-      transform: rotate(10deg);
-    }
-    60% {
-      transform: rotate(0deg);
-    }
-    100% {
-      transform: rotate(0deg);
-    }
-  }
-
-  .wave-animation {
-    animation: wave 2.5s infinite;
-    transform-origin: 70% 70%;
-    display: inline-block;
-  }
-
-  .bg-gradient-dark {
-    @apply bg-gradient-to-tr from-[oklch(0.22_0.04_300)] via-[oklch(0.45_0.1_320)] to-[oklch(0.6_0.08_270)];
-  }
-
-  .bg-gradient-glow {
-    @apply bg-gradient-to-tr from-[oklch(0.74_0.15_320)] via-[oklch(0.6_0.08_270)] to-[oklch(0.82_0.12_320)];
-  }
-
-  .bg-gradient-sunrise {
-    @apply bg-gradient-to-tr from-[oklch(0.98_0.02_300)] via-[oklch(0.88_0.06_270)] to-[oklch(0.82_0.12_320)];
-  }
-
-  .bg-gradient-night {
-    @apply bg-gradient-to-tr from-[oklch(0.17_0.04_300)] via-[oklch(0.28_0.03_300)] to-[oklch(0.45_0.1_320)];
-  }
-
-  /* === Dock === */
-  .dock-grid {
-    @apply flex gap-3 rounded-xl border bg-clip-padding p-3 backdrop-blur-xl;
-    background: color-mix(in srgb, hsl(0 0% 100%) 60%, transparent);
-    border: 1px solid color-mix(in srgb, hsl(0 0% 100%) 25%, hsl(0 0% 0%) 10%);
-    box-shadow:
-      0 4px 20px hsl(0 0% 0% / 0.1),
-      inset 0 0 0.5px 0.5px hsl(0 0% 100% / 0.2);
-    transition:
-      background 0.3s ease,
-      border-color 0.3s ease;
-  }
-
-  .dark .dock-grid {
-    background: color-mix(in srgb, hsl(222 15% 15%) 50%, transparent);
-    border-color: hsl(0 0% 100% / 0.08);
-    box-shadow:
-      0 6px 24px hsl(0 0% 0% / 0.3),
-      inset 0 0 0.5px 0.5px hsl(0 0% 100% / 0.05);
-  }
-
-  /* === Dock Item === */
-  .dock-item-box {
-    @apply flex select-none items-center justify-center rounded-xl backdrop-blur-md transition-all duration-300 ease-out;
-    background: color-mix(in srgb, hsl(0 0% 100%) 75%, transparent);
-    border: 1px solid color-mix(in srgb, hsl(0 0% 100%) 40%, hsl(0 0% 0%) 15%);
-    box-shadow:
-      0 2px 6px hsl(0 0% 0% / 0.08),
-      inset 0 0 0.5px 0.5px hsl(0 0% 100% / 0.25);
-    backdrop-filter: blur(12px) saturate(160%);
-    transform: translateY(0);
-    position: relative;
-  }
-
-  .dock-item-box:hover {
-    transform: translateY(-4px) scale(1.05);
-    background: color-mix(in srgb, hsl(245 75% 65%) 30%, hsl(0 0% 100%) 70%);
-    border-color: hsl(245 75% 70% / 0.4);
-  }
-
-  .dark .dock-item-box {
-    background: color-mix(in srgb, hsl(222 15% 20%) 70%, transparent);
-    border-color: hsl(0 0% 100% / 0.1);
-    box-shadow:
-      0 4px 12px hsl(0 0% 0% / 0.25),
-      inset 0 0 0.5px 0.5px hsl(0 0% 100% / 0.05);
-  }
-
-  .dark .dock-item-box:hover {
-    background: color-mix(in srgb, hsl(258 80% 70%) 30%, hsl(222 15% 20%) 70%);
-    border-color: hsl(258 80% 70% / 0.4);
   }
 }

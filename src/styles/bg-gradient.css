@@ -1,0 +1,44 @@
+.bg-gradient-lilac {
+  background: linear-gradient(
+    to top right,
+    oklch(0.82 0.12 320),
+    oklch(0.88 0.06 270),
+    oklch(0.9 0.07 320)
+  );
+}
+
+.bg-gradient-dark {
+  background: linear-gradient(
+    to top right,
+    oklch(0.22 0.04 300),
+    oklch(0.45 0.1 320),
+    oklch(0.6 0.08 270)
+  );
+}
+
+.bg-gradient-glow {
+  background: linear-gradient(
+    to top right,
+    oklch(0.74 0.15 320),
+    oklch(0.6 0.08 270),
+    oklch(0.82 0.12 320)
+  );
+}
+
+.bg-gradient-sunrise {
+  background: linear-gradient(
+    to top right,
+    oklch(0.98 0.02 300),
+    oklch(0.88 0.06 270),
+    oklch(0.82 0.12 320)
+  );
+}
+
+.bg-gradient-night {
+  background: linear-gradient(
+    to top right,
+    oklch(0.17 0.04 300),
+    oklch(0.28 0.03 300),
+    oklch(0.45 0.1 320)
+  );
+}

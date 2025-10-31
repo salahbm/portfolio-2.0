@@ -91,6 +91,7 @@ export default function RootLayout({
             <Dock />
           </main>
         </ProvidersTree>
+
         <Analytics />
         <SpeedInsights />
       </body>

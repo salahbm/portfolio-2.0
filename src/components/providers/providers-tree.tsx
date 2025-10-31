@@ -7,6 +7,7 @@ import { Toaster } from '@/components/ui/sonner'
 import { MagnifyingGlass } from '@/components/lab/magnifying-glass/magnifying-glass'
 import { TailwindIndicator } from '@/components/ui-helpers/tailwind-indicator'
 import { PageTransition } from '@/components/page-transition'
+import { LockScreenProvider } from './lock-screen-provider'
 
 export function ProvidersTree({ children }: { children: React.ReactNode }) {
   return (
@@ -18,7 +19,15 @@ export function ProvidersTree({ children }: { children: React.ReactNode }) {
     >
       <CursorProvider>
         <TooltipProvider>
-          <PageTransition>{children}</PageTransition>
+          <PageTransition>
+            <LockScreenProvider
+              loadingDuration={1600}
+              userName='Salah'
+              avatarUrl='/avatar.jpg' // Add your avatar image to /public/avatar.jpg
+            >
+              {children}
+            </LockScreenProvider>
+          </PageTransition>
         </TooltipProvider>
         <Cursor />
         <Toaster />

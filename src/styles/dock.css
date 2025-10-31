@@ -1,0 +1,87 @@
+/* ========== Dock Grid (no Tailwind) ========== */
+.dock-grid {
+  display: flex; /* flex */
+  gap: 0.75rem; /* gap-3 */
+  border-radius: 0.75rem; /* rounded-xl */
+  border-width: 1px; /* border */
+  border-style: solid;
+  /* bg-clip-padding */
+  background-clip: padding-box;
+  padding: 0.75rem; /* p-3 */
+
+  /* backdrop-blur-xl */
+  -webkit-backdrop-filter: blur(24px);
+  backdrop-filter: blur(24px);
+
+  /* original backgrounds/borders */
+  background: color-mix(in srgb, hsl(0 0% 100%) 60%, transparent);
+  border-color: color-mix(in srgb, hsl(0 0% 100%) 25%, hsl(0 0% 0%) 10%);
+
+  box-shadow:
+    0 4px 20px hsl(0 0% 0% / 0.1),
+    inset 0 0 0.5px 0.5px hsl(0 0% 100% / 0.2);
+
+  transition:
+    background 300ms ease,
+    border-color 300ms ease;
+}
+
+.dark .dock-grid {
+  background: color-mix(in srgb, hsl(222 15% 15%) 50%, transparent);
+  border-color: hsl(0 0% 100% / 0.08);
+  box-shadow:
+    0 6px 24px hsl(0 0% 0% / 0.3),
+    inset 0 0 0.5px 0.5px hsl(0 0% 100% / 0.05);
+}
+
+/* ========== Dock Item (no Tailwind) ========== */
+.dock-item-box {
+  display: flex; /* flex */
+  align-items: center; /* items-center */
+  justify-content: center; /* justify-center */
+  user-select: none; /* select-none */
+  position: relative; /* relative */
+  border-radius: 0.75rem; /* rounded-xl */
+
+  /* backdrop-blur-md + saturate(160%) */
+  -webkit-backdrop-filter: blur(12px) saturate(1.6);
+  backdrop-filter: blur(12px) saturate(1.6);
+
+  /* original background/border */
+  background: color-mix(in srgb, hsl(0 0% 100%) 75%, transparent);
+  border-width: 1px;
+  border-style: solid;
+  border-color: color-mix(in srgb, hsl(0 0% 100%) 40%, hsl(0 0% 0%) 15%);
+
+  box-shadow:
+    0 2px 6px hsl(0 0% 0% / 0.08),
+    inset 0 0 0.5px 0.5px hsl(0 0% 100% / 0.25);
+
+  transform: translateY(0);
+
+  /* transition-all duration-300 ease-out */
+  transition:
+    transform 300ms cubic-bezier(0, 0, 0.2, 1),
+    background-color 300ms cubic-bezier(0, 0, 0.2, 1),
+    border-color 300ms cubic-bezier(0, 0, 0.2, 1),
+    box-shadow 300ms cubic-bezier(0, 0, 0.2, 1);
+}
+
+.dock-item-box:hover {
+  transform: translateY(-4px) scale(1.05);
+  background: color-mix(in srgb, hsl(245 75% 65%) 30%, hsl(0 0% 100%) 70%);
+  border-color: hsl(245 75% 70% / 0.4);
+}
+
+.dark .dock-item-box {
+  background: color-mix(in srgb, hsl(222 15% 20%) 70%, transparent);
+  border-color: hsl(0 0% 100% / 0.1);
+  box-shadow:
+    0 4px 12px hsl(0 0% 0% / 0.25),
+    inset 0 0 0.5px 0.5px hsl(0 0% 100% / 0.05);
+}
+
+.dark .dock-item-box:hover {
+  background: color-mix(in srgb, hsl(258 80% 70%) 30%, hsl(222 15% 20%) 70%);
+  border-color: hsl(258 80% 70% / 0.4);
+}
