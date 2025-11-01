@@ -9,14 +9,15 @@ export function Hero() {
     <section className='relative flex h-screen flex-col overflow-hidden'>
       {/* background */}
       <MacOSWaves />
-      <ScrollBlob />
       {/* foreground content */}
-      <div className='relative z-10 flex flex-1 items-center lg:items-end'>
-        <div className='mb-5 flex flex-col items-center gap-4 lg:flex-row lg:px-10'>
+      <div className='relative flex w-full flex-1 flex-col items-center justify-start gap-4 lg:flex-row lg:p-6'>
+        <div className='flex w-full flex-col items-center gap-4 lg:flex-row'>
           <AvatarView />
           <HeroText />
         </div>
+        <ScrollBlob />
       </div>
+
       <NameComponent />
     </section>
   )

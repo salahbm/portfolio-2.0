@@ -48,7 +48,7 @@
   backdrop-filter: blur(12px) saturate(1.6);
 
   /* original background/border */
-  background: color-mix(in srgb, hsl(0 0% 100%) 75%, transparent);
+  background: color-mix(in srgb, hsl(0 0% 100%) 20%, transparent);
   border-width: 1px;
   border-style: solid;
   border-color: color-mix(in srgb, hsl(0 0% 100%) 40%, hsl(0 0% 0%) 15%);

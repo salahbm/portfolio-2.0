@@ -1,3 +1,4 @@
+/* eslint-disable prefer-const */
 'use client'
 import { useEffect, useRef } from 'react'
 import p5 from 'p5'
@@ -202,7 +203,7 @@ export default function MacOSWaves() {
   return (
     <div
       ref={sketchRef}
-      className='absolute inset-0 -z-10 h-full w-full overflow-hidden'
+      className='absolute inset-0 -z-10 h-full w-full overflow-hidden bg-[#6c29e2]'
     />
   )
 }

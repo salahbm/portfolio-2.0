@@ -1,15 +1,15 @@
 /* ==========================================================
-   DARK INDIGO–CYAN GRADIENTS (matched to #5b7bff)
+   GOLD–MINT GRADIENTS (high contrast vs blue/magenta bg)
    ========================================================== */
 
 .text-gradient-lilac {
   background: linear-gradient(
     90deg,
-    oklch(0.4983 0.198752 269.6222),
-    oklch(0.5887 0.198752 269.6222),
-    oklch(0.6094 0.198752 269.6222),
-    oklch(0.4663 0.198752 269.6222),
-    oklch(0.4983 0.198752 269.6222)
+    oklch(0.52 0.22 285),
+    oklch(0.58 0.24 305),
+    oklch(0.63 0.22 330),
+    oklch(0.58 0.24 305),
+    oklch(0.52 0.22 285)
   );
   background-size: 250% 100%;
   background-position: 0% 50%;
@@ -19,13 +19,15 @@
   animation: gradientShift 12s ease-in-out infinite;
 }
 
-/* Optional darker variant (for low-contrast areas) */
+/* Deeper variant with mint-teal contrast for darker backgrounds */
 .text-gradient-dark {
   background: linear-gradient(
     90deg,
-    oklch(0.58 0.13 250),
-    oklch(0.54 0.12 260),
-    oklch(0.58 0.13 250)
+    oklch(0.48 0.23 275),
+    oklch(0.55 0.22 265),
+    oklch(0.6 0.2 255),
+    oklch(0.55 0.22 265),
+    oklch(0.48 0.23 275)
   );
   background-size: 200% 100%;
   background-position: 0% 50%;
@@ -46,7 +48,7 @@
   background-clip: text;
 }
 
-/* Smooth back-and-forth motion */
+/* Smooth shimmer motion */
 @keyframes gradientShift {
   0% {
     background-position: 0% 50%;

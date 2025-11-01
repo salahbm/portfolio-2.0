@@ -67,7 +67,7 @@ export default function ScrollBlob() {
     'M55,-65C75,-45,95,-25,95,0C95,25,75,45,55,65C35,85,15,105,-10,105C-35,105,-55,85,-75,65C-95,45,-105,25,-105,0C-105,-25,-95,-45,-75,-65C-55,-85,-35,-105,-10,-105C15,-105,35,-85,55,-65Z'
 
   return (
-    <div className='absolute bottom-8 left-7 z-10'>
+    <div className=''>
       <motion.div
         animate={controls}
         onClick={handleScroll}
@@ -99,7 +99,7 @@ export default function ScrollBlob() {
                 duration: 0.5,
                 ease: [0.25, 0.1, 0.25, 1],
               }}
-              fill='hsl(var(--primary))'
+              fill='#6c29e2'
               style={{ transformOrigin: 'center' }}
             />
           </g>
@@ -110,17 +110,13 @@ export default function ScrollBlob() {
         <div className='pointer-events-none absolute inset-0 flex items-center justify-center'>
           <motion.div
             className='flex flex-col items-center justify-center'
-            animate={{
-              y: hovered ? 4 : 0, // whole group shifts subtly
-            }}
             transition={{ duration: 0.4, ease: 'easeOut' }}
           >
             <motion.p
               className='font-mono text-sm text-primary-foreground'
               animate={{
                 opacity: hovered ? 1 : 0,
-                y: hovered ? 3 : -6, // appears and pushes down slightly
-                marginBottom: 5,
+                y: hovered ? 0 : -6,
               }}
               transition={{ duration: 0.4, ease: 'easeOut' }}
               style={{ rotate: -90 }}
@@ -129,10 +125,8 @@ export default function ScrollBlob() {
             </motion.p>
 
             <motion.p
-              className='font-mono text-2xl leading-none text-primary-foreground'
-              animate={{
-                y: hovered ? 15 : -10, // arrow moves down as text appears
-              }}
+              className='animate-bounce font-mono text-2xl leading-none text-primary-foreground'
+              animate={{ marginTop: hovered ? 20 : 0 }}
               transition={{ duration: 0.2, ease: 'easeOut' }}
             >
               ↓

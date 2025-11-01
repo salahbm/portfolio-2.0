@@ -1,56 +1,55 @@
-/* === Custom Scrollbar (Theme-aware) === */
+/* === Custom Scrollbar (Transparent Track) === */
 
-/* General scrollbar container */
+/* Scrollbar container */
 ::-webkit-scrollbar {
   width: 10px;
   height: 10px;
   transition: opacity 0.5s ease;
 }
 
-/* Track (background of the scrollbar) */
+/* Track (invisible background) */
 ::-webkit-scrollbar-track {
-  background: hsl(var(--background));
-  border-radius: 9999px;
+  background: transparent;
 }
 
-/* Scroll thumb (the draggable handle) */
+/* Scroll thumb (visible part) */
 ::-webkit-scrollbar-thumb {
   background: hsl(var(--accent));
   border-radius: 9999px;
-  border: 2px solid var(--background);
-  transition: background 0.5s ease;
+  border: none;
+  transition: background 0.3s ease;
 }
 
-/* Hover state — highlight with accent */
+/* Hover state — slightly brighter */
 ::-webkit-scrollbar-thumb:hover {
-  background: hsl(var(--accent));
+  background: color-mix(in oklab, hsl(var(--accent)) 85%, white 15%);
 }
 
-/* Corner when both scrollbars appear */
+/* Corner (when both scrollbars appear) */
 ::-webkit-scrollbar-corner {
-  background: hsl(var(--background));
+  background: transparent;
 }
 
-/* === Firefox (cross-browser consistency) === */
+/* === Firefox (cross-browser) === */
 * {
   scrollbar-width: thin;
-  scrollbar-color: hsl(var(--accent)) hsl(var(--background));
+  scrollbar-color: hsl(var(--accent)) transparent;
 }
 
-/* === Dark Mode Variant === */
+/* === Dark Mode === */
 .dark ::-webkit-scrollbar-track {
-  background: hsl(var(--background));
+  background: transparent;
 }
 
 .dark ::-webkit-scrollbar-thumb {
   background: hsl(var(--accent));
-  border-color: hsl(var(--background));
+  border: none;
 }
 
 .dark ::-webkit-scrollbar-thumb:hover {
-  background: hsl(var(--accent));
+  background: color-mix(in oklab, hsl(var(--accent)) 85%, white 15%);
 }
 
 .dark * {
-  scrollbar-color: hsl(var(--accent)) hsl(var(--background));
+  scrollbar-color: hsl(var(--accent)) transparent;
 }

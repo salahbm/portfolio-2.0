@@ -55,44 +55,7 @@ export default function AkaComponent() {
       )
     }, container)
 
-    // --- parallax
-    const handleMouseMove = (e: MouseEvent) => {
-      if (!container) return
-      const rect = container.getBoundingClientRect()
-      const x = (e.clientX - rect.left) / rect.width - 0.5
-      const y = (e.clientY - rect.top) / rect.height - 0.5
-
-      gsap.to(layersRef.current, {
-        x: (i) => x * (i + 1) * 6,
-        y: (i) => y * (i + 1) * 6,
-        duration: 0.6,
-        ease: 'power3.out',
-      })
-      gsap.to(sparkRefs.current, {
-        x: x * 20,
-        y: y * 20,
-        duration: 1,
-        ease: 'power2.out',
-      })
-    }
-
-    const handleMouseLeave = () => {
-      gsap.to([...layersRef.current, ...sparkRefs.current], {
-        x: 0,
-        y: 0,
-        duration: 0.8,
-        ease: 'power3.out',
-      })
-    }
-
-    container.addEventListener('mousemove', handleMouseMove)
-    container.addEventListener('mouseleave', handleMouseLeave)
-
-    return () => {
-      container.removeEventListener('mousemove', handleMouseMove)
-      container.removeEventListener('mouseleave', handleMouseLeave)
-      ctx.revert()
-    }
+    return () => ctx.revert()
   }, [theme])
 
   const isDark = theme === 'dark'
@@ -101,22 +64,22 @@ export default function AkaComponent() {
         { color: '#6c29e2', offset: 2 },
         { color: '#ff6947', offset: 5 },
         { color: '#ffffff', offset: 7 },
-        { color: '#c6ff79', offset: 7 },
+        { color: '#c6ff79', offset: 8 },
       ]
     : [
-        { color: '#6c29e2', offset: 2 },
-        { color: '#ffffff', offset: 5 },
+        { color: '#c6ff79', offset: 8 },
         { color: '#ff6947', offset: 7 },
-        { color: '#c6ff79', offset: 7 },
+        { color: '#ffffff', offset: 5 },
+        { color: '#6c29e2', offset: 2 },
       ]
 
   return (
     <div
       id='aka-container'
       ref={containerRef}
-      className='absolute -right-4 -top-8 -rotate-12 lg:right-0 lg:top-0'
+      className='absolute -left-1/4 -top-0 -rotate-12'
     >
-      <div className='relative select-none font-milkyway text-[clamp(2rem,6vw,12rem)] leading-none tracking-tight'>
+      <div className='relative select-none font-milkyway text-[clamp(0.7rem,6vw,1.2rem)] leading-none tracking-tight'>
         {layerColors.map((layer, i) => (
           <span
             key={i}
