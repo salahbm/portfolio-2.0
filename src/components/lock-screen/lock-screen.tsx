@@ -90,14 +90,19 @@ export const LockScreen: React.FC<LockScreenProps> = ({ onLoadComplete }) => {
   }, [onLoadComplete])
 
   // Intro animation (bottom cluster rises in)
+  // Intro animation (zoom-in entrance)
   useEffect(() => {
     if (!bottomRef.current) return
-    gsap.from(bottomRef.current, {
-      opacity: 0,
-      y: 24,
-      duration: 0.8,
-      ease: 'power3.out',
-    })
+    gsap.fromTo(
+      bottomRef.current,
+      { opacity: 0, scale: 0.8 },
+      {
+        opacity: 1,
+        scale: 1,
+        duration: 0.9,
+        ease: 'power3.out',
+      }
+    )
   }, [])
 
   const formatTime = (date: Date) =>
@@ -208,9 +213,11 @@ export const LockScreen: React.FC<LockScreenProps> = ({ onLoadComplete }) => {
             {/* Linear progress bar */}
             <div className='h-1 w-64 overflow-hidden rounded-full bg-white/20 md:w-80'>
               <div
-                className='h-full rounded-full bg-white transition-[width] duration-150 ease-out'
+                className='h-full rounded-full bg-white'
                 style={{
                   width: `${progress}%`,
+                  transform: 'scaleX(1)', // forces layout recalculation
+                  willChange: 'width',
                   boxShadow: '0 0 8px rgba(255,255,255,0.55)',
                 }}
               />
@@ -226,18 +233,16 @@ export const LockScreen: React.FC<LockScreenProps> = ({ onLoadComplete }) => {
             <motion.button
               key='start-btn'
               onClick={dismiss}
-              initial={{ opacity: 0, y: 12, scale: 0.98 }}
+              initial={{ opacity: 0, scale: 0.8 }}
               animate={{
                 opacity: 1,
-                y: 0,
                 scale: 1,
                 transition: { duration: 0.25, ease: 'easeOut' },
               }}
               exit={{
                 opacity: 0,
-                y: -8,
-                scale: 0.98,
-                transition: { duration: 0.2, ease: 'easeIn' },
+                scale: 0.8,
+                transition: { duration: 0.25, ease: 'easeIn' },
               }}
               whileHover={{ scale: 1.05 }}
               whileTap={{ scale: 0.95 }}

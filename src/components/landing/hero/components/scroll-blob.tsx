@@ -3,6 +3,7 @@
 import { useEffect, useRef, useState } from 'react'
 import { motion, useAnimation } from 'motion/react'
 import { useUserAgent } from '@/hooks/use-user-agent'
+import { cn } from '@/lib/utils'
 
 export default function ScrollBlob() {
   const controls = useAnimation()
@@ -70,9 +71,10 @@ export default function ScrollBlob() {
       <motion.div
         animate={controls}
         onClick={handleScroll}
-        className={`group relative flex cursor-pointer items-center justify-center ${
+        className={cn(
+          `group relative flex cursor-pointer items-center justify-center`,
           isMobile ? 'size-20' : 'size-24 lg:size-[150px]'
-        }`}
+        )}
       >
         <svg
           width={isMobile ? '100' : '150'}

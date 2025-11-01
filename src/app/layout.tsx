@@ -15,7 +15,7 @@ import { baseUrl, siteConfig } from '@/config/site-config'
 import { ProvidersTree } from '@/components/providers/providers-tree'
 import { Dock } from '@/components/dock'
 
-import { laderMedium, milkyway, monumentExtended, syne } from './font'
+import { laderMedium, monumentExtended, syne } from './font'
 
 export const metadata: Metadata = {
   metadataBase: new URL(baseUrl),
@@ -79,7 +79,6 @@ export default function RootLayout({
           GeistMono.variable,
           monumentExtended.variable,
           syne.variable,
-          milkyway.variable,
           laderMedium.variable
         )}
       >

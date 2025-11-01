@@ -4,6 +4,7 @@ import { animateHeroText } from '@/animations/hero-texts.animations'
 import { WaveUnderline } from '@/components/landing/hero/components/wave-underline'
 import { useAvatarStore } from '@/store/avatar-store'
 import { useEffect, useRef } from 'react'
+import AkaComponent from './aka.component'
 
 export function HeroText() {
   const { hoverTrig, idleTrig } = useAvatarStore()
@@ -16,13 +17,10 @@ export function HeroText() {
   }, [])
 
   return (
-    <div
-      ref={ref}
-      className='font-monument-extended relative text-center sm:text-left'
-    >
+    <div ref={ref} className='font-syne relative text-center sm:text-left'>
       {/* Greeting */}
 
-      {/* <h1
+      <h1
         className='text-[clamp(1.5rem,4vw,2.5rem)] leading-tight tracking-wide'
         onMouseEnter={() => hoverTrig?.fire()}
         onMouseLeave={() => idleTrig?.fire()}
@@ -33,19 +31,16 @@ export function HeroText() {
             <WaveUnderline />
           </span>
         </span>
-      </h1> */}
+      </h1>
 
       <h1
         data-animation-delay='0.4'
-        className='text-gradient-lilac mt-2 whitespace-nowrap text-2xl leading-none lg:text-4xl'
+        className='mt-2 whitespace-nowrap text-2xl leading-none text-primary lg:text-4xl'
       >
-        Muhammad
+        Salah
       </h1>
 
-      {/* Title */}
-      <h1 className='mt-2 text-xl tracking-wide'>
-        <span data-animation-delay='0.6'>a full-stack software engineer</span>
-      </h1>
+      <AkaComponent />
     </div>
   )
 }

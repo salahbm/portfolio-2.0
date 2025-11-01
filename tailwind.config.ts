@@ -37,12 +37,11 @@ const config = {
     },
     extend: {
       fontFamily: {
-        sans: ['var(--font-geist-sans)', 'system-ui'],
-        mono: ['var(--font-geist-mono)', 'monospace'],
-        milkyway: ['var(--font-milkyway)'],
-        'monument-extended': ['var(--font-monument-extended)'],
         syne: ['var(--font-syne)'],
         'lader-medium': ['var(--font-lader-medium)'],
+        sans: ['var(--font-geist-sans)', 'system-ui'],
+        mono: ['var(--font-geist-mono)', 'monospace'],
+        'monument-extended': ['var(--font-monument-extended)'],
       },
       colors: {
         border: 'hsl(var(--border))',

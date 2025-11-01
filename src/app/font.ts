@@ -4,17 +4,12 @@ export const monumentExtended = localFont({
   src: '../../public/fonts/monument-extended.otf',
   variable: '--font-monument-extended',
   display: 'swap',
+  weight: '900',
 })
 
 export const syne = localFont({
   src: '../../public/fonts/syne.ttf',
   variable: '--font-syne',
-  display: 'swap',
-})
-
-export const milkyway = localFont({
-  src: '../../public/fonts/milkyway.ttf',
-  variable: '--font-milkyway',
   display: 'swap',
 })
 
