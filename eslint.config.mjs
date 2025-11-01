@@ -51,6 +51,7 @@ const config = [
       '@typescript-eslint/explicit-module-boundary-types': 'error',
       'tailwindcss/no-contradicting-classname': 'off',
       'tailwindcss/classnames-order': 'off',
+      'tailwindcss/enforces-negative-arbitrary-values': 'off',
 
       '@typescript-eslint/no-unused-vars': [
         'error',

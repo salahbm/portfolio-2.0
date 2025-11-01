@@ -20,7 +20,7 @@ export function ProvidersTree({ children }: { children: React.ReactNode }) {
       <CursorProvider>
         <TooltipProvider>
           <PageTransition>
-            <LockScreenProvider>{children}</LockScreenProvider>
+            <LockScreenProvider enabled>{children}</LockScreenProvider>
           </PageTransition>
         </TooltipProvider>
         <Cursor />

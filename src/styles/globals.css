@@ -115,4 +115,9 @@
   .flex-between-start {
     @apply flex items-start justify-between;
   }
+
+  .wave-layer {
+    will-change: transform;
+    mix-blend-mode: screen;
+  }
 }

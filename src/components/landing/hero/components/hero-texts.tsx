@@ -20,7 +20,7 @@ export function HeroText() {
     <div ref={ref} className='font-syne relative text-center sm:text-left'>
       {/* Greeting */}
 
-      <h1
+      {/* <h1
         className='text-[clamp(1.5rem,4vw,2.5rem)] leading-tight tracking-wide'
         onMouseEnter={() => hoverTrig?.fire()}
         onMouseLeave={() => idleTrig?.fire()}
@@ -31,7 +31,7 @@ export function HeroText() {
             <WaveUnderline />
           </span>
         </span>
-      </h1>
+      </h1> */}
 
       <h1
         data-animation-delay='0.4'
@@ -40,7 +40,7 @@ export function HeroText() {
         Salah
       </h1>
 
-      <AkaComponent />
+      {/* <AkaComponent /> */}
     </div>
   )
 }

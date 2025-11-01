@@ -13,10 +13,10 @@ const NameComponent: React.FC = () => {
   }, [])
 
   return (
-    <section className='sticky bottom-24 left-0 right-0 flex flex-col items-center space-y-0 leading-tight lg:bottom-0'>
+    <section className='sticky left-0 right-0 top-0 z-10 flex -translate-y-[5%] flex-col items-center -space-y-7 leading-tight 2xl:translate-y-[17%] 2xl:-space-y-10'>
       <p
         id='name-full-stack'
-        className='transform-3d font-syne self-end whitespace-nowrap text-end text-6xl leading-none text-primary'
+        className='transform-3d font-syne self-start whitespace-nowrap pl-6 text-start text-[clamp(1rem,6vw,4rem)] leading-tight text-primary 2xl:text-[clamp(1rem,6vw,12rem)]'
         onMouseEnter={() => sadTrig?.fire()}
         onMouseLeave={() => idleTrig?.fire()}
       >
@@ -24,7 +24,7 @@ const NameComponent: React.FC = () => {
       </p>
       <p
         id='name-software-engineer'
-        className='transform-3d font-syne self-end whitespace-nowrap text-end text-6xl leading-none text-primary'
+        className='transform-3d font-syne self-start whitespace-nowrap pl-6 text-start text-[clamp(1rem,6vw,4rem)] leading-tight text-primary 2xl:text-[clamp(1rem,6vw,12rem)]'
         onMouseEnter={() => thinkingTrig?.fire()}
         onMouseLeave={() => idleTrig?.fire()}
       >
@@ -32,11 +32,15 @@ const NameComponent: React.FC = () => {
       </p>
       <p
         id='name-muhammad'
-        className='transform-3d text-gradient-lilac font-monument-extended whitespace-nowrap text-center leading-none'
+        className='transform-3d text-gradient-lilac font-monument-extended whitespace-nowrap leading-tight'
         onMouseEnter={() => happyTrig?.fire()}
         onMouseLeave={() => idleTrig?.fire()}
       >
-        Muhammad
+        Muham
+        <br />
+        <span className='inline-block w-full -translate-y-[0.47em] text-right'>
+          mad
+        </span>
       </p>
     </section>
   )

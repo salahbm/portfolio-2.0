@@ -19,7 +19,6 @@ export default function AkaComponent() {
   const containerRef = useRef<HTMLDivElement>(null)
   const layersRef = useRef<HTMLSpanElement[]>([])
   const sparkRefs = useRef<HTMLSpanElement[]>([])
-  const topTextRef = useRef<HTMLSpanElement>(null)
 
   useEffect(() => {
     const container = containerRef.current
@@ -54,16 +53,6 @@ export default function AkaComponent() {
         },
         '-=0.2'
       )
-
-      // --- top text fade
-      if (topTextRef.current) {
-        tl.fromTo(
-          topTextRef.current,
-          { opacity: 0, y: 30 },
-          { opacity: 1, y: 0, duration: 0.8 },
-          '-=0.1'
-        )
-      }
     }, container)
 
     // --- parallax
@@ -111,15 +100,15 @@ export default function AkaComponent() {
     ? [
         { color: '#6c29e2', offset: 2 },
         { color: '#ff6947', offset: 5 },
+        { color: '#ffffff', offset: 7 },
         { color: '#c6ff79', offset: 7 },
       ]
     : [
         { color: '#6c29e2', offset: 2 },
         { color: '#ffffff', offset: 5 },
         { color: '#ff6947', offset: 7 },
+        { color: '#c6ff79', offset: 7 },
       ]
-
-  const topTextColor = isDark ? '#ffffff' : '#6c29e2'
 
   return (
     <div
@@ -167,14 +156,6 @@ export default function AkaComponent() {
             }}
           />
         ))}
-
-        <span
-          ref={topTextRef}
-          className='relative drop-shadow-[0_8px_12px_rgba(0,0,0,0.25)] transition-colors duration-300'
-          style={{ color: topTextColor, zIndex: 5 }}
-        >
-          aka
-        </span>
       </div>
     </div>
   )
