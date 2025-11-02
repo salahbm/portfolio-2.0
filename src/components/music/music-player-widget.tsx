@@ -1,6 +1,5 @@
 'use client'
 
-import { useState, useEffect, useRef, useCallback } from 'react'
 import { motion, AnimatePresence } from 'framer-motion'
 import {
   PlayIcon,
@@ -14,104 +13,16 @@ import { useMusicPlayerStore } from '../../store/music-player-store'
 import { songs } from './songs'
 
 export function MusicPlayerWidget() {
-  const isPlaying = useMusicPlayerStore((state) => state.isPlaying)
-  const currentSongIndex = useMusicPlayerStore(
-    (state) => state.currentSongIndex
-  )
-  const setIsPlaying = useMusicPlayerStore((state) => state.setIsPlaying)
-  const setCurrentSongIndex = useMusicPlayerStore(
-    (state) => state.setCurrentSongIndex
-  )
-  const [progress, setProgress] = useState(0)
-  const audioRef = useRef<HTMLAudioElement | null>(null)
+  const {
+    isPlaying,
+    currentSongIndex,
+    progress,
+    togglePlayPause,
+    playNext,
+    playPrevious,
+  } = useMusicPlayerStore()
 
   const currentSong = songs[currentSongIndex]
-
-  const handleNext = useCallback(() => {
-    const nextIndex = (currentSongIndex + 1) % songs.length
-    setCurrentSongIndex(nextIndex)
-    setProgress(0)
-    setIsPlaying(true)
-  }, [currentSongIndex, setCurrentSongIndex, setIsPlaying])
-
-  const handlePrevious = useCallback(() => {
-    const prevIndex = (currentSongIndex - 1 + songs.length) % songs.length
-    setCurrentSongIndex(prevIndex)
-    setProgress(0)
-    setIsPlaying(true)
-  }, [currentSongIndex, setCurrentSongIndex, setIsPlaying])
-
-  const handlePlayPause = () => setIsPlaying(!isPlaying)
-
-  // Handle play / pause and progress tracking
-  useEffect(() => {
-    const audio = audioRef.current
-    if (!audio) return
-
-    if (isPlaying) {
-      // Handle autoplay restrictions
-      const playPromise = audio.play()
-      if (playPromise !== undefined) {
-        playPromise.catch((error) => {
-          // Browser prevented autoplay - user needs to interact first
-          if (error.name === 'NotAllowedError') {
-            console.log('Autoplay prevented - user interaction required')
-            setIsPlaying(false)
-          }
-        })
-      }
-    } else {
-      audio.pause()
-    }
-
-    const updateProgress = () => {
-      if (audio.duration) {
-        const newProgress = (audio.currentTime / audio.duration) * 100
-        setProgress(newProgress)
-      }
-    }
-
-    audio.addEventListener('timeupdate', updateProgress)
-    audio.addEventListener('ended', handleNext)
-
-    return () => {
-      audio.removeEventListener('timeupdate', updateProgress)
-      audio.removeEventListener('ended', handleNext)
-    }
-  }, [isPlaying, currentSongIndex, handleNext, setIsPlaying])
-
-  useEffect(() => {
-    const attemptAutoplay = async () => {
-      try {
-        const audio = new Audio(currentSong.audio)
-        audio.loop = true
-        audioRef.current = audio
-        await audio.play()
-        setIsPlaying(true)
-      } catch {
-        console.log('Autoplay failed, waiting for user interaction')
-        const handleFirstInteraction = async () => {
-          try {
-            await audioRef.current?.play()
-            setIsPlaying(true)
-            document.removeEventListener('click', handleFirstInteraction)
-          } catch (err) {
-            console.error('Playback failed after interaction:', err)
-          }
-        }
-        document.addEventListener('click', handleFirstInteraction)
-      }
-    }
-
-    attemptAutoplay()
-
-    return () => {
-      if (audioRef.current) {
-        audioRef.current.pause()
-        audioRef.current = null
-      }
-    }
-  }, [currentSong.audio, setIsPlaying])
 
   const formatTime = (seconds: number) => {
     const mins = Math.floor(seconds / 60)
@@ -148,9 +59,6 @@ export function MusicPlayerWidget() {
           <div className='absolute inset-0 bg-white/30 backdrop-blur-2xl dark:bg-black/40' />
         </motion.div>
       </AnimatePresence>
-
-      {/* Hidden Audio Element */}
-      <audio ref={audioRef} src={currentSong.audio} preload='auto' />
 
       {/* Content */}
       <div className='relative z-10 flex h-full flex-col justify-between p-4 text-neutral-900 dark:text-white'>
@@ -197,7 +105,7 @@ export function MusicPlayerWidget() {
           <div className='flex items-center justify-center gap-1 lg:gap-5'>
             <motion.button
               whileTap={{ scale: 0.9 }}
-              onClick={handlePrevious}
+              onClick={playPrevious}
               className='rounded-full bg-neutral-200/70 p-2 hover:bg-neutral-300 dark:bg-white/10 dark:hover:bg-white/20'
             >
               <BackwardIcon className='size-5' />
@@ -205,7 +113,7 @@ export function MusicPlayerWidget() {
 
             <motion.button
               whileTap={{ scale: 0.95 }}
-              onClick={handlePlayPause}
+              onClick={togglePlayPause}
               className='flex-center rounded-full bg-gradient-to-br from-rose-500 to-purple-500 p-4 text-white shadow-md hover:shadow-lg'
             >
               <AnimatePresence mode='wait'>
@@ -233,7 +141,7 @@ export function MusicPlayerWidget() {
 
             <motion.button
               whileTap={{ scale: 0.9 }}
-              onClick={handleNext}
+              onClick={playNext}
               className='rounded-full bg-neutral-200/70 p-2 hover:bg-neutral-300 dark:bg-white/10 dark:hover:bg-white/20'
             >
               <ForwardIcon className='size-5' />

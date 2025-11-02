@@ -77,9 +77,9 @@ export default function AkaComponent() {
     <div
       id='aka-container'
       ref={containerRef}
-      className='absolute -left-1/4 -top-0 -rotate-12'
+      className='absolute right-1/4 top-1/2 z-20 -rotate-[15deg]'
     >
-      <div className='relative select-none font-milkyway text-[clamp(0.7rem,6vw,1.2rem)] leading-none tracking-tight'>
+      <div className='relative select-none font-syne text-[clamp(0.7rem,6vw,12rem)] leading-none tracking-tight'>
         {layerColors.map((layer, i) => (
           <span
             key={i}

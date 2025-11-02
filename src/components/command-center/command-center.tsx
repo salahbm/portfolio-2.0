@@ -6,8 +6,6 @@ import { useEffect, useRef, useState } from 'react'
 import useEvent from 'react-use-event-hook'
 import { useHotkeys } from 'react-hotkeys-hook'
 
-import { cn } from '@/lib/utils'
-import { navigationMenuTriggerStyle } from '@/components/ui/navigation-menu'
 import {
   Tooltip,
   TooltipTrigger,
@@ -20,7 +18,6 @@ import {
   useTransform,
 } from 'motion/react'
 import { VFXConfettiSurface } from '@/components/ui-vfx/vfx-confetti-surface'
-import { CommandIcon } from '@/components/icons/command-icon'
 
 import { CommandCenterDialog } from '@/components/command-center/command-center-dialog'
 import { QRCodeDialog } from '@/components/command-center/qrcode-dialog'
@@ -30,8 +27,8 @@ import { useCursorContext } from '../cursor'
 import { useDock } from '../dock'
 import { DockContextType } from '../dock/dock.types'
 
-export function CommandCenter({ className }: { className?: string }) {
-  const ref = useRef<HTMLDivElement>(null)
+export function CommandCenter() {
+  const ref = useRef<HTMLButtonElement>(null)
   const { x } = useCursorContext()
   const dock = useDock() as DockContextType
 
@@ -133,39 +130,29 @@ export function CommandCenter({ className }: { className?: string }) {
     <div className='flex flex-col'>
       <Tooltip>
         <TooltipTrigger asChild>
-          <button type='button' onClick={handleButtonClick}>
-            <motion.div
-              ref={ref}
-              className='lg:dock-item-box relative hidden cursor-pointer'
-              animate={controls}
-              custom={spring}
-              transition={{
-                default: { duration: 0.2 },
-                translateY: { duration: 0.4, ease: 'easeInOut' },
-              }}
-              style={{ width: spring, height: spring }}
-              whileTap={{ scale: 0.95 }}
-            >
-              <Image
-                src='/dock/finder.png'
-                alt='Command Center'
-                fill
-                sizes='100px'
-                priority={true}
-                className='rounded-lg object-contain'
-              />
-            </motion.div>
-            <span
-              className={cn(
-                navigationMenuTriggerStyle(),
-                'flex-center aspect-square rounded-xl border p-4 data-[active]:bg-accent lg:hidden',
-                className
-              )}
-              aria-label='Command Center'
-            >
-              <CommandIcon className='size-4 stroke-[1.5px]' />
-            </span>
-          </button>
+          <motion.button
+            ref={ref}
+            type='button'
+            onClick={handleButtonClick}
+            className='dock-item-box relative hidden cursor-pointer lg:flex'
+            animate={controls}
+            custom={spring}
+            transition={{
+              default: { duration: 0.2 },
+              translateY: { duration: 0.4, ease: 'easeInOut' },
+            }}
+            style={{ width: spring, height: spring }}
+            whileTap={{ scale: 0.95 }}
+          >
+            <Image
+              src='/dock/finder.png'
+              alt='Command Center'
+              fill
+              sizes='100px'
+              priority={true}
+              className='rounded-lg object-contain'
+            />
+          </motion.button>
         </TooltipTrigger>
 
         <TooltipContent

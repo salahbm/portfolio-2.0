@@ -12,16 +12,6 @@ export interface Song {
 export const songs: Song[] = [
   {
     id: 1,
-    title: 'Sato',
-    artist: 'Uzbek Music',
-    album: 'Uzbek Music',
-    image: '/music/sato-navo.webp',
-    gradient: 'from-purple-500 via-pink-500 to-red-500',
-    audio: '/music/sato-uzbek.mp3',
-    duration: 386, // 6:26
-  },
-  {
-    id: 2,
     title: 'Lofi Hip Hop',
     artist: 'Soulful Beats',
     album: 'Soulful Beats',
@@ -29,6 +19,16 @@ export const songs: Song[] = [
     gradient: 'from-blue-500 via-cyan-500 to-teal-500',
     audio: '/music/lofi-hiphop.mp3',
     duration: 213, // 3:33
+  },
+  {
+    id: 2,
+    title: 'Sato',
+    artist: 'Uzbek Music',
+    album: 'Uzbek Music',
+    image: '/music/sato-navo.webp',
+    gradient: 'from-purple-500 via-pink-500 to-red-500',
+    audio: '/music/sato-uzbek.mp3',
+    duration: 386, // 6:26
   },
   {
     id: 3,

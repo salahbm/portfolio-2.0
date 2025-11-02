@@ -56,7 +56,7 @@ export default function ScrollBlob() {
     if (nextSection) {
       nextSection.scrollIntoView({ behavior: 'smooth', block: 'start' })
     } else {
-      window.scrollTo({ top: window.innerHeight, behavior: 'smooth' })
+      window.scrollTo({ top: window.innerHeight / 2, behavior: 'smooth' })
     }
   }
 
@@ -71,6 +71,7 @@ export default function ScrollBlob() {
       <motion.div
         animate={controls}
         onClick={handleScroll}
+        data-cursor='pointer'
         className={cn(
           `group relative flex cursor-pointer items-center justify-center`,
           isMobile ? 'size-20' : 'size-24 lg:size-[150px]'

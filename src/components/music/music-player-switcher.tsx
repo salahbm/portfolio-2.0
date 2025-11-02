@@ -1,6 +1,6 @@
 'use client'
 
-import { Fragment, useEffect, useRef, useState } from 'react'
+import { useEffect, useRef, useState } from 'react'
 import Image from 'next/image'
 import {
   motion,
@@ -9,10 +9,8 @@ import {
   useTransform,
 } from 'motion/react'
 
-import { cn } from '@/lib/utils'
 import { useMusicPlayerStore } from '@/store/music-player-store'
 
-import { navigationMenuTriggerStyle } from '@/components/ui/navigation-menu'
 import {
   Tooltip,
   TooltipTrigger,
@@ -23,16 +21,13 @@ import { useDock } from '@/components/dock'
 import { DockContextType } from '@/components/dock/dock.types'
 import { PlayIcon, PauseIcon } from '@heroicons/react/24/solid'
 import { useHotkeys } from 'react-hotkeys-hook'
-import { useUserAgent } from '@/hooks/use-user-agent'
 
 export function MusicPlayerSwitcher() {
-  const ref = useRef<HTMLDivElement>(null)
+  const ref = useRef<HTMLButtonElement>(null)
   const { x } = useCursorContext()
   const dock = useDock() as DockContextType
   const controls = useAnimationControls()
   const [centerX, setCenterX] = useState(0)
-
-  const { isMobile } = useUserAgent()
 
   // Responsive motion size
   const dimension = useTransform(x, (mouseX) => {
@@ -59,8 +54,16 @@ export function MusicPlayerSwitcher() {
     return () => window.removeEventListener('resize', updateCenter)
   }, [])
 
-  const isPlaying = useMusicPlayerStore((state) => state.isPlaying)
-  const togglePlayPause = useMusicPlayerStore((state) => state.togglePlayPause)
+  const { isPlaying, togglePlayPause, initAudio, cleanupAudio } =
+    useMusicPlayerStore()
+
+  // Initialize global audio on mount
+  useEffect(() => {
+    initAudio()
+    return () => {
+      cleanupAudio()
+    }
+  }, [initAudio, cleanupAudio])
 
   useHotkeys(
     'meta+m',
@@ -84,79 +87,39 @@ export function MusicPlayerSwitcher() {
     return () => unsubscribe()
   }, [dimension, spring, dock])
 
-  if (isMobile)
-    return (
-      <button
-        onClick={togglePlayPause}
-        className={cn(
-          navigationMenuTriggerStyle(),
-          'flex-center relative aspect-square rounded-xl border p-4 data-[active]:bg-accent lg:hidden [&_svg]:shrink-0'
-        )}
-      >
-        {isPlaying ? (
-          <Fragment>
-            <PauseIcon className='h-4 w-4 scale-100 transition-all' />
-            <span className='absolute right-0 top-0 size-2 animate-pulse rounded-full bg-green-500' />
-          </Fragment>
-        ) : (
-          <PlayIcon className='h-4 w-4 scale-100 transition-all' />
-        )}
-        <span className='sr-only'>Toggle music player</span>
-      </button>
-    )
-
   return (
     <Tooltip>
       <TooltipTrigger asChild>
-        <div>
-          <motion.button
-            ref={(ref) => {
-              if (ref) {
-                ref.addEventListener('click', togglePlayPause)
-              }
-            }}
-            className='lg:dock-item-box relative hidden cursor-pointer'
-            animate={controls}
-            custom={spring}
-            transition={{
-              default: { duration: 0.2 },
-              translateY: { duration: 0.4, ease: 'easeInOut' },
-            }}
-            style={{ width: spring, height: spring }}
-            whileTap={{ scale: 0.95 }}
-          >
-            <Image
-              src='/dock/itunes.png'
-              alt='Music Player'
-              fill
-              sizes='100px'
-              priority
-              className='rounded-lg object-contain p-0.5'
-            />
-            {/* Play/Pause indicator overlay */}
-            <div className='absolute inset-0 flex items-center justify-center rounded-lg bg-black/30 opacity-0 transition-opacity hover:opacity-100'>
-              {isPlaying ? (
-                <PauseIcon className='size-6 text-white drop-shadow-lg' />
-              ) : (
-                <PlayIcon className='size-6 text-white drop-shadow-lg' />
-              )}
-            </div>
-          </motion.button>
-          <button
-            onClick={togglePlayPause}
-            className={cn(
-              navigationMenuTriggerStyle(),
-              'flex-center aspect-square rounded-xl border p-4 data-[active]:bg-accent lg:hidden'
-            )}
-          >
+        <motion.button
+          ref={ref}
+          onClick={togglePlayPause}
+          className='dock-item-box relative hidden cursor-pointer lg:flex'
+          animate={controls}
+          custom={spring}
+          transition={{
+            default: { duration: 0.2 },
+            translateY: { duration: 0.4, ease: 'easeInOut' },
+          }}
+          style={{ width: spring, height: spring }}
+          whileTap={{ scale: 0.95 }}
+        >
+          <Image
+            src='/dock/itunes.png'
+            alt='Music Player'
+            fill
+            sizes='100px'
+            priority
+            className='rounded-lg object-contain p-0.5'
+          />
+          {/* Play/Pause indicator overlay */}
+          <div className='absolute inset-0 flex items-center justify-center rounded-lg bg-black/30 opacity-0 transition-opacity hover:opacity-100'>
             {isPlaying ? (
-              <PauseIcon className='size-4' />
+              <PauseIcon className='size-6 text-white drop-shadow-lg' />
             ) : (
-              <PlayIcon className='size-4' />
+              <PlayIcon className='size-6 text-white drop-shadow-lg' />
             )}
-            <span className='sr-only'>Toggle music player</span>
-          </button>
-        </div>
+          </div>
+        </motion.button>
       </TooltipTrigger>
       <TooltipContent sideOffset={8}>
         {isPlaying ? 'Pause' : 'Play'} Music
