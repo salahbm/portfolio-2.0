@@ -62,14 +62,14 @@ export default function AkaComponent() {
   const layerColors = isDark
     ? [
         { color: '#6c29e2', offset: 2 },
-        { color: '#ff6947', offset: 5 },
-        { color: '#ffffff', offset: 7 },
-        { color: '#c6ff79', offset: 8 },
+        { color: '#ff6947', offset: 7 },
+        { color: '#ffffff', offset: 12 },
+        { color: '#c6ff79', offset: 17 },
       ]
     : [
-        { color: '#c6ff79', offset: 8 },
-        { color: '#ff6947', offset: 7 },
-        { color: '#ffffff', offset: 5 },
+        { color: '#c6ff79', offset: 17 },
+        { color: '#ff6947', offset: 12 },
+        { color: '#ffffff', offset: 7 },
         { color: '#6c29e2', offset: 2 },
       ]
 
@@ -77,7 +77,7 @@ export default function AkaComponent() {
     <div
       id='aka-container'
       ref={containerRef}
-      className='absolute right-1/4 top-1/2 z-20 -rotate-[15deg]'
+      className='absolute right-1/4 top-1/4 z-20 -rotate-[15deg]'
     >
       <div className='relative select-none font-syne text-[clamp(0.7rem,6vw,12rem)] leading-none tracking-tight'>
         {layerColors.map((layer, i) => (
@@ -92,7 +92,7 @@ export default function AkaComponent() {
               left: `${layer.offset}px`,
               top: `${layer.offset}px`,
               transform: 'skewX(-10deg)',
-              textShadow: `0 0 10px ${layer.color}55`,
+              textShadow: `0 0 20px rgba(255,255,255,0.5)`,
               zIndex: i + 1,
             }}
           >

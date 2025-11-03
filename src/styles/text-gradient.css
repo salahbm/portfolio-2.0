@@ -16,13 +16,14 @@
   -webkit-background-clip: text;
   -webkit-text-fill-color: transparent;
   background-clip: text;
+  text-shadow: 0 0 10px rgba(255, 255, 255, 0.3);
   animation: gradientShift 12s ease-in-out infinite;
 }
 
 /* Deeper variant with mint-teal contrast for darker backgrounds */
 .text-gradient-dark {
   background: linear-gradient(
-    90deg,
+    120deg,
     oklch(0.48 0.23 275),
     oklch(0.58 0.24 305),
     #6c29e2,
@@ -34,6 +35,7 @@
   -webkit-background-clip: text;
   -webkit-text-fill-color: transparent;
   background-clip: text;
+  text-shadow: 0 0 5px rgba(255, 255, 255, 0.3);
   animation: gradientShift 14s ease-in-out infinite;
 }
 

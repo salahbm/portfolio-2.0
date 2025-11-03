@@ -14,7 +14,7 @@ const NameComponent: React.FC = () => {
   }, [])
 
   return (
-    <section className='sticky bottom-0 left-6 right-6 z-10 flex flex-col items-center -space-y-7 leading-tight 2xl:-space-y-20'>
+    <section className='2xl:last:-space-y-30 sticky -bottom-20 left-0 right-0 z-10 flex flex-col items-center -space-y-7 leading-tight 2xl:-space-y-20'>
       <p
         id='name-full-stack'
         className='transform-3d self-start whitespace-nowrap pl-6 text-end font-syne text-[clamp(1rem,6vw,4rem)] leading-tight text-background 2xl:text-[clamp(1rem,6vw,12rem)]'
@@ -33,7 +33,7 @@ const NameComponent: React.FC = () => {
       </p>
       <p
         id='name-muhammad'
-        className='transform-3d text-gradient-lilac hidden translate-y-10 whitespace-nowrap font-monument-extended leading-tight lg:inline-block 2xl:translate-y-20'
+        className='transform-3d text-gradient-dark hidden whitespace-nowrap font-monument-extended leading-tight lg:inline-block'
         onMouseEnter={() => happyTrig?.fire()}
         onMouseLeave={() => idleTrig?.fire()}
       >

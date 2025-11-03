@@ -51,7 +51,7 @@ export const CursorProvider: React.FC<{ children: React.ReactNode }> = ({
   const cursorTypeRef = useRef<CursorType>('default')
   const lastMousePosRef = useRef({ x: 0, y: 0 })
 
-  // motion values - initialize with current mouse position
+  // motion values
   const x = useMotionValue(
     typeof window !== 'undefined' ? window.innerWidth / 2 : 0
   )
@@ -59,46 +59,54 @@ export const CursorProvider: React.FC<{ children: React.ReactNode }> = ({
     typeof window !== 'undefined' ? window.innerHeight / 2 : 0
   )
 
-  // --- Simple cursor hiding with CSS ---
-  const installHideStyle = useCallback(() => {
+  // Inject the hide-cursor CSS once
+  const ensureStyleTag = useCallback(() => {
     if (isTouchDevice) return
-
-    const prev = document.getElementById(STYLE_ID)
-    if (prev) return // Already installed
-
+    if (document.getElementById(STYLE_ID)) return
     const style = document.createElement('style')
     style.id = STYLE_ID
     style.textContent = `
-      html.cursor-hidden * {
-        cursor: none !important;
-      }
+      /* Hide OS pointer anywhere over your page, including root/background */
+      html.cursor-hidden, html.cursor-hidden body, html.cursor-hidden * { cursor: none !important; }
+
+      /* Optional: hide text caret while custom cursor is active */
+      /* html.cursor-hidden input, html.cursor-hidden textarea, html.cursor-hidden [contenteditable="true"] { caret-color: transparent !important; } */
     `
     document.head.appendChild(style)
-    document.documentElement.classList.add('cursor-hidden')
   }, [isTouchDevice])
 
-  const uninstallHideStyle = useCallback(() => {
-    document.documentElement.classList.remove('cursor-hidden')
+  const uninstallStyleTag = useCallback(() => {
     const style = document.getElementById(STYLE_ID)
     if (style?.parentNode) style.parentNode.removeChild(style)
   }, [])
 
-  // --- show/hide helpers for the visual cursor element ---
+  // Toggle the class while the pointer is inside your document & focused
+  const setHidden = useCallback(
+    (on: boolean) => {
+      if (isTouchDevice) return
+      document.documentElement.classList.toggle('cursor-hidden', on)
+    },
+    [isTouchDevice]
+  )
+
+  // show/hide visual cursor element
   const show = useCallback(() => {
     const el = cursorRef.current
     if (!el) return
     isVisibleRef.current = true
     el.style.opacity = '1'
-  }, [])
+    setHidden(true)
+  }, [setHidden])
 
   const hide = useCallback(() => {
     const el = cursorRef.current
     if (!el) return
     isVisibleRef.current = false
     el.style.opacity = '0'
-  }, [])
+    setHidden(false)
+  }, [setHidden])
 
-  // Mouse move handler
+  // pointer tracking
   const onMouseMove = useEvent((e: MouseEvent) => {
     lastMousePosRef.current = { x: e.clientX, y: e.clientY }
     if (!isVisibleRef.current) show()
@@ -106,18 +114,19 @@ export const CursorProvider: React.FC<{ children: React.ReactNode }> = ({
     y.set(e.clientY)
   })
 
-  // Focus/blur handlers
+  // focus/blur handling
   const onFocus = useCallback(() => {
     if (isTouchDevice) return
     show()
     x.set(lastMousePosRef.current.x)
     y.set(lastMousePosRef.current.y)
-    installHideStyle()
-  }, [isTouchDevice, show, installHideStyle, x, y])
+    setHidden(true)
+  }, [isTouchDevice, show, setHidden, x, y])
 
   const onBlur = useCallback(() => {
     hide()
-  }, [hide])
+    setHidden(false)
+  }, [hide, setHidden])
 
   // Visibility change (tab switches)
   useEffect(() => {
@@ -133,15 +142,20 @@ export const CursorProvider: React.FC<{ children: React.ReactNode }> = ({
     return () => document.removeEventListener('visibilitychange', handleVis)
   }, [isTouchDevice, onFocus, onBlur])
 
-  // Core lifecycle hooks
+  // Core lifecycle
   useEffect(() => {
     if (isTouchDevice || !mounted) {
-      uninstallHideStyle()
+      setHidden(false)
+      uninstallStyleTag()
       return
     }
 
-    installHideStyle()
-    if (document.hasFocus()) show()
+    ensureStyleTag()
+
+    if (document.hasFocus()) {
+      setHidden(true)
+      show()
+    }
 
     window.addEventListener('mousemove', onMouseMove, { passive: true })
     window.addEventListener('focus', onFocus)
@@ -155,18 +169,20 @@ export const CursorProvider: React.FC<{ children: React.ReactNode }> = ({
       window.removeEventListener('blur', onBlur)
       document.removeEventListener('mouseenter', show)
       document.removeEventListener('mouseleave', hide)
-      uninstallHideStyle()
+      setHidden(false)
+      uninstallStyleTag()
     }
   }, [
     isTouchDevice,
     mounted,
-    installHideStyle,
-    uninstallHideStyle,
+    ensureStyleTag,
+    uninstallStyleTag,
     onMouseMove,
     onFocus,
     onBlur,
     show,
     hide,
+    setHidden,
   ])
 
   // Click feedback pulse when in "pointer" or "hand" mode

@@ -88,11 +88,11 @@
   }
 
   * {
-    @apply border-border;
+    @apply cursor-none border-border;
     @apply selection:bg-primary/20 dark:selection:bg-primary/20;
   }
   body {
-    @apply bg-background font-lader-medium text-foreground antialiased;
+    @apply cursor-none bg-background font-lader-medium text-foreground antialiased;
   }
 
   ::view-transition-old(root),

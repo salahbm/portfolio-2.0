@@ -1,3 +1,5 @@
+'use client'
+
 import { motion } from 'motion/react'
 import { cn } from '@/lib/utils'
 import { useUserAgent } from '@/hooks/use-user-agent'
@@ -25,7 +27,7 @@ export function Cursor() {
         y,
         translateX: '-50%',
         translateY: '-50%',
-        opacity: 0,
+        opacity: 0, // shown via provider's show()
       }}
       transition={{
         type: 'spring',
