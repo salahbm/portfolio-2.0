@@ -33,7 +33,7 @@ export function CraftCard({
       {/* Gradient glow background */}
       <div className='bg-gradient-lilac/40 dark:bg-gradient-dark/40 absolute inset-0 z-[1] opacity-0 blur-2xl transition-opacity duration-500 group-hover:opacity-100' />
 
-      <div className='absolute h-full w-full bg-[radial-gradient(#e5e7eb_1px,transparent_1px)] [background-size:16px_16px] [mask-image:radial-gradient(ellipse_50%_50%_at_50%_50%,#000_70%,transparent_100%)]'></div>
+      <div className='absolute h-full w-full bg-[radial-gradient(#e5e7eb_1px,transparent_1px)] [background-size:16px_16px] [mask-image:radial-gradient(ellipse_50%_50%_at_50%_50%,#000_70%,transparent_100%)] dark:bg-[radial-gradient(#454545_1px,transparent_1px)]' />
 
       {/* Content */}
       <div className='relative z-[2] flex h-full w-full flex-col gap-4 p-6 max-lg:gap-3'>

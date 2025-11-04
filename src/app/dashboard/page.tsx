@@ -23,7 +23,9 @@ export default async function DashboardPage() {
         <TwitterBentoItem />
         <InstagramBentoItem />
         <LinkedInBentoItem />
-        <MusicBentoItem />
+        <div className='hidden lg:block'>
+          <MusicBentoItem />
+        </div>
         <SmartStack
           className='col-span-2 row-span-1 min-h-full max-lg:min-h-[220px] max-md:min-h-[180px]'
           roundedValuePx={16}
@@ -33,6 +35,9 @@ export default async function DashboardPage() {
           <WorkBentoItem />
           <CraftBentoItem />
         </SmartStack>
+        <div className='block lg:hidden'>
+          <MusicBentoItem />
+        </div>
         <WeatherBentoItem />
       </BentoGrid>
     </PageContent>

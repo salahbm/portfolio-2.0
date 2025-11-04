@@ -224,7 +224,7 @@ const WorkHistoryUpdate = () => {
         title='Professional Work History'
         description='Building exceptional products with React, Next.js, and cutting-edge technologies'
       />
-      <div className='mx-auto max-w-4xl space-y-8'>
+      <div className='mx-auto max-w-4xl space-y-8 px-4 md:p-0'>
         {workHistory.map((work, index) => (
           <div
             key={index}
