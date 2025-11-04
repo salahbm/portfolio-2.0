@@ -1,373 +1,382 @@
+import React from 'react'
 import type { Metadata } from 'next'
-import Image from 'next/image'
 
+import {
+  BriefcaseIcon,
+  CalendarIcon,
+  MapPinIcon,
+  TrophyIcon,
+  CodeBracketIcon,
+  BoltIcon,
+} from '@heroicons/react/24/outline'
 import { cn } from '@/lib/utils'
-
-import { ReactIcon } from '@/components/icons/react-icon'
-import { NextJSSquareIcon } from '@/components/icons/nextjs-square-icon'
-import { ClaapIcon } from '@/components/icons/claap-icon'
-
-import { Separator } from '@/components/ui/separator'
-import { PageContent } from '@/components/content/page-content'
 import { PageHeader } from '@/components/content/page-header'
-import { InlineLink } from '@/components/content/inline-link'
-import { TagLink } from '@/components/content/tag-link'
-import { WorkCard } from '@/components/grids/work-card'
-import { Fragment } from 'react'
 
-const ItemsSeparator = ({ className }: { className?: string }) => (
-  <Separator className={cn('mx-auto w-[90%]', className)} />
-)
+interface Role {
+  title: string
+  period: string
+  duration?: string
+  type?: string
+}
+
+interface TechStack {
+  [category: string]: string[]
+}
+
+interface WorkExperience {
+  company: string
+  location: string
+  logo?: string
+  roles: Role[]
+  description: string
+  achievements?: string[]
+  techStack?: TechStack
+  impact?: string
+  recognition?: string
+  links?: Record<string, string>
+  skills: string
+}
 
 export const metadata: Metadata = {
   title: 'Work',
   description: 'Check my work and contributions',
 }
 
-export default function WorkPage() {
+const workHistory: WorkExperience[] = [
+  {
+    company: 'Momenti Corp. (주)모멘티)',
+    location: 'Seoul, South Korea (On-site)',
+    roles: [
+      {
+        title: 'Senior Software Engineer Team Lead',
+        period: 'January 2025 - Present',
+        duration: '11 months',
+        type: 'Current Role',
+      },
+      {
+        title: 'Software Engineer',
+        period: 'May 2024 - March 2025',
+        duration: '11 months',
+        type: 'Previous Role',
+      },
+    ],
+    description:
+      'Leading development teams in mobile application development and driving technical excellence across the organization.',
+    achievements: [
+      'Promoted to Team Lead within 8 months, managing cross-functional development teams',
+      'Architected and delivered scalable mobile applications serving thousands of users',
+      'Established best practices for code quality, testing, and deployment pipelines',
+      'Mentored junior developers and conducted technical training sessions',
+    ],
+    techStack: {
+      mobile: ['React Native', 'iOS Development', 'Android Development'],
+      backend: ['Node.js', 'Express.js', 'API Development'],
+      cloud: ['Amazon Web Services (AWS)', 'Lambda', 'EC2', 'S3'],
+      database: ['MongoDB', 'PostgreSQL', 'Redis'],
+      tools: ['Git', 'Docker', 'CI/CD', 'Agile/Scrum'],
+    },
+    links: {
+      web: 'momenti.biz',
+    },
+    skills:
+      'Mobile Application Development, Team Leadership, API Development, AWS, React Native, Node.js, MongoDB, PostgreSQL, Docker, CI/CD',
+  },
+  {
+    company: 'CryptoCare ((주)크립토케어)',
+    location: 'Seoul, South Korea (Hybrid)',
+    logo: '₿',
+    roles: [
+      {
+        title: 'Full Stack Engineer (Contract)',
+        period: 'January 2024 - April 2024',
+        duration: '4 months',
+      },
+    ],
+    description:
+      'Delivered enterprise-grade blockchain solutions, bridging Web2 and Web3 technologies.',
+    achievements: [
+      'Architected full-stack crypto trading platform with wallet integration',
+      'Implemented Ethereum smart contracts and blockchain network integrations',
+      'Developed secure crypto wallet functionalities with multi-signature support',
+      'Built RESTful APIs handling high-volume cryptocurrency transactions',
+      'Designed responsive UI/UX for both mobile and web platforms',
+    ],
+    techStack: {
+      frontend: ['React.js', 'React Native', 'Next.js', 'TailwindCSS'],
+      backend: ['Node.js', 'Express.js', 'Django', 'Python'],
+      blockchain: ['Ethereum', 'Smart Contracts', 'Solidity', 'Web3.js'],
+      cloud: ['AWS', 'Lambda', 'API Gateway'],
+      database: ['MongoDB', 'Redis'],
+      state: ['Redux', 'Context API'],
+    },
+    skills:
+      'Blockchain Development, Ethereum, Smart Contracts, React Native, Node.js, Django, AWS, MongoDB, Redux, Crypto Wallets',
+  },
+  {
+    company: 'NiaLabs (주)니아랩스',
+    location: 'Seoul, South Korea (Hybrid)',
+    logo: '🌐',
+    roles: [
+      {
+        title: 'Mobile Developer',
+        period: 'August 2022 - December 2023',
+        duration: '1 year 5 months',
+      },
+    ],
+    description:
+      'Pioneering Web 3.0 solutions, leading the transition from Web 2.0 to blockchain-powered services.',
+    achievements: [
+      '🏆 Developed Metaverse payment solution achieving 2nd place in 2022 major platform competition',
+      'Architected and launched NFT Marketplace enabling digital intellectual property trading',
+      'Built cryptocurrency wallet backend with secure deposit/withdrawal systems',
+      'Designed and implemented Smart Contracts for DAO, DeFi, and XToE business models',
+      'Provided blockchain consulting across multiple chains (Ethereum, Polygon, Solana, BSC, Avalanche)',
+      'Conducted smart contract audits ensuring security and optimization',
+    ],
+    techStack: {
+      frontend: ['React', 'React Native', 'Next.js'],
+      backend: ['Node.js', 'Python', 'Spring Boot', 'Java'],
+      blockchain: [
+        'Ethereum',
+        'Polygon',
+        'Solana',
+        'BSC',
+        'Avalanche',
+        'Truffle',
+        'Hardhat',
+        'Infura',
+        'Moralis',
+      ],
+      languages: [
+        'JavaScript',
+        'TypeScript',
+        'Python',
+        'Java',
+        'Rust',
+        'Solidity',
+        'C',
+        'C++',
+      ],
+      database: ['MySQL', 'MongoDB'],
+    },
+    impact:
+      'Led Web 3.0 transformation initiatives, establishing the company as a blockchain innovation leader.',
+    skills:
+      'Blockchain Architecture, NFT Development, Smart Contracts, Solidity, DeFi, DAO, Metaverse, React Native, Node.js, Python, Spring Boot',
+  },
+  {
+    company: 'Vizamaster',
+    location: 'Uzbekistan (Hybrid)',
+    logo: '✈️',
+    roles: [
+      {
+        title: 'Full-stack Developer (Contract)',
+        period: 'May 2020 - January 2022',
+        duration: '1 year 9 months',
+      },
+    ],
+    description:
+      'Built enterprise-grade visa processing platform with advanced 3D web experiences and serverless architecture.',
+    achievements: [
+      'Architected complete enterprise ecosystem from scratch (admin + client platforms)',
+      'Implemented role-based access control (RBAC) with secure authentication system',
+      'Created stunning 3D UI/UX using Three.js for enhanced user engagement',
+      'Built real-time document processing and visa application tracking system',
+      'Developed multi-language blog system with advanced SEO optimization',
+      'Deployed serverless architecture reducing operational costs by 60%',
+      'Achieved global performance optimization through edge computing and CDN',
+    ],
+    techStack: {
+      frontend: [
+        'Next.js 13+',
+        'TypeScript',
+        'TailwindCSS',
+        'Three.js',
+        'WebGL',
+      ],
+      backend: ['Serverless Functions', 'Edge Functions', 'API Routes'],
+      cloud: ['Cloudflare R2', 'Cloudflare Workers', 'Global CDN'],
+      database: ['Neon PostgreSQL', 'Prisma ORM'],
+      features: ['PWA', 'SEO', 'Analytics', 'Real-time Updates'],
+    },
+    impact:
+      'Transformed visa processing workflow, reducing processing time and improving global user experience.',
+    links: {
+      web: 'vizamaster.uz',
+      admin: 'admin.vizamaster.uz',
+    },
+    skills:
+      'Enterprise Architecture, Serverless, Edge Computing, Three.js, WebGL, Next.js, TypeScript, PostgreSQL, Cloudflare, PWA, RBAC',
+  },
+]
+
+const WorkHistoryUpdate = () => {
   return (
-    <Fragment>
+    <div className='min-h-screen bg-background'>
       <PageHeader
-        title='Work'
-        description='A look at my professional work and contributions.'
+        title='Professional Work History'
+        description='Building exceptional products with React, Next.js, and cutting-edge technologies'
       />
-      <PageContent>
-        <p>
-          My main goal is to craft interfaces and products with{' '}
-          <TagLink href='https://react.dev/'>
-            <ReactIcon className='mr-1 inline-flex h-3 w-3' />
-            React
-          </TagLink>{' '}
-          and{' '}
-          <TagLink href='https://nextjs.org/'>
-            <NextJSSquareIcon className='mr-1 inline-flex h-3 w-3' />
-            Next.js
-          </TagLink>
-          .<br />
-          Here&apos;s a look at my professional work and contributions.
-        </p>
-        <div className='flex w-full flex-col gap-8 text-neutral-900 dark:text-neutral-100'>
-          <WorkCard
-            href='https://liveblocks.io'
-            // companyLogo={<Image className='size-6' />}
-            companyName='Liveblocks'
-            jobTitle='Product Engineer (remote)'
-            startDate='July 2024'
+      <div className='mx-auto max-w-6xl space-y-8'>
+        {workHistory.map((work, index) => (
+          <div
+            key={index}
+            className={cn(
+              'group rounded-xl border bg-card shadow-sm transition-all duration-300',
+              'hover:shadow-md'
+            )}
           >
-            <div className='flex w-full flex-col gap-6'>
-              <p>
-                Beginning July 2024, I joined{' '}
-                <InlineLink
-                  href='https://liveblocks.io/'
-                  aria-label='Liveblocks'
-                >
-                  Liveblocks
-                </InlineLink>{' '}
-                .
-              </p>
-              <div className='flex w-full flex-col gap-2'>
-                <p>
-                  My role at Liveblocks is mainly on the product engineering
-                  space. I&apos;m focusing on the Dashboard,{' '}
-                  <InlineLink
-                    href='https://liveblocks.io/docs/api-reference/liveblocks-react#useNotificationSettings'
-                    aria-label='Liveblocks useNotificationSettings'
-                  >
-                    React Hooks APIs
-                  </InlineLink>
-                  , components,{' '}
-                  <InlineLink
-                    href='https://liveblocks.io/docs/api-reference/liveblocks-emails'
-                    aria-label='Liveblocks emails'
-                  >
-                    helper packages
-                  </InlineLink>{' '}
-                  and more.
-                </p>
-                <p>At Liveblocks I&apos;m contributing on:</p>
-                <ul className='ml-5 list-disc font-medium'>
-                  <li>Working on Liveblocks products</li>
-                  <li>Working on the Liveblocks platform</li>
-                  <li>
-                    Building new features and maintaining the existing ones
-                  </li>
-                  <li>Interacting with the community and customers</li>
-                </ul>
-              </div>
-              <p>
-                Liveblocks is the best place for ready-made features for AI and
-                human collaboration 🚀.
-                <br />
-                Want to give try? 👉🏻{' '}
-                <InlineLink
-                  href='https://liveblocks.io/'
-                  aria-label='Liveblocks'
-                >
-                  liveblocks.io
-                </InlineLink>
-              </p>
-            </div>
-          </WorkCard>
-          <ItemsSeparator />
-          <WorkCard
-            href='https://www.claap.io/'
-            companyName='Claap'
-            companyLogo={<ClaapIcon className='size-6' />}
-            jobTitle='Senior Software Engineer (remote)'
-            startDate='October 2021'
-            endDate='March 2024'
-          >
-            <div className='flex w-full flex-col gap-6'>
-              <p>
-                I joined{' '}
-                <InlineLink href='https://www.claap.io/' aria-label='Claap'>
-                  Claap
-                </InlineLink>{' '}
-                early stage back in October 2021 to help teams record meetings
-                with AI powered notes, send short followup videos, and
-                centralize best practices in video library.
-              </p>
-              <div className='flex w-full flex-col gap-2'>
-                <p>
-                  During my time at Claap I contributed to develop multiple and
-                  different features for the product&apos;s web app such as:
-                </p>
-                <ul className='ml-5 list-disc font-medium'>
-                  <li>Video uploads</li>
-                  <li>Video replies in comments</li>
-                  <li>File uploads in comments</li>
-                  <li>Slack integration</li>
-                  <li>
-                    Video editor (trimming by timeline, trimming by transcript
-                    and stitching)
-                  </li>
-                </ul>
-                <p>
-                  My scope of contributions was extended to the implementation
-                  of the Chrome extension and I&apos;ve been part of the first
-                  team of two developers who has implemented and released the
-                  first version of the desktop app based on{' '}
-                  <InlineLink
-                    href='https://www.electronjs.org/'
-                    aria-label='Electron'
-                  >
-                    Electron
-                  </InlineLink>{' '}
-                  where I enjoyed play a bit with blurred background feature.
-                </p>
-              </div>
-              <p>
-                Sadly my contract was ended because I was selected to be part of
-                a first lay off batch early in January 2024 and my legal notice
-                ended in March 2024.
-              </p>
-              <p>
-                Claap has been nominated in the top 10 best designed products in
-                2022 on ProductHunt 🚀 and recently Claap was referenced by
-                ProductHunt in{' '}
-                <InlineLink
-                  href='https://www.producthunt.com/categories/screenshots-and-screen-recording'
-                  aria-label='Product Hunt | The best screenshots and screen recording apps in 2024'
-                >
-                  The best screenshots and screen recording apps in 2024
-                </InlineLink>{' '}
-                🎉.
-              </p>
-            </div>
-          </WorkCard>
-          <Separator className='mx-auto w-[90%]' />
-          <WorkCard
-            href='https://www.lifen.fr/'
-            companyName='Lifen'
-            companyLogo={
-              <Image
-                src='/medias/images/lifen-logo.webp'
-                alt='Lifen logo'
-                width={24}
-                height={24}
-              />
-            }
-            jobTitle='Senior Full Stack Engineer (remote)'
-            startDate='January 2021'
-            endDate='October 2021'
-          >
-            <div className='flex w-full flex-col gap-6'>
-              <p>
-                In 2021 I joined{' '}
-                <InlineLink href='https://www.lifen.fr/' aria-label='Lifen'>
-                  Lifen
-                </InlineLink>{' '}
-                after my adventure in Luxembourg to treat better whereas caring
-                together.
-              </p>
-              <p>
-                My mission at Lifen was to help the core apps team to analyze
-                the existing and identify the pain points to apply the good
-                practice with React. I&apos;ve mostly contributed to the{' '}
-                <span className='font-semibold'>Lifen documents</span> web and
-                desktop app and made a proof of concept to test the{' '}
-                <span className='font-semibold'>JMAP</span> mail protocol for a
-                new mail web client.
-              </p>
-              <p>
-                I gained proficiency in and contributed to projects using the{' '}
-                <span className='font-semibold'>FHIR</span> protocol
-              </p>
-            </div>
-          </WorkCard>
-          <ItemsSeparator />
-          <WorkCard
-            href='https://sfeir.com/en/'
-            companyName='SFEIR'
-            companyLogo={
-              <Image
-                src='/medias/images/sfeir-logo.webp'
-                alt='Sfeir logo'
-                width={24}
-                height={24}
-              />
-            }
-            jobTitle='Full Stack Engineer & Team Leader'
-            startDate='July 2017'
-            endDate='December 2020'
-          >
-            <div className='flex w-full flex-col gap-6'>
-              <p>
-                SFEIR was my first and only experience in a digital services
-                company based in France 🇫🇷 and Luxembourg 🇱🇺.
-                <br />I joined it back in 2017 to work as a consultant for the
-                Luxembourg Stock Exchange where I contributed to many different
-                projects.
-              </p>
-              <div className='flex w-full flex-col gap-2'>
-                <p>
-                  At Luxembourg Stock Exchange I&apos;ve mostly contributed to
-                  full stack projects where my first mission was to migrate some
-                  old monolith web apps to a new modern architecture with React
-                  and Node.js.
-                </p>
-                <p>I did many significant contributions such as:</p>
-                <ul className='ml-5 list-disc font-medium'>
-                  <li>
-                    Implemented a suite of NPM packages in a private registry to
-                    be used and reused across multiples web applications
-                  </li>
-                  <li>Added unit testing in web applications </li>
-                  <li>
-                    Designed a new architecture for modern web applications to
-                    be deployed in the k8s cloud infrastructure
-                  </li>
-                  <li>
-                    Implemented a new design system to be used across multiples
-                    web applications
-                  </li>
-                  <li>Integrated SiteCore CMS</li>
-                  <li>
-                    Implemented a backend for frontend based on{' '}
-                    <span className='font-semibold'>NestJS</span> and{' '}
-                    <span className='font-semibold'>GraphQL</span> to ease
-                    communication between frontend web apps and micro-services
-                  </li>
-                </ul>
-                <p>
-                  It was a great experience during these three years and a half
-                  at Luxembourg Stock Exchange. A lot of challenges to manage
-                  where I gained a lot of knowledge.
-                </p>
-              </div>
-              <p>
-                At Sfeir I was not only a developer but I had the role of{' '}
-                <span className='font-semibold'>Team Leader</span> to manage a
-                team of developers to help them grow in their careers. I was
-                also a{' '}
-                <span className='font-semibold'>technical recruiter</span> to
-                help the talent team hires new developers in the company. I
-                completed my scope by being a{' '}
-                <span className='font-semibold'>React trainer</span> to help
-                developers at Sfeir learn and grow on React.
-              </p>
-            </div>
-          </WorkCard>
-          <ItemsSeparator />
-          <WorkCard
-            companyName='PhiXL'
-            companyLogo={
-              <div className='relative size-6 overflow-hidden'>
-                <div className='absolute inset-0 m-auto h-full w-full scale-125 overflow-hidden'>
-                  <Image
-                    src='/medias/images/phixl-logo.webp'
-                    alt='PhiXL logo'
-                    fill
-                    sizes='60px'
-                  />
+            <div className='p-8'>
+              {/* Header */}
+              <div className='mb-6 flex items-start justify-between'>
+                <div className='flex items-center gap-4'>
+                  {work.logo && <div className='text-4xl'>{work.logo}</div>}
+                  <div>
+                    <h2 className='text-2xl font-bold text-card-foreground'>
+                      {work.company}
+                    </h2>
+                    <div className='mt-1 flex items-center gap-2 text-muted-foreground'>
+                      <MapPinIcon className='h-4 w-4' />
+                      <span className='text-sm'>{work.location}</span>
+                    </div>
+                  </div>
                 </div>
               </div>
-            }
-            jobTitle='Lead developer'
-            startDate='April 2016'
-            endDate='July 2017'
-          >
-            <div className='flex w-full flex-col gap-6'>
-              <p>
-                At PhiXL I was in charge to create and develop a new social
-                network around books theme. The startup was very early stage so
-                I had to build everything from scratch.
+
+              {/* Roles */}
+              <div className='space-y-4'>
+                {work.roles.map((role, roleIndex) => (
+                  <div
+                    key={roleIndex}
+                    className={cn(
+                      'pb-4',
+                      roleIndex < work.roles.length - 1 && 'border-b'
+                    )}
+                  >
+                    <div className='mb-2 flex flex-wrap items-center gap-3'>
+                      <BriefcaseIcon className='h-5 w-5 text-primary' />
+                      <h3 className='text-xl font-semibold text-card-foreground'>
+                        {role.title}
+                      </h3>
+                      {role.type && (
+                        <span className='rounded-full bg-primary/10 px-3 py-1 text-sm font-medium text-primary'>
+                          {role.type}
+                        </span>
+                      )}
+                    </div>
+                    <div className='flex items-center gap-2 text-sm text-muted-foreground'>
+                      <CalendarIcon className='h-4 w-4' />
+                      <span>{role.period}</span>
+                      {role.duration && (
+                        <>
+                          <span>•</span>
+                          <span>{role.duration}</span>
+                        </>
+                      )}
+                    </div>
+                  </div>
+                ))}
+              </div>
+
+              {/* Description */}
+              <p className='mb-6 mt-6 leading-relaxed text-muted-foreground'>
+                {work.description}
               </p>
-              <p>
-                I leaned to work and play with{' '}
-                <span className='font-semibold'>Neo4J</span> (a graph database)
-                and cypher to implement a recommendation engine. I contributed
-                to implement the frontend, the backend and the infrastructure to
-                deploy the social network. I also contributed to implement a
-                back-office to manager users and data.
-              </p>
-              <p>
-                The experience at PhiXL was great as I leaned a lot of knowledge
-                on different fields but sadly the company closed mid 2017 as it
-                did not meet the expected success we were looking for.
-              </p>
+
+              {/* Achievements */}
+              {work.achievements && work.achievements.length > 0 && (
+                <div className='mb-6'>
+                  <div className='mb-3 flex items-center gap-2'>
+                    <TrophyIcon className='h-5 w-5 text-accent-foreground' />
+                    <h4 className='font-semibold text-card-foreground'>
+                      Key Achievements
+                    </h4>
+                  </div>
+                  <ul className='space-y-2'>
+                    {work.achievements.map((achievement, i) => (
+                      <li key={i} className='flex items-start gap-3'>
+                        <BoltIcon className='mt-1 h-4 w-4 shrink-0 text-primary' />
+                        <span className='text-sm text-muted-foreground'>
+                          {achievement}
+                        </span>
+                      </li>
+                    ))}
+                  </ul>
+                </div>
+              )}
+
+              {/* Tech Stack */}
+              {work.techStack && (
+                <div className='mb-6'>
+                  <div className='mb-3 flex items-center gap-2'>
+                    <CodeBracketIcon className='h-5 w-5 text-secondary-foreground' />
+                    <h4 className='font-semibold text-card-foreground'>
+                      Tech Stack
+                    </h4>
+                  </div>
+                  <div className='space-y-3'>
+                    {Object.entries(work.techStack).map(([category, techs]) => (
+                      <div key={category}>
+                        <span className='text-sm font-medium capitalize text-muted-foreground'>
+                          {category}:{' '}
+                        </span>
+                        <div className='mt-1 inline-flex flex-wrap gap-2'>
+                          {techs.map((tech, i) => (
+                            <span
+                              key={i}
+                              className='rounded-md bg-secondary px-3 py-1 text-sm font-medium text-secondary-foreground'
+                            >
+                              {tech}
+                            </span>
+                          ))}
+                        </div>
+                      </div>
+                    ))}
+                  </div>
+                </div>
+              )}
+
+              {/* Impact/Recognition */}
+              {(work.impact || work.recognition) && (
+                <div className='rounded-lg border bg-accent/5 p-4'>
+                  <p className='text-sm italic text-muted-foreground'>
+                    💡 {work.impact || work.recognition}
+                  </p>
+                </div>
+              )}
+
+              {/* Links */}
+              {work.links && (
+                <div className='mt-4 flex flex-wrap gap-4'>
+                  {Object.entries(work.links).map(([key, url]) => (
+                    <a
+                      key={key}
+                      href={`https://${url}`}
+                      target='_blank'
+                      rel='noopener noreferrer'
+                      className='text-sm font-medium text-primary hover:underline'
+                    >
+                      {key}: {url}
+                    </a>
+                  ))}
+                </div>
+              )}
+
+              {/* Skills Summary */}
+              <div className='mt-6 border-t pt-4'>
+                <p className='text-sm text-muted-foreground'>
+                  <span className='font-medium text-card-foreground'>
+                    Skills:{' '}
+                  </span>
+                  {work.skills}
+                </p>
+              </div>
             </div>
-          </WorkCard>
-          <ItemsSeparator />
-          <WorkCard
-            href='https://madmix.digital'
-            companyName='Madmix Digital'
-            companyLogo={
-              <Image
-                src='/medias/images/madmix-digital-logo.webp'
-                alt='Madmix Digital logo'
-                width={24}
-                height={24}
-              />
-            }
-            jobTitle='Developer'
-            startDate='May 2014'
-            endDate='April 2016'
-          >
-            <div className='flex w-full flex-col gap-6'>
-              <p>
-                Madmix Digital is a digital studio working in the internet
-                marketing industry and collaborating with clients, brands and
-                agencies. I first joined Madmix Digital as an intern developer
-                back in May 2014. It was at Madmix Digital I gained my first
-                experience using <span className='font-semibold'>React</span>.
-              </p>
-              <p>
-                I worked a lot on website development like marketing landing
-                pages and mini-websites. It was there at Madmix Digital that I
-                put in production my first web applications with databases and
-                data processing such as for example marketing game contest,
-                mini-social networks and back offices.
-              </p>
-              <p>
-                I also had the chance to play with the language{' '}
-                <span className='font-semibold'>Swift</span> and to contribute
-                to an iOS app for testing HTML 5 interstitial advertisements.
-              </p>
-            </div>
-          </WorkCard>
-        </div>
-      </PageContent>
-    </Fragment>
+          </div>
+        ))}
+      </div>
+    </div>
   )
 }
+
+export default WorkHistoryUpdate
