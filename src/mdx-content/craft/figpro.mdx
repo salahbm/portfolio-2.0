@@ -1,43 +1,71 @@
 ---
-title: 'Live FigJam Clone with Liveblocks'
+title: 'FigPro: Real-Time Collaborative Whiteboard'
 publishedAt: '2024-06-01'
-summary: 'Recreating Figma-style multiplayer whiteboarding with Next.js, Liveblocks, and Fabric.js.'
+summary: 'Building a Figma-style multiplayer canvas with Next.js, Liveblocks, and Fabric.js—bringing real-time collaboration to the web.'
 category: 'Open Source'
 githubURL: 'https://github.com/salahbm/figma_clone'
-image: '/medias/mdx-content/figpro-whiteboard.webp'
+image: '/medias/mdx-content/fig-pro.png'
 ---
 
-# FigPro – Multiplayer Canvas for the Web
+# FigPro: Multiplayer Canvas for the Web
 
-FigPro is a Figma-inspired whiteboard built with Next.js 14, Liveblocks, and Fabric.js. We wanted to explore how close we could get to FigJam’s collaborative energy while keeping the architecture approachable for any React developer.
+**FigPro** is a Figma-inspired collaborative whiteboard that brings the magic of real-time design collaboration to any web browser. Built with Next.js 14, Liveblocks, and Fabric.js, it proves that building multiplayer experiences doesn't have to be overwhelming.
 
-## Why this project / motivation
+## The Vision
 
-Designers and product teams love collaborative canvases, but implementing cursor chat, emoji bursts, and shared drawing tools from scratch can feel overwhelming. This project is an experiment in demystifying that stack: how little code do we need to ship a real-time playground that feels fun, fast, and familiar?
+Designers and product teams love collaborative canvases like FigJam, but implementing cursor chat, emoji reactions, and shared drawing tools from scratch feels daunting. FigPro demystifies that stack—showing how little code you need to ship a real-time playground that feels fun, fast, and familiar.
 
-## What it does / overview
+## What It Does
 
-- Real-time canvas editing with rectangles, circles, triangles, lines, free drawing, text, and image uploads.
-- Multiplayer presence: live cursors, cursor chat, emoji reactions, and an active user list that updates as teammates join.
-- Comment threads anchored to positions on the canvas, complete with reactions and resolved state.
-- State persistence via Liveblocks storage so everyone sees the same canvas and undo/redo history, even after reconnecting.
+🎨 **Full-Featured Canvas**
+
+- Draw rectangles, circles, triangles, lines, and freehand paths
+- Add text annotations and upload images
+- Pan, zoom, and select multiple objects
+- Undo/redo with full history support
+
+👥 **Multiplayer Magic**
+
+- Live cursors showing where teammates are working
+- Cursor chat for quick communication
+- Emoji reactions that burst across the canvas
+- Active user list that updates as people join/leave
+
+💬 **Collaborative Comments**
+
+- Anchor comment threads to specific canvas positions
+- React to comments with emoji
+- Mark threads as resolved
+- Persistent storage via Liveblocks
 
 <Callout icon='💡'>
-  Because we lean on Liveblocks for presence, history, and comments, we get
-  optimistic updates and reconciliation &ldquo;for free&rdquo; without building
-  a socket server.
+  Because we use Liveblocks for presence, history, and comments, we get
+  optimistic updates and conflict resolution "for free" without building a
+  WebSocket server.
 </Callout>
 
-## How it works (architecture, APIs, or hooks)
+## Technical Architecture
 
-- **Next.js app router** hosts the experience and disables SSR for the canvas screen with so Fabric.js can safely touch the DOM on mount.
-- **Liveblocks room context** wires together presence, reactions, and shared storage. We shape a <InlineCode>LiveMap</InlineCode> of <InlineCode>canvasObjects</InlineCode> that mirrors Fabric objects across clients, while the generated hooks expose <InlineCode>useStorage</InlineCode>, <InlineCode>useMutation</InlineCode>, <InlineCode>useUndo</InlineCode>, and more.
-- **Fabric.js renderer** is responsible for drawing, selecting, scaling, and zooming shapes. Event handlers translate mouse gestures into Fabric objects and immediately sync them via Liveblocks mutations.
-- **Presence-driven UI** (cursor chat, reactions, and shortcuts) is handled in <InlineCode>components/Live.tsx</InlineCode>, which broadcasts transient events over Liveblocks while debouncing reaction trails and keyboard shortcuts.
+### The Stack
 
-## Code snippets (use <InlineCode> for small code and fenced tsx or ts for examples</InlineCode>)
+- **Next.js 14 App Router** – Hosts the experience with SSR disabled for the canvas (Fabric.js needs DOM access)
+- **Liveblocks** – Powers real-time presence, reactions, and shared storage with <InlineCode>LiveMap</InlineCode>
+- **Fabric.js** – Handles canvas rendering, object manipulation, and drawing tools
+- **React Context** – Manages canvas state and keyboard shortcuts
 
-### Sharing Fabric state over Liveblocks
+### How It Works
+
+**Liveblocks Room Context** wires together presence, reactions, and shared storage. We maintain a <InlineCode>LiveMap</InlineCode> of <InlineCode>canvasObjects</InlineCode> that mirrors Fabric objects across all connected clients. The generated hooks (<InlineCode>useStorage</InlineCode>, <InlineCode>useMutation</InlineCode>, <InlineCode>useUndo</InlineCode>) make state synchronization declarative.
+
+**Fabric.js Renderer** translates mouse gestures into canvas objects and immediately syncs them via Liveblocks mutations. Event handlers manage drawing, selecting, scaling, and zooming while keeping the shared state in lockstep.
+
+**Presence-Driven UI** broadcasts transient events (cursor movements, chat messages, emoji reactions) over Liveblocks while debouncing reaction trails and keyboard shortcuts for smooth performance.
+
+## Code Highlights
+
+### Syncing Fabric State
+
+Every Fabric object is serialized and stored in the shared <InlineCode>LiveMap</InlineCode>:
 
 ```tsx
 const syncShapeInStorage = useMutation(({ storage }, object) => {
@@ -50,9 +78,9 @@ const syncShapeInStorage = useMutation(({ storage }, object) => {
 }, [])
 ```
 
-Every Fabric object is serialized, tagged with a stable <InlineCode>objectId</InlineCode>, and written into the shared <InlineCode>LiveMap</InlineCode>. When any client mutates the map, the <InlineCode>useStorage</InlineCode> subscription re-renders the canvas so everyone stays in lockstep.【F:app/App.tsx†L118-L153】
+When any client mutates the map, the <InlineCode>useStorage</InlineCode> subscription triggers a re-render, keeping everyone synchronized.
 
-### Multiplayer cursors, chats, and emoji bursts
+### Multiplayer Cursors & Reactions
 
 ```tsx
 const [{ cursor }, updateMyPresence] = useMyPresence()
@@ -74,15 +102,29 @@ useInterval(() => {
 }, 100)
 ```
 
-The Live canvas listens for keyboard shortcuts like <InlineCode>/</InlineCode> and <InlineCode>e</InlineCode> to toggle chat and reactions, then uses Liveblocks presence and event streams to animate cursors and emoji trails across all participants.【F:components/Live.tsx†L25-L105】
+The canvas listens for keyboard shortcuts like <InlineCode>/</InlineCode> (chat) and <InlineCode>e</InlineCode> (reactions), then uses Liveblocks presence and event streams to animate cursors and emoji trails across all participants.
 
-## Demo / Media if applicable (use `<RoundedVideo>` or `<Image>` components)
+## Demo
 
-<RoundedVideo
-  src='/medias/mdx-content/figpro-whiteboard-demo.mp4'
-  caption='Collaborating inside FigPro with reactions, chat, and live drawing.'
+<Image
+  src='/medias/mdx-content/fig-pro.png'
+  alt='FigPro collaborative whiteboard in action'
 />
 
-## Conclusion (reflective summary of developer benefits or learnings)
+## Key Learnings
 
-FigPro shows how approachable multiplayer canvases can be when we combine Next.js, Liveblocks, and Fabric.js. The stack balances a declarative React UI with an imperative drawing engine, while Liveblocks handles synchronization, history, and comments. Feel free to fork the <a href="https://github.com/salahbm/figma_clone">repo on GitHub</a> and remix the tools, shortcuts, or canvas behaviors to fit your own product experiments.
+**What Makes This Special:**
+
+✅ **Approachable multiplayer** – Liveblocks abstracts away WebSocket complexity  
+✅ **Declarative sync** – React hooks make real-time state feel like local state  
+✅ **Canvas meets React** – Balances imperative drawing with declarative UI  
+✅ **Production-ready patterns** – Conflict resolution, history, and presence built-in
+
+**Takeaways for Developers:**
+
+1. **Liveblocks is a game-changer** for multiplayer apps—no backend infrastructure needed
+2. **Fabric.js + React** works beautifully when you respect the imperative/declarative boundary
+3. **Presence APIs** make features like live cursors and reactions trivial to implement
+4. **Shared storage** with <InlineCode>LiveMap</InlineCode> keeps complex state synchronized effortlessly
+
+This project shows that building collaborative tools is more accessible than ever. Fork the [repo on GitHub](https://github.com/salahbm/figma_clone) and remix it for your own product experiments!

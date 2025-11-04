@@ -33,7 +33,7 @@ export default function TechStackPage() {
     <Fragment>
       <PageHeader
         title='Tech Stack'
-        description='A look at the programming languages, technologies, libraries and dev tools I use and play with.'
+        description='Explore the programming languages, tools, frameworks and libraries I have experience and interest in. I constantly update and expand my tech stack to stay current with the latest technologies and best practices.'
       />
       <PageContent className='mt-12'>
         <TechStackGrid title='Technologies'>

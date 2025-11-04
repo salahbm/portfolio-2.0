@@ -7,13 +7,12 @@ import { siteConfig } from '@/config/site-config'
 import { baseUrl } from '@/config/site-config'
 import { getMDXPages } from '@/db/mdx-content'
 
-import { Separator } from '@/components/ui/separator'
-
 import { MDXContentRenderer } from '@/components/mdx/mdx-content-renderer'
 import { PageContent } from '@/components/content/page-content'
 import { PageHeader } from '@/components/content/page-header'
 import { GitHubRepositoryLink } from '@/components/content/github-repository-link'
 import { CategoryTag } from '@/components/content/category-tag'
+import { Fragment } from 'react'
 
 type StaticParam = { slug: string }
 
@@ -80,36 +79,36 @@ export default async function CraftSlugPage(props: {
   const isLab = page.metadata.category?.includes('Lab')
 
   return (
-    <PageContent>
+    <Fragment>
       <PageHeader
         title={page.metadata.title}
         description={page.metadata.summary}
-        variant='mdx'
       />
-      <Separator />
-      <div className='flex w-full flex-col gap-6'>
-        <div className='flex w-full flex-row items-center justify-between'>
-          {page.metadata.githubURL ? (
-            <GitHubRepositoryLink
-              href={page.metadata.githubURL}
-              isLab={isLab}
-            />
-          ) : null}
-          {page.metadata.category ? (
-            <CategoryTag>
-              {isLab ? (
-                <BeakerIcon className='size-3.5' />
-              ) : (
-                <CodeBracketSquareIcon className='size-3.5' />
-              )}
-              {page.metadata.category}
-            </CategoryTag>
-          ) : null}
+      <PageContent>
+        <div className='flex w-full flex-col gap-6'>
+          <div className='flex w-full flex-row items-center justify-between'>
+            {page.metadata.githubURL ? (
+              <GitHubRepositoryLink
+                href={page.metadata.githubURL}
+                isLab={isLab}
+              />
+            ) : null}
+            {page.metadata.category ? (
+              <CategoryTag>
+                {isLab ? (
+                  <BeakerIcon className='size-3.5' />
+                ) : (
+                  <CodeBracketSquareIcon className='size-3.5' />
+                )}
+                {page.metadata.category}
+              </CategoryTag>
+            ) : null}
+          </div>
         </div>
-      </div>
-      <div className='flex h-auto w-full flex-col'>
-        <MDXContentRenderer source={page.content} />
-      </div>
-    </PageContent>
+        <div className='flex h-auto w-full flex-col'>
+          <MDXContentRenderer source={page.content} />
+        </div>
+      </PageContent>
+    </Fragment>
   )
 }

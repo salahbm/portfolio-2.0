@@ -40,7 +40,11 @@ const createHeading = (level: 1 | 2 | 3 | 4 | 5 | 6) => {
       `h${level}`,
       {
         ...headingProps,
-        className: cn('relative', clsx({ group: slug !== null }), className),
+        className: cn(
+          'relative font-syne',
+          clsx({ group: slug !== null }),
+          className
+        ),
       },
       anchor,
       children
@@ -104,7 +108,13 @@ const InlineCode = ({
 )
 
 const RoundedImage = ({ className, alt, ...props }: ImageProps) => (
-  <Image alt={alt} {...props} className={cn('z-[2] rounded-lg', className)} />
+  <Image
+    alt={alt}
+    {...props}
+    className={cn('z-[2] rounded-lg object-contain', className)}
+    width={500}
+    height={500}
+  />
 )
 
 const RoundedVideo = ({ src }: { src: string }) => (
@@ -137,6 +147,7 @@ const components: MDXRendererComponents = {
   TagLink,
   Callout,
   InlineCode,
+  Image: RoundedImage,
   RoundedImage,
   RoundedVideo,
 }

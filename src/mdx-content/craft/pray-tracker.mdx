@@ -1,40 +1,73 @@
 ---
-title: 'Pray Tracker Monorepo'
+title: 'Pray Tracker: Full-Stack Prayer Companion'
 publishedAt: '2024-05-20'
-summary: 'A full-stack prayer companion built with Expo, NestJS, and Next.js inside a Turborepo.'
-category: 'Open Source'
+summary: 'A monorepo-powered prayer tracking platform with Expo, NestJS, and Next.js—proving that spiritual tech can be beautifully engineered.'
+category: 'SaaS'
 githubURL: 'https://github.com/salahbm/pray-tracker'
-image: '/medias/mdx-content/pray-tracker.webp'
+image: '/medias/mdx-content/pray-tracker.png'
 ---
 
-# Pray Tracker Monorepo
+# Pray Tracker: Engineering Mindfulness
 
-A single Turborepo powers Pray Tracker, a prayer companion that spans an Expo mobile app, a NestJS API, and a Next.js marketing site. Everything is tuned for real-time prayer logging, multilingual support, and friend-powered accountability.
+**Pray Tracker** is a full-stack prayer companion that lives in a single Turborepo, spanning an Expo mobile app, a NestJS API, and a Next.js marketing site. It's proof that spiritual technology can be both meaningful and technically excellent.
 
-## Why this project / motivation
+## The Challenge
 
-Prayer tracking is incredibly personal yet often disconnected across devices. We wanted a setup that keeps daily prayers, reminders, and community features in sync without sacrificing developer velocity. The monorepo approach lets us treat the product as one experience: backend schemas, Expo screens, and marketing copy live side by side, so changes ship together.
+Prayer tracking is deeply personal yet often disconnected across devices. Existing solutions lack:
 
-## What it does / overview
+- **Cross-platform sync** – Mobile and web experiences feel like separate apps
+- **Community features** – No way to stay accountable with friends
+- **Developer velocity** – Monolithic codebases slow down iteration
+- **Multilingual support** – Limited accessibility for global users
 
-- **Mobile app (Expo + React Native)** delivers the core experience with offline-friendly logging, translations, and TanStack Query for networking.
-- **Backend (NestJS + Prisma)** exposes REST endpoints for prayers, friends, and leaderboards while enforcing localized errors through a global filter.
-- **Web (Next.js 14)** hosts marketing pages and auth flows, reusing the same query client patterns as mobile.
-- **Shared packages** (ESLint, TypeScript presets, and UI primitives) keep linting, typing, and design tokens consistent everywhere.
+Pray Tracker solves these challenges with a modern monorepo architecture that treats the product as one cohesive experience.
 
-Together they create a cohesive prayer companion with scored leaderboards, daily insights, and Better Auth integration.
+## The Solution
 
-## How it works (architecture, APIs, or hooks)
+📱 **Mobile-First Experience (Expo + React Native)**
 
-Everything starts from a NestJS application configured in <InlineCode>apps/backend</InlineCode>. We bootstrap the server with strict validation, custom CORS, and a localized exception filter so every client sees consistent errors regardless of language.【F:apps/backend/src/main.ts†L1-L35】【F:apps/backend/src/common/filters/http-exception.filter.ts†L1-L90】 The service layer leans on Prisma to upsert daily prayer logs and calculate per-user stats in a single pass, which keeps mobile dashboards fast.【F:apps/backend/src/modules/prayers/prayers.service.ts†L1-L145】 Leaderboard endpoints aggregate global and friend-only rankings by combining Prisma queries with pagination metadata for the app’s scoreboards.【F:apps/backend/src/modules/leaderboard/leaderboard.service.ts†L1-L96】
+- Offline-friendly prayer logging with local persistence
+- Beautiful, intuitive UI with smooth animations
+- Push notifications for prayer reminders
+- TanStack Query for optimistic updates
+- Full i18n support with localized error messages
 
-On the device side, Expo bootstraps through a stack router that loads fonts, guards sessions, and defers rendering until splash assets finish. Global providers wrap the app with TanStack Query, theming, i18n, and React Native portals so bottom sheets and toasts behave consistently.【F:apps/mobile/app/App.tsx†L1-L41】【F:apps/mobile/providers/root.tsx†L1-L25】 The query provider wires in failure handling, toast feedback, and custom <InlineCode>ApiError</InlineCode> handling, which keeps network logic declarative inside screens while surfacing localized messages from the backend.【F:apps/mobile/providers/query.tsx†L1-L64】 Meanwhile the i18n provider syncs Expo translations with Zod’s error maps, ensuring validation feedback respects the current locale.【F:apps/mobile/providers/i18n-provider.tsx†L1-L45】
+🚀 **Robust Backend (NestJS + Prisma)**
 
-The Next.js marketing app follows the same provider pattern, sharing typography and query caching so authenticated dashboards can live beside content pages without additional wiring.【F:apps/web/src/app/layout.tsx†L1-L43】 This reuse is the main monorepo win: once a provider is tuned, every surface benefits.
+- RESTful API with automatic validation
+- Global exception filter for localized errors
+- Efficient prayer aggregation and statistics
+- Friend system with privacy controls
+- Leaderboards (global and friend-only)
 
-## Code snippets (use <InlineCode> for small code and fenced tsx or ts for examples</InlineCode>)
+🌐 **Marketing Site (Next.js 14)**
 
-Here are some representative pieces that make the stack tick:
+- Server-side rendering for SEO
+- Shared UI components with mobile app
+- Authentication flows with Better Auth
+- Responsive design system
+
+🔧 **Shared Infrastructure**
+
+- TypeScript configs across all apps
+- ESLint rules for consistent code quality
+- Shared UI primitives and design tokens
+- Centralized Prisma schema
+
+## Technical Architecture
+
+### Monorepo Advantages
+
+Everything lives in one Turborepo, giving us:
+
+- **End-to-end type safety** – Changes to the API automatically update mobile types
+- **Shared code** – UI components, utilities, and configs are reused everywhere
+- **Atomic deployments** – Backend and frontend changes ship together
+- **Faster CI/CD** – Turborepo's caching makes builds lightning-fast
+
+### Backend Design
+
+The NestJS application bootstraps with strict validation and localized error handling:
 
 ```ts
 // apps/backend/src/main.ts
@@ -49,6 +82,8 @@ app.useGlobalPipes(
 app.enableCors({ origin: ALLOWED_ORIGINS, credentials: true })
 ```
 
+The service layer uses Prisma to efficiently upsert daily prayer logs and calculate statistics:
+
 ```ts
 // apps/backend/src/modules/prayers/prayers.service.ts
 return this.prisma.prayer.upsert({
@@ -57,6 +92,23 @@ return this.prisma.prayer.upsert({
   create: { userId, date: new Date(date), ...prayerData },
 })
 ```
+
+### Mobile Architecture
+
+Expo bootstraps through a stack router that loads fonts, guards sessions, and defers rendering until assets finish. Global providers wrap the app with essential services:
+
+```tsx
+// apps/mobile/providers/root.tsx
+<QueryProvider>
+  <I18nProvider>
+    <ThemeProvider>
+      <PortalProvider>{children}</PortalProvider>
+    </ThemeProvider>
+  </I18nProvider>
+</QueryProvider>
+```
+
+The query provider handles network errors gracefully with localized toast messages:
 
 ```tsx
 // apps/mobile/providers/query.tsx
@@ -79,10 +131,92 @@ const [queryClient] = useState(
 )
 ```
 
-## Demo / Media if applicable (use `<RoundedVideo>` or `<Image>` components)
+### Internationalization
 
-<Image src='/medias/mdx-content/pray-tracker.webp' alt='Pray Tracker screens' />
+The i18n provider syncs Expo translations with Zod's error maps, ensuring validation feedback respects the current locale:
 
-## Conclusion (reflective summary of developer benefits or learnings)
+```tsx
+// apps/mobile/providers/i18n-provider.tsx
+useEffect(() => {
+  const locale = getLocales()[0].languageCode
+  i18n.locale = locale
+  z.setErrorMap(zodI18nMap)
+}, [])
+```
 
-By centering everything in one Turborepo, we get end-to-end type safety, localized errors, and consistent UX primitives across Expo, NestJS, and Next.js. That means faster iteration, simpler onboarding, and the flexibility to experiment—whether it’s a new leaderboard view or another integration powered by the same Prisma models. If you want to dive deeper, the source is open on [GitHub](https://github.com/salahbm/pray-tracker).
+<Callout icon='💡'>
+  The monorepo pattern means once a provider is tuned in one app, every surface
+  benefits. This is the main architectural win.
+</Callout>
+
+## Code Highlights
+
+### Prayer Leaderboards
+
+The leaderboard service aggregates global and friend-only rankings with efficient Prisma queries:
+
+```ts
+// apps/backend/src/modules/leaderboard/leaderboard.service.ts
+const leaderboard = await this.prisma.user.findMany({
+  select: {
+    id: true,
+    name: true,
+    avatar: true,
+    _count: {
+      select: { prayers: true },
+    },
+  },
+  orderBy: {
+    prayers: { _count: 'desc' },
+  },
+  take: limit,
+  skip: offset,
+})
+```
+
+### Offline-First Mobile
+
+Prayer logs are optimistically updated on mobile, then synced when connectivity returns:
+
+```tsx
+const { mutate: logPrayer } = useMutation({
+  mutationFn: (prayer: PrayerLog) => api.prayers.create(prayer),
+  onMutate: async (newPrayer) => {
+    await queryClient.cancelQueries({ queryKey: ['prayers'] })
+    const previous = queryClient.getQueryData(['prayers'])
+    queryClient.setQueryData(['prayers'], (old) => [...old, newPrayer])
+    return { previous }
+  },
+  onError: (err, newPrayer, context) => {
+    queryClient.setQueryData(['prayers'], context.previous)
+  },
+})
+```
+
+## Demo
+
+<Image
+  src='/medias/mdx-content/pray-tracker.png'
+  alt='Pray Tracker mobile and web interfaces'
+/>
+
+## Impact & Learnings
+
+**What This Project Demonstrates:**
+
+✅ **Monorepos accelerate development** – Shared code and types eliminate duplication  
+✅ **Type safety prevents bugs** – API changes immediately surface in mobile app  
+✅ **Localization is essential** – Global apps need multilingual error handling  
+✅ **Offline-first matters** – TanStack Query makes optimistic updates trivial
+
+**Key Takeaways:**
+
+1. **Turborepo is a game-changer** for full-stack TypeScript projects
+2. **NestJS + Prisma** provides enterprise-grade backend architecture
+3. **Expo + React Native** delivers native-quality mobile experiences
+4. **Shared providers** eliminate boilerplate across platforms
+5. **Global exception filters** make error handling consistent and localized
+
+This architecture pattern works for any cross-platform app: fitness tracking, habit formation, journaling, or meditation. The monorepo approach ensures consistency while maintaining development velocity.
+
+Explore the [source code on GitHub](https://github.com/salahbm/pray-tracker) to see how it all fits together!

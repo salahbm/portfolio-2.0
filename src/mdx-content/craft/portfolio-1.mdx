@@ -1,44 +1,93 @@
 ---
-title: 'Immersive 3D Portfolio'
+title: '3D Portfolio: Interactive Developer Story'
 publishedAt: '2024-05-30'
-summary: 'Building an interactive developer portfolio with React, React Three Fiber, and a cinematic contact flow.'
+summary: 'An immersive portfolio experience built with React Three Fiber—where WebGL meets storytelling to create something unforgettable.'
 category: 'Lab'
 githubURL: 'https://github.com/salahbm/3d-web-portfolio'
-image: '/medias/mdx-content/3d-web-portfolio.webp'
+image: '/medias/mdx-content/portfolio.png'
 ---
 
-# 3D Web Portfolio Experience
+# 3D Portfolio: Where Code Meets Art
 
-Creating a memorable personal site is hard when most portfolios look the same. This project leans into WebGL, audio, and playful interactions to tell a developer story without feeling like yet another template.
+Most developer portfolios look the same—a grid of project cards and a contact form. **This portfolio** is different. It's an interactive 3D experience that feels more like a miniature game than a website, proving that technical skill and creativity aren't mutually exclusive.
 
-## Why this project / motivation
+## The Vision
 
-I wanted a way to introduce myself that felt more like a miniature game than a static landing page. The goal was to blend narrative, motion, and content: a 3D hero island that you can spin, project cards that feel alive, and a contact form guarded by a curious fox animation. React Three Fiber and Tailwind CSS let me ship that idea without leaving the React ecosystem.
+I wanted to introduce myself in a way that stands out in a sea of templates. The goal: blend narrative, motion, and content into something memorable—a 3D island you can spin, planes looping overhead, and project showcases that feel alive.
 
-## What it does / overview
+## What Makes It Special
 
-The site runs on Vite + React with React Router for multi-page navigation. A 3D home scene invites visitors to drag the island, watch planes loop overhead, and discover CTAs as the camera reveals different sides. Additional routes cover bio, work history, and highlighted projects sourced from a shared data module. The experience closes with a contact page that pipes messages through EmailJS while a looping audio track sets the tone.
+🎮 **Interactive 3D Hero**
 
-## How it works (architecture, APIs, or hooks)
+- Draggable floating island with physics-based rotation
+- Animated planes and rockets that loop through the scene
+- Dynamic camera angles that reveal different CTAs
+- Swap-able environments (fox island vs. alternate scenes)
+- Touch and wheel input support for mobile
 
-- **Routing shell** – <InlineCode>App.jsx</InlineCode> wraps a shared <InlineCode>Navbar</InlineCode> and <InlineCode>Footer</InlineCode> around nested routes using <InlineCode>react-router-dom</InlineCode>. Home lives at the root while <InlineCode>/about</InlineCode>, <InlineCode>/projects</InlineCode>, <InlineCode>/experience</InlineCode>, and <InlineCode>/contact</InlineCode> load their own sections inside the shell.【F:src/App.jsx†L1-L35】
-- **Hero Canvas** – <InlineCode>Home.jsx</InlineCode> renders two stacked <InlineCode>Canvas</InlineCode> instances from React Three Fiber. Each loads GLB assets with Drei’s <InlineCode>useGLTF</InlineCode>, lights the scene, and orchestrates state-driven interactions (stage hints, plane/rocket animations, swap-able islands). Touch and wheel input slide between hero and secondary canvases.【F:src/pages/Home.jsx†L1-L210】
-- **Model controllers** – Components like <InlineCode>Island</InlineCode>, <InlineCode>FlyingPlane</InlineCode>, and <InlineCode>Fox</InlineCode> encapsulate each GLB. They hook into <InlineCode>useFrame</InlineCode> for per-frame updates, <InlineCode>useAnimations</InlineCode> for baked clips, and manual event listeners for drag-to-rotate behavior.【F:src/models/Island.jsx†L12-L137】【F:src/models/FlyingPlane.jsx†L13-L47】
-- **Data-driven sections** – Project tiles pull from <InlineCode>src/constant/skills.js</InlineCode>, making it painless to update copy, badges, and outbound links in one place.【F:src/pages/Projects.jsx†L1-L95】【F:src/constant/skills.js†L1-L120】
-- **Contact workflow** – The contact page keeps form state locally, pipes submissions to EmailJS with environment keys, and surfaces toast-style feedback via a reusable <InlineCode>useAlert</InlineCode> hook. Animation state toggles the fox mascot between idle, walk, and hit clips as users interact.【F:src/pages/Contacts.jsx†L1-L147】【F:src/hook/useAlert.js†L1-L11】
-- **Audio affordance** – The <InlineCode>Navbar</InlineCode> instantiates a looping Sakura soundtrack using the Web Audio API and exposes play/pause through a dedicated <InlineCode>Music</InlineCode> control, keeping the atmosphere consistent across routes.【F:src/components/Navbar.jsx†L1-L49】
+🎨 **Cinematic Presentation**
+
+- WebGL-powered visuals using React Three Fiber
+- Smooth animations with react-spring
+- Atmospheric audio soundtrack with play/pause control
+- Loading states with custom 3D loader
+
+📱 **Multi-Page Experience**
+
+- **Home** – Interactive 3D landing with rotating island
+- **About** – Bio and developer journey
+- **Projects** – Highlighted work with live demos
+- **Experience** – Career timeline
+- **Contact** – Form with animated fox mascot
+
+🦊 **Delightful Details**
+
+- Fox character with idle, walk, and reaction animations
+- EmailJS integration for contact form
+- Toast notifications with custom styling
+- Responsive design that works on all devices
+
+## Technical Architecture
+
+### The Stack
+
+- **Vite + React** – Lightning-fast development with HMR
+- **React Three Fiber** – Declarative WebGL with Three.js
+- **React Router** – Client-side routing
+- **Drei** – Helper components for R3F (useGLTF, useAnimations)
+- **react-spring** – Physics-based animations
+- **Tailwind CSS** – Utility-first styling
+- **EmailJS** – Contact form backend
+
+### How It Works
+
+**Routing Shell**  
+The app wraps a shared <InlineCode>Navbar</InlineCode> and <InlineCode>Footer</InlineCode> around nested routes. Home lives at the root while other pages load their own sections inside the shell.
+
+**Hero Canvas**  
+The home page renders two stacked <InlineCode>Canvas</InlineCode> instances from React Three Fiber. Each loads GLB assets with Drei's <InlineCode>useGLTF</InlineCode>, lights the scene, and orchestrates state-driven interactions.
+
+**Model Controllers**  
+Components like <InlineCode>Island</InlineCode>, <InlineCode>FlyingPlane</InlineCode>, and <InlineCode>Fox</InlineCode> encapsulate each 3D model. They hook into:
+
+- <InlineCode>useFrame</InlineCode> for per-frame updates
+- <InlineCode>useAnimations</InlineCode> for baked animation clips
+- Manual event listeners for drag-to-rotate behavior
+
+**Data-Driven Sections**  
+Project tiles pull from a centralized constants file, making it painless to update copy, badges, and links in one place.
 
 <Callout icon='💡'>
-  GLB components were generated with the pmndrs <InlineCode>gltfjsx</InlineCode>{' '}
-  tool, so every model ships as a typed JSX wrapper. That keeps transforms and
-  material references co-located with React state, which is much easier to
-  maintain than raw Three.js loader
-  code.【F:src/models/Island.jsx†L1-L15】【F:src/models/FlyingPlane.jsx†L1-L20】
+  GLB components were generated with pmndrs' <InlineCode>gltfjsx</InlineCode>{' '}
+  tool, so every model ships as a typed JSX wrapper. This keeps transforms and
+  materials co-located with React state.
 </Callout>
 
-## Code snippets (use <InlineCode> for small code and fenced tsx or ts for examples</InlineCode>)
+## Code Highlights
 
-Here’s the heart of the landing scene: a responsive canvas that swaps entire islands and updates UI copy as you rotate.
+### Interactive Island Scene
+
+The heart of the landing page: a responsive canvas that swaps islands and updates UI as you rotate:
 
 ```tsx
 // src/pages/Home.jsx
@@ -51,16 +100,13 @@ const Home = () => {
     adjustIslandForScreenSize()
 
   return (
-    <section
-      className='relative h-screen w-full overflow-hidden'
-      ref={containerRef}
-    >
-      <div className='absolute left-0 top-24 z-10 flex items-center justify-center'>
+    <section className='relative h-screen w-full overflow-hidden'>
+      <div className='absolute top-24 left-0 z-10'>
         {currentStage && <HomeInfo currentStage={currentStage} />}
       </div>
 
       <Canvas
-        className={`h-screen w-full bg-transparent ${isRotating ? 'cursor-grabbing' : 'cursor-grab'}`}
+        className={`h-screen w-full ${isRotating ? 'cursor-grabbing' : 'cursor-grab'}`}
       >
         <Suspense fallback={<Loader />}>
           <directionalLight position={[1, 1, 1]} intensity={2} />
@@ -74,7 +120,7 @@ const Home = () => {
               setCurrentStage={setCurrentStage}
             />
           ) : (
-            <Island2 /* alternate environment */ />
+            <Island2 />
           )}
           <FlyingPlane isRotating={isRotating} />
         </Suspense>
@@ -84,7 +130,9 @@ const Home = () => {
 }
 ```
 
-Dragging the island works because <InlineCode>Island.jsx</InlineCode> listens for pointer events directly on the underlying WebGL canvas and applies a damped rotation:
+### Drag-to-Rotate Physics
+
+The island listens for pointer events and applies damped rotation:
 
 ```tsx
 // src/models/Island.jsx
@@ -119,19 +167,74 @@ const Island = ({ isRotating, setIsRotating, setCurrentStage, ...props }) => {
 
   return (
     <a.group ref={islandRef} {...props}>
-      {/* meshes */}
+      {/* 3D meshes */}
     </a.group>
   )
 }
 ```
 
-## Demo / Media if applicable (use `<RoundedVideo>` or `<Image>` components)
+### Contact Form with Animation
 
-<RoundedVideo
-  src='/medias/mdx-content/3d-web-portfolio-demo.mp4'
-  caption='Rotating the hero island reveals different CTAs.'
+The contact page toggles fox animations based on user interaction:
+
+```tsx
+// src/pages/Contacts.jsx
+const [currentAnimation, setCurrentAnimation] = useState('idle')
+
+const handleSubmit = async (e) => {
+  e.preventDefault()
+  setIsLoading(true)
+  setCurrentAnimation('hit')
+
+  try {
+    await emailjs.send(
+      SERVICE_ID,
+      TEMPLATE_ID,
+      {
+        from_name: form.name,
+        to_name: 'Salah',
+        from_email: form.email,
+        to_email: 'contact@salah.dev',
+        message: form.message,
+      },
+      PUBLIC_KEY
+    )
+
+    setCurrentAnimation('idle')
+    showAlert({ show: true, text: 'Message sent!', type: 'success' })
+  } catch (error) {
+    setCurrentAnimation('idle')
+    showAlert({ show: true, text: 'Failed to send', type: 'danger' })
+  } finally {
+    setIsLoading(false)
+  }
+}
+```
+
+## Demo
+
+<Image
+  src='/medias/mdx-content/portfolio.png'
+  alt='3D portfolio interactive island scene'
 />
 
-## Conclusion (reflective summary of developer benefits or learnings)
+## Impact & Learnings
 
-This build reaffirmed that WebGL doesn’t have to be intimidating if you stay inside React and lean on tooling like Drei and <InlineCode>gltfjsx</InlineCode>. By pairing a traditional router with 3D scenes, I could keep content maintainable while shipping something unforgettable. Feel free to explore or fork the repo on GitHub to spin it into your own story.
+**What This Project Proves:**
+
+✅ **WebGL is accessible** – React Three Fiber makes 3D approachable for React developers  
+✅ **Performance matters** – Proper asset optimization keeps 60fps on mobile  
+✅ **Storytelling wins** – Interactive experiences are more memorable than static pages  
+✅ **Tools accelerate creativity** – Drei and gltfjsx eliminate boilerplate
+
+**Key Takeaways:**
+
+1. **React Three Fiber** brings declarative patterns to WebGL—game-changer for React devs
+2. **GLB models** are production-ready when optimized (use Draco compression)
+3. **Physics-based animations** feel more natural than easing functions
+4. **Audio adds atmosphere** but needs user-initiated playback for mobile
+5. **Suspense boundaries** prevent layout shift during asset loading
+
+This build reaffirmed that WebGL doesn't have to be intimidating when you stay inside React and lean on modern tooling. By pairing a traditional router with 3D scenes, I kept content maintainable while shipping something unforgettable.
+
+**Fork it, remix it, make it yours** – the [code is on GitHub](https://github.com/salahbm/3d-web-portfolio)!
