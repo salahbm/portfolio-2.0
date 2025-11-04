@@ -130,11 +130,7 @@ export const LockScreen: React.FC<LockScreenProps> = ({ onLoadComplete }) => {
   return (
     <div
       ref={containerRef}
-      className='fixed inset-0 z-[9999] overflow-hidden bg-black'
-      style={{
-        fontFamily:
-          '-apple-system, BlinkMacSystemFont, "SF Pro Display", sans-serif',
-      }}
+      className='font-sf-medium fixed inset-0 z-[9999] overflow-hidden bg-black'
     >
       {/* Dynamic wallpaper gradient (animated positions) */}
       <div

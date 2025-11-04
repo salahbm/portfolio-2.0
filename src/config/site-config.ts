@@ -18,12 +18,12 @@ export const siteConfig = {
     },
     github: {
       url: 'https://github.com/salahbm',
-      name: 'Muhammad (Salah)',
+      name: 'salahbm',
       src: '/dock/github.png',
     },
     linkedin: {
       url: 'https://www.linkedin.com/in/salahbm/',
-      name: 'Muhammad (Salah)',
+      name: 'salahbm',
       src: '/dock/linkedin.png',
     },
   },

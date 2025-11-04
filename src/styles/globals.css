@@ -74,7 +74,25 @@
   }
 
   body {
-    @apply cursor-none bg-background font-lader-medium text-foreground antialiased;
+    @apply font-sf-medium cursor-none bg-background text-foreground antialiased;
+  }
+
+  .font-sf-medium {
+    font-family:
+      var(--font-sf-medium),
+      -apple-system,
+      BlinkMacSystemFont,
+      'SF Pro Display',
+      'SF Pro Text',
+      'Segoe UI',
+      Roboto,
+      sans-serif;
+    font-weight: 500;
+    font-style: normal;
+    font-stretch: 105%; /* corrects horizontal squish */
+    letter-spacing: 0.015em; /* subtle tracking for web */
+    font-feature-settings: 'liga', 'kern', 'ss01';
+    text-rendering: optimizeLegibility;
   }
 }
 

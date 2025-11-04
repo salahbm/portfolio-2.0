@@ -38,7 +38,12 @@ const config = {
     extend: {
       fontFamily: {
         syne: ['var(--font-syne)'],
-        'lader-medium': ['var(--font-lader-medium)'],
+        'sf-medium': [
+          'var(--font-sf-medium)',
+          '-apple-system',
+          'BlinkMacSystemFont',
+          'sans-serif',
+        ],
         sans: ['var(--font-geist-sans)', 'system-ui'],
         mono: ['var(--font-geist-mono)', 'monospace'],
         'monument-extended': ['var(--font-monument-extended)'],

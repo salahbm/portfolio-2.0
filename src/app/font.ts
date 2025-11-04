@@ -13,8 +13,10 @@ export const syne = localFont({
   display: 'swap',
 })
 
-export const laderMedium = localFont({
-  src: '../../public/fonts/lader-medium.otf',
-  variable: '--font-lader-medium',
+export const sfMedium = localFont({
+  src: '../../public/fonts/san-francisco-medium.otf',
+  variable: '--font-sf-medium',
   display: 'swap',
+  weight: '500',
+  style: 'normal',
 })
