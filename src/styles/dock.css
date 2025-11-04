@@ -42,6 +42,7 @@
   user-select: none; /* select-none */
   position: relative; /* relative */
   border-radius: 0.75rem; /* rounded-xl */
+  cursor: pointer;
 
   /* backdrop-blur-md + saturate(160%) */
   -webkit-backdrop-filter: blur(12px) saturate(1.6);

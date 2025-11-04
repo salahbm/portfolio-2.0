@@ -5,7 +5,7 @@ import { cn } from '@/lib/utils'
 import { VFXBackgroundDot } from '@/components/ui-vfx/vfx-background-dot'
 
 const bentoCardVariants = cva(
-  'relative flex flex-col overflow-hidden rounded-2xl border bg-card/80 backdrop-blur-xl transition-all duration-200',
+  'relative flex flex-col overflow-hidden rounded-2xl border cursor-pointer bg-card/80 backdrop-blur-xl transition-all duration-200',
   {
     variants: {
       variant: {

@@ -70,11 +70,11 @@
   }
 
   * {
-    @apply cursor-none border-border selection:bg-primary/20 dark:selection:bg-primary/30;
+    @apply border-border selection:bg-primary/20 dark:selection:bg-primary/30;
   }
 
   body {
-    @apply font-sf-medium cursor-none bg-background text-foreground antialiased;
+    @apply font-sf-medium bg-background text-foreground antialiased;
   }
 
   .font-sf-medium {

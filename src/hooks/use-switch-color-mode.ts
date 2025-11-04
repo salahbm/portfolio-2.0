@@ -63,7 +63,7 @@ export function useSwitchColorMode(): UseSwitchColorModeReturnType {
           clipPath: keyframes,
         },
         {
-          duration: 500,
+          duration: 300,
           easing: 'ease-in-out',
           pseudoElement: '::view-transition-new(root)',
         }

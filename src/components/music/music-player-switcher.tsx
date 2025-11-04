@@ -16,7 +16,7 @@ import {
   TooltipTrigger,
   TooltipContent,
 } from '@/components/ui/tooltip'
-import { useCursorContext } from '@/components/cursor'
+import { useMousePosition } from '@/hooks/use-mouse-position'
 import { useDock } from '@/components/dock'
 import { DockContextType } from '@/components/dock/dock.types'
 import { PlayIcon, PauseIcon } from '@heroicons/react/24/solid'
@@ -24,7 +24,7 @@ import { useHotkeys } from 'react-hotkeys-hook'
 
 export function MusicPlayerSwitcher() {
   const ref = useRef<HTMLButtonElement>(null)
-  const { x } = useCursorContext()
+  const { x } = useMousePosition()
   const dock = useDock() as DockContextType
   const controls = useAnimationControls()
   const [centerX, setCenterX] = useState(0)

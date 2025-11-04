@@ -15,7 +15,6 @@ import {
 
 import { cn, pick } from '@/lib/utils'
 import { getRandomUsername } from '@/lib/random-username'
-import { useCursorContext } from '../cursor'
 
 const CURSOR_COLORS = ['violet-700', 'orange-600', 'sky-600', 'fuchsia-500']
 
@@ -85,10 +84,7 @@ export function VFXPresenceSurface({
   disabled?: boolean
   children?: React.ReactNode
 }) {
-  const { setColor } = useCursorContext()
-
   const surfaceRef = useRef<HTMLDivElement>(null)
-  const previousCursorColorRef = useRef<string | null>(null)
 
   const [isCursorInside, setIsCursorInside] = useState<boolean>(false)
   const [cursorColor, setCursorColor] = useState<string>('')
@@ -111,12 +107,10 @@ export function VFXPresenceSurface({
   const handleMouseEnter = useEvent(
     (e: React.MouseEvent<HTMLDivElement>): void => {
       if (!disabled) {
-        const cursorColor = getRandomCursorColor(previousCursorColorRef.current)
-        previousCursorColorRef.current = cursorColor
+        const cursorColor = getRandomCursorColor(null)
 
         setIsCursorInside(true)
         setCursorColor(cursorColor)
-        setColor(cursorColor)
 
         const rect = surfaceRef.current?.getBoundingClientRect()
         if (rect) {
@@ -129,10 +123,18 @@ export function VFXPresenceSurface({
 
   const handleMouseLeave = useEvent((): void => {
     setIsCursorInside(false)
-    setColor(null)
   })
 
   const username = getRandomUsername()
+
+  // Map Tailwind color to cursor color name
+  const getCursorColorName = (color: string): string => {
+    if (color.includes('violet')) return 'violet'
+    if (color.includes('orange')) return 'orange'
+    if (color.includes('sky')) return 'sky'
+    if (color.includes('fuchsia')) return 'fuchsia'
+    return 'violet'
+  }
 
   return (
     <div
@@ -140,6 +142,9 @@ export function VFXPresenceSurface({
       onMouseEnter={handleMouseEnter}
       onMouseLeave={handleMouseLeave}
       onMouseMove={handleMouseMove}
+      data-cursor-color={
+        isCursorInside ? getCursorColorName(cursorColor) : undefined
+      }
       className={cn(
         'relative flex size-full overflow-hidden [border-radius:inherit]',
         className

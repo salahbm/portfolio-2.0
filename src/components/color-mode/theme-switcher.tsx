@@ -16,13 +16,13 @@ import {
   TooltipTrigger,
   TooltipContent,
 } from '@/components/ui/tooltip'
-import { useCursorContext } from '@/components/cursor'
+import { useMousePosition } from '@/hooks/use-mouse-position'
 import { useDock } from '@/components/dock'
 import { DockContextType } from '@/components/dock/dock.types'
 
 export function ColorModeDropdownSwitcher() {
   const ref = useRef<HTMLButtonElement>(null)
-  const { x } = useCursorContext()
+  const { x } = useMousePosition()
   const dock = useDock() as DockContextType
 
   const [centerX, setCenterX] = useState(0)

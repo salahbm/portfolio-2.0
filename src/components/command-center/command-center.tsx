@@ -23,13 +23,13 @@ import { CommandCenterDialog } from '@/components/command-center/command-center-
 import { QRCodeDialog } from '@/components/command-center/qrcode-dialog'
 import { KeyboardShortcutsDialog } from '@/components/command-center/keyboard-shortcuts-dialog'
 import Image from 'next/image'
-import { useCursorContext } from '../cursor'
+import { useMousePosition } from '@/hooks/use-mouse-position'
 import { useDock } from '../dock'
 import { DockContextType } from '../dock/dock.types'
 
 export function CommandCenter() {
   const ref = useRef<HTMLButtonElement>(null)
-  const { x } = useCursorContext()
+  const { x } = useMousePosition()
   const dock = useDock() as DockContextType
 
   const [centerX, setCenterX] = useState(0)

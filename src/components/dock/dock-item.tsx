@@ -10,7 +10,7 @@ import {
 import Image from 'next/image'
 import { useDock } from './dock-provider'
 import type { DockContextType, DockItemProps } from './dock.types'
-import { useCursorContext } from '../cursor'
+import { useMousePosition } from '@/hooks/use-mouse-position'
 
 const DockItem = ({
   id,
@@ -20,7 +20,7 @@ const DockItem = ({
   priority,
 }: DockItemProps) => {
   const ref = useRef<HTMLDivElement>(null)
-  const { x } = useCursorContext()
+  const { x } = useMousePosition()
   const dock = useDock() as DockContextType
 
   const [centerX, setCenterX] = useState(0)
@@ -73,7 +73,7 @@ const DockItem = ({
       <motion.div
         ref={ref}
         id={id}
-        className='dock-item-box cursor-pointer'
+        className='dock-item-box'
         aria-describedby={id}
         animate={controls}
         custom={spring}
@@ -90,7 +90,7 @@ const DockItem = ({
           fill
           sizes='100px'
           priority={priority}
-          className='rounded-lg object-contain p-0.5'
+          className='cursor-pointer rounded-lg object-contain p-0.5'
           onError={() => setHasError(true)}
         />
       </motion.div>
