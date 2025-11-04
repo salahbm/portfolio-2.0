@@ -26,16 +26,16 @@ export function InstagramChatWidget() {
         initial={{ opacity: 0, y: 10 }}
         animate={{ opacity: 1, y: 0 }}
         transition={{ duration: 0.5 }}
-        className='relative mt-4 flex w-full flex-col items-start justify-start'
+        className='mt-4 flex w-full flex-col items-start justify-start'
       >
-        <div className='rounded-full bg-muted px-2 py-1.5 text-start text-xs font-medium text-muted-foreground shadow-[0_0_12px_rgba(198,255,121,0.35)]'>
+        <div className='relative rounded-full bg-muted px-2 py-1.5 text-start text-xs font-medium text-muted-foreground shadow-[0_0_12px_rgba(198,255,121,0.35)]'>
           Hey, what&apos;s ur IG?
+          <VFXBorderBeam className='vfx-border-beam-duration-[4s] vfx-border-beam-color-from-[#6c29e2] vfx-border-beam-color-to-[#ec6a5f] vfx-border-beam-size-[52px] max-md:vfx-border-beam-size-10' />
         </div>
-        <VFXBorderBeam className='vfx-border-beam-duration-[6s] vfx-border-beam-color-from-violet-400 vfx-border-beam-color-to-fuchsia-700 vfx-border-beam-size-[52px] dark:vfx-border-beam-color-from-cyan-300 dark:vfx-border-beam-color-to-sky-600 max-md:vfx-border-beam-size-10' />
       </motion.div>
 
       {/* === Input Bar Mock === */}
-      <div className='mt-auto flex w-full flex-row items-center justify-center gap-2 rounded-full border border-neutral-200 bg-neutral-50 p-1.5 text-neutral-900 dark:border-neutral-700 dark:bg-neutral-800 dark:text-neutral-100 max-md:p-1 max-md:text-[10px]'>
+      <div className='mt-auto flex w-full flex-row items-center justify-between gap-2 rounded-full border border-neutral-200 bg-neutral-50 p-1.5 pl-2 text-neutral-900 dark:border-neutral-700 dark:bg-neutral-800 dark:text-neutral-100 max-md:p-1 max-md:text-[10px]'>
         <span className='text-xs font-semibold'> @mkhd.salah</span>
         <PaperPlaneIcon className='size-3' />
       </div>

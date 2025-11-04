@@ -63,17 +63,24 @@ const workHistory: WorkExperience[] = [
     description:
       'Leading development teams in mobile application development and driving technical excellence across the organization.',
     achievements: [
-      'Promoted to Team Lead within 8 months, managing cross-functional development teams',
+      'Promoted to Team Lead within 6 months, managing cross-functional development teams',
+      'Worked with big clients like Hyundai, LG, Samsung, Lotte Foods and etc.',
       'Architected and delivered scalable mobile applications serving thousands of users',
       'Established best practices for code quality, testing, and deployment pipelines',
       'Mentored junior developers and conducted technical training sessions',
     ],
     techStack: {
-      mobile: ['React Native', 'iOS Development', 'Android Development'],
-      backend: ['Node.js', 'Express.js', 'API Development'],
-      cloud: ['Amazon Web Services (AWS)', 'Lambda', 'EC2', 'S3'],
-      database: ['MongoDB', 'PostgreSQL', 'Redis'],
-      tools: ['Git', 'Docker', 'CI/CD', 'Agile/Scrum'],
+      mobile: [
+        'React Native',
+        'iOS Development',
+        'Android Development',
+        'Next.js',
+        'Flutter',
+      ],
+      backend: ['Node.js', 'Express.js', 'API Development', 'NestJS'],
+      cloud: ['Amazon Web Services (AWS)', 'EC2', 'S3'],
+      database: ['MongoDB', 'PostgreSQL', 'MySQL'],
+      tools: ['Git', 'Docker', 'CI/CD', 'Jira'],
     },
     links: {
       web: 'momenti.biz',
@@ -212,20 +219,22 @@ const workHistory: WorkExperience[] = [
 
 const WorkHistoryUpdate = () => {
   return (
-    <div className='min-h-screen bg-background'>
+    <div className='bg-background pb-24'>
       <PageHeader
         title='Professional Work History'
         description='Building exceptional products with React, Next.js, and cutting-edge technologies'
       />
-      <div className='mx-auto max-w-6xl space-y-8'>
+      <div className='mx-auto max-w-4xl space-y-8'>
         {workHistory.map((work, index) => (
           <div
             key={index}
             className={cn(
-              'group rounded-xl border bg-card shadow-sm transition-all duration-300',
+              'group relative rounded-xl border bg-card shadow-sm transition-all duration-300',
               'hover:shadow-md'
             )}
           >
+            <div className='absolute inset-0 h-full w-full bg-[linear-gradient(to_right,#8080800a_1px,transparent_1px),linear-gradient(to_bottom,#8080800a_1px,transparent_1px)] bg-[size:14px_24px]'></div>
+
             <div className='p-8'>
               {/* Header */}
               <div className='mb-6 flex items-start justify-between'>
@@ -354,7 +363,7 @@ const WorkHistoryUpdate = () => {
                       href={`https://${url}`}
                       target='_blank'
                       rel='noopener noreferrer'
-                      className='text-sm font-medium text-primary hover:underline'
+                      className='z-[3] text-sm font-medium text-primary hover:underline'
                     >
                       {key}: {url}
                     </a>

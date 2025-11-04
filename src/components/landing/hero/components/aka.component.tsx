@@ -5,12 +5,14 @@ import { gsap } from 'gsap'
 
 const layerColors = [
   { color: '#ffffff', offset: 0 },
-  { color: '#6c29e2', offset: 3 },
-  { color: '#ff6947', offset: -5 },
-  { color: '#c6ff79', offset: 9 },
+  { color: '#1f2f4d', offset: 10 },
+  { color: '#ec6a5f', offset: -5 },
+  { color: '#f3bf61', offset: 9 },
+  { color: '#6c29e2', offset: 8 },
+  { color: '#e45064', offset: -7 },
 ]
 
-const sparkColors = ['#6c29e2', '#ff6947', '#c6ff79']
+const sparkColors = ['#1f2f4d', '#ec6a5f', '#f3bf61']
 
 export default function AkaComponent() {
   const containerRef = useRef<HTMLDivElement>(null)

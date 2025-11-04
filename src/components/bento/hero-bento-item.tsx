@@ -38,7 +38,7 @@ export function HeroBentoItem() {
       variant='grid'
     >
       <VFXPresenceSurface disabled={isMobile}>
-        <div className='relative flex h-full w-full flex-col items-center justify-center text-center font-sf-medium'>
+        <div className='font-sf-medium relative flex h-full w-full flex-col items-center justify-center text-center'>
           <div className='flex h-full w-full flex-col justify-between max-sm:p-2 md:p-4'>
             {/* ---- Header ---- */}
             <h1 className='text-center text-3xl font-semibold leading-snug tracking-tight max-sm:text-xl'>
@@ -51,52 +51,57 @@ export function HeroBentoItem() {
             </h1>
 
             {/* ---- Body ---- */}
-            <p className='mt-6 text-[15px] leading-relaxed text-muted-foreground max-sm:text-[13px]'>
+            <div className='mt-6 text-center text-[15px] leading-loose text-muted-foreground max-sm:text-[13px]'>
               I&apos;m a software engineer from{' '}
-              <span className='font-semibold text-foreground'>
+              <span className='align-middle font-semibold text-foreground'>
                 Uzbekistan 🇺🇿
               </span>
               , passionate about crafting <br className='max-md:hidden' />
               smooth, user-centric interfaces with{' '}
               <TagLink
                 href='https://react.dev/'
-                className='mx-1 cursor-none font-medium'
+                className='mx-1 inline-flex cursor-none items-center align-middle font-medium'
               >
-                <ReactIcon className='mr-1 inline h-3 w-3' />
+                <ReactIcon className='mr-1 h-3 w-3' />
                 React ⚛️
               </TagLink>{' '}
               and{' '}
               <TagLink
                 href='https://nextjs.org/'
-                className='cursor-none font-medium'
+                className='inline-flex cursor-none items-center align-middle font-medium'
               >
-                <NextJSSquareIcon className='mr-1 inline h-3 w-3' />
+                <NextJSSquareIcon className='mr-1 h-3 w-3' />
                 Next.js ⚡
               </TagLink>
               . <br className='max-md:hidden' />
               Currently building cool things at{' '}
               <TagLink
-                href='https://liveblocks.io/'
-                className='cursor-none font-semibold'
+                href='https://momenti.biz'
+                className='inline-flex cursor-none items-center align-middle font-semibold'
               >
                 <span className='mr-1 inline-flex flex-col items-center justify-center -space-y-1'>
                   <span className='size-2.5 rounded-full bg-blue-500' />
-                  <span className='size-2.5 rounded-full bg-neutral-200 mix-blend-multiply' />
+                  <span className='size-2.5 rounded-full bg-neutral-200 mix-blend-multiply dark:bg-neutral-400' />
                 </span>
                 Momenti
               </TagLink>{' '}
-              🚀 in Seoul 🇰🇷{' '}
-              <span aria-label='Seoul tower' role='img'>
+              🚀 in <span className='font-semibold text-foreground'>Seoul</span>{' '}
+              🇰🇷{' '}
+              <span
+                aria-label='Seoul tower'
+                role='img'
+                className='align-middle'
+              >
                 🗼
               </span>
               .
-            </p>
+            </div>
 
             {/* ---- Footer ---- */}
             <div className='mt-8 flex flex-col items-center justify-center gap-2'>
               <div className='flex flex-wrap items-center justify-center gap-2'>
-                <TagPill>Full-Stack ⚙️</TagPill>
-                <TagPill>Developer 👨🏻‍💻</TagPill>
+                <TagPill>Full-Stack Engineer ⚙️</TagPill>
+                <TagPill>Gym Rat 🦍</TagPill>
               </div>
               <span className='text-[10px] tracking-wide text-muted-foreground'>
                 &copy; 2025 • Designed with ☕ + ❤️
