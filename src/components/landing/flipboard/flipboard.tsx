@@ -1,6 +1,6 @@
 'use client'
 
-import { Fragment, useEffect, useRef, useState } from 'react'
+import { useEffect, useRef, useState } from 'react'
 import { FlipLine, FlipLineRef } from './flipboard-line'
 import { useInView } from '@/hooks/use-in-view'
 import useEvent from 'react-use-event-hook'
@@ -61,7 +61,7 @@ export function FlipBoard() {
   }, [])
 
   return (
-    <Fragment>
+    <div className='flex h-screen items-center justify-center'>
       <div
         ref={boardRef}
         className='w-fit cursor-pointer select-none items-center justify-center overflow-hidden px-2 py-3 uppercase'
@@ -81,6 +81,6 @@ export function FlipBoard() {
           />
         ))}
       </div>
-    </Fragment>
+    </div>
   )
 }

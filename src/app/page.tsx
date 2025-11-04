@@ -1,17 +1,14 @@
 import { ScrollStory } from '@/components/scroll-story'
 import { Hero } from '@/components/landing/hero/hero-view'
-import { LocationsView } from '@/components/landing/locations'
-import { FlipBoard } from '@/components/landing/locations/flipboard'
 import { JourneySection } from '@/components/landing/journey'
+import { ParallaxScrollWrapper } from '@/components/parallax-scroll-wrapper'
 
 export default function HomePage() {
   return (
-    <div>
+    <ParallaxScrollWrapper>
       <Hero />
       <JourneySection />
-      <LocationsView />
       <ScrollStory />
-      <FlipBoard />
-    </div>
+    </ParallaxScrollWrapper>
   )
 }
