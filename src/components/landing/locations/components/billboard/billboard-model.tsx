@@ -1,9 +1,8 @@
 'use client'
 
 import { useRef } from 'react'
-import { Html, useGLTF } from '@react-three/drei'
+import { useGLTF } from '@react-three/drei'
 import * as THREE from 'three'
-import { FlipBoard } from '@/components/landing/locations/flipboard'
 
 export function BillboardModel() {
   const groupRef = useRef<THREE.Group>(null)

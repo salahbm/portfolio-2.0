@@ -100,7 +100,7 @@ export function PageHeader({ title, description, className }: PageHeaderProps) {
       </motion.div>
 
       {/* === FOREGROUND CONTENT === */}
-      {/* eslint-disable-next-line tailwindcss/enforces-negative-arbitrary-values */}
+      {}
       <div className='z-10 mx-auto -translate-x-[5%] lg:-translate-x-[15%]'>
         <motion.h1
           ref={titleRef}

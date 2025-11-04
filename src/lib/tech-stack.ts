@@ -3,6 +3,9 @@ import { CSS3Icon } from '@/components/icons/css3-icon'
 import { TypescriptIcon } from '@/components/icons/typescript-icon'
 import { GraphQLIcon } from '@/components/icons/graphql-icon'
 import { SQLIcon } from '@/components/icons/sql-icon'
+import { JavaScriptIcon } from '@/components/icons/javascript-icon'
+import { DartIcon } from '@/components/icons/dart-icon'
+import { PostgreSQLIcon } from '@/components/icons/postgresql-icon'
 
 import { RadixUIIcon } from '@/components/icons/radix-ui-icon'
 import { ShadcnUIIcon } from '@/components/icons/shadcn-ui-icon'
@@ -10,24 +13,53 @@ import { NextJSSquareIcon } from '@/components/icons/nextjs-square-icon'
 import { ReactIcon } from '@/components/icons/react-icon'
 import { TailwindCSSIcon } from '@/components/icons/tailwind-css-icon'
 import { MotionIcon } from '@/components/icons/motion-icon'
+import { GSAPIcon } from '@/components/icons/gsap-icon'
+import { ThreeJSIcon } from '@/components/icons/threejs-icon'
+import { ReactThreeFiberIcon } from '@/components/icons/react-three-fiber-icon'
+import { LiveblocksIcon } from '@/components/icons/liveblocks-icon'
 import { ZodIcon } from '@/components/icons/zod-icon'
 import { ZustandIcon } from '@/components/icons/zustand-icon'
 import { ReduxIcon } from '@/components/icons/redux-icon'
-import { ClerkIcon } from '@/components/icons/clerk-icon'
+import { RecoilIcon } from '@/components/icons/recoil-icon'
 import { ApolloGraphQLIcon } from '@/components/icons/apollo-graphql-icon'
+import { SWRIcon } from '@/components/icons/swr-icon'
+import { TanStackQueryIcon } from '@/components/icons/tanstack-query-icon'
+import { BetterAuthIcon } from '@/components/icons/better-auth-icon'
+import { ClerkIcon } from '@/components/icons/clerk-icon'
+import { NextAuthIcon } from '@/components/icons/nextauth-icon'
+import { NuqsIcon } from '@/components/icons/nuqs-icon'
 import { ElectronIcon } from '@/components/icons/electron-icon'
 
 import { NestJSIcon } from '@/components/icons/nestjs-icon'
+import { ExpressIcon } from '@/components/icons/express-icon'
+import { PrismaIcon } from '@/components/icons/prisma-icon'
 import { MongoDBIcon } from '@/components/icons/mongodb-icon'
 import { SupabaseIcon } from '@/components/icons/supabase-icon'
+import { NeonIcon } from '@/components/icons/neon-icon'
+import { AppwriteIcon } from '@/components/icons/appwrite-icon'
+import { FirebaseIcon } from '@/components/icons/firebase-icon'
+import { TwilioIcon } from '@/components/icons/twilio-icon'
+import { StripeIcon } from '@/components/icons/stripe-icon'
+import { CloudinaryIcon } from '@/components/icons/cloudinary-icon'
 
 import { VercelIcon } from '@/components/icons/vercel-icon'
+import { NetlifyIcon } from '@/components/icons/netlify-icon'
+import { RenderIcon } from '@/components/icons/render-icon'
+import { RailwayIcon } from '@/components/icons/railway-icon'
+import { CloudflareIcon } from '@/components/icons/cloudflare-icon'
+import { AppStoreIcon } from '@/components/icons/app-store-icon'
+
+import { ExpoIcon } from '@/components/icons/expo-icon'
+import { ReactNativeIcon } from '@/components/icons/react-native-icon'
+
 import { VSCodeIcon } from '@/components/icons/vscode-icon'
 import { NodeJSIcon } from '@/components/icons/nodejs-icon'
 import { TurboRepoIcon } from '@/components/icons/turbo-repo-icon'
 import { GitHubSquareIcon } from '@/components/icons/github-square-icon'
 import { FigmaIcon } from '@/components/icons/figma-icon'
 import { PhotoshopIcon } from '@/components/icons/photoshop-icon'
+import { IllustratorIcon } from '@/components/icons/illustrator-icon'
+import { AfterEffectsIcon } from '@/components/icons/after-effects-icon'
 
 export type TechStackItem = {
   name: string
@@ -50,7 +82,7 @@ export const languagesTechStackItems: TechStackItem[] = [
   },
   {
     name: 'JavaScript',
-    Icon: NextJSSquareIcon,
+    Icon: JavaScriptIcon,
     tag: 'frontend',
     href: 'https://developer.mozilla.org/en-US/docs/Web/JavaScript',
   },
@@ -67,13 +99,13 @@ export const languagesTechStackItems: TechStackItem[] = [
   },
   {
     name: 'Dart',
-    Icon: NextJSSquareIcon,
+    Icon: DartIcon,
     tag: 'mobile',
     href: 'https://dart.dev/',
   },
   {
     name: 'PostgreSQL',
-    Icon: NextJSSquareIcon,
+    Icon: PostgreSQLIcon,
     tag: 'database',
     href: 'https://www.postgresql.org/',
   },
@@ -119,25 +151,25 @@ export const frontendTechnologiesTechStackItems: TechStackItem[] = [
   },
   {
     name: 'GSAP',
-    Icon: NextJSSquareIcon,
+    Icon: GSAPIcon,
     tag: 'animation',
     href: 'https://gsap.com/',
   },
   {
     name: 'Three.js',
-    Icon: NextJSSquareIcon,
+    Icon: ThreeJSIcon,
     tag: '3D graphics',
     href: 'https://threejs.org/',
   },
   {
     name: 'React Three Fiber',
-    Icon: NextJSSquareIcon,
+    Icon: ReactThreeFiberIcon,
     tag: '3D graphics',
     href: 'https://docs.pmnd.rs/react-three-fiber',
   },
   {
     name: 'Liveblocks',
-    Icon: NextJSSquareIcon,
+    Icon: LiveblocksIcon,
     tag: 'real-time collaboration',
     href: 'https://liveblocks.io/',
   },
@@ -161,7 +193,7 @@ export const frontendTechnologiesTechStackItems: TechStackItem[] = [
   },
   {
     name: 'Recoil',
-    Icon: NextJSSquareIcon,
+    Icon: RecoilIcon,
     tag: 'state management',
     href: 'https://recoiljs.org/',
   },
@@ -173,19 +205,19 @@ export const frontendTechnologiesTechStackItems: TechStackItem[] = [
   },
   {
     name: 'SWR',
-    Icon: NextJSSquareIcon,
+    Icon: SWRIcon,
     tag: 'data fetching',
     href: 'https://swr.vercel.app/',
   },
   {
     name: 'TanStack Query',
-    Icon: NextJSSquareIcon,
+    Icon: TanStackQueryIcon,
     tag: 'data fetching',
     href: 'https://tanstack.com/query/latest',
   },
   {
     name: 'Better Auth',
-    Icon: NextJSSquareIcon,
+    Icon: BetterAuthIcon,
     tag: 'authentication',
     href: 'https://better-auth.com/',
   },
@@ -197,13 +229,13 @@ export const frontendTechnologiesTechStackItems: TechStackItem[] = [
   },
   {
     name: 'NextAuth.js',
-    Icon: NextJSSquareIcon,
+    Icon: NextAuthIcon,
     tag: 'authentication',
     href: 'https://next-auth.js.org/',
   },
   {
     name: 'nuqs',
-    Icon: NextJSSquareIcon,
+    Icon: NuqsIcon,
     tag: 'query params',
     href: 'https://nuqs.47ng.com/',
   },
@@ -225,13 +257,13 @@ export const backendTechnologiesTechStackItems: TechStackItem[] = [
   },
   {
     name: 'Express.js',
-    Icon: NextJSSquareIcon,
+    Icon: ExpressIcon,
     tag: 'server framework',
     href: 'https://expressjs.com/',
   },
   {
     name: 'Prisma',
-    Icon: NextJSSquareIcon,
+    Icon: PrismaIcon,
     tag: 'ORM',
     href: 'https://www.prisma.io/',
   },
@@ -249,37 +281,37 @@ export const backendTechnologiesTechStackItems: TechStackItem[] = [
   },
   {
     name: 'Neon',
-    Icon: NextJSSquareIcon,
+    Icon: NeonIcon,
     tag: 'database',
     href: 'https://neon.tech/',
   },
   {
     name: 'Appwrite',
-    Icon: NextJSSquareIcon,
+    Icon: AppwriteIcon,
     tag: 'BaaS',
     href: 'https://appwrite.io/',
   },
   {
     name: 'Firebase',
-    Icon: NextJSSquareIcon,
+    Icon: FirebaseIcon,
     tag: 'BaaS',
     href: 'https://firebase.google.com/',
   },
   {
     name: 'Twilio',
-    Icon: NextJSSquareIcon,
+    Icon: TwilioIcon,
     tag: 'communication',
     href: 'https://www.twilio.com/',
   },
   {
     name: 'Stripe',
-    Icon: NextJSSquareIcon,
+    Icon: StripeIcon,
     tag: 'payments',
     href: 'https://stripe.com/',
   },
   {
     name: 'Cloudinary',
-    Icon: NextJSSquareIcon,
+    Icon: CloudinaryIcon,
     tag: 'media storage',
     href: 'https://cloudinary.com/',
   },
@@ -295,31 +327,31 @@ export const hoistingAndDeploymentTechStackItems: TechStackItem[] = [
   },
   {
     name: 'Netlify',
-    Icon: NextJSSquareIcon,
+    Icon: NetlifyIcon,
     tag: 'hosting/deployment',
     href: 'https://www.netlify.com/',
   },
   {
     name: 'Render',
-    Icon: NextJSSquareIcon,
+    Icon: RenderIcon,
     tag: 'hosting/deployment',
     href: 'https://render.com/',
   },
   {
     name: 'Railway',
-    Icon: NextJSSquareIcon,
+    Icon: RailwayIcon,
     tag: 'hosting/deployment',
     href: 'https://railway.app/',
   },
   {
     name: 'Cloudflare',
-    Icon: NextJSSquareIcon,
+    Icon: CloudflareIcon,
     tag: 'edge/infra',
     href: 'https://www.cloudflare.com/',
   },
   {
     name: 'App Store',
-    Icon: NextJSSquareIcon,
+    Icon: AppStoreIcon,
     tag: 'mobile deployment',
     href: 'https://developer.apple.com/app-store/',
   },
@@ -329,13 +361,13 @@ export const hoistingAndDeploymentTechStackItems: TechStackItem[] = [
 export const mobileTechnologiesTechStackItems: TechStackItem[] = [
   {
     name: 'Expo',
-    Icon: NextJSSquareIcon,
+    Icon: ExpoIcon,
     tag: 'mobile framework',
     href: 'https://expo.dev/',
   },
   {
     name: 'React Native',
-    Icon: NextJSSquareIcon,
+    Icon: ReactNativeIcon,
     tag: 'mobile framework',
     href: 'https://reactnative.dev/',
   },
@@ -387,13 +419,13 @@ export const toolsAndSoftwaresDesignTechStackItems: TechStackItem[] = [
   },
   {
     name: 'Illustrator',
-    Icon: NextJSSquareIcon,
+    Icon: IllustratorIcon,
     tag: 'design',
     href: 'https://www.adobe.com/products/illustrator.html',
   },
   {
     name: 'After Effects',
-    Icon: NextJSSquareIcon,
+    Icon: AfterEffectsIcon,
     tag: 'motion graphics',
     href: 'https://www.adobe.com/products/aftereffects.html',
   },
