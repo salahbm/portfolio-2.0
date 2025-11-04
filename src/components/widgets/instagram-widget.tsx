@@ -3,6 +3,7 @@
 import { motion } from 'motion/react'
 
 import { InstagramLogoIcon, PaperPlaneIcon } from '@radix-ui/react-icons'
+import { VFXBorderBeam } from '../ui-vfx/vfx-border-beam'
 
 export function InstagramChatWidget() {
   return (
@@ -25,21 +26,18 @@ export function InstagramChatWidget() {
         initial={{ opacity: 0, y: 10 }}
         animate={{ opacity: 1, y: 0 }}
         transition={{ duration: 0.5 }}
-        className='mt-4 flex w-full flex-col items-start justify-start'
+        className='relative mt-4 flex w-full flex-col items-start justify-start'
       >
         <div className='rounded-full bg-muted px-2 py-1.5 text-start text-xs font-medium text-muted-foreground shadow-[0_0_12px_rgba(198,255,121,0.35)]'>
           Hey, what&apos;s ur IG?
         </div>
+        <VFXBorderBeam className='vfx-border-beam-duration-[6s] vfx-border-beam-color-from-violet-400 vfx-border-beam-color-to-fuchsia-700 vfx-border-beam-size-[52px] dark:vfx-border-beam-color-from-cyan-300 dark:vfx-border-beam-color-to-sky-600 max-md:vfx-border-beam-size-10' />
       </motion.div>
 
       {/* === Input Bar Mock === */}
-      <div className='mt-auto flex w-full items-center gap-2 rounded-full border bg-muted p-0.5 px-1.5 backdrop-blur-sm'>
-        <span className='text-xs font-semibold text-neutral-300'>
-          @mkhd.salah
-        </span>
-        <button className='bg-gradient-sunrise ml-auto rounded-full p-1 text-primary'>
-          <PaperPlaneIcon className='size-3' />
-        </button>
+      <div className='mt-auto flex w-full flex-row items-center justify-center gap-2 rounded-full border border-neutral-200 bg-neutral-50 p-1.5 text-neutral-900 dark:border-neutral-700 dark:bg-neutral-800 dark:text-neutral-100 max-md:p-1 max-md:text-[10px]'>
+        <span className='text-xs font-semibold'> @mkhd.salah</span>
+        <PaperPlaneIcon className='size-3' />
       </div>
     </div>
   )

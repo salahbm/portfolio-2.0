@@ -16,6 +16,7 @@ export function ParallaxScrollWrapper({
   const innerWrappersRef = useRef<(HTMLDivElement | null)[]>([])
   const currentIndexRef = useRef(-1)
   const animatingRef = useRef(false)
+  const currentTweenRef = useRef<gsap.core.Timeline | null>(null)
   const [mounted, setMounted] = useState(false)
 
   useEffect(() => {
@@ -25,7 +26,6 @@ export function ParallaxScrollWrapper({
   useEffect(() => {
     if (!mounted || children.length === 0) return
 
-    // Register GSAP Observer plugin
     gsap.registerPlugin(Observer)
 
     const sections = sectionsRef.current.filter(Boolean) as HTMLElement[]
@@ -38,13 +38,23 @@ export function ParallaxScrollWrapper({
 
     if (sections.length === 0) return
 
-    // Initial setup - show first section immediately without animation
+    // Initial setup - clear any existing transforms
     sections.forEach((section, i) => {
       if (i === 0) {
-        gsap.set(section, { autoAlpha: 1, zIndex: 1 })
+        gsap.set(section, {
+          visibility: 'visible',
+          opacity: 1,
+          zIndex: 10,
+          yPercent: 0,
+        })
         gsap.set([outerWrappers[i], innerWrappers[i]], { yPercent: 0 })
       } else {
-        gsap.set(section, { autoAlpha: 0, zIndex: 0 })
+        gsap.set(section, {
+          visibility: 'hidden',
+          opacity: 0,
+          zIndex: 0,
+          yPercent: 0,
+        })
         gsap.set(outerWrappers[i], { yPercent: 100 })
         gsap.set(innerWrappers[i], { yPercent: -100 })
       }
@@ -53,39 +63,81 @@ export function ParallaxScrollWrapper({
     currentIndexRef.current = 0
 
     const wrap = (index: number) => {
-      if (index < 0) return 0
-      if (index >= sections.length) return sections.length - 1
-      return index
+      return Math.max(0, Math.min(sections.length - 1, index))
     }
 
     function gotoSection(index: number, direction: number) {
       const wrappedIndex = wrap(index)
 
       // Don't animate if we're already at this section
-      if (wrappedIndex === currentIndexRef.current) return
+      if (wrappedIndex === currentIndexRef.current || animatingRef.current) {
+        return
+      }
+
+      // Kill any existing animation
+      if (currentTweenRef.current) {
+        currentTweenRef.current.kill()
+      }
 
       animatingRef.current = true
 
       const fromTop = direction === -1
       const dFactor = fromTop ? -1 : 1
+      const currentIndex = currentIndexRef.current
+
       const tl = gsap.timeline({
         defaults: { duration: 1.25, ease: 'power1.inOut' },
         onComplete: () => {
           animatingRef.current = false
+          currentTweenRef.current = null
+
+          // Clean up old section
+          gsap.set(sections[currentIndex], {
+            visibility: 'hidden',
+            opacity: 0,
+            zIndex: 0,
+            yPercent: 0,
+          })
         },
       })
 
-      // Animate out the current section
-      const currentSection = sections[currentIndexRef.current]
-      gsap.set(currentSection, { zIndex: 0 })
-      tl.to(currentSection, {
-        yPercent: -15 * dFactor,
-        duration: 1.25,
-      }).set(currentSection, { autoAlpha: 0 })
+      currentTweenRef.current = tl
 
-      // Animate in the new section
+      const currentSection = sections[currentIndex]
       const newSection = sections[wrappedIndex]
-      gsap.set(newSection, { autoAlpha: 1, zIndex: 1 })
+
+      // Set z-indices clearly - new section on top during animation
+      gsap.set(currentSection, { zIndex: 5 })
+      gsap.set(newSection, {
+        zIndex: 10,
+        visibility: 'visible',
+      })
+
+      // Animate out current section (fade + slight move)
+      tl.to(
+        currentSection,
+        {
+          yPercent: -15 * dFactor,
+          opacity: 0,
+          duration: 1.25,
+        },
+        0
+      )
+
+      // Animate in new section (reveal with parallax)
+      tl.fromTo(
+        newSection,
+        {
+          opacity: 0,
+          yPercent: 15 * dFactor,
+        },
+        {
+          opacity: 1,
+          yPercent: 0,
+        },
+        0
+      )
+
       tl.fromTo(
         [outerWrappers[wrappedIndex], innerWrappers[wrappedIndex]],
         {
@@ -95,12 +147,12 @@ export function ParallaxScrollWrapper({
           yPercent: 0,
         },
         0
-      ).fromTo(newSection, { yPercent: 15 * dFactor }, { yPercent: 0 }, 0)
+      )
 
       currentIndexRef.current = wrappedIndex
     }
 
-    // Create Observer for scroll/touch/pointer events
+    // Create Observer with better tolerance
     const observer = Observer.create({
       type: 'wheel,touch,pointer',
       wheelSpeed: -1,
@@ -117,12 +169,15 @@ export function ParallaxScrollWrapper({
           gotoSection(currentIndexRef.current + 1, 1)
         }
       },
-      tolerance: 10,
+      tolerance: 30,
       preventDefault: true,
     })
 
     // Cleanup
     return () => {
+      if (currentTweenRef.current) {
+        currentTweenRef.current.kill()
+      }
       observer.kill()
     }
   }, [mounted, children.length])
@@ -139,8 +194,12 @@ export function ParallaxScrollWrapper({
           ref={(el) => {
             sectionsRef.current[index] = el
           }}
-          className='invisible fixed left-0 top-0 h-screen w-full'
-          style={{ zIndex: 0 }}
+          className='fixed left-0 top-0 h-screen w-full'
+          style={{
+            zIndex: 0,
+            visibility: 'hidden',
+            opacity: 0,
+          }}
         >
           <div
             ref={(el) => {

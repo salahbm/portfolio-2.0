@@ -1,16 +1,15 @@
 'use client'
 
 import { cva, type VariantProps } from 'class-variance-authority'
-
 import { cn } from '@/lib/utils'
 import { VFXBackgroundDot } from '@/components/ui-vfx/vfx-background-dot'
 
 const bentoCardVariants = cva(
-  'relative flex flex-col overflow-hidden rounded-2xl border border-neutral-200 bg-stone-50 dark:border-neutral-800 dark:bg-stone-900',
+  'relative flex flex-col overflow-hidden rounded-2xl border bg-card/80 backdrop-blur-xl transition-all duration-200',
   {
     variants: {
       variant: {
-        grid: 'transform-gpu transition-transform duration-150 ease-linear hover:scale-[1.03]',
+        grid: 'transform-gpu ease-linear hover:scale-[1.03] border-border/70 shadow-[0_0_1px_1px_hsl(var(--border)/0.4),_0_8px_24px_-6px_hsl(var(--border)/0.2)]',
       },
     },
   }

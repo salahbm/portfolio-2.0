@@ -32,7 +32,11 @@ const DotNavigationItem = ({
 
   return (
     <div
-      className='0 size-[10px] cursor-pointer rounded-full border border-neutral-700 bg-neutral-50 transition-colors ease-linear hover:bg-neutral-600 data-[selected=true]:bg-neutral-700 dark:border-neutral-200 dark:bg-neutral-700 dark:hover:bg-neutral-100 dark:data-[selected=true]:bg-neutral-200'
+      className={cn(
+        'size-[10px] cursor-pointer rounded-full border transition-colors ease-linear',
+        'border-border bg-muted hover:bg-foreground/10 data-[selected=true]:bg-foreground/30',
+        'dark:border-border dark:bg-muted dark:hover:bg-foreground/20 dark:data-[selected=true]:bg-foreground/70'
+      )}
       onClick={handleClick}
       data-selected={selected}
     />
@@ -267,11 +271,18 @@ export function SmartStack({
         style={{ borderRadius: roundedValuePx }}
       >
         <div
-          className='absolute left-0 top-0 h-full w-full overflow-hidden bg-neutral-700 dark:bg-neutral-800'
+          className='absolute left-0 top-0 h-full w-full overflow-hidden border border-border/60 bg-card/80 backdrop-blur-xl transition-colors duration-200 dark:bg-card/70'
           style={{ borderRadius: roundedValuePx > 0 ? roundedValuePx + 2 : 0 }}
         >
-          <div className='pointer-events-none absolute inset-0 flex items-center justify-center bg-stone-900 [mask-image:radial-gradient(ellipse_at_center,transparent_20%,black)]' />
+          <div
+            className={cn(
+              'pointer-events-none absolute inset-0 flex items-center justify-center rounded-[inherit]',
+              'bg-muted [mask-image:radial-gradient(ellipse_at_center,transparent_20%,black)]',
+              'dark:bg-muted/40'
+            )}
+          />
         </div>
+
         <div
           className='absolute left-0 top-0 h-full w-full overflow-hidden'
           style={{ borderRadius: roundedValuePx }}
@@ -294,6 +305,7 @@ export function SmartStack({
           ) : null}
         </div>
       </div>
+
       {count > 1 ? (
         <DotsNavigation
           count={count}
