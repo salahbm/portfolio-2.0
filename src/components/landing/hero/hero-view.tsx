@@ -7,7 +7,6 @@ export function Hero() {
     <section className='relative flex h-screen flex-col overflow-hidden'>
       {/* background */}
       <MacOSWaves />
-
       <ScrollBlob />
       <NameComponent />
     </section>

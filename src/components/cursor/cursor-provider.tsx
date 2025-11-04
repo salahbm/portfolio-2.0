@@ -50,6 +50,8 @@ export const CursorProvider: React.FC<{ children: React.ReactNode }> = ({
   const isVisibleRef = useRef(false)
   const cursorTypeRef = useRef<CursorType>('default')
   const lastMousePosRef = useRef({ x: 0, y: 0 })
+  const isInsideViewportRef = useRef(false)
+  const rafIdRef = useRef<number | null>(null)
 
   // motion values
   const x = useMotionValue(
@@ -106,34 +108,73 @@ export const CursorProvider: React.FC<{ children: React.ReactNode }> = ({
     setHidden(false)
   }, [setHidden])
 
-  // pointer tracking
+  // pointer tracking with RAF optimization
   const onMouseMove = useEvent((e: MouseEvent) => {
     lastMousePosRef.current = { x: e.clientX, y: e.clientY }
-    if (!isVisibleRef.current) show()
-    x.set(e.clientX)
-    y.set(e.clientY)
+
+    if (!isVisibleRef.current) {
+      show()
+    }
+
+    // Cancel any pending RAF
+    if (rafIdRef.current !== null) {
+      cancelAnimationFrame(rafIdRef.current)
+    }
+
+    // Update position immediately for responsiveness
+    rafIdRef.current = requestAnimationFrame(() => {
+      x.set(e.clientX)
+      y.set(e.clientY)
+      rafIdRef.current = null
+    })
   })
 
-  // focus/blur handling
+  // Enhanced focus/blur handling for omnibox issue
   const onFocus = useCallback(() => {
     if (isTouchDevice) return
-    show()
-    x.set(lastMousePosRef.current.x)
-    y.set(lastMousePosRef.current.y)
-    setHidden(true)
+
+    // Only show cursor if mouse is actually inside viewport
+    if (isInsideViewportRef.current) {
+      show()
+      x.set(lastMousePosRef.current.x)
+      y.set(lastMousePosRef.current.y)
+      setHidden(true)
+    }
   }, [isTouchDevice, show, setHidden, x, y])
 
   const onBlur = useCallback(() => {
-    hide()
-    setHidden(false)
+    // Only hide if we're actually losing focus (not just omnibox)
+    // Use setTimeout to check if focus returns quickly (omnibox case)
+    setTimeout(() => {
+      if (!document.hasFocus() && !isInsideViewportRef.current) {
+        hide()
+        setHidden(false)
+      }
+    }, 100)
   }, [hide, setHidden])
+
+  // Track mouse enter/leave for viewport detection
+  const onMouseEnter = useCallback(() => {
+    isInsideViewportRef.current = true
+    if (document.hasFocus()) {
+      show()
+    }
+  }, [show])
+
+  const onMouseLeave = useCallback(() => {
+    isInsideViewportRef.current = false
+    hide()
+  }, [hide])
 
   // Visibility change (tab switches)
   useEffect(() => {
     if (isTouchDevice) return
     const handleVis = () => {
       if (document.visibilityState === 'visible') {
-        onFocus()
+        // Check if mouse is still in viewport before showing
+        if (isInsideViewportRef.current) {
+          onFocus()
+        }
       } else {
         onBlur()
       }
@@ -160,17 +201,22 @@ export const CursorProvider: React.FC<{ children: React.ReactNode }> = ({
     window.addEventListener('mousemove', onMouseMove, { passive: true })
     window.addEventListener('focus', onFocus)
     window.addEventListener('blur', onBlur)
-    document.addEventListener('mouseenter', show)
-    document.addEventListener('mouseleave', hide)
+    document.addEventListener('mouseenter', onMouseEnter)
+    document.addEventListener('mouseleave', onMouseLeave)
 
     return () => {
       window.removeEventListener('mousemove', onMouseMove)
       window.removeEventListener('focus', onFocus)
       window.removeEventListener('blur', onBlur)
-      document.removeEventListener('mouseenter', show)
-      document.removeEventListener('mouseleave', hide)
+      document.removeEventListener('mouseenter', onMouseEnter)
+      document.removeEventListener('mouseleave', onMouseLeave)
       setHidden(false)
       uninstallStyleTag()
+
+      // Cleanup RAF
+      if (rafIdRef.current !== null) {
+        cancelAnimationFrame(rafIdRef.current)
+      }
     }
   }, [
     isTouchDevice,
@@ -180,6 +226,8 @@ export const CursorProvider: React.FC<{ children: React.ReactNode }> = ({
     onMouseMove,
     onFocus,
     onBlur,
+    onMouseEnter,
+    onMouseLeave,
     show,
     hide,
     setHidden,

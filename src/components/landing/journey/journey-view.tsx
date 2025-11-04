@@ -1,21 +1,54 @@
 'use client'
-
+import { useRef } from 'react'
+import { motion, useScroll, useTransform } from 'motion/react'
 import './journey.component.css'
 
 export function JourneySection() {
+  const containerRef = useRef<HTMLDivElement>(null)
+
+  // Track scroll progress of the component
+  const { scrollYProgress } = useScroll({
+    target: containerRef,
+    offset: ['start end', 'end start'],
+  })
+
+  // Transform scroll progress to percentage for display
+  const progressPercent = useTransform(scrollYProgress, [0, 1], [0, 100])
+
+  const progressText = useTransform(
+    progressPercent,
+    (value) => `${Math.round(value)}% complete`
+  )
+
+  // Transform scroll progress for text gradient position
+  const gradientPosition = useTransform(
+    scrollYProgress,
+    [0, 0.5, 1],
+    ['180%', '100%', '100%']
+  )
+
   return (
-    <section className='fluid text-neutral-100'>
-      <div className='absolute inset-0 -z-10 bg-gradient-to-br from-purple-50 via-blue-50 to-pink-50 dark:from-purple-950/20 dark:via-blue-950/20 dark:to-pink-950/20' />
-      <div className='heading'>
-        <div className='measure' />
-        <h1 className='select-none'>
-          From the ancient streets of{' '}
-          <span className='text-gradient'>Bukhara</span> to the fast lanes of{' '}
-          <span className='text-gradient'>Seoul</span>, my journey began as a
-          student and evolved into a career in software engineering. Today, I
-          build digital experiences that connect culture, logic, and design.
-        </h1>
-      </div>
-    </section>
+    <div className='journey-section' ref={containerRef}>
+      <section className='fluid'>
+        <div className='progress'>
+          <span aria-hidden='true'>100% complete</span>
+          <motion.span className='sync'>
+            <motion.span>{progressText}</motion.span>
+          </motion.span>
+        </div>
+        <div className='heading'>
+          <motion.h1
+            style={{
+              backgroundPositionX: gradientPosition,
+            }}
+          >
+            Lorem Ipsum is simply dummy text of the printing and typesetting
+            industry. Lorem Ipsum has been the industry's standard dummy text
+            ever since the 1500s, when an unknown printer took a galley of type
+            and scrambled it to make a type specimen book.
+          </motion.h1>
+        </div>
+      </section>
+    </div>
   )
 }
