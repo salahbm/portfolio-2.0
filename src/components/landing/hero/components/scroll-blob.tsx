@@ -67,7 +67,7 @@ export default function ScrollBlob() {
     'M55,-65C75,-45,95,-25,95,0C95,25,75,45,55,65C35,85,15,105,-10,105C-35,105,-55,85,-75,65C-95,45,-105,25,-105,0C-105,-25,-95,-45,-75,-65C-55,-85,-35,-105,-10,-105C15,-105,35,-85,55,-65Z'
 
   return (
-    <div className='absolute right-8 top-8 z-10'>
+    <div className='absolute right-6 top-8 z-10'>
       <motion.div
         animate={controls}
         onClick={handleScroll}
@@ -87,6 +87,33 @@ export default function ScrollBlob() {
           onPointerLeave={onPointerLeave}
           onPointerMove={onPointerMove}
         >
+          {/* ====== GLOW FILTER ====== */}
+          <defs>
+            <filter id='blob-glow' x='-50%' y='-50%' width='200%' height='200%'>
+              {/* Colored glow that scales with hover */}
+              <feGaussianBlur
+                in='SourceGraphic'
+                stdDeviation={hovered ? 14 : 6}
+                result='blurred'
+              />
+              <feFlood
+                floodColor='hsl(var(--primary))'
+                floodOpacity={hovered ? 0.75 : 0.45}
+                result='color'
+              />
+              <feComposite
+                in='color'
+                in2='blurred'
+                operator='in'
+                result='glow'
+              />
+              <feMerge>
+                <feMergeNode in='glow' />
+                <feMergeNode in='SourceGraphic' />
+              </feMerge>
+            </filter>
+          </defs>
+
           <g transform='translate(100, 100)'>
             <motion.path
               ref={blobRef}
@@ -100,17 +127,16 @@ export default function ScrollBlob() {
                 duration: 0.5,
                 ease: [0.25, 0.1, 0.25, 1],
               }}
-              fill='hsl(var(--primary))'
+              fill='hsl(var(--accent))'
+              filter='url(#blob-glow)'
               style={{
                 transformOrigin: 'center',
-                boxShadow: '0_0_50px_0_hsl(var(--primary))',
               }}
             />
           </g>
         </svg>
 
-        {/* Centered Text & Arrow */}
-        {/* Centered Text & Arrow */}
+        {/* ===== Centered Text & Arrow ===== */}
         <div className='pointer-events-none absolute inset-0 flex items-center justify-center'>
           <motion.div
             className='flex flex-col items-center justify-center'
@@ -130,7 +156,7 @@ export default function ScrollBlob() {
 
             <motion.p
               className='animate-bounce font-mono text-2xl leading-none text-primary-foreground'
-              animate={{ marginTop: hovered ? 20 : 0 }}
+              animate={{ marginTop: hovered ? 25 : 0 }}
               transition={{ duration: 0.2, ease: 'easeOut' }}
             >
               ↓

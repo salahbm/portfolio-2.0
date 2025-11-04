@@ -116,7 +116,7 @@ export default function AkaComponent() {
         ))}
 
         {/* Main text */}
-        <span className='relative z-10 text-primary drop-shadow-[0_0_8px_rgba(255,255,255,0.8)]'>
+        <span className='relative z-10 font-syne text-accent drop-shadow-[0_0_8px_rgba(255,255,255,0.8)]'>
           aka
         </span>
 

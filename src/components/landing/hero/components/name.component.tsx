@@ -27,7 +27,7 @@ const NameComponent: React.FC = () => {
       </p>
       <p
         id='name-muhammad'
-        className='transform-3d text-gradient-dark relative whitespace-nowrap font-monument-extended leading-tight lg:inline-block'
+        className='transform-3d text-gradient-lilac relative whitespace-nowrap font-monument-extended leading-tight lg:inline-block'
       >
         Salah
       </p>

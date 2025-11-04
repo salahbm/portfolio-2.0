@@ -2,31 +2,57 @@
 'use client'
 import { useEffect, useRef } from 'react'
 import p5 from 'p5'
+import { useTheme } from 'next-themes'
 
 export default function MacOSWaves() {
   const sketchRef = useRef<HTMLDivElement>(null)
+  const { theme } = useTheme()
 
   useEffect(() => {
     let myp5: p5
 
     const Sketch = (s: p5) => {
-      const REDS = [
-        '#e45064',
-        '#e45064',
-        '#e65d6c',
-        '#ec6a5f',
-        '#e13750',
-        '#c03671',
-        '#643d7a',
-        '#284671',
-        '#284671',
-        '#284671',
-      ]
-      const YELLOWS = ['#ef9f50', '#f2c061', '#f3bf61']
-      const LIGHT_BLUES = ['#b7cbef', '#e2eaf4', '#e2eaf4']
-      const DARK_BLUES = ['#3271ac', '#4282b6', '#7abcec']
+      const isDark = theme === 'dark'
+      const REDS = isDark
+        ? [
+            '#f2627a',
+            '#e45064',
+            '#d9486b',
+            '#c03671',
+            '#8a3c78',
+            '#4b376c',
+            '#2d3a63',
+            '#1f2f4d',
+            '#1f2f4d',
+            '#1f2f4d',
+          ]
+        : [
+            '#e45064',
+            '#e45064',
+            '#e65d6c',
+            '#ec6a5f',
+            '#e13750',
+            '#c03671',
+            '#643d7a',
+            '#284671',
+            '#284671',
+            '#284671',
+          ]
 
-      const backgroundColor = '#ffffff'
+      const YELLOWS = isDark
+        ? ['#f2c061', '#ef9f50', '#c89c45']
+        : ['#ef9f50', '#f2c061', '#f3bf61']
+
+      const LIGHT_BLUES = isDark
+        ? ['#7abcec', '#5b9fe0', '#4282b6']
+        : ['#b7cbef', '#e2eaf4', '#e2eaf4']
+
+      const DARK_BLUES = isDark
+        ? ['#1c2b45', '#274166', '#3271ac']
+        : ['#3271ac', '#4282b6', '#7abcec']
+
+      const backgroundColor = isDark ? '#0f141c' : '#ffffff'
+
       let delta = 0,
         delta1 = 0,
         delta2 = 0,
@@ -198,7 +224,7 @@ export default function MacOSWaves() {
     return () => {
       myp5.remove()
     }
-  }, [])
+  }, [theme])
 
   return (
     <div

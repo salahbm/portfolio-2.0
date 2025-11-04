@@ -4,44 +4,40 @@
 
 .text-gradient-lilac {
   background: linear-gradient(
-    90deg,
-    oklch(0.52 0.22 285),
-    oklch(0.58 0.24 305),
-    oklch(0.63 0.22 330),
-    oklch(0.58 0.24 305),
-    oklch(0.52 0.22 285)
+    135deg,
+    oklch(0.72 0.2 250),
+    oklch(0.84 0.14 285),
+    oklch(0.86 0.13 295),
+    oklch(0.84 0.14 285),
+    oklch(0.72 0.2 250)
   );
   background-size: 250% 100%;
   background-position: 0% 50%;
   -webkit-background-clip: text;
   -webkit-text-fill-color: transparent;
   background-clip: text;
-  text-shadow: 0 0 10px rgba(255, 255, 255, 0.3);
   animation: gradientShift 12s ease-in-out infinite;
 }
 
-/* Deeper variant with mint-teal contrast for darker backgrounds */
-.text-gradient-dark {
+.dark .text-gradient-lilac {
   background: linear-gradient(
-    120deg,
-    oklch(0.48 0.23 275),
-    oklch(0.58 0.24 305),
-    #6c29e2,
-    oklch(0.58 0.24 305),
-    oklch(0.48 0.23 275)
+    135deg,
+    oklch(0.72 0.2 250),
+    oklch(0.68 0.22 275),
+    oklch(0.65 0.22 305),
+    oklch(0.68 0.22 275),
+    oklch(0.72 0.2 250)
   );
   background-size: 200% 100%;
   background-position: 0% 50%;
   -webkit-background-clip: text;
   -webkit-text-fill-color: transparent;
   background-clip: text;
-  text-shadow: 0 0 5px rgba(255, 255, 255, 0.3);
   animation: gradientShift 14s ease-in-out infinite;
 }
 
 /* Ensure gradient applies to SplitType spans */
-.text-gradient-lilac *,
-.text-gradient-dark * {
+.text-gradient-lilac * {
   background: inherit;
   background-size: inherit;
   background-position: inherit;

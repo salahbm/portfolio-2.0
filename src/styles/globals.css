@@ -8,98 +8,80 @@
 @tailwind components;
 @tailwind utilities;
 
+/* ===== macOS Sonoma/Ventura Inspired Theme ===== */
 @layer base {
   :root {
-    /* Core background & text */
-    --background: 223 30% 98%;
-    --foreground: 226 55% 10%;
+    /* ===== Surfaces & Text ===== */
+    --background: 225 35% 98%;
+    --foreground: 226 55% 12%;
 
-    /* Cards & surfaces */
     --card: 0 0% 100%;
-    --card-foreground: 226 55% 10%;
+    --card-foreground: 226 55% 12%;
 
-    /* Primary (balanced indigo-cyan gradient hue) */
-    --primary: 228 68% 60%; /* indigo-cyan hybrid (#5b7bff) */
+    /* ===== Primary / Accent ===== */
+    --primary: 228 60% 62%; /* indigo-cyan hybrid */
     --primary-foreground: 0 0% 100%;
-
-    /* Secondary (soft desaturated blue) */
-    --secondary: 223 42% 96%;
-    --secondary-foreground: 226 45% 20%;
-
-    /* Accent (violet-blue highlight, from top waves) */
-    --accent: 250 70% 72%;
+    --accent: 250 65% 68%; /* violet shimmer */
     --accent-foreground: 0 0% 100%;
 
-    /* Muted / Border / Ring */
-    --muted: 225 20% 94%;
+    /* ===== Secondary / Muted ===== */
+    --secondary: 223 40% 96%;
+    --secondary-foreground: 225 40% 25%;
+    --muted: 225 22% 92%;
     --muted-foreground: 226 20% 35%;
-    --border: 225 15% 85%;
-    --ring: 228 68% 60%;
+    --border: 225 20% 80%;
+    --ring: 228 60% 62%;
 
-    /* Radius */
+    /* ===== Gradient Tokens ===== */
+    --bg-indigo: 228 50% 32%;
+    --bg-blue: 224 60% 26%;
+    --bg-cyan: 200 75% 48%;
+    --bg-teal: 190 55% 32%;
+    --bg-navy: 224 70% 10%;
+
+    /* ===== Radius ===== */
     --radius: 0.75rem;
-
-    /* Gradient tokens (lock-screen wave layers) */
-    --bg-indigo: 226 62% 33%; /* upper indigo wave */
-    --bg-blue: 224 70% 28%; /* deep navy ridge */
-    --bg-cyan: 200 85% 50%; /* bright cyan accent */
-    --bg-teal: 190 55% 30%; /* lower greenish band */
-    --bg-navy: 224 68% 8%; /* dark base */
-
-    /* Syntax highlighting */
-    --sh-keyword: #a7b4ff;
-    --sh-string: #f5d68a;
-    --sh-function: #86c9ff;
-    --sh-variable: #ffb48f;
-    --sh-comment: #7e8697;
-    --sh-number: #ffb48f;
-    --sh-boolean: #c9a6ff;
   }
 
   .dark {
-    /* Base backgrounds */
     --background: 225 22% 10%;
     --foreground: 0 0% 98%;
 
-    /* Cards */
     --card: 225 25% 12%;
     --card-foreground: 0 0% 98%;
 
-    /* Primary / Accent */
-    --primary: 227 85% 64%; /* vivid indigo-cyan blend */
+    --primary: 227 85% 64%;
     --primary-foreground: 222 20% 10%;
-    --accent: 250 70% 70%; /* violet shimmer */
+    --accent: 250 70% 70%;
     --accent-foreground: 222 20% 8%;
 
-    /* Secondary / Muted / Border */
-    --secondary: 225 20% 18%;
+    --secondary: 225 22% 18%;
     --secondary-foreground: 0 0% 95%;
     --muted: 225 16% 22%;
     --muted-foreground: 220 12% 70%;
     --border: 225 16% 26%;
     --ring: 227 85% 64%;
 
-    /* Dark gradient tokens */
-    --bg-indigo: 226 62% 28%;
-    --bg-blue: 224 70% 20%;
-    --bg-cyan: 200 90% 48%;
+    --bg-indigo: 228 45% 28%;
+    --bg-blue: 224 55% 22%;
+    --bg-cyan: 200 80% 46%;
     --bg-teal: 190 50% 25%;
-    --bg-navy: 224 68% 7%;
+    --bg-navy: 224 68% 8%;
   }
 
   * {
-    @apply cursor-none border-border;
-    @apply selection:bg-primary/20 dark:selection:bg-primary/20;
+    @apply cursor-none border-border selection:bg-primary/20 dark:selection:bg-primary/30;
   }
+
   body {
     @apply cursor-none bg-background font-lader-medium text-foreground antialiased;
   }
+}
 
-  ::view-transition-old(root),
-  ::view-transition-new(root) {
-    animation: none;
-    mix-blend-mode: normal;
-  }
+::view-transition-old(root),
+::view-transition-new(root) {
+  animation: none;
+  mix-blend-mode: normal;
 }
 
 @layer utilities {
