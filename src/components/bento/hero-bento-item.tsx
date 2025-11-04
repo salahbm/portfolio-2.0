@@ -1,7 +1,5 @@
 'use client'
 
-import Image from 'next/image'
-
 import { cn } from '@/lib/utils'
 import { useUserAgent } from '@/hooks/use-user-agent'
 
@@ -10,8 +8,6 @@ import { NextJSSquareIcon } from '@/components/icons/nextjs-square-icon'
 
 import { VFXWavingHand } from '@/components/ui-vfx/vfx-waving-hand'
 import { VFXPresenceSurface } from '@/components/ui-vfx/vfx-presence-surface'
-
-import { LiveblocksLogoIcon } from '@/components/icons/liveblocks-logo-icon'
 
 import { BentoCard } from '@/components/grids/bento-card'
 import { TagLink } from '@/components/content/tag-link'
@@ -25,7 +21,7 @@ const TagPill = ({
 }) => (
   <span
     className={cn(
-      'inline-flex rounded-full border border-neutral-200 bg-neutral-50 px-3 py-1 text-xs font-bold text-neutral-900 dark:border-neutral-700 dark:bg-neutral-800 dark:text-neutral-100',
+      'inline-flex items-center rounded-full border border-border bg-secondary/60 px-3 py-1 text-[11px] font-semibold text-foreground backdrop-blur-sm transition-colors duration-300 dark:bg-secondary/40',
       className
     )}
   >
@@ -35,68 +31,76 @@ const TagPill = ({
 
 export function HeroBentoItem() {
   const { isMobile } = useUserAgent()
+
   return (
     <BentoCard
-      className='col-span-3 row-span-1 max-lg:min-h-[220px] max-md:min-h-[200px] max-sm:col-span-2'
+      className='col-span-4 row-span-1 max-lg:min-h-[220px] max-md:min-h-[200px] max-sm:col-span-2'
       variant='grid'
     >
       <VFXPresenceSurface disabled={isMobile}>
-        <div className='relative flex h-full w-full flex-col'>
-          <div className='flex h-full flex-col p-4 max-sm:p-3'>
-            <div className='flex flex-none flex-row items-center justify-between'>
-              <h1 className='text-2xl font-semibold tracking-tighter max-sm:text-base'>
-                Hey, I&apos;m{' '}
-                <span className='bg-gradient-to-r from-orange-500 to-purple-500 bg-clip-text font-bold text-transparent dark:from-amber-500 dark:to-pink-500'>
-                  Muhammad (Salah)
-                </span>{' '}
-                <VFXWavingHand />
-              </h1>
-              <Image
-                src='/medias/images/aureliendupaysdexemple-logo.webp'
-                width={24}
-                height={24}
-                alt='logo'
-                priority
-              />
-            </div>
-            <div className='flex flex-auto' />
-            <div className='flex flex-none flex-col gap-4 max-sm:gap-3 max-sm:text-sm'>
-              <p>
-                A creative software engineer from 🌲 🇫🇷 crafting interfaces and
-                products <br className='max-md:hidden' />
-                with{' '}
-                <TagLink href='https://react.dev/' className='cursor-none'>
-                  <ReactIcon className='mr-1 inline-flex h-3 w-3' />
-                  React
-                </TagLink>{' '}
-                and{' '}
-                <TagLink href='https://nextjs.org/' className='cursor-none'>
-                  <NextJSSquareIcon className='mr-1 inline-flex h-3 w-3' />
-                  Next.js
-                </TagLink>{' '}
-                <span className='mt-0 inline-flex items-center max-sm:mt-1 max-sm:flex'>
-                  <span className='max-md:hidden'>-&nbsp;</span> Currently at
-                  <TagLink
-                    href='https://liveblocks.io/'
-                    className='mx-1.5 cursor-none font-milkyway'
-                  >
-                    <LiveblocksLogoIcon className='mr-1 inline-flex size-3' />
-                    Momenti
-                  </TagLink>
-                  🚀
-                </span>
-              </p>
-              <div className='flex flex-row items-end justify-between gap-2 max-sm:items-center'>
-                <div className='flex flex-auto flex-row items-center gap-1.5'>
-                  <TagPill>frontend cloud 🧑🏻‍💻</TagPill>
-                  <TagPill>remote club 🌎</TagPill>
-                </div>
-                <div className='flex flex-none flex-row items-center'>
-                  <span className='text-[10px] leading-[10px]'>
-                    &copy; 2025
-                  </span>
-                </div>
+        <div className='relative flex h-full w-full flex-col items-center justify-center text-center font-lader-medium'>
+          <div className='flex h-full w-full flex-col justify-between max-sm:p-2 md:p-4'>
+            {/* ---- Header ---- */}
+            <h1 className='text-center text-3xl font-semibold leading-snug tracking-tight max-sm:text-xl'>
+              Hey there <VFXWavingHand />
+              <br />
+              I&apos;m{' '}
+              <span className='text-gradient-lilac bg-clip-text font-bold text-transparent'>
+                Muhammad (Salah)
+              </span>
+            </h1>
+
+            {/* ---- Body ---- */}
+            <p className='mt-6 text-[15px] leading-relaxed text-muted-foreground max-sm:text-[13px]'>
+              I&apos;m a software engineer from{' '}
+              <span className='font-semibold text-foreground'>
+                Uzbekistan 🇺🇿
+              </span>
+              , passionate about crafting <br className='max-md:hidden' />
+              smooth, user-centric interfaces with{' '}
+              <TagLink
+                href='https://react.dev/'
+                className='mx-1 cursor-none font-medium'
+              >
+                <ReactIcon className='mr-1 inline h-3 w-3' />
+                React ⚛️
+              </TagLink>{' '}
+              and{' '}
+              <TagLink
+                href='https://nextjs.org/'
+                className='cursor-none font-medium'
+              >
+                <NextJSSquareIcon className='mr-1 inline h-3 w-3' />
+                Next.js ⚡
+              </TagLink>
+              . <br className='max-md:hidden' />
+              Currently building cool things at{' '}
+              <TagLink
+                href='https://liveblocks.io/'
+                className='cursor-none font-semibold'
+              >
+                <figure className='mr-1 inline-flex flex-col items-center justify-center -space-y-1'>
+                  <span className='size-2.5 rounded-full bg-blue-500' />
+                  <span className='size-2.5 rounded-full bg-neutral-200 mix-blend-multiply' />
+                </figure>
+                Momenti
+              </TagLink>{' '}
+              🚀 in Seoul 🇰🇷{' '}
+              <span aria-label='Seoul tower' role='img'>
+                🗼
+              </span>
+              .
+            </p>
+
+            {/* ---- Footer ---- */}
+            <div className='mt-8 flex flex-col items-center justify-center gap-2'>
+              <div className='flex flex-wrap items-center justify-center gap-2'>
+                <TagPill>Full-Stack ⚙️</TagPill>
+                <TagPill>Developer 👨🏻‍💻</TagPill>
               </div>
+              <span className='text-[10px] tracking-wide text-muted-foreground'>
+                &copy; 2025 • Designed with ☕ + ❤️
+              </span>
             </div>
           </div>
         </div>

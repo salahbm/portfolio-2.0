@@ -17,7 +17,7 @@ interface MusicPlayerState {
 }
 
 export const useMusicPlayerStore = create<MusicPlayerState>((set, get) => ({
-  isPlaying: true,
+  isPlaying: false,
   currentSongIndex: 0,
   progress: 0,
   audioRef: null,
