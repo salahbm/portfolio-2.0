@@ -108,8 +108,8 @@ export function PageHeader({ title, description, className }: PageHeaderProps) {
       ref={containerRef}
       style={{ opacity }}
       className={cn(
-        'relative flex w-full flex-col justify-end overflow-hidden',
-        'min-h-[20vh] sm:min-h-[45vh] md:min-h-[50vh] lg:min-h-[25vh]',
+        'relative flex w-full flex-col justify-end overflow-hidden pt-10',
+        'min-h-fit sm:min-h-[45vh] md:min-h-[50vh] lg:min-h-[25vh]',
         'bg-background/95 backdrop-blur-xl',
         '[perspective-origin:50%_50%] [perspective:1000px]',
         'before:absolute before:inset-0',

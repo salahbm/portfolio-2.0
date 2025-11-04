@@ -35,7 +35,7 @@ export default function TechStackPage() {
         title='Tech Stack'
         description='Explore the programming languages, tools, frameworks and libraries I have experience and interest in. I constantly update and expand my tech stack to stay current with the latest technologies and best practices.'
       />
-      <PageContent className='mt-12'>
+      <PageContent>
         <TechStackGrid title='Technologies'>
           {frontendTechnologiesTechStackItems.map((props) => (
             <StackItem key={props.name} {...props} />

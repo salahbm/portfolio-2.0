@@ -87,9 +87,28 @@ export default function ScrollBlob() {
           onPointerLeave={onPointerLeave}
           onPointerMove={onPointerMove}
         >
-          {/* ====== GLOW FILTER ====== */}
           <defs>
+            {/* ====== GLOW + DROP SHADOW FILTER ====== */}
             <filter id='blob-glow' x='-50%' y='-50%' width='200%' height='200%'>
+              {/* Drop Shadow */}
+              <feGaussianBlur
+                in='SourceAlpha'
+                stdDeviation='4'
+                result='shadow-blur'
+              />
+              <feOffset in='shadow-blur' dx='0' dy='4' result='shadow-offset' />
+              <feFlood
+                floodColor='#000000'
+                floodOpacity='0.3'
+                result='shadow-color'
+              />
+              <feComposite
+                in='shadow-color'
+                in2='shadow-offset'
+                operator='in'
+                result='shadow'
+              />
+
               {/* Colored glow that scales with hover */}
               <feGaussianBlur
                 in='SourceGraphic'
@@ -107,7 +126,10 @@ export default function ScrollBlob() {
                 operator='in'
                 result='glow'
               />
+
+              {/* Merge everything together */}
               <feMerge>
+                <feMergeNode in='shadow' />
                 <feMergeNode in='glow' />
                 <feMergeNode in='SourceGraphic' />
               </feMerge>
@@ -135,7 +157,6 @@ export default function ScrollBlob() {
             />
           </g>
         </svg>
-
         {/* ===== Centered Text & Arrow ===== */}
         <div className='pointer-events-none absolute inset-0 flex items-center justify-center'>
           <motion.div

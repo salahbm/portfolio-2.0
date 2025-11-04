@@ -170,7 +170,7 @@ export const frontendTechnologiesTechStackItems: TechStackItem[] = [
   {
     name: 'Liveblocks',
     Icon: LiveblocksIcon,
-    tag: 'real-time collaboration',
+    tag: 'real-time',
     href: 'https://liveblocks.io/',
   },
   {

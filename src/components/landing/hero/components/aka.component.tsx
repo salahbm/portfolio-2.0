@@ -92,7 +92,7 @@ export default function AkaComponent() {
     <div
       id='aka-container'
       ref={containerRef}
-      className='pointer-events-none absolute right-[13%] top-[60%] -rotate-[15deg] select-none'
+      className='pointer-events-none absolute right-6 top-[10%] -rotate-[15deg] select-none 2xl:right-[10%]'
     >
       <div className='relative font-syne text-[clamp(1rem,6vw,8rem)] leading-none tracking-tight'>
         {/* Layered glow */}
@@ -118,7 +118,7 @@ export default function AkaComponent() {
         ))}
 
         {/* Main text */}
-        <span className='relative z-10 font-syne text-accent drop-shadow-[0_0_8px_rgba(255,255,255,0.8)]'>
+        <span className='relative z-10 font-syne text-accent drop-shadow-[12px_12px_7px_rgba(255,255,255,0.7)]'>
           aka
         </span>
 
