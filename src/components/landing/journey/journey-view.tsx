@@ -170,10 +170,10 @@ export function JourneyScroll() {
               suppressContentEditableWarning
               className='journey-heading m-auto inline cursor-text tracking-[0.05ch] text-transparent outline-none selection:bg-primary selection:text-primary-foreground focus-visible:outline-dashed focus-visible:outline-[0.05em] focus-visible:outline-offset-[0.1em] focus-visible:outline-primary'
             >
-              Craft bespoke, artisanal user interfaces driven by a mastery of
-              the fundamentals. Craft bespoke, artisanal user interfaces driven
-              by a mastery of the fundamentals. Craft bespoke, artisanal user
-              interfaces driven by a mastery of the fundamentals.
+              I build digital experiences that feel alive — a mix of design,
+              motion, and code shaped by curiosity and crafted with care.
+              Everything I make starts from empathy, simplicity, and a love for
+              detail.
             </h1>
           </div>
         </div>

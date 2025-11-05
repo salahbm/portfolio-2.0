@@ -22,15 +22,6 @@ const WORDS = [
   'repeat.',
 ]
 
-const GRADIENT_COLORS = [
-  'linear-gradient(to right, #FF0000, #FF7F00)',
-  'linear-gradient(to right, #FF7F00, #FFFF00)',
-  'linear-gradient(to right, #FFFF00, #00FF00)',
-  'linear-gradient(to right, #00FF00, #0000FF)',
-  'linear-gradient(to right, #0000FF, #4B0082)',
-  'linear-gradient(to right, #4B0082, #8F00FF)',
-]
-
 export function ScrollStory() {
   const itemsRef = useRef<HTMLLIElement[]>([])
 
@@ -85,11 +76,13 @@ export function ScrollStory() {
   }, [])
 
   return (
-    <section className='scroll-story relative flex w-full flex-col items-center py-16'>
-      <div className='content-wrapper flex w-full flex-col items-start gap-4 px-6 md:flex-row md:gap-10 md:px-10'>
+    <section className='scroll-story relative flex w-full flex-col items-center justify-center py-24'>
+      {/* headline + scroll words */}
+      <div className='content-wrapper flex w-full flex-col items-center px-6 md:flex-row md:items-start md:justify-center md:gap-10 md:px-12'>
+        {/* headline */}
         <h2 className='sticky-heading sticky top-[40%] text-5xl font-semibold leading-tight md:text-7xl'>
-          <span className='sr-only'>I can really ship things.</span>
-          <span aria-hidden='true'>I can really&nbsp;</span>
+          <span className='sr-only'> This is how I bring ideas to life </span>
+          <span aria-hidden='true'>I do&nbsp;</span>
         </h2>
 
         <ul
@@ -105,24 +98,16 @@ export function ScrollStory() {
               className='scroll-item scroll-snap-center'
               style={{ '--i': i } as React.CSSProperties}
             >
-              <span
-                className='gradient-text'
-                style={
-                  {
-                    '--gradient-color': GRADIENT_COLORS[i],
-                  } as React.CSSProperties
-                }
-              >
-                {word}
-              </span>
+              <span>{word}</span>
             </li>
           ))}
         </ul>
       </div>
 
-      <div className='flex min-h-[60vh] items-center justify-center px-6'>
-        <p className='max-w-xl text-center text-xl leading-relaxed opacity-60 md:text-2xl'>
-          …and I love turning ideas into meaningful digital experiences.
+      <div className='flex min-h-[50vh] items-center justify-center px-6 text-center md:px-0'>
+        <p className='text-gradient-body max-w-xl text-lg font-light leading-relaxed md:text-2xl'>
+          Each project is an experiment — a new blend of design, motion, and
+          development that grows into something living and memorable.
         </p>
       </div>
     </section>

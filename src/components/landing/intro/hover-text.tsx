@@ -4,6 +4,7 @@ import { useRef, useEffect } from 'react'
 import { motion } from 'framer-motion'
 import { gsap } from 'gsap'
 import Image from 'next/image'
+import { cn } from '@/lib/utils'
 
 type ImageData = { id: number; src: string }
 
@@ -70,13 +71,15 @@ const HoverText = ({
       onMouseLeave={handleMouseLeave}
     >
       <motion.a
-        className='inline-block cursor-pointer bg-gradient-to-r from-violet-300 to-cyan-300 bg-clip-text font-semibold tracking-wide text-transparent opacity-30 outline-none transition-opacity duration-200'
+        className={cn(
+          'relative inline-block cursor-pointer font-semibold tracking-wide transition-all duration-300',
+          'bg-gradient-to-r from-[oklch(0.78_0.16_280)] via-[oklch(0.82_0.18_305)] to-[oklch(0.86_0.15_330)] bg-clip-text text-transparent'
+        )}
         whileHover={{
-          opacity: 1,
-          scaleY: 1.15,
+          scaleY: 1.1,
           transition: {
-            opacity: { duration: 0.2 },
-            scaleY: { duration: 0.875, ease: [0.34, 1.56, 0.64, 1] },
+            duration: 0.8,
+            ease: [0.34, 1.56, 0.64, 1],
           },
         }}
       >
