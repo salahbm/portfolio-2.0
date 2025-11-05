@@ -112,29 +112,23 @@ export function JourneyScroll() {
   )
 
   return (
-    <div
+    <section
       ref={containerRef}
-      className='font-sf-medium no-scrollbar bg-gradient-harmonic relative box-border h-screen w-full overflow-y-auto overflow-x-hidden'
+      className='font-sf-medium no-scrollbar relative isolate box-border h-screen w-full overflow-y-auto overflow-x-hidden'
     >
       <div ref={scrollContentRef} className='relative h-[150vh]'>
         {/* Left edge line - hidden on mobile */}
         <div
-          className='pointer-events-none fixed left-0 top-0 z-0 hidden h-screen w-8 border-r border-border md:block'
+          className='pointer-events-none absolute left-0 top-0 z-0 hidden h-screen w-8 md:block'
           aria-hidden='true'
         />
 
-        <section
-          className='fixed left-1/2 top-1/2 z-10 flex h-[70vh] w-[calc(100vw-4rem)] max-w-[1600px] -translate-x-1/2 -translate-y-1/2 lg:h-[50vh]'
+        <div
+          className='sticky left-1/2 top-1/2 z-10 flex h-[50vh] w-[calc(100vw-10rem)] -translate-y-1/2'
           style={{
             fontSize: calculateFluidSize(4.5),
           }}
         >
-          {/* Horizontal border lines */}
-          <div
-            className='pointer-events-none absolute inset-y-0 left-1/2 -z-10 w-screen -translate-x-1/2 border-y-2 border-border'
-            aria-hidden='true'
-          />
-
           {/* Progress container */}
           <div
             ref={progressContainerRef}
@@ -144,7 +138,7 @@ export function JourneyScroll() {
 
             <div className='relative h-full'>
               <motion.span
-                className='absolute right-3 top-0 inline-block p-0.5 text-background'
+                className='absolute right-5 top-0 inline-block p-0.5 text-background'
                 style={{
                   y: progressYPixels,
                 }}
@@ -157,13 +151,7 @@ export function JourneyScroll() {
           </div>
 
           {/* Heading container */}
-          <div className='pointer-events-auto relative text-center'>
-            {/* Vertical border lines */}
-            <div
-              className='pointer-events-none absolute inset-x-0 top-1/2 -z-0 h-screen -translate-y-1/2 border-x-2 border-border'
-              aria-hidden='true'
-            />
-
+          <div className='pointer-events-auto relative mx-auto self-center text-center'>
             {/* Line height indicator */}
             {lineHeight > 0 && (
               <div
@@ -180,7 +168,7 @@ export function JourneyScroll() {
               contentEditable
               spellCheck={false}
               suppressContentEditableWarning
-              className='journey-heading m-0 inline cursor-text tracking-[0.05ch] text-transparent outline-none selection:bg-primary selection:text-primary-foreground focus-visible:outline-dashed focus-visible:outline-[0.05em] focus-visible:outline-offset-[0.1em] focus-visible:outline-primary'
+              className='journey-heading m-auto inline cursor-text tracking-[0.05ch] text-transparent outline-none selection:bg-primary selection:text-primary-foreground focus-visible:outline-dashed focus-visible:outline-[0.05em] focus-visible:outline-offset-[0.1em] focus-visible:outline-primary'
             >
               Craft bespoke, artisanal user interfaces driven by a mastery of
               the fundamentals. Craft bespoke, artisanal user interfaces driven
@@ -188,8 +176,8 @@ export function JourneyScroll() {
               interfaces driven by a mastery of the fundamentals.
             </h1>
           </div>
-        </section>
+        </div>
       </div>
-    </div>
+    </section>
   )
 }

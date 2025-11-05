@@ -4,8 +4,8 @@ const ContentSecurityPolicy = `
   default-src 'self';
   script-src 'self' 'unsafe-eval' 'unsafe-inline' va.vercel-scripts.com;
   style-src 'self' 'unsafe-inline';
-  img-src 'self' blob: data:;
-  media-src 'self';
+  img-src 'self' blob: data: https://images.unsplash.com https://*.public.blob.vercel-storage.com;
+  media-src 'self' https://*.public.blob.vercel-storage.com;
   font-src 'self' data:;
   object-src 'self';
   connect-src * blob:;
@@ -18,6 +18,18 @@ const ContentSecurityPolicy = `
 const nextConfig: NextConfig = {
   reactStrictMode: true,
   transpilePackages: ['next-mdx-remote'],
+  images: {
+    remotePatterns: [
+      {
+        protocol: 'https',
+        hostname: 'images.unsplash.com',
+      },
+      {
+        protocol: 'https',
+        hostname: '*.public.blob.vercel-storage.com',
+      },
+    ],
+  },
   logging: {
     fetches: {
       fullUrl: true,

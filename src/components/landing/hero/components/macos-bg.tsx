@@ -8,6 +8,7 @@ export default function MacOSWaves() {
   const { theme } = useTheme()
   const sketchRef = useRef<HTMLDivElement>(null)
   const themeRef = useRef<{ isDark: boolean }>({ isDark: false })
+  const depthRef = useRef(0)
 
   useEffect(() => {
     let myp5: p5
@@ -18,16 +19,25 @@ export default function MacOSWaves() {
         delta2 = 0,
         delta3 = 0
 
-      const width = window.innerWidth
-      const height = window.innerHeight
+      let width = window.innerWidth
+      let height = window.innerHeight
 
       s.setup = () => {
         s.createCanvas(width, height, s.WEBGL)
+        s.noStroke()
         s.noiseSeed(20)
+      }
+
+      s.windowResized = () => {
+        width = window.innerWidth
+        height = window.innerHeight
+        s.resizeCanvas(width, height)
       }
 
       s.draw = () => {
         const isDark = themeRef.current.isDark
+        const depth = depthRef.current
+
         const REDS = isDark
           ? [
               '#f2627a',
@@ -38,8 +48,6 @@ export default function MacOSWaves() {
               '#4b376c',
               '#2d3a63',
               '#1f2f4d',
-              '#1f2f4d',
-              '#1f2f4d',
             ]
           : [
               '#e45064',
@@ -49,8 +57,6 @@ export default function MacOSWaves() {
               '#e13750',
               '#c03671',
               '#643d7a',
-              '#284671',
-              '#284671',
               '#284671',
             ]
 
@@ -66,16 +72,37 @@ export default function MacOSWaves() {
           ? ['#1c2b45', '#274166', '#3271ac']
           : ['#3271ac', '#4282b6', '#7abcec']
 
-        const backgroundColor = isDark ? '#0f141c' : '#ffffff'
-        s.background(backgroundColor)
-        drawDarkBlues(DARK_BLUES, -width, -height * 0.7, s.PI / 150, 4)
-        drawDarkBlues(DARK_BLUES, -width, -400, s.PI / 20, 2)
-        drawLightBlues(LIGHT_BLUES)
-        drawYellows(YELLOWS)
-        drawReds(REDS)
+        s.background(isDark ? '#0f141c' : '#ffffff')
+
+        // Subtle GSAP-driven parallax depth
+        const parallax = {
+          dark1: s.map(depth, 0, 1, 0, 150),
+          dark2: s.map(depth, 0, 1, 0, 250),
+          light: s.map(depth, 0, 1, 0, 320),
+          yellow: s.map(depth, 0, 1, 0, 450),
+          red: s.map(depth, 0, 1, 0, 600),
+          scale: 1 + s.map(depth, 0, 1, 0, 0.2),
+        }
+
+        s.push()
+        s.scale(parallax.scale)
+
+        // deeper layers move slower → further "back"
+        drawDarkBlues(
+          DARK_BLUES,
+          -width,
+          -height * 0.7 + parallax.dark1,
+          s.PI / 150,
+          4
+        )
+        drawDarkBlues(DARK_BLUES, -width, -400 + parallax.dark2, s.PI / 20, 2)
+        drawLightBlues(LIGHT_BLUES, parallax.light)
+        drawYellows(YELLOWS, parallax.yellow)
+        drawReds(REDS, parallax.red)
+        s.pop()
       }
 
-      // ========== Helper functions ==========
+      // ===== Helper layers =====
 
       function drawDarkBlues(
         colors: string[],
@@ -87,22 +114,17 @@ export default function MacOSWaves() {
         s.push()
         s.rotate(_r)
         s.translate(_x, _y)
-        s.scale(_s, _s)
-        s.noStroke()
-
+        s.scale(_s)
         const size = 100
-        let x = -(size / 2)
-        let y = 0
-
+        let x = -(size / 2),
+          y = 0
         s.beginShape(s.TRIANGLE_STRIP)
         for (let i = 0; i < colors.length - 1; i++) {
           let j = 0
           while (j < width * 2 + size / 2) {
-            const waveSize = 15
-            const y0 = y + s.sin(delta3 + j + x) * waveSize
-            delta3 += 0.00001 // slowed down
-            const y2 = y + size * 1.2 + s.sin(delta3 + j + x) * waveSize
-
+            const y0 = y + s.sin(delta3 + j + x) * 15
+            delta3 += 0.00001
+            const y2 = y + size * 1.2 + s.sin(delta3 + j + x) * 15
             if (j % 2 === 0) {
               s.fill(colors[i])
               s.vertex(x, y0)
@@ -119,23 +141,21 @@ export default function MacOSWaves() {
         s.pop()
       }
 
-      function drawLightBlues(colors: string[]) {
+      function drawLightBlues(colors: string[], yOffset: number) {
         s.push()
         s.rotate(s.PI / 20)
-        s.translate(-width / 2, -200)
-        s.scale(2, 2)
-        s.noStroke()
+        s.translate(-width / 2, -200 + yOffset)
+        s.scale(2)
         const size = 100
-        let x = -(size / 2)
-        let y = 0
+        let x = -(size / 2),
+          y = 0
         s.beginShape(s.TRIANGLE_STRIP)
         for (let i = 0; i < colors.length - 1; i++) {
           let j = 0
           while (j < width * 2 + size / 2) {
-            const waveSize = 15
-            const y0 = y + s.sin(delta2 + j + x) * waveSize
-            delta2 += 0.0001 // slowed
-            const y2 = y + size * 1.2 + s.sin(delta2 + j + x) * waveSize
+            const y0 = y + s.sin(delta2 + j + x) * 15
+            delta2 += 0.0001
+            const y2 = y + size * 1.2 + s.sin(delta2 + j + x) * 15
             if (j % 2 === 0) {
               s.fill(colors[i])
               s.vertex(x, y0)
@@ -152,23 +172,28 @@ export default function MacOSWaves() {
         s.pop()
       }
 
-      function drawYellows(colors: string[]) {
+      function drawYellows(colors: string[], yOffset: number) {
         s.push()
-        s.rotate(s.PI / 10)
-        s.translate(-width / 2, -20)
-        s.scale(2, 2)
+        // Slightly flatter rotation for smoother blend under blues
+        s.rotate(s.PI / 12)
+        // 🟡 Move it further left & a bit lower
+        s.translate(-width * 0.7, 40 + yOffset)
+        s.scale(2)
         s.noStroke()
+
         const size = 50
         let x = -(size / 2)
         let y = 0
+
         s.beginShape(s.TRIANGLE_STRIP)
         for (let i = 0; i < colors.length - 1; i++) {
           let j = 0
           while (j < width * 2 + size / 2) {
             const waveSize = 10
             const y0 = y + s.sin(delta1 + j + x) * waveSize
-            delta1 += 0.00005 // slowed
+            delta1 += 0.00005
             const y2 = y + size * 1.2 + s.sin(delta1 + j + x) * waveSize
+
             if (j % 2 === 0) {
               s.fill(colors[i])
               s.vertex(x, y0)
@@ -185,23 +210,22 @@ export default function MacOSWaves() {
         s.pop()
       }
 
-      function drawReds(colors: string[]) {
+      function drawReds(colors: string[], yOffset: number) {
         s.push()
-        s.rotate(s.PI / 6)
-        s.translate(-width, 0)
-        s.scale(1, 1)
-        s.noStroke()
+        // ✅ Lower + flatter diagonal to avoid top cut
+        s.rotate(s.PI / 12)
+        s.translate(-width, 200 + yOffset)
+        s.scale(1)
         const size = 100
-        let x = -(size / 2)
-        let y = 0
+        let x = -(size / 2),
+          y = 0
         s.beginShape(s.TRIANGLE_STRIP)
         for (let i = 0; i < colors.length - 1; i++) {
           let j = 0
           while (j < width * 2 + size / 2) {
-            const waveSize = 20
-            const y0 = y + s.sin(delta + j + x) * waveSize
-            delta += 0.00005 // slowed down
-            const y2 = y + size * 1.2 + s.sin(delta + j + x) * waveSize
+            const y0 = y + s.sin(delta + j + x) * 20
+            delta += 0.00005
+            const y2 = y + size * 1.2 + s.sin(delta + j + x) * 20
             if (j % 2 === 0) {
               s.fill(colors[i])
               s.vertex(x, y0)
@@ -220,10 +244,7 @@ export default function MacOSWaves() {
     }
 
     myp5 = new p5(Sketch, sketchRef.current!)
-
-    return () => {
-      myp5.remove()
-    }
+    return () => myp5.remove()
   }, [theme])
 
   useEffect(() => {
@@ -231,9 +252,11 @@ export default function MacOSWaves() {
   }, [theme])
 
   return (
-    <div
-      ref={sketchRef}
-      className='absolute inset-0 -z-10 h-full w-full overflow-hidden'
-    />
+    <div className='pointer-events-none fixed inset-0 -z-10 h-screen w-screen overflow-hidden'>
+      <div
+        ref={sketchRef}
+        className='absolute inset-0 -z-10 h-full w-full overflow-hidden'
+      />
+    </div>
   )
 }

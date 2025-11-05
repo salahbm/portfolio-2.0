@@ -1,15 +1,20 @@
 import { ScrollStory } from '@/components/landing/scroll-story'
 import { Hero } from '@/components/landing/hero/hero-view'
 import { JourneyScroll } from '@/components/landing/journey'
-import { ParallaxScrollWrapper } from '@/components/providers/parallax-scroll-wrapper'
 import IntroView from '@/components/landing/intro/intro-view'
+import MacOSWaves from '@/components/landing/hero/components/macos-bg'
+import { Header } from '@/components/header'
+import { HobbyView } from '@/components/landing/hobby'
 export default function HomePage() {
   return (
-    <div className='relative h-full'>
+    <div className='relative'>
+      <Header />
+      <MacOSWaves />
       <Hero />
       <IntroView />
-      {/* <JourneyScroll /> */}
+      <JourneyScroll />
       <ScrollStory />
+      <HobbyView />
     </div>
   )
 }

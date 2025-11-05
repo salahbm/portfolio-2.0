@@ -24,7 +24,7 @@ export function Header() {
   return (
     <header
       className={cn(
-        'font-sf-medium sticky top-0 z-[100] hidden md:flex',
+        'font-sf-medium fixed top-0 z-[51] hidden w-full shrink-0 md:flex',
         'h-8 select-none items-center justify-between px-3',
         // ⬇️ Real glass effect
         'bg-white/5 backdrop-blur-xl dark:bg-white/5',

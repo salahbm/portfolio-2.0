@@ -1,0 +1,60 @@
+'use client'
+
+import React from 'react'
+import { motion } from 'framer-motion'
+import { cn } from '@/lib/utils'
+
+interface IPhoneMockupProps {
+  children: React.ReactNode
+  className?: string
+}
+
+export const IPhoneMockup: React.FC<IPhoneMockupProps> = ({
+  children,
+  className,
+}) => {
+  return (
+    <motion.div
+      initial={{ opacity: 0, y: 50, rotateY: -15 }}
+      animate={{ opacity: 1, y: 0, rotateY: 0 }}
+      transition={{ duration: 0.8, ease: 'easeOut' }}
+      className={cn('relative', className)}
+      style={{ perspective: '1000px' }}
+    >
+      {/* iPhone Frame */}
+      <div className='relative mx-auto h-[700px] w-[340px]'>
+        {/* Phone Body */}
+        <div className='absolute inset-0 rounded-[55px] bg-gradient-to-br from-gray-800 via-gray-900 to-black shadow-2xl'>
+          {/* Screen Bezel */}
+          <div className='absolute inset-[3px] rounded-[52px] bg-black'>
+            {/* Notch */}
+            <div className='absolute left-1/2 top-0 z-50 h-[30px] w-[150px] -translate-x-1/2 rounded-b-3xl bg-black'>
+              {/* Speaker */}
+              <div className='absolute left-1/2 top-[10px] h-[6px] w-[60px] -translate-x-1/2 rounded-full bg-gray-800' />
+              {/* Camera */}
+              <div className='absolute right-[20px] top-[10px] h-[10px] w-[10px] rounded-full bg-gray-800 ring-2 ring-gray-700' />
+            </div>
+
+            {/* Screen Content */}
+            <div className='absolute inset-[8px] overflow-hidden rounded-[44px] bg-black'>
+              {children}
+            </div>
+          </div>
+
+          {/* Side Buttons */}
+          {/* Volume Up */}
+          <div className='absolute -left-[3px] top-[120px] h-[30px] w-[3px] rounded-l-sm bg-gray-700' />
+          {/* Volume Down */}
+          <div className='absolute -left-[3px] top-[165px] h-[30px] w-[3px] rounded-l-sm bg-gray-700' />
+          {/* Silent Switch */}
+          <div className='absolute -left-[3px] top-[90px] h-[20px] w-[3px] rounded-l-sm bg-gray-700' />
+          {/* Power Button */}
+          <div className='absolute -right-[3px] top-[140px] h-[50px] w-[3px] rounded-r-sm bg-gray-700' />
+        </div>
+
+        {/* Reflection Effect */}
+        <div className='pointer-events-none absolute inset-0 rounded-[55px] bg-gradient-to-br from-white/10 via-transparent to-transparent' />
+      </div>
+    </motion.div>
+  )
+}
