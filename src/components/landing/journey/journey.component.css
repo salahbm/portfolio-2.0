@@ -1,118 +1,42 @@
-.scroll-progress-wrapper {
-  box-sizing: border-box;
-  scrollbar-color: hsl(var(--primary)) transparent;
-  scrollbar-width: thin;
+/* Journey Section Styles */
+
+.journey-heading {
+  line-height: 1;
+  background-image: linear-gradient(90deg, hsl(var(--background)) 0 0);
+  background-size: 200% 100%;
+  background-repeat: no-repeat;
+  background-position-x: 200%;
+  background-position-y: 0%;
+  background-clip: text;
+  -webkit-background-clip: text;
+  -webkit-text-stroke: 2px hsl(var(--background));
 }
 
-.scroll-progress-wrapper::-webkit-scrollbar {
-  width: 8px;
+.dark .journey-heading {
+  background-image: linear-gradient(90deg, hsl(var(--accent)) 0 0);
+  -webkit-text-stroke: 2px hsl(var(--border));
 }
 
-.scroll-progress-wrapper::-webkit-scrollbar-track {
-  background: transparent;
+@media (max-width: 768px) {
+  .journey-heading {
+    -webkit-text-stroke: 1px hsl(var(--background));
+  }
 }
 
-.scroll-progress-wrapper::-webkit-scrollbar-thumb {
-  background: hsl(var(--primary));
-  border-radius: 4px;
-}
-
-.scroll-progress-wrapper * {
-  box-sizing: border-box;
-}
-
-.scroll-content {
-  height: 200vh;
-  position: relative;
-}
-
-.wrapper-edge::before {
+.progress-line::before {
   content: '';
-  width: 2rem;
-  position: fixed;
-  left: 0;
-  height: 100vh;
-  top: 0;
-  border-right: 1px solid hsl(var(--border));
-  z-index: 0;
+  position: absolute;
+  left: 50%;
+  top: 50%;
+  height: 1px;
+  width: 200vmax;
+  background: hsl(var(--border));
+  z-index: -10;
+  transform: translate(-50%, -50%);
 }
 
 @media (max-width: 768px) {
-  .wrapper-edge::before {
-    opacity: 0;
+  .progress-line::before {
+    display: none;
   }
-}
-
-.progress-container {
-  position: relative;
-  height: 100%;
-}
-
-@media (max-width: 768px) {
-  .progress-container {
-    position: absolute;
-    top: 0;
-    bottom: 0;
-    right: 100%;
-    padding: 0;
-    width: 2rem;
-    z-index: 2;
-  }
-
-  .progress-container .sr-only {
-    position: absolute;
-    height: 1px;
-    width: 1px;
-    clip: rect(0, 0, 0, 0);
-  }
-
-  .sync-span {
-    right: 1rem !important;
-    transform-origin: 100% 50%;
-    rotate: -90deg;
-  }
-
-  .heading h1 {
-    -webkit-text-stroke: 1px hsl(var(--foreground)) !important;
-    background-image:
-      linear-gradient(90deg, hsl(var(--foreground)) 0 0),
-      linear-gradient(90deg, hsl(var(--muted-foreground)) 0 0) !important;
-    background-size:
-      200% 100%,
-      100% 100% !important;
-    background-position-x: 200%, 0 !important;
-  }
-
-  .progress-line-horizontal::before {
-    display: none !important;
-  }
-}
-
-@media (min-width: 768px) {
-  .progress-line-horizontal::before {
-    content: '';
-    position: absolute;
-    left: 50%;
-    top: 50%;
-    height: 1px;
-    width: 200vmax;
-    background: hsl(var(--border));
-    z-index: -1;
-    transform: translate(-50%, -50%);
-  }
-}
-
-.heading h1::selection {
-  background: hsl(var(--primary));
-  color: hsl(var(--primary-foreground));
-}
-
-.heading h1:focus-visible {
-  outline: 0.05em dashed hsl(var(--primary));
-  outline-offset: 0.1em;
-}
-
-.heading:has(:focus-visible) {
-  outline: 0.05em dashed hsl(var(--primary));
-  outline-offset: 0.1em;
 }

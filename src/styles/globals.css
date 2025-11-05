@@ -120,4 +120,13 @@
     will-change: transform;
     mix-blend-mode: screen;
   }
+
+  .no-scrollbar {
+    scrollbar-width: none;
+    -ms-overflow-style: none;
+    overflow-y: scroll;
+    &::-webkit-scrollbar {
+      display: none;
+    }
+  }
 }

@@ -1,10 +1,11 @@
-/* ===== macOS Calm Background Gradients ===== */
+/* ===== macOS Calm Lilac Harmony Gradients ===== */
 
+/* Soft lilac with subtle cool blue shimmer */
 .bg-gradient-lilac {
   background: linear-gradient(
     to top right,
     oklch(0.88 0.06 310),
-    oklch(0.93 0.03 270),
+    oklch(0.92 0.04 290),
     oklch(0.9 0.05 310)
   );
 }
@@ -14,51 +15,85 @@
     to top right,
     oklch(0.25 0.05 280),
     oklch(0.35 0.06 300),
-    oklch(0.45 0.05 320)
+    oklch(0.42 0.05 320)
   );
 }
 
+/* Warmer dawn lilac tones – complements main lilac softly */
 .bg-gradient-sunrise {
   background: linear-gradient(
     to top right,
-    oklch(0.95 0.03 280),
-    oklch(0.9 0.05 300),
-    oklch(0.85 0.07 320)
+    oklch(0.9 0.05 305),
+    oklch(0.87 0.06 320),
+    oklch(0.93 0.04 295)
   );
 }
 
 .dark .bg-gradient-sunrise {
   background: linear-gradient(
     to top right,
-    oklch(0.22 0.05 280),
-    oklch(0.3 0.06 300),
-    oklch(0.4 0.07 320)
+    oklch(0.28 0.05 290),
+    oklch(0.35 0.06 310),
+    oklch(0.42 0.05 325)
   );
 }
 
-.bg-gradient-dark {
-  background: linear-gradient(
-    to top right,
-    oklch(0.22 0.04 300),
-    oklch(0.45 0.1 320),
-    oklch(0.6 0.08 270)
-  );
-}
-
+/* Ethereal glow — bright lilac shimmer overlay */
 .bg-gradient-glow {
   background: linear-gradient(
     to top right,
-    oklch(0.74 0.15 320),
-    oklch(0.6 0.08 270),
-    oklch(0.82 0.12 320)
+    oklch(0.82 0.14 310),
+    oklch(0.88 0.1 295),
+    oklch(0.9 0.12 320)
   );
 }
 
-.bg-gradient-night {
+.dark .bg-gradient-glow {
   background: linear-gradient(
     to top right,
-    oklch(0.17 0.04 300),
-    oklch(0.28 0.03 300),
-    oklch(0.45 0.1 320)
+    oklch(0.3 0.05 290),
+    oklch(0.4 0.07 310),
+    oklch(0.5 0.06 325)
   );
+}
+
+/* ===== macOS Calm Unified Gradient — Lilac × Reds × Yellows × Blues ===== */
+
+.bg-gradient-harmonic {
+  background: linear-gradient(
+    135deg,
+    /* Soft lilac start */ oklch(0.9 0.05 310),
+    /* Warm rose middle */ oklch(0.86 0.08 340),
+    /* Soft gold highlight */ oklch(0.92 0.06 85),
+    /* Gentle light blue fade */ oklch(0.88 0.07 250),
+    /* Return to lilac shimmer */ oklch(0.9 0.05 310)
+  );
+  background-size: 300% 300%;
+  animation: gradientFlow 18s ease-in-out infinite;
+}
+
+.dark .bg-gradient-harmonic {
+  background: linear-gradient(
+    135deg,
+    /* Deep lilac base */ oklch(0.28 0.06 300),
+    /* Magenta–rose depth */ oklch(0.32 0.08 340),
+    /* Golden ember */ oklch(0.36 0.07 80),
+    /* Dark indigo-blue accent */ oklch(0.25 0.07 250),
+    /* Fade back to violet */ oklch(0.28 0.06 300)
+  );
+  background-size: 300% 300%;
+  animation: gradientFlow 20s ease-in-out infinite;
+}
+
+/* Smooth shifting animation */
+@keyframes gradientFlow {
+  0% {
+    background-position: 0% 50%;
+  }
+  50% {
+    background-position: 100% 50%;
+  }
+  100% {
+    background-position: 0% 50%;
+  }
 }

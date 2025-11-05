@@ -1,1 +1,1 @@
-export { JourneySection } from './journey-view'
+export * from './journey-view'

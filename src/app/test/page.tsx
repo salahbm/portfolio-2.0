@@ -1,4 +1,4 @@
-import JourneyScroll from '@/components/landing/journey/journey-view'
+import { JourneyScroll } from '@/components/landing/journey/journey-view'
 import { NextPage } from 'next'
 
 const Test: NextPage = () => {

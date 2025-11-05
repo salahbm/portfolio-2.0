@@ -4,12 +4,19 @@ import React, { useEffect, useRef, useState } from 'react'
 import { motion, useScroll, useTransform } from 'framer-motion'
 import { gsap } from 'gsap'
 import { ScrollTrigger } from 'gsap/ScrollTrigger'
-
 import './journey.component.css'
+import { cn } from '@/lib/utils'
 
 gsap.registerPlugin(ScrollTrigger)
 
-export default function JourneyScroll() {
+const FONTSIZE_MIN = 16
+const FONTSIZE_MAX = 20
+const FONT_RATIO_MIN = 1.15
+const FONT_RATIO_MAX = 1.33
+const FONT_WIDTH_MIN = 375
+const FONT_WIDTH_MAX = 1500
+
+export function JourneyScroll() {
   const [progress, setProgress] = useState(0)
   const [lineHeight, setLineHeight] = useState(0)
   const containerRef = useRef(null)
@@ -23,18 +30,12 @@ export default function JourneyScroll() {
 
   // Calculate fluid typography
   const calculateFluidSize = (level = 4.5) => {
-    const fontSizeMin = 16
-    const fontSizeMax = 20
-    const fontRatioMin = 1.15
-    const fontRatioMax = 1.33
-    const fontWidthMin = 375
-    const fontWidthMax = 1500
+    const fluidMin = FONTSIZE_MIN * Math.pow(FONT_RATIO_MIN, level)
+    const fluidMax = FONTSIZE_MAX * Math.pow(FONT_RATIO_MAX, level)
+    const fluidPreferred =
+      (fluidMax - fluidMin) / (FONT_WIDTH_MAX - FONT_WIDTH_MIN)
 
-    const fluidMin = fontSizeMin * Math.pow(fontRatioMin, level)
-    const fluidMax = fontSizeMax * Math.pow(fontRatioMax, level)
-    const fluidPreferred = (fluidMax - fluidMin) / (fontWidthMax - fontWidthMin)
-
-    return `clamp(${fluidMin / 16}rem, ${fluidMin / 16}rem - ${(fluidPreferred * fontWidthMin) / 16}rem + ${fluidPreferred * 100}vi, ${fluidMax / 16}rem)`
+    return `clamp(${fluidMin / 16}rem, ${fluidMin / 16}rem - ${(fluidPreferred * FONT_WIDTH_MIN) / 16}rem + ${fluidPreferred * 100}vi, ${fluidMax / 16}rem)`
   }
 
   useEffect(() => {
@@ -59,7 +60,6 @@ export default function JourneyScroll() {
         scrub: 0.5,
         onUpdate: (self) => {
           if (headingRef.current) {
-            // Animate from 200% to 100% as scroll progresses
             const newPosition = 200 - self.progress * 100
             gsap.set(headingRef.current, {
               backgroundPositionX: `${newPosition}%`,
@@ -89,9 +89,19 @@ export default function JourneyScroll() {
   const [containerHeight, setContainerHeight] = useState(0)
 
   useEffect(() => {
-    if (progressContainerRef.current) {
-      const height = (progressContainerRef.current as HTMLElement).offsetHeight
-      setContainerHeight(height)
+    const updateHeight = () => {
+      if (progressContainerRef.current) {
+        const height = (progressContainerRef.current as HTMLDivElement)
+          .offsetHeight
+        setContainerHeight(height)
+      }
+    }
+
+    updateHeight()
+    window.addEventListener('resize', updateHeight)
+
+    return () => {
+      window.removeEventListener('resize', updateHeight)
     }
   }, [])
 
@@ -104,110 +114,62 @@ export default function JourneyScroll() {
   return (
     <div
       ref={containerRef}
-      className='scroll-progress-wrapper font-sf-medium relative h-screen w-full overflow-x-hidden bg-background text-foreground'
+      className='font-sf-medium no-scrollbar bg-gradient-harmonic relative box-border h-screen w-full overflow-y-auto overflow-x-hidden'
     >
-      <div ref={scrollContentRef} className='scroll-content'>
-        <div className='wrapper-edge' />
+      <div ref={scrollContentRef} className='relative h-[150vh]'>
+        {/* Left edge line - hidden on mobile */}
+        <div
+          className='pointer-events-none fixed left-0 top-0 z-0 hidden h-screen w-8 border-r border-border md:block'
+          aria-hidden='true'
+        />
+
         <section
-          className='z-1 fixed left-1/2 top-1/2 flex h-[50vh] w-[calc(100vw-4rem)] max-w-[1600px] -translate-x-1/2 -translate-y-1/2'
+          className='fixed left-1/2 top-1/2 z-10 flex h-[70vh] w-[calc(100vw-4rem)] max-w-[1600px] -translate-x-1/2 -translate-y-1/2 lg:h-[50vh]'
           style={{
             fontSize: calculateFluidSize(4.5),
           }}
         >
+          {/* Horizontal border lines */}
           <div
-            className='border-b-2 border-t-2 border-border'
-            style={{
-              content: '',
-              position: 'absolute',
-              top: 0,
-              bottom: 0,
-              width: '100vw',
-              left: '50%',
-              transform: 'translateX(-50%)',
-              pointerEvents: 'none',
-              zIndex: -1,
-            }}
+            className='pointer-events-none absolute inset-y-0 left-1/2 -z-10 w-screen -translate-x-1/2 border-y-2 border-border'
+            aria-hidden='true'
           />
 
+          {/* Progress container */}
           <div
             ref={progressContainerRef}
-            className='progress-container'
-            style={{
-              fontSize: '0.875rem',
-              whiteSpace: 'nowrap',
-              display: 'flex',
-              flexDirection: 'column',
-              justifyContent: 'space-between',
-              paddingInline: '0.75rem',
-              position: 'relative',
-            }}
+            className='pointer-events-none relative flex h-full flex-col justify-between whitespace-nowrap px-3 text-sm max-md:absolute max-md:bottom-0 max-md:right-full max-md:top-0 max-md:z-[2] max-md:w-8 max-md:p-0'
           >
             <span className='sr-only'>100% complete</span>
 
-            <div
-              className='sync'
-              style={{
-                position: 'relative',
-                height: '100%',
-              }}
-            >
+            <div className='relative h-full'>
               <motion.span
-                className='sync-span text-foreground'
+                className='absolute right-3 top-0 inline-block p-0.5 text-background'
                 style={{
-                  position: 'absolute',
-                  right: '0.75rem',
-                  top: 0,
-                  display: 'inline-block',
                   y: progressYPixels,
-                  padding: '0.125rem',
                 }}
               >
-                <span
-                  className='progress-line-horizontal'
-                  style={{
-                    position: 'relative',
-                    fontVariantNumeric: 'tabular-nums',
-                    paddingInline: '0.125rem',
-                    display: 'inline-block',
-                  }}
-                >
+                <span className='progress-line relative inline-block -rotate-90 px-0.5 tabular-nums lg:rotate-0'>
                   {progress}% complete
                 </span>
               </motion.span>
             </div>
           </div>
 
-          <div className='heading relative pl-2'>
+          {/* Heading container */}
+          <div className='pointer-events-auto relative text-center'>
+            {/* Vertical border lines */}
             <div
-              className='border-l-2 border-r-2 border-border'
-              style={{
-                content: '',
-                position: 'absolute',
-                left: 0,
-                right: 0,
-                height: '100vh',
-                top: '50%',
-                transform: 'translateY(-50%)',
-                pointerEvents: 'none',
-                zIndex: -1,
-              }}
+              className='pointer-events-none absolute inset-x-0 top-1/2 -z-0 h-screen -translate-y-1/2 border-x-2 border-border'
+              aria-hidden='true'
             />
 
+            {/* Line height indicator */}
             {lineHeight > 0 && (
               <div
-                className='text-muted-foreground'
-                style={{
-                  position: 'absolute',
-                  height: `${lineHeight}px`,
-                  aspectRatio: '1',
-                  right: 0,
-                  bottom: '100%',
-                  fontSize: '0.875rem',
-                  display: 'flex',
-                  alignItems: 'flex-end',
-                  justifyContent: 'flex-end',
-                  padding: '0 2ch 1ch 0',
-                }}
+                className={cn(
+                  `p-[0 2ch 1ch 0] pointer-events-none absolute bottom-full right-0 flex aspect-square items-end justify-end text-sm text-background h-[${lineHeight}px]`
+                )}
               >
                 {Math.round(lineHeight * 0.86)}px
               </div>
@@ -218,24 +180,7 @@ export default function JourneyScroll() {
               contentEditable
               spellCheck={false}
               suppressContentEditableWarning
-              style={{
-                margin: 0,
-                lineHeight: 1,
-                fontSize: 'inherit',
-                backgroundImage: `linear-gradient(90deg, hsl(var(--foreground)) 0 0)`,
-                backgroundSize: '200% 100%',
-                backgroundRepeat: 'no-repeat',
-                backgroundPositionX: '200%',
-                backgroundPositionY: '0%',
-                color: 'transparent',
-                backgroundClip: 'text',
-                WebkitBackgroundClip: 'text',
-                WebkitTextStroke: '2px hsl(var(--foreground))',
-                display: 'inline',
-                letterSpacing: '0.05ch',
-                outline: 'none',
-                cursor: 'text',
-              }}
+              className='journey-heading m-0 inline cursor-text tracking-[0.05ch] text-transparent outline-none selection:bg-primary selection:text-primary-foreground focus-visible:outline-dashed focus-visible:outline-[0.05em] focus-visible:outline-offset-[0.1em] focus-visible:outline-primary'
             >
               Craft bespoke, artisanal user interfaces driven by a mastery of
               the fundamentals. Craft bespoke, artisanal user interfaces driven
