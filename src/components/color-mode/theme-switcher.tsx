@@ -82,7 +82,7 @@ export function ColorModeDropdownSwitcher() {
         <motion.button
           ref={ref}
           onClick={handleClick}
-          className='dock-item-box relative hidden cursor-pointer lg:flex'
+          className='dock-item-box relative hidden lg:flex'
           animate={controls}
           custom={spring}
           transition={{
@@ -98,7 +98,7 @@ export function ColorModeDropdownSwitcher() {
             fill
             sizes='100px'
             priority
-            className='rounded-lg object-contain p-0.5'
+            className='cursor-pointer rounded-lg object-contain p-0.5'
             onError={() => setHasError(true)}
           />
         </motion.button>

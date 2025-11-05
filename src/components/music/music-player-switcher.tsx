@@ -93,7 +93,7 @@ export function MusicPlayerSwitcher() {
         <motion.button
           ref={ref}
           onClick={togglePlayPause}
-          className='dock-item-box relative hidden cursor-pointer lg:flex'
+          className='dock-item-box relative hidden lg:flex'
           animate={controls}
           custom={spring}
           transition={{
@@ -109,7 +109,7 @@ export function MusicPlayerSwitcher() {
             fill
             sizes='100px'
             priority
-            className='rounded-lg object-contain p-0.5'
+            className='cursor-pointer rounded-lg object-contain p-0.5'
           />
           {/* Play/Pause indicator overlay */}
           <div className='absolute inset-0 flex items-center justify-center rounded-lg bg-black/30 opacity-0 transition-opacity hover:opacity-100'>

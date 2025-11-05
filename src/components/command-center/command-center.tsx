@@ -134,7 +134,7 @@ export function CommandCenter() {
             ref={ref}
             type='button'
             onClick={handleButtonClick}
-            className='dock-item-box relative hidden cursor-pointer lg:flex'
+            className='dock-item-box relative hidden lg:flex'
             animate={controls}
             custom={spring}
             transition={{
@@ -150,7 +150,7 @@ export function CommandCenter() {
               fill
               sizes='100px'
               priority={true}
-              className='rounded-lg object-contain'
+              className='cursor-pointer rounded-lg object-contain'
             />
           </motion.button>
         </TooltipTrigger>

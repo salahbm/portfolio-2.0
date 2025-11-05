@@ -1,197 +1,55 @@
-/* ===== Journey Section Component Styles ===== */
-/* Converted from standalone to component-scoped CSS */
-
-/* Note: Animations are handled by Framer Motion in the component */
-
-/* === Component Root === */
-.journey-section {
-  /* Fluid typography variables */
-  --font-size-min: 16;
-  --font-size-max: 20;
-  --font-ratio-min: 1.15;
-  --font-ratio-max: 1.33;
-  --font-width-min: 375;
-  --font-width-max: 1500;
-
-  /* Visual variables */
-  --line: color-mix(in hsl, canvasText, canvas 75%);
-
-  /* Layout - Normal flow component */
-  min-height: 100vh;
-  position: relative;
-  overflow-x: hidden;
-  display: grid;
-  place-items: center;
-  padding: 4rem 0;
-  font-family: var(--font-sf-medium);
-
-  /* Create view timeline for scroll animations */
-  view-timeline-name: --journey;
-  view-timeline-axis: block;
+.scroll-progress-wrapper {
+  box-sizing: border-box;
+  scrollbar-color: hsl(var(--primary)) transparent;
+  scrollbar-width: thin;
 }
 
-/* === Left Border Decoration === */
-.journey-section::before {
+.scroll-progress-wrapper::-webkit-scrollbar {
+  width: 8px;
+}
+
+.scroll-progress-wrapper::-webkit-scrollbar-track {
+  background: transparent;
+}
+
+.scroll-progress-wrapper::-webkit-scrollbar-thumb {
+  background: hsl(var(--primary));
+  border-radius: 4px;
+}
+
+.scroll-progress-wrapper * {
+  box-sizing: border-box;
+}
+
+.scroll-content {
+  height: 200vh;
+  position: relative;
+}
+
+.wrapper-edge::before {
   content: '';
   width: 2rem;
-  position: absolute;
+  position: fixed;
   left: 0;
-  height: 100%;
+  height: 100vh;
   top: 0;
-  border-right: 1px solid var(--line);
-  z-index: -1;
+  border-right: 1px solid hsl(var(--border));
+  z-index: 0;
+}
 
-  @media (max-width: 768px) {
+@media (max-width: 768px) {
+  .wrapper-edge::before {
     opacity: 0;
   }
 }
 
-/* === Main Section Container === */
-.journey-section section {
-  --font-level: 4.5;
-  width: 18ch;
-  max-width: calc(100vw - 4rem);
-  display: flex;
+.progress-container {
   position: relative;
-  width: 1600px;
-  max-width: 90vw;
-}
-
-.journey-section section::before {
-  content: '';
-  position: absolute;
-  top: 0;
-  bottom: 0;
-  width: 100vw;
-  left: 50%;
-  translate: -50% 0;
-  border-block: 2px solid var(--line);
-}
-
-/* Animations handled by Framer Motion - no CSS animations needed */
-
-/* === Heading Container === */
-.journey-section .heading {
-  position: relative;
-  padding-left: 4px;
-}
-
-.journey-section .heading h1::selection {
-  background: red;
-  color: white;
-}
-
-.journey-section .heading:has(:focus-visible) {
-  outline: 0.05em dashed red;
-  outline-offset: 0.1em;
-}
-
-.journey-section .heading::after {
-  content: '';
-  position: absolute;
-  left: 0;
-  right: 0;
   height: 100%;
-  top: 50%;
-  translate: -0% -50%;
-  border-inline: 2px solid var(--line);
-  pointer-events: none;
-}
-
-/* === Main Heading === */
-.journey-section h1 {
-  margin: 0;
-  line-height: 1;
-  font-size: inherit;
-  background-image: linear-gradient(90deg, canvasText 0 0);
-  background-size: 200% 1lh;
-  background-repeat: no-repeat;
-  background-position-x: 180%;
-  background-position-y: 100%;
-  color: #0000;
-  background-clip: text;
-  -webkit-text-stroke: 2px canvasText;
-  display: inline;
-  text-wrap: pretty;
-  letter-spacing: 0.05ch;
-  outline-offset: 0.5rem;
-  outline: none;
-}
-
-.journey-section h1:focus-visible {
-  outline-style: none;
 }
 
 @media (max-width: 768px) {
-  .journey-section h1 {
-    -webkit-text-stroke: unset;
-    background-image:
-      linear-gradient(90deg, canvasText 0 0),
-      linear-gradient(90deg, color-mix(in hsl, canvasText, #0000 85%) 0 0);
-    background-size:
-      200% 1lh,
-      100% 100%;
-    background-repeat: no-repeat, repeat;
-    background-position-x: 180%;
-    background-position-y: 100%;
-  }
-}
-
-/* === Progress Indicator === */
-.journey-section .progress {
-  font-size: 0.875rem;
-  white-space: nowrap;
-  display: grid;
-  place-items: start;
-  padding-inline: 0.75rem;
-  position: relative;
-}
-
-.journey-section .progress [aria-hidden] {
-  padding-inline: 0.125rem;
-  color: #0000;
-}
-
-@media (max-width: 768px) {
-  .journey-section .progress [aria-hidden] {
-    position: absolute;
-    height: 1px;
-    width: 1px;
-  }
-}
-
-.journey-section .progress .sync {
-  position: absolute;
-  inset: 0;
-  color: #0000;
-  container-type: size;
-}
-
-.journey-section .progress .sync span {
-  position: absolute;
-  right: 0.75rem;
-  display: inline-block;
-  padding: 0.125rem;
-  position: relative;
-  translate: 0 calc((-50% + 1px) + (((var(--progress) * 1cqh) - 1px)));
-}
-
-@media (min-width: 768px) {
-  .journey-section .progress .sync span::before {
-    content: '';
-    position: absolute;
-    left: 50%;
-    top: 50%;
-    height: 1px;
-    width: 200vmax;
-    background: var(--line);
-    z-index: -1;
-    translate: -50% -50%;
-  }
-}
-
-@media (max-width: 768px) {
-  .journey-section .progress {
+  .progress-container {
     position: absolute;
     top: 0;
     bottom: 0;
@@ -201,71 +59,60 @@
     z-index: 2;
   }
 
-  .journey-section .progress .sync {
-    padding: 0;
+  .progress-container .sr-only {
+    position: absolute;
+    height: 1px;
+    width: 1px;
+    clip: rect(0, 0, 0, 0);
   }
 
-  .journey-section .progress .sync span {
-    right: 1rem;
+  .sync-span {
+    right: 1rem !important;
     transform-origin: 100% 50%;
     rotate: -90deg;
-    translate: 0 -50%;
-    transform: translateX(
-      calc(-6px + (var(--progress) / 100) * (-100cqh + 100% + 12px))
-    );
+  }
+
+  .heading h1 {
+    -webkit-text-stroke: 1px hsl(var(--foreground)) !important;
+    background-image:
+      linear-gradient(90deg, hsl(var(--foreground)) 0 0),
+      linear-gradient(90deg, hsl(var(--muted-foreground)) 0 0) !important;
+    background-size:
+      200% 100%,
+      100% 100% !important;
+    background-position-x: 200%, 0 !important;
+  }
+
+  .progress-line-horizontal::before {
+    display: none !important;
   }
 }
 
-.journey-section .progress .sync span {
-  color: color-mix(in hsl, canvas, canvasText);
-  font-variant: tabular-nums;
-  padding-inline: 0.125rem;
-  position: relative;
+@media (min-width: 768px) {
+  .progress-line-horizontal::before {
+    content: '';
+    position: absolute;
+    left: 50%;
+    top: 50%;
+    height: 1px;
+    width: 200vmax;
+    background: hsl(var(--border));
+    z-index: -1;
+    transform: translate(-50%, -50%);
+  }
 }
 
-.journey-section .progress .sync span::after {
-  content: '';
-  background: linear-gradient(90deg, light-dark(#fff, #000) 0 0) 50% 50% / 100%
-    4px no-repeat;
-  position: absolute;
-  left: 0;
-  right: 0;
-  top: 50%;
-  transform: translateY(-50%);
-  z-index: -1;
+.heading h1::selection {
+  background: hsl(var(--primary));
+  color: hsl(var(--primary-foreground));
 }
 
-/* === Fluid Typography === */
-.journey-section :where(.fluid) {
-  --fluid-min: calc(
-    var(--font-size-min) * pow(var(--font-ratio-min), var(--font-level, 0))
-  );
-  --fluid-max: calc(
-    var(--font-size-max) * pow(var(--font-ratio-max), var(--font-level, 0))
-  );
-  --fluid-preferred: calc(
-    (var(--fluid-max) - var(--fluid-min)) /
-      (var(--font-width-max) - var(--font-width-min))
-  );
-  --fluid-type: clamp(
-    (var(--fluid-min) / 16) * 1rem,
-    ((var(--fluid-min) / 16) * 1rem) -
-      (((var(--fluid-preferred) * var(--font-width-min)) / 16) * 1rem) +
-      (var(--fluid-preferred) * var(--variable-unit, 100vi)),
-    (var(--fluid-max) / 16) * 1rem
-  );
-  font-size: var(--fluid-type);
+.heading h1:focus-visible {
+  outline: 0.05em dashed hsl(var(--primary));
+  outline-offset: 0.1em;
 }
 
-/* === Utilities === */
-.journey-section .sr-only {
-  position: absolute;
-  width: 1px;
-  height: 1px;
-  padding: 0;
-  margin: -1px;
-  overflow: hidden;
-  clip: rect(0, 0, 0, 0);
-  white-space: nowrap;
-  border-width: 0;
+.heading:has(:focus-visible) {
+  outline: 0.05em dashed hsl(var(--primary));
+  outline-offset: 0.1em;
 }
