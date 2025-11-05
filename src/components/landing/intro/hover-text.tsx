@@ -73,7 +73,7 @@ const HoverText = ({
       <motion.a
         className={cn(
           'relative inline-block cursor-pointer font-semibold tracking-wide transition-all duration-300',
-          'bg-gradient-to-r from-[oklch(0.78_0.16_280)] via-[oklch(0.82_0.18_305)] to-[oklch(0.86_0.15_330)] bg-clip-text text-transparent'
+          'bg-gradient-to-r from-[oklch(0.78_0.24_45)] via-[oklch(0.80_0.18_310)] to-[oklch(0.82_0.20_270)] bg-clip-text text-transparent'
         )}
         whileHover={{
           scaleY: 1.1,

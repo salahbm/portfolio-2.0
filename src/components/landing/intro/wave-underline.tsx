@@ -10,7 +10,8 @@ export function WaveUnderline() {
     if (!pathRef.current) return
 
     // Define two wave states
-    const wave2 = 'M0,5 Q10,10 20,5 T40,5 T60,5 T80,5 T100,5'
+    const wave2 =
+      'M0,5 Q10,10 20,5 T40,5 T60,5 T80,5 T100,5 T120,5 T140,5 T160,5 T180,5 T200,5'
 
     // Animate between the two
     gsap.to(pathRef.current, {
@@ -25,13 +26,13 @@ export function WaveUnderline() {
   return (
     <svg
       height='10'
-      viewBox='0 0 100 10'
+      viewBox='0 0 250 10'
       preserveAspectRatio='none'
       xmlns='http://www.w3.org/2000/svg'
     >
       <path
         ref={pathRef}
-        d='M0,5 Q10,0 20,5 T40,5 T60,5 T80,5 T100,5'
+        d='M0,5 Q10,0 20,5 T40,5 T60,5 T80,5 T100,5 T120,5 T140,5 T160,5 T180,5 T200,5'
         fill='none'
         stroke='currentColor'
         strokeWidth='4'

@@ -1,29 +1,11 @@
 'use client'
 
-import { useEffect, useRef } from 'react'
+import { useEffect } from 'react'
 import { motion, useAnimation } from 'motion/react'
-import gsap from 'gsap'
 import { EnvelopeClosedIcon } from '@radix-ui/react-icons'
 
 export function ContactHero() {
-  const textRef = useRef<HTMLDivElement>(null)
-  const arrowsRef = useRef<HTMLDivElement>(null)
   const controls = useAnimation()
-
-  // === GSAP Entrance ===
-  useEffect(() => {
-    const tl = gsap.timeline({ defaults: { ease: 'power3.out' } })
-    tl.fromTo(
-      textRef.current,
-      { opacity: 0, y: 40 },
-      { opacity: 1, y: 0, duration: 0.8 }
-    ).fromTo(
-      arrowsRef.current,
-      { opacity: 0, x: -12 },
-      { opacity: 1, x: 0, duration: 0.6 },
-      '-=0.3'
-    )
-  }, [])
 
   // === Blob Entrance (scale + breathing) ===
   useEffect(() => {
@@ -142,7 +124,13 @@ export function ContactHero() {
     <section className='w-full'>
       <div className='mx-auto flex min-h-[70vh] max-w-7xl flex-col items-center justify-center gap-8 px-6 py-16 lg:flex-row lg:items-center lg:gap-12 lg:px-12'>
         {/* Left: Text */}
-        <div ref={textRef} className='max-w-2xl text-center lg:text-left'>
+        <motion.div
+          initial={{ opacity: 0, y: 40 }}
+          whileInView={{ opacity: 1, y: 0 }}
+          viewport={{ once: true }}
+          transition={{ duration: 0.8, ease: [0.16, 1, 0.3, 1] }}
+          className='max-w-2xl text-center lg:text-left'
+        >
           <p className='mb-3 text-sm text-primary'>
             Are you looking for a talented developer to enhance your digital
             presence?
@@ -157,18 +145,21 @@ export function ContactHero() {
             </a>{' '}
             right now.
           </p>
-        </div>
+        </motion.div>
 
         {/* Middle: Unique Arrows */}
-        <div
-          ref={arrowsRef}
+        <motion.div
+          initial={{ opacity: 0, x: -12 }}
+          whileInView={{ opacity: 1, x: 0 }}
+          viewport={{ once: true }}
+          transition={{ duration: 0.6, ease: [0.16, 1, 0.3, 1], delay: 0.3 }}
           className='flex items-center gap-2 sm:gap-3'
           aria-hidden
         >
           <ArrowA delay={0} />
           <ArrowB delay={0.12} />
           <ArrowC delay={0.24} />
-        </div>
+        </motion.div>
 
         {/* Right: Blob + Mail */}
         <motion.div

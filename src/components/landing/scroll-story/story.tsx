@@ -1,5 +1,6 @@
 'use client'
 import { useEffect, useRef } from 'react'
+import { motion } from 'framer-motion'
 import gsap from 'gsap'
 import ScrollTrigger from 'gsap/ScrollTrigger'
 import './story.component.css'
@@ -76,7 +77,16 @@ export function ScrollStory() {
   }, [])
 
   return (
-    <section className='scroll-story relative flex w-full flex-col items-center justify-center py-24'>
+    <motion.section
+      initial={{ opacity: 0, y: 40 }}
+      whileInView={{ opacity: 1, y: 0 }}
+      viewport={{ once: true, amount: 0.2 }}
+      transition={{ duration: 1, ease: 'easeOut' }}
+      className='scroll-story relative flex w-full flex-col items-center justify-center py-24'
+    >
+      <h1 className='text-gradient-flare mb-44 font-monument-extended text-5xl font-extrabold leading-tight md:text-7xl'>
+        This is how I bring ideas to life
+      </h1>
       {/* headline + scroll words */}
       <div className='content-wrapper flex w-full flex-col items-center px-6 md:flex-row md:items-start md:justify-center md:gap-10 md:px-12'>
         {/* headline */}
@@ -105,11 +115,11 @@ export function ScrollStory() {
       </div>
 
       <div className='flex min-h-[50vh] items-center justify-center px-6 text-center md:px-0'>
-        <p className='text-gradient-body max-w-xl text-lg font-light leading-relaxed md:text-2xl'>
+        <p className='text-gradient-vibe max-w-3xl text-lg font-light leading-relaxed md:text-2xl lg:text-4xl'>
           Each project is an experiment — a new blend of design, motion, and
           development that grows into something living and memorable.
         </p>
       </div>
-    </section>
+    </motion.section>
   )
 }

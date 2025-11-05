@@ -19,25 +19,27 @@ export default function IntroView() {
         className='relative z-10 mx-auto w-full max-w-5xl px-6 text-center font-syne leading-relaxed text-background'
       >
         {/* Headline */}
-        <p
+        <div
           className='text-outline mb-8 font-light leading-[1.4] tracking-wide'
           style={{
-            fontSize: 'clamp(1.6rem, 3.5vw, 2.4rem)',
+            fontSize: 'clamp(1.6rem, 3.5vw, 2.5rem)',
           }}
         >
           Hey, I’m{' '}
           <span className='relative font-semibold'>
-            Muhammad
-            <WaveUnderline />
+            Muhammad,
+            <span className='absolute -bottom-2 left-0 right-0'>
+              <WaveUnderline />
+            </span>{' '}
           </span>
-          , but most people just call me Salah (살라).
-        </p>
+          but most people just call me Salah (살라).
+        </div>
 
         {/* Location line */}
-        <p
+        <div
           className='text-outline mb-8 font-light leading-normal text-popover-foreground'
           style={{
-            fontSize: 'clamp(1.4rem, 3vw, 2rem)',
+            fontSize: 'clamp(1.4rem, 3vw, 2.5rem)',
           }}
         >
           Originally from{' '}
@@ -55,13 +57,13 @@ export default function IntroView() {
             setActiveWord={setActiveWord}
           />
           , chasing light and ideas since 2019.
-        </p>
+        </div>
 
         {/* Education line */}
-        <p
+        <div
           className='text-outline font-light leading-[1.6] text-popover-foreground'
           style={{
-            fontSize: 'clamp(1.2rem, 2.5vw, 1.8rem)',
+            fontSize: 'clamp(1.2rem, 2.5vw, 2.5rem)',
           }}
         >
           Studied Computer Science at{' '}
@@ -73,10 +75,10 @@ export default function IntroView() {
           />
           , and I’ve been writing code, breaking things, and learning to fix
           them better ever since.
-        </p>
+        </div>
       </motion.div>
 
-      <span className='mt-10 flex items-center gap-2 text-sm text-popover-foreground'>
+      <span className='mt-10 flex items-center gap-2 text-sm text-muted-foreground'>
         <InfoCircledIcon className='inline-block' />
         Hover on the gradient texts to see the images
       </span>

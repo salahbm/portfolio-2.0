@@ -86,6 +86,7 @@ export default function ScrollBlob() {
           onPointerEnter={() => setHovered(true)}
           onPointerLeave={onPointerLeave}
           onPointerMove={onPointerMove}
+          cursor='pointer'
         >
           <defs>
             {/* ====== GLOW + DROP SHADOW FILTER ====== */}

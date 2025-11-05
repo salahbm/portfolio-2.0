@@ -5,7 +5,6 @@ import { motion, useScroll, useTransform } from 'framer-motion'
 import { gsap } from 'gsap'
 import { ScrollTrigger } from 'gsap/ScrollTrigger'
 import './journey.component.css'
-import { cn } from '@/lib/utils'
 
 gsap.registerPlugin(ScrollTrigger)
 
@@ -18,8 +17,7 @@ const FONT_WIDTH_MAX = 1500
 
 export function JourneyScroll() {
   const [progress, setProgress] = useState(0)
-  const [lineHeight, setLineHeight] = useState(0)
-  const containerRef = useRef(null)
+  const containerRef = useRef<HTMLElement | null>(null)
   const headingRef = useRef(null)
   const scrollContentRef = useRef(null)
   const progressContainerRef = useRef(null)
@@ -39,13 +37,6 @@ export function JourneyScroll() {
   }
 
   useEffect(() => {
-    // Measure line height
-    if (headingRef.current) {
-      const computedStyle = window.getComputedStyle(headingRef.current)
-      const lh = parseFloat(computedStyle.lineHeight)
-      setLineHeight(lh)
-    }
-
     // GSAP scroll-triggered text fill animation
     if (
       headingRef.current &&
@@ -112,9 +103,13 @@ export function JourneyScroll() {
   )
 
   return (
-    <section
+    <motion.section
       ref={containerRef}
-      className='no-scrollbar relative isolate box-border h-screen w-full overflow-y-auto overflow-x-hidden font-sf-medium'
+      initial={{ opacity: 0 }}
+      whileInView={{ opacity: 1 }}
+      viewport={{ once: true, amount: 0.2 }}
+      transition={{ duration: 1, ease: 'easeOut' }}
+      className='font-sf-medium no-scrollbar relative isolate box-border h-screen w-full overflow-y-auto overflow-x-hidden'
     >
       <div ref={scrollContentRef} className='relative h-[150vh]'>
         {/* Left edge line - hidden on mobile */}
@@ -124,7 +119,7 @@ export function JourneyScroll() {
         />
 
         <div
-          className='sticky left-1/2 top-1/2 z-10 flex h-[50vh] w-[calc(100vw-10rem)] -translate-y-1/2'
+          className='sticky left-1/2 top-1/2 z-0 flex h-[50vh] w-[calc(100vw-10rem)] -translate-y-1/2'
           style={{
             fontSize: calculateFluidSize(4.5),
           }}
@@ -138,12 +133,12 @@ export function JourneyScroll() {
 
             <div className='relative h-full'>
               <motion.span
-                className='absolute right-5 top-0 inline-block p-0.5 text-background'
+                className='absolute left-0 top-0 inline-block text-background'
                 style={{
                   y: progressYPixels,
                 }}
               >
-                <span className='progress-line relative inline-block -rotate-90 px-0.5 tabular-nums lg:rotate-0'>
+                <span className='progress-line relative z-10 inline-block -rotate-90 font-monument-extended tabular-nums lg:rotate-0'>
                   {progress}% complete
                 </span>
               </motion.span>
@@ -152,17 +147,6 @@ export function JourneyScroll() {
 
           {/* Heading container */}
           <div className='pointer-events-auto relative mx-auto self-center text-center'>
-            {/* Line height indicator */}
-            {lineHeight > 0 && (
-              <div
-                className={cn(
-                  `p-[0 2ch 1ch 0] pointer-events-none absolute bottom-full right-0 flex aspect-square items-end justify-end text-sm text-background h-[${lineHeight}px]`
-                )}
-              >
-                {Math.round(lineHeight * 0.86)}px
-              </div>
-            )}
-
             <h1
               ref={headingRef}
               contentEditable
@@ -178,6 +162,6 @@ export function JourneyScroll() {
           </div>
         </div>
       </div>
-    </section>
+    </motion.section>
   )
 }

@@ -1,7 +1,6 @@
 'use client'
-import React, { useEffect, useRef, useState } from 'react'
+import React, { ReactNode, useState } from 'react'
 import { motion } from 'framer-motion'
-import gsap from 'gsap'
 import {
   Reel,
   ReelContent,
@@ -10,6 +9,7 @@ import {
   ReelNavigation,
   ReelVideo,
   ReelImage,
+  ReelProgress,
 } from '@/components/ui/reel'
 import { IPhoneMockup } from '@/components/landing/hobby/iphone-mockup'
 import { StoryOverlay } from '@/components/landing/hobby/story-overlay'
@@ -46,60 +46,29 @@ const reels: ReelItemType[] = [
 
 const HobbyView: React.FC = () => {
   const [currentIndex, setCurrentIndex] = useState(0)
-  const titleRef = useRef<HTMLHeadingElement>(null)
-  const textRef = useRef<HTMLParagraphElement>(null)
-
-  useEffect(() => {
-    if (titleRef.current) {
-      gsap.fromTo(
-        titleRef.current,
-        { opacity: 0, y: -40, scale: 0.9 },
-        {
-          opacity: 1,
-          y: 0,
-          scale: 1,
-          duration: 1,
-          ease: 'power3.out',
-          delay: 0.2,
-        }
-      )
-    }
-
-    if (textRef.current) {
-      gsap.fromTo(
-        textRef.current,
-        { opacity: 0, y: 20 },
-        {
-          opacity: 1,
-          y: 0,
-          duration: 0.9,
-          ease: 'power2.out',
-          delay: 0.7,
-        }
-      )
-    }
-  }, [])
 
   return (
     <div className='relative flex min-h-screen w-full items-center justify-center overflow-hidden py-20'>
       {/* Gradient lights */}
       <motion.div
         initial={{ opacity: 0, scale: 0 }}
-        animate={{
+        whileInView={{
           scale: [0, 1.2, 1],
           rotate: [0, 90, 0],
           opacity: [0, 0.25, 0.15],
         }}
+        viewport={{ once: true }}
         transition={{ duration: 2, ease: 'easeOut' }}
         className='bg-gradient-lilac absolute left-16 top-24 h-72 w-72 rounded-full blur-3xl'
       />
       <motion.div
         initial={{ opacity: 0, scale: 0 }}
-        animate={{
+        whileInView={{
           scale: [0, 1.3, 1],
           rotate: [0, -90, 0],
           opacity: [0, 0.25, 0.15],
         }}
+        viewport={{ once: true }}
         transition={{
           duration: 2.5,
           ease: 'easeOut',
@@ -112,35 +81,32 @@ const HobbyView: React.FC = () => {
         {/* Text */}
         <motion.div
           initial={{ opacity: 0, x: -80 }}
-          animate={{ opacity: 1, x: 0 }}
+          whileInView={{ opacity: 1, x: 0 }}
+          viewport={{ once: true }}
           transition={{ duration: 1, delay: 0.2 }}
           className='flex-1 text-center lg:text-left'
         >
-          <h1
-            ref={titleRef}
-            className='mb-8 text-5xl font-semibold leading-tight text-primary md:text-6xl lg:text-7xl'
-          >
+          <h1 className='text-gradient-lilac mb-8 text-5xl font-semibold leading-tight md:text-6xl lg:text-7xl'>
             Outside the Code
           </h1>
-
-          <p
-            ref={textRef}
-            className='max-w-2xl text-base leading-relaxed tracking-wide text-muted-foreground md:text-lg lg:text-xl'
-          >
-            Except for coding, I spend a fair bit of time at the gym — mostly
-            convincing myself that stretching counts as a workout. When I’m not
-            pretending to lift heavy things, I love experimenting in the kitchen
-            (success rate: confidential). And some weekends, I’ll find a quiet
-            corner café — the kind that plays jazz too loud and serves coffee
-            too strong — and call it “research for better focus”. It’s the
-            balance I never planned for but somehow keep chasing.
+          <p className='font-sf-medium text-gradient-flare max-w-3xl text-base leading-loose tracking-wide md:text-lg lg:text-2xl'>
+            When I’m not building things for the web, I’m usually at the gym,
+            trying to make stretching look like strength training.
+            <br />
+            <br />
+            I experiment in the kitchen, mostly learning what *not* to do.
+            <br />
+            <br />
+            And I love a good café with loud jazz and stronger coffee — that’s
+            where most of my “deep work” happens.
           </p>
         </motion.div>
 
         {/* Reel */}
         <motion.div
           initial={{ opacity: 0, x: 100, rotateY: -30 }}
-          animate={{ opacity: 1, x: 0, rotateY: 0 }}
+          whileInView={{ opacity: 1, x: 0, rotateY: 0 }}
+          viewport={{ once: true }}
           transition={{ duration: 1, delay: 0.5, ease: 'easeOut' }}
           className='w-full max-w-sm shrink-0 md:max-w-md lg:max-w-sm xl:max-w-md'
         >
@@ -153,31 +119,19 @@ const HobbyView: React.FC = () => {
               index={currentIndex}
             >
               {/* Progress bars */}
-              <div className='absolute left-0 right-0 top-10 z-40 flex gap-1 px-3'>
-                {reels.map((_, index) => {
-                  const isActive = index === currentIndex
-                  const isPast = index < currentIndex
-                  return (
+              <ReelProgress className='left-0 right-0 top-10 px-3'>
+                {(_item, _index, _isActive, progressValue): ReactNode => (
+                  <div className='relative h-[2px] w-full overflow-hidden rounded-full bg-white/30'>
                     <div
-                      key={index}
-                      className='relative h-[2px] flex-1 overflow-hidden rounded-full bg-white/30'
-                    >
-                      <motion.div
-                        className='absolute inset-0 origin-left bg-white'
-                        initial={{ scaleX: 0 }}
-                        animate={{
-                          scaleX: isPast ? 1 : isActive ? 1 : 0,
-                        }}
-                        transition={{
-                          duration: isActive ? reels[index].duration : 0.3,
-                          ease: 'linear',
-                        }}
-                        style={{ transformOrigin: 'left' }}
-                      />
-                    </div>
-                  )
-                })}
-              </div>
+                      className='absolute inset-0 origin-left bg-white transition-all duration-100 ease-linear'
+                      style={{
+                        transform: `scaleX(${progressValue / 100})`,
+                        transformOrigin: 'left',
+                      }}
+                    />
+                  </div>
+                )}
+              </ReelProgress>
 
               <ReelContent>
                 {(reel) => (

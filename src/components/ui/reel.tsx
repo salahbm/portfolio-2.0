@@ -436,14 +436,17 @@ export const ReelImage = ({
     <img
       alt={alt}
       className={cn('absolute inset-0 size-full object-cover', className)}
-      height={Number(height)}
-      width={Number(width)}
+      {...(height && { height: Number(height) })}
+      {...(width && { width: Number(width) })}
       {...props}
     />
   )
 }
 
-export type ReelProgressProps = HTMLAttributes<HTMLDivElement> & {
+export type ReelProgressProps = Omit<
+  HTMLAttributes<HTMLDivElement>,
+  'children'
+> & {
   children?: (
     item: ReelItem,
     index: number,
