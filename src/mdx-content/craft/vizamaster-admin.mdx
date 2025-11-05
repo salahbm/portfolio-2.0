@@ -14,6 +14,7 @@ The **VIZA MASTER Admin Dashboard** is the control center for managing internati
 ## The Admin Challenge
 
 Managing a multilingual job board requires:
+
 - **Bulk operations** – Creating and updating hundreds of listings efficiently
 - **Data validation** – Ensuring content quality across languages
 - **File management** – Uploading and organizing images for countries and jobs
@@ -25,6 +26,7 @@ This dashboard solves these challenges with a modern, type-safe architecture.
 ## The Solution
 
 📊 **Data Management**
+
 - Interactive tables with sorting, filtering, and pagination
 - Inline editing for quick updates
 - Bulk delete operations
@@ -32,6 +34,7 @@ This dashboard solves these challenges with a modern, type-safe architecture.
 - Export functionality for reporting
 
 🖼️ **Media Management**
+
 - Drag-and-drop image uploads with UploadThing
 - Automatic CDN delivery and optimization
 - Image preview before upload
@@ -39,6 +42,7 @@ This dashboard solves these challenges with a modern, type-safe architecture.
 - Progress indicators during upload
 
 🔐 **Security & Auth**
+
 - NextAuth with credentials provider
 - Bcrypt password hashing
 - Protected API routes
@@ -46,6 +50,7 @@ This dashboard solves these challenges with a modern, type-safe architecture.
 - Automatic logout on token expiration
 
 ⚡ **Performance**
+
 - Server-side data fetching
 - Optimistic UI updates
 - Suspense boundaries for loading states
@@ -87,14 +92,16 @@ const countryColumns: ColumnDef<Country>[] = [
     accessorKey: 'name',
     header: ({ column }) => (
       <Button
-        variant="ghost"
+        variant='ghost'
         onClick={() => column.toggleSorting(column.getIsSorted() === 'asc')}
       >
         Country Name
-        <ArrowUpDown className="ml-2 h-4 w-4" />
+        <ArrowUpDown className='ml-2 h-4 w-4' />
       </Button>
     ),
-    cell: ({ row }) => <div className="font-medium">{row.getValue('name')}</div>,
+    cell: ({ row }) => (
+      <div className='font-medium'>{row.getValue('name')}</div>
+    ),
   },
   {
     accessorKey: 'activeJobs',
@@ -102,9 +109,7 @@ const countryColumns: ColumnDef<Country>[] = [
     cell: ({ row }) => {
       const count = row.original._count?.jobs || 0
       return (
-        <Badge variant={count > 0 ? 'default' : 'secondary'}>
-          {count}
-        </Badge>
+        <Badge variant={count > 0 ? 'default' : 'secondary'}>{count}</Badge>
       )
     },
   },
@@ -115,11 +120,11 @@ const countryColumns: ColumnDef<Country>[] = [
       return (
         <DropdownMenu>
           <DropdownMenuTrigger asChild>
-            <Button variant="ghost" className="h-8 w-8 p-0">
-              <MoreHorizontal className="h-4 w-4" />
+            <Button variant='ghost' className='h-8 w-8 p-0'>
+              <MoreHorizontal className='h-4 w-4' />
             </Button>
           </DropdownMenuTrigger>
-          <DropdownMenuContent align="end">
+          <DropdownMenuContent align='end'>
             <DropdownMenuItem onClick={() => handleEdit(country)}>
               Edit
             </DropdownMenuItem>
@@ -141,7 +146,7 @@ The admin page fetches data on the server for optimal performance:
 // app/[locale]/admin/page.tsx
 export default async function AdminDashboard() {
   const session = await getServerSession(authOptions)
-  
+
   if (!session) {
     redirect('/auth/signin')
   }
@@ -153,20 +158,20 @@ export default async function AdminDashboard() {
   ])
 
   return (
-    <div className="space-y-8">
+    <div className='space-y-8'>
       <DashboardStats stats={stats} />
-      
-      <Tabs defaultValue="countries">
+
+      <Tabs defaultValue='countries'>
         <TabsList>
-          <TabsTrigger value="countries">Countries</TabsTrigger>
-          <TabsTrigger value="vacancies">Vacancies</TabsTrigger>
+          <TabsTrigger value='countries'>Countries</TabsTrigger>
+          <TabsTrigger value='vacancies'>Vacancies</TabsTrigger>
         </TabsList>
-        
-        <TabsContent value="countries">
+
+        <TabsContent value='countries'>
           <CountriesTable initialData={countries} />
         </TabsContent>
-        
-        <TabsContent value="vacancies">
+
+        <TabsContent value='vacancies'>
           <VacanciesTable initialData={vacancies} />
         </TabsContent>
       </Tabs>
@@ -187,11 +192,11 @@ const f = createUploadthing()
 
 const handleAdmin = async () => {
   const session = await getServerSession(authOptions)
-  
+
   if (!session?.user) {
     throw new Error('Unauthorized')
   }
-  
+
   return { userId: session.user.id }
 }
 
@@ -203,7 +208,7 @@ export const ourFileRouter = {
       console.log('File URL:', file.url)
       return { uploadedBy: metadata.userId, url: file.url }
     }),
-    
+
   jobImage: f({ image: { maxFileSize: '2MB', maxFileCount: 3 } })
     .middleware(handleAdmin)
     .onUploadComplete(async ({ metadata, file }) => {
@@ -261,7 +266,9 @@ export function useDeleteCountry() {
 ```
 
 <Callout icon='💡'>
-  Optimistic updates make the UI feel instant while maintaining data consistency. If the server request fails, React Query automatically rolls back the optimistic update.
+  Optimistic updates make the UI feel instant while maintaining data
+  consistency. If the server request fails, React Query automatically rolls back
+  the optimistic update.
 </Callout>
 
 ## Code Highlights
@@ -274,62 +281,54 @@ Real-time stats provide insights at a glance:
 // components/admin/dashboard-stats.tsx
 export function DashboardStats({ stats }: { stats: DashboardStats }) {
   return (
-    <div className="grid gap-4 md:grid-cols-2 lg:grid-cols-4">
+    <div className='grid gap-4 md:grid-cols-2 lg:grid-cols-4'>
       <Card>
-        <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
-          <CardTitle className="text-sm font-medium">
-            Total Countries
-          </CardTitle>
-          <Globe className="h-4 w-4 text-muted-foreground" />
+        <CardHeader className='flex flex-row items-center justify-between space-y-0 pb-2'>
+          <CardTitle className='text-sm font-medium'>Total Countries</CardTitle>
+          <Globe className='h-4 w-4 text-muted-foreground' />
         </CardHeader>
         <CardContent>
-          <div className="text-2xl font-bold">{stats.totalCountries}</div>
-          <p className="text-xs text-muted-foreground">
+          <div className='text-2xl font-bold'>{stats.totalCountries}</div>
+          <p className='text-xs text-muted-foreground'>
             +{stats.newCountriesThisMonth} this month
           </p>
         </CardContent>
       </Card>
 
       <Card>
-        <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
-          <CardTitle className="text-sm font-medium">
-            Active Jobs
-          </CardTitle>
-          <Briefcase className="h-4 w-4 text-muted-foreground" />
+        <CardHeader className='flex flex-row items-center justify-between space-y-0 pb-2'>
+          <CardTitle className='text-sm font-medium'>Active Jobs</CardTitle>
+          <Briefcase className='h-4 w-4 text-muted-foreground' />
         </CardHeader>
         <CardContent>
-          <div className="text-2xl font-bold">{stats.activeJobs}</div>
-          <p className="text-xs text-muted-foreground">
+          <div className='text-2xl font-bold'>{stats.activeJobs}</div>
+          <p className='text-xs text-muted-foreground'>
             {stats.pendingJobs} pending approval
           </p>
         </CardContent>
       </Card>
 
       <Card>
-        <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
-          <CardTitle className="text-sm font-medium">
-            Applications
-          </CardTitle>
-          <Users className="h-4 w-4 text-muted-foreground" />
+        <CardHeader className='flex flex-row items-center justify-between space-y-0 pb-2'>
+          <CardTitle className='text-sm font-medium'>Applications</CardTitle>
+          <Users className='h-4 w-4 text-muted-foreground' />
         </CardHeader>
         <CardContent>
-          <div className="text-2xl font-bold">{stats.totalApplications}</div>
-          <p className="text-xs text-muted-foreground">
+          <div className='text-2xl font-bold'>{stats.totalApplications}</div>
+          <p className='text-xs text-muted-foreground'>
             +{stats.applicationsThisWeek} this week
           </p>
         </CardContent>
       </Card>
 
       <Card>
-        <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
-          <CardTitle className="text-sm font-medium">
-            Success Rate
-          </CardTitle>
-          <TrendingUp className="h-4 w-4 text-muted-foreground" />
+        <CardHeader className='flex flex-row items-center justify-between space-y-0 pb-2'>
+          <CardTitle className='text-sm font-medium'>Success Rate</CardTitle>
+          <TrendingUp className='h-4 w-4 text-muted-foreground' />
         </CardHeader>
         <CardContent>
-          <div className="text-2xl font-bold">{stats.successRate}%</div>
-          <p className="text-xs text-muted-foreground">
+          <div className='text-2xl font-bold'>{stats.successRate}%</div>
+          <p className='text-xs text-muted-foreground'>
             +{stats.successRateChange}% from last month
           </p>
         </CardContent>
@@ -344,15 +343,15 @@ export function DashboardStats({ stats }: { stats: DashboardStats }) {
 ```tsx
 // components/admin/country-form.tsx
 <Form {...form}>
-  <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-6">
+  <form onSubmit={form.handleSubmit(onSubmit)} className='space-y-6'>
     <FormField
       control={form.control}
-      name="name"
+      name='name'
       render={({ field }) => (
         <FormItem>
           <FormLabel>Country Name</FormLabel>
           <FormControl>
-            <Input placeholder="United States" {...field} />
+            <Input placeholder='United States' {...field} />
           </FormControl>
           <FormMessage />
         </FormItem>
@@ -361,13 +360,13 @@ export function DashboardStats({ stats }: { stats: DashboardStats }) {
 
     <FormField
       control={form.control}
-      name="imageUrl"
+      name='imageUrl'
       render={({ field }) => (
         <FormItem>
           <FormLabel>Country Image</FormLabel>
           <FormControl>
             <UploadDropzone
-              endpoint="countryImage"
+              endpoint='countryImage'
               onClientUploadComplete={(res) => {
                 field.onChange(res?.[0].url)
                 toast({
@@ -385,12 +384,12 @@ export function DashboardStats({ stats }: { stats: DashboardStats }) {
             />
           </FormControl>
           {field.value && (
-            <div className="relative h-40 w-40">
+            <div className='relative h-40 w-40'>
               <Image
                 src={field.value}
-                alt="Country preview"
+                alt='Country preview'
                 fill
-                className="rounded-lg object-cover"
+                className='rounded-lg object-cover'
               />
             </div>
           )}
@@ -399,7 +398,7 @@ export function DashboardStats({ stats }: { stats: DashboardStats }) {
       )}
     />
 
-    <Button type="submit" disabled={isSubmitting}>
+    <Button type='submit' disabled={isSubmitting}>
       {isSubmitting ? 'Saving...' : 'Save Country'}
     </Button>
   </form>
@@ -408,7 +407,10 @@ export function DashboardStats({ stats }: { stats: DashboardStats }) {
 
 ## Demo
 
-<Image src='/medias/mdx-content/vizamaster-admin.png' alt='VIZA MASTER admin dashboard with data tables' />
+<Image
+  src='/medias/mdx-content/vizamaster-admin.png'
+  alt='VIZA MASTER admin dashboard with data tables'
+/>
 
 ## Impact & Learnings
 
@@ -417,7 +419,7 @@ export function DashboardStats({ stats }: { stats: DashboardStats }) {
 ✅ **Empowers non-technical staff** – No code required to manage content  
 ✅ **Scales with data growth** – Handles thousands of listings efficiently  
 ✅ **Prevents errors** – Type-safe forms with runtime validation  
-✅ **Feels instant** – Optimistic updates make operations snappy  
+✅ **Feels instant** – Optimistic updates make operations snappy
 
 **Key Technical Achievements:**
 

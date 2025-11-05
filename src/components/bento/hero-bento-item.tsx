@@ -38,7 +38,7 @@ export function HeroBentoItem() {
       variant='grid'
     >
       <VFXPresenceSurface disabled={isMobile}>
-        <div className='font-sf-medium relative flex h-full w-full flex-col items-center justify-center text-center'>
+        <div className='relative flex h-full w-full flex-col items-center justify-center text-center font-sf-medium'>
           <div className='flex h-full w-full flex-col justify-between max-sm:p-2 md:p-4'>
             {/* ---- Header ---- */}
             <h1 className='text-center text-3xl font-semibold leading-snug tracking-tight max-sm:text-xl'>

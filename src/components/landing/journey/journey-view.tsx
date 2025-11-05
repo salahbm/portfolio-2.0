@@ -114,7 +114,7 @@ export function JourneyScroll() {
   return (
     <section
       ref={containerRef}
-      className='font-sf-medium no-scrollbar relative isolate box-border h-screen w-full overflow-y-auto overflow-x-hidden'
+      className='no-scrollbar relative isolate box-border h-screen w-full overflow-y-auto overflow-x-hidden font-sf-medium'
     >
       <div ref={scrollContentRef} className='relative h-[150vh]'>
         {/* Left edge line - hidden on mobile */}

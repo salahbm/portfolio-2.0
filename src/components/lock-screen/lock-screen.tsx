@@ -130,7 +130,7 @@ export const LockScreen: React.FC<LockScreenProps> = ({ onLoadComplete }) => {
   return (
     <div
       ref={containerRef}
-      className='fixed inset-0 z-[9999] overflow-hidden bg-black font-sf-medium'
+      className='fixed inset-0 z-[999] overflow-hidden font-sf-medium'
     >
       {/* Dynamic wallpaper gradient (animated positions) */}
       <div
@@ -189,6 +189,7 @@ export const LockScreen: React.FC<LockScreenProps> = ({ onLoadComplete }) => {
             src='/medias/images/avatar.webp'
             alt='Salah'
             fill
+            sizes='(min-width: 1024px) 280px, (min-width: 768px) 240px, 200px'
             className='translate-y-[8%] object-cover object-top' // slight downward offset
             priority
             onError={(e) => {

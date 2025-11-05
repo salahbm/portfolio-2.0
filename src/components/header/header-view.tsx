@@ -24,7 +24,7 @@ export function Header() {
   return (
     <header
       className={cn(
-        'font-sf-medium fixed top-0 z-[51] hidden w-full shrink-0 md:flex',
+        'fixed top-0 z-[51] hidden w-full shrink-0 font-sf-medium md:flex',
         'h-8 select-none items-center justify-between px-3',
         // ⬇️ Real glass effect
         'bg-white/5 backdrop-blur-xl dark:bg-white/5',
@@ -57,7 +57,7 @@ export function Header() {
       </div>
 
       {/* Right */}
-      <div className='font-sf-medium relative z-10 flex items-center space-x-3'>
+      <div className='relative z-10 flex items-center space-x-3 font-sf-medium'>
         <span className='opacity-90'>100%</span>
         <svg
           className='h-5 w-5 opacity-90'

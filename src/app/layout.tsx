@@ -12,7 +12,7 @@ import { cn } from '@/lib/utils'
 import { env } from '@/config/env'
 import { baseUrl, siteConfig } from '@/config/site-config'
 
-import { ProvidersTree } from '@/components/providers/providers-tree'
+import { ProvidersTree } from '@/providers'
 import { Dock } from '@/components/dock'
 
 import { sfMedium, monumentExtended, syne } from './font'

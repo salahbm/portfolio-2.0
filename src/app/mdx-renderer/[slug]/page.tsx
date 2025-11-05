@@ -33,7 +33,6 @@ export default async function MDXRendererSlugPage(props: {
       <PageHeader
         title={page.metadata.title}
         description={page.metadata.summary}
-        variant='mdx'
       />
       <Separator />
       <div className='flex h-auto w-full flex-col'>
