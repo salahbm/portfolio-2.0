@@ -17,30 +17,30 @@ import { StoryOverlay } from '@/components/landing/hobby/story-overlay'
 const reels: ReelItemType[] = [
   {
     id: 1,
-    type: 'image',
-    src: 'https://images.unsplash.com/photo-1534438327276-14e5300c3a48?w=400&h=700&fit=crop',
-    duration: 5,
-    title: 'A Quiet Morning',
+    type: 'video',
+    src: '/reel/gym.MOV',
+    duration: 16,
+    title: 'Gym Routine',
     description:
-      'Most days start slow — coffee, playlists, and a promise to lift something heavier than yesterday.',
+      'After a long day of coding, I like to unwind with a good workout.',
   },
   {
     id: 2,
     type: 'video',
-    src: 'https://wajxiz6qhqyqkm0o.public.blob.vercel-storage.com/grok-imagine-1.mp4',
-    duration: 6,
-    title: 'The Rhythm of Routine',
+    src: '/reel/food.MOV',
+    duration: 7,
+    title: 'Food Experiment',
     description:
-      'Between commits and cooldowns, there’s this sweet balance where motion meets stillness.',
+      'I like to try new recipes and experiment with different ingredients.',
   },
   {
     id: 3,
-    type: 'image',
-    src: 'https://images.unsplash.com/photo-1517836357463-d25dfeac3438?w=400&h=700&fit=crop',
-    duration: 5,
-    title: 'Small Escapes',
+    type: 'video',
+    src: '/reel/cafe.MOV',
+    duration: 13,
+    title: 'Cafe Break',
     description:
-      'Cafés tucked in quiet corners. The smell of espresso. Maybe a new recipe waiting to be ruined just right.',
+      'I love exploring new cafes and trying different coffee blends.',
   },
 ]
 
@@ -94,7 +94,8 @@ const HobbyView: React.FC = () => {
             trying to make stretching look like strength training.
             <br />
             <br />
-            I experiment in the kitchen, mostly learning what *not* to do.
+            I experiment in the kitchen, mostly learning what *not* to do.(fyi I
+            was a chef)
             <br />
             <br />
             And I love a good café with loud jazz and stronger coffee — that’s

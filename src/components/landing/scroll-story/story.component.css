@@ -22,11 +22,97 @@
 
 .scroll-item {
   opacity: 0.2;
-  transition: opacity 0.3s ease;
 }
 
 .scroll-item:first-of-type {
   opacity: 1;
+}
+
+/* Icon 3D Effect */
+.icon-3d {
+  transform: perspective(1000px) rotateX(5deg) rotateY(-5deg);
+  transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+  box-shadow:
+    0 10px 30px -5px rgba(0, 0, 0, 0.3),
+    0 20px 40px -10px rgba(0, 0, 0, 0.2),
+    inset 0 1px 0 rgba(255, 255, 255, 0.3);
+}
+
+.scroll-item:hover .icon-3d {
+  transform: perspective(1000px) rotateX(0deg) rotateY(0deg) scale(1.05);
+  box-shadow:
+    0 15px 40px -5px rgba(0, 0, 0, 0.4),
+    0 25px 50px -10px rgba(0, 0, 0, 0.3),
+    inset 0 1px 0 rgba(255, 255, 255, 0.4);
+}
+
+/* Water Ripple Animation */
+.ripple-container {
+  pointer-events: none;
+}
+
+.ripple {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  border-radius: 50%;
+  border: 2px solid currentColor;
+  opacity: 0;
+  animation: ripple-animation 3s cubic-bezier(0.4, 0, 0.2, 1) infinite;
+}
+
+.ripple-1 {
+  animation-delay: 0s;
+  color: rgba(147, 51, 234, 0.4); /* purple */
+}
+
+.ripple-2 {
+  animation-delay: 1s;
+  color: rgba(59, 130, 246, 0.4); /* blue */
+}
+
+.ripple-3 {
+  animation-delay: 2s;
+  color: rgba(236, 72, 153, 0.4); /* pink */
+}
+
+@keyframes ripple-animation {
+  0% {
+    width: 100%;
+    height: 100%;
+    opacity: 0;
+  }
+  10% {
+    opacity: 0.6;
+  }
+  50% {
+    width: 200%;
+    height: 200%;
+    opacity: 0.3;
+  }
+  100% {
+    width: 300%;
+    height: 300%;
+    opacity: 0;
+  }
+}
+
+/* Hover effects */
+.scroll-item {
+  transition: all 0.3s ease;
+}
+
+.scroll-item:hover {
+  transform: translateX(4px);
+}
+
+.scroll-item:hover .icon-3d {
+  transform: perspective(1000px) rotateX(0deg) rotateY(0deg) scale(1.1);
+}
+
+.scroll-item:hover .word-text {
+  filter: brightness(1.3);
 }
 
 /* CSS Scroll-driven animations for modern browsers */
@@ -35,21 +121,26 @@
     animation-name: brighten;
     animation-fill-mode: both;
     animation-timing-function: linear;
-    animation-range: cover calc(50% - 3lh) calc(50% + 5lh);
+    animation-range: cover calc(50% - 1lh) calc(50% + 1lh);
     animation-timeline: view();
   }
 
+  .scroll-item:first-of-type {
+    --start-opacity: 1;
+  }
+
   .scroll-item:last-of-type {
+    --brightness: 1;
     --end-opacity: 1;
   }
 
   @keyframes brighten {
     0% {
-      opacity: 0.2;
+      opacity: var(--start-opacity, 0.2);
     }
     50% {
       opacity: 1;
-      filter: brightness(1.2);
+      filter: brightness(var(--brightness, 1.2));
     }
     100% {
       opacity: var(--end-opacity, 0.2);

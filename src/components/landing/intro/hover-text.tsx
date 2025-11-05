@@ -10,19 +10,19 @@ type ImageData = { id: number; src: string }
 
 const hoverImages: Record<string, ImageData[]> = {
   bukhara: [
-    { id: 1, src: '/medias/images/avatar.webp' },
-    { id: 2, src: '/medias/images/avatar.webp' },
-    { id: 3, src: '/medias/images/avatar.webp' },
+    { id: 1, src: '/intro/bukhara-1.png' },
+    { id: 2, src: '/intro/bukhara-2.png' },
+    { id: 3, src: '/intro/bukhara-3.jpg' },
   ],
   seoul: [
-    { id: 1, src: '/medias/images/avatar.webp' },
-    { id: 2, src: '/medias/images/avatar.webp' },
-    { id: 3, src: '/medias/images/avatar.webp' },
+    { id: 1, src: '/intro/seoul-1.png' },
+    { id: 2, src: '/intro/seoul-2.png' },
+    { id: 3, src: '/intro/seoul-3.jpg' },
   ],
   dankook: [
-    { id: 1, src: '/medias/images/avatar.webp' },
-    { id: 2, src: '/medias/images/avatar.webp' },
-    { id: 3, src: '/medias/images/avatar.webp' },
+    { id: 1, src: '/intro/dankook-1.png' },
+    { id: 2, src: '/intro/dankook-2.jpg' },
+    { id: 3, src: '/intro/dankook-3.jpg' },
   ],
 }
 
@@ -117,8 +117,8 @@ const HoverText = ({
                 <Image
                   src={imgs[0].src}
                   alt={`${label} left`}
-                  width={128}
-                  height={128}
+                  width={400}
+                  height={400}
                   className='duration-[250ms] h-full w-full rounded-[0.2em] object-cover opacity-100 shadow-[0px_0.2px_0.2px_rgba(0,0,0,0.34),0.1px_1.4px_1.6px_-0.4px_rgba(0,0,0,0.34),0.1px_2.7px_3px_-0.7px_rgba(0,0,0,0.34),0.2px_4.4px_5px_-1.1px_rgba(0,0,0,0.34),0.3px_7px_7.9px_-1.4px_rgba(0,0,0,0.34),0.4px_10.9px_12.3px_-1.8px_rgba(0,0,0,0.34),0.6px_16.6px_18.7px_-2.1px_rgba(0,0,0,0.34),0.9px_24.4px_27.5px_-2.5px_rgba(0,0,0,0.34)] transition-opacity'
                   style={{
                     mixBlendMode: 'plus-lighter',
