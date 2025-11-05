@@ -18,7 +18,10 @@ export const IPhoneMockup: React.FC<IPhoneMockupProps> = ({
       initial={{ opacity: 0, y: 50, rotateY: -15 }}
       animate={{ opacity: 1, y: 0, rotateY: 0 }}
       transition={{ duration: 0.8, ease: 'easeOut' }}
-      className={cn('relative', className)}
+      className={cn(
+        'relative before:absolute before:inset-0 before:-z-10 before:rounded-2xl before:bg-gradient-to-br before:from-purple-500/40 before:to-cyan-500/30 before:blur-2xl',
+        className
+      )}
       style={{ perspective: '1000px' }}
     >
       {/* iPhone Frame */}

@@ -11,8 +11,8 @@ import {
   ReelVideo,
   ReelImage,
 } from '@/components/ui/reel'
-import { IPhoneMockup } from '@/components/ui/iphone-mockup'
-import { StoryOverlay } from '@/components/ui/story-overlay'
+import { IPhoneMockup } from '@/components/landing/hobby/iphone-mockup'
+import { StoryOverlay } from '@/components/landing/hobby/story-overlay'
 
 const reels: ReelItemType[] = [
   {
@@ -20,62 +20,61 @@ const reels: ReelItemType[] = [
     type: 'image',
     src: 'https://images.unsplash.com/photo-1534438327276-14e5300c3a48?w=400&h=700&fit=crop',
     duration: 5,
-    title: '💪 The Iron Temple',
+    title: 'A Quiet Morning',
     description:
-      'Where discipline meets determination. Every rep is a step closer to greatness.',
+      'Most days start slow — coffee, playlists, and a promise to lift something heavier than yesterday.',
   },
   {
     id: 2,
     type: 'video',
     src: 'https://wajxiz6qhqyqkm0o.public.blob.vercel-storage.com/grok-imagine-1.mp4',
     duration: 6,
-    title: '🏋️ Strength & Code',
+    title: 'The Rhythm of Routine',
     description:
-      'Building mental and physical resilience. Strong body, stronger mind.',
+      'Between commits and cooldowns, there’s this sweet balance where motion meets stillness.',
   },
   {
     id: 3,
     type: 'image',
     src: 'https://images.unsplash.com/photo-1517836357463-d25dfeac3438?w=400&h=700&fit=crop',
     duration: 5,
-    title: '🔥 Beyond Limits',
+    title: 'Small Escapes',
     description:
-      'Pushing boundaries in the gym translates to breaking barriers in code.',
+      'Cafés tucked in quiet corners. The smell of espresso. Maybe a new recipe waiting to be ruined just right.',
   },
 ]
 
 const HobbyView: React.FC = () => {
   const [currentIndex, setCurrentIndex] = useState(0)
   const titleRef = useRef<HTMLHeadingElement>(null)
-  const subtitleRef = useRef<HTMLParagraphElement>(null)
+  const textRef = useRef<HTMLParagraphElement>(null)
 
   useEffect(() => {
-    // Animate main title on mount
     if (titleRef.current) {
       gsap.fromTo(
         titleRef.current,
-        { opacity: 0, y: -50, scale: 0.8 },
+        { opacity: 0, y: -40, scale: 0.9 },
         {
           opacity: 1,
           y: 0,
           scale: 1,
           duration: 1,
-          ease: 'elastic.out(1, 0.5)',
+          ease: 'power3.out',
           delay: 0.2,
         }
       )
     }
 
-    if (subtitleRef.current) {
+    if (textRef.current) {
       gsap.fromTo(
-        subtitleRef.current,
+        textRef.current,
         { opacity: 0, y: 20 },
         {
           opacity: 1,
           y: 0,
-          duration: 0.8,
+          duration: 0.9,
           ease: 'power2.out',
-          delay: 0.6,
+          delay: 0.7,
         }
       )
     }
@@ -83,89 +82,67 @@ const HobbyView: React.FC = () => {
 
   return (
     <div className='relative flex min-h-screen w-full items-center justify-center overflow-hidden py-20'>
-      {/* Animated Background Elements */}
+      {/* Gradient lights */}
       <motion.div
         initial={{ opacity: 0, scale: 0 }}
         animate={{
           scale: [0, 1.2, 1],
           rotate: [0, 90, 0],
-          opacity: [0, 0.2, 0.1],
+          opacity: [0, 0.25, 0.15],
         }}
         transition={{ duration: 2, ease: 'easeOut' }}
-        className='absolute left-10 top-20 h-64 w-64 rounded-full bg-gradient-to-r from-purple-600 to-pink-600 blur-3xl'
+        className='bg-gradient-lilac absolute left-16 top-24 h-72 w-72 rounded-full blur-3xl'
       />
       <motion.div
         initial={{ opacity: 0, scale: 0 }}
         animate={{
           scale: [0, 1.3, 1],
           rotate: [0, -90, 0],
-          opacity: [0, 0.2, 0.1],
+          opacity: [0, 0.25, 0.15],
         }}
         transition={{
           duration: 2.5,
           ease: 'easeOut',
           delay: 0.3,
         }}
-        className='absolute bottom-20 right-10 h-80 w-80 rounded-full bg-gradient-to-r from-blue-600 to-cyan-600 blur-3xl'
+        className='bg-gradient-glow absolute bottom-20 right-10 h-80 w-80 rounded-full blur-3xl'
       />
 
-      {/* Content Container */}
-      <div className='relative z-10 flex w-full max-w-7xl flex-col items-center gap-12 px-4 lg:flex-row lg:items-start lg:justify-between lg:gap-16'>
-        {/* Header Section - Left side on desktop */}
+      <div className='relative z-10 flex w-full max-w-7xl flex-col items-center gap-12 px-6 md:px-8 lg:flex-row lg:items-center lg:justify-between lg:gap-16'>
+        {/* Text */}
         <motion.div
-          initial={{ opacity: 0, x: -100 }}
+          initial={{ opacity: 0, x: -80 }}
           animate={{ opacity: 1, x: 0 }}
-          transition={{ duration: 1, delay: 0.2, ease: 'easeOut' }}
+          transition={{ duration: 1, delay: 0.2 }}
           className='flex-1 text-center lg:text-left'
         >
           <h1
             ref={titleRef}
-            className='mb-6 bg-gradient-to-r from-purple-400 via-pink-400 to-red-400 bg-clip-text text-5xl font-bold leading-tight text-transparent md:text-6xl lg:text-7xl'
+            className='mb-8 text-5xl font-semibold leading-tight text-primary md:text-6xl lg:text-7xl'
           >
-            Beyond The Code 💪
+            Outside the Code
           </h1>
+
           <p
-            ref={subtitleRef}
-            className='mb-6 text-lg text-gray-400 md:text-xl lg:text-2xl'
+            ref={textRef}
+            className='max-w-2xl text-base leading-relaxed tracking-wide text-muted-foreground md:text-lg lg:text-xl'
           >
-            When I'm not coding, I'm crushing it at the gym
+            Except for coding, I spend a fair bit of time at the gym — mostly
+            convincing myself that stretching counts as a workout. When I’m not
+            pretending to lift heavy things, I love experimenting in the kitchen
+            (success rate: confidential). And some weekends, I’ll find a quiet
+            corner café — the kind that plays jazz too loud and serves coffee
+            too strong — and call it “research for better focus”. It’s the
+            balance I never planned for but somehow keep chasing.
           </p>
-          <motion.div
-            initial={{ opacity: 0, y: 20 }}
-            animate={{ opacity: 1, y: 0 }}
-            transition={{ delay: 1.2, duration: 0.8 }}
-            className='space-y-4 text-left text-gray-300'
-          >
-            <p className='flex items-start gap-3'>
-              <span className='text-2xl'>🎯</span>
-              <span>
-                <strong className='text-white'>Discipline:</strong> The gym
-                teaches consistency - showing up even when motivation fades
-              </span>
-            </p>
-            <p className='flex items-start gap-3'>
-              <span className='text-2xl'>⚡</span>
-              <span>
-                <strong className='text-white'>Energy:</strong> Physical fitness
-                fuels mental clarity for better problem-solving
-              </span>
-            </p>
-            <p className='flex items-start gap-3'>
-              <span className='text-2xl'>💯</span>
-              <span>
-                <strong className='text-white'>Growth:</strong> Progressive
-                overload in fitness mirrors continuous learning in tech
-              </span>
-            </p>
-          </motion.div>
         </motion.div>
 
-        {/* iPhone Mockup with Reel - Right side on desktop */}
+        {/* Reel */}
         <motion.div
           initial={{ opacity: 0, x: 100, rotateY: -30 }}
           animate={{ opacity: 1, x: 0, rotateY: 0 }}
           transition={{ duration: 1, delay: 0.5, ease: 'easeOut' }}
-          className='shrink-0'
+          className='w-full max-w-sm shrink-0 md:max-w-md lg:max-w-sm xl:max-w-md'
         >
           <IPhoneMockup>
             <Reel
@@ -175,7 +152,7 @@ const HobbyView: React.FC = () => {
               onIndexChange={setCurrentIndex}
               index={currentIndex}
             >
-              {/* Instagram-style Progress Bars */}
+              {/* Progress bars */}
               <div className='absolute left-0 right-0 top-10 z-40 flex gap-1 px-3'>
                 {reels.map((_, index) => {
                   const isActive = index === currentIndex
@@ -202,7 +179,6 @@ const HobbyView: React.FC = () => {
                 })}
               </div>
 
-              {/* Story Content */}
               <ReelContent>
                 {(reel) => (
                   <ReelItem key={reel.id}>
@@ -214,12 +190,11 @@ const HobbyView: React.FC = () => {
                     ) : (
                       <ReelImage
                         src={reel.src}
-                        alt={reel.title || 'Gym story'}
+                        alt={reel.title || 'Story'}
                         duration={reel.duration}
                         className='h-full w-full object-cover'
                       />
                     )}
-                    {/* Story Overlay with Animations */}
                     <StoryOverlay
                       title={reel.title || ''}
                       description={reel.description}
@@ -229,7 +204,6 @@ const HobbyView: React.FC = () => {
                 )}
               </ReelContent>
 
-              {/* Navigation (tap left/right) */}
               <ReelNavigation />
             </Reel>
           </IPhoneMockup>
