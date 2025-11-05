@@ -5,6 +5,7 @@ import IntroView from '@/components/landing/intro/intro-view'
 import MacOSWaves from '@/components/landing/hero/components/macos-bg'
 import { Header } from '@/components/header'
 import { HobbyView } from '@/components/landing/hobby'
+import { ContactHero } from '@/components/landing/contact'
 export default function HomePage() {
   return (
     <div className='relative'>
@@ -15,6 +16,7 @@ export default function HomePage() {
       <JourneyScroll />
       <ScrollStory />
       <HobbyView />
+      <ContactHero />
     </div>
   )
 }

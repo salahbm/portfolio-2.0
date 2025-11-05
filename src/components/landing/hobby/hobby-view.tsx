@@ -235,16 +235,6 @@ const HobbyView: React.FC = () => {
           </IPhoneMockup>
         </motion.div>
       </div>
-
-      {/* Bottom Info - Centered at bottom */}
-      <motion.div
-        initial={{ opacity: 0, y: 20 }}
-        animate={{ opacity: 1, y: 0 }}
-        transition={{ delay: 1.5, duration: 0.8 }}
-        className='absolute bottom-8 left-0 right-0 text-center text-sm text-gray-500'
-      >
-        <p>👆 Tap left or right to navigate • {reels.length} stories</p>
-      </motion.div>
     </div>
   )
 }
