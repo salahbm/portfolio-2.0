@@ -22,6 +22,7 @@ import {
 } from '@heroicons/react/24/outline'
 import './story.component.css'
 import { StoryIcons } from './story-icons'
+import { cn } from '@/lib/utils'
 
 const WORDS = [
   { text: 'design.', icon: PaintBrushIcon, color: 'from-pink-500 to-rose-600' },
@@ -89,6 +90,8 @@ export function ScrollStory() {
   const itemsRef = useRef<HTMLLIElement[]>([])
   const iconsRef = useRef<HTMLDivElement[]>([])
 
+  const h2Ref = useRef<HTMLDivElement>(null)
+
   useEffect(() => {
     const supportsScrollTimeline =
       CSS.supports('(animation-timeline: scroll())') &&
@@ -152,6 +155,36 @@ export function ScrollStory() {
     }
   }, [])
 
+  useEffect(() => {
+    const container = h2Ref.current
+    if (!container) return
+
+    const ctx = gsap.context(() => {
+      // --- Mouse parallax
+      const xTo = gsap.quickTo(container, 'x', {
+        duration: 0.6,
+        ease: 'power3.out',
+      })
+      const yTo = gsap.quickTo(container, 'y', {
+        duration: 0.6,
+        ease: 'power3.out',
+      })
+
+      const handleMouseMove = (e: MouseEvent) => {
+        const { innerWidth, innerHeight } = window
+        const moveX = (e.clientX / innerWidth - 0.5) * 30
+        const moveY = (e.clientY / innerHeight - 0.5) * 20
+        xTo(moveX)
+        yTo(moveY)
+      }
+
+      window.addEventListener('mousemove', handleMouseMove)
+      return () => window.removeEventListener('mousemove', handleMouseMove)
+    }, container)
+
+    return () => ctx.revert()
+  }, [])
+
   return (
     <motion.section
       initial={{ opacity: 0, y: 40 }}
@@ -166,11 +199,14 @@ export function ScrollStory() {
       </h1>
 
       <div className='content-wrapper flex w-full flex-col items-center px-4 md:flex-row md:items-start md:justify-center md:gap-10 md:px-12'>
-        <h2 className='sticky-heading sticky left-0 top-[30%] mb-8 w-full text-3xl font-semibold leading-tight md:top-[40%] md:mb-0 md:text-5xl lg:w-auto lg:text-7xl'>
+        <h2
+          className='sticky-heading sticky left-0 top-[30%] mb-8 w-full text-3xl font-semibold leading-tight md:top-[40%] md:mb-0 md:text-5xl lg:w-auto lg:text-9xl'
+          ref={h2Ref}
+        >
           <span className='sr-only'> This is how I bring ideas to life </span>
           <span
             aria-hidden='true'
-            className='text-gradient-flare font-monument-vibe'
+            className='text-gradient-vibe font-monument-extended'
           >
             I do&nbsp;
           </span>
@@ -193,19 +229,28 @@ export function ScrollStory() {
               >
                 <div className='icon-wrapper shrink-0'>
                   <div
-                    className={`icon-glow ${word.color.replace('from-', 'text-').split(' ')[0]}`}
+                    className={cn(
+                      `icon-glow`,
+                      word.color.replace('from-', 'text-').split(' ')[0]
+                    )}
                   />
                   <div
                     ref={(el) => {
                       if (el) iconsRef.current[i] = el
                     }}
-                    className={`relative flex h-12 w-12 items-center justify-center rounded-xl bg-gradient-to-br shadow-lg md:h-16 md:w-16 lg:h-20 lg:w-20 ${word.color}`}
+                    className={cn(
+                      `relative flex h-12 w-12 items-center justify-center rounded-xl bg-gradient-to-br shadow-lg md:h-16 md:w-16 lg:h-20 lg:w-20`,
+                      word.color
+                    )}
                   >
                     <Icon className='h-6 w-6 text-white md:h-8 md:w-8 lg:h-10 lg:w-10' />
                   </div>
                 </div>
                 <span
-                  className={`bg-gradient-to-r bg-clip-text text-2xl font-semibold text-transparent md:text-4xl lg:text-6xl ${word.color}`}
+                  className={cn(
+                    `bg-gradient-to-r bg-clip-text text-2xl font-semibold text-transparent md:text-4xl lg:text-6xl`,
+                    word.color
+                  )}
                 >
                   {word.text}
                 </span>

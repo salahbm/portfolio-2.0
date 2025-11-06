@@ -72,21 +72,34 @@
   background-clip: text;
   animation: gradientShift 12s ease-in-out infinite;
 }
+
 .text-gradient-vibe {
   background: linear-gradient(
-    160deg,
-    oklch(0.75 0.26 20),
-    oklch(0.8 0.22 80),
-    oklch(0.78 0.22 270),
-    oklch(0.82 0.2 320)
+    135deg,
+    oklch(0.78 0.22 50),
+    /* warm gold-orange */ oklch(0.82 0.18 110),
+    /* soft mossy green */ oklch(0.8 0.2 230),
+    /* deep indigo-blue */ oklch(0.85 0.18 320) /* soft magenta-pink */
   );
-
-  background-size: 250% 100%;
+  background-size: 300% 300%;
   background-position: 0% 50%;
   -webkit-background-clip: text;
   -webkit-text-fill-color: transparent;
   background-clip: text;
-  animation: gradientShift 12s ease-in-out infinite;
+  animation: feltShimmer 12s ease-in-out infinite;
+
+  /* 3D embroidered depth */
+  text-shadow:
+    0 1px 0 oklch(0.3 0.02 260 / 0.8),
+    0 2px 1px oklch(0.3 0.02 260 / 0.7),
+    0 3px 3px rgba(0, 0, 0, 0.3),
+    0 4px 5px rgba(0, 0, 0, 0.25),
+    inset 0 1px 1px rgba(255, 255, 255, 0.35),
+    inset 0 -1px 1px rgba(0, 0, 0, 0.1);
+
+  /* felt-like softness */
+  filter: drop-shadow(0 2px 2px rgba(0, 0, 0, 0.15)) blur(0.3px) saturate(1.05);
+  letter-spacing: 0.02em;
 }
 
 /* Ensure gradient applies to SplitType spans */
@@ -112,6 +125,21 @@
   }
   100% {
     background-position: 0% 50%;
+  }
+}
+
+@keyframes feltShimmer {
+  0% {
+    background-position: 0% 50%;
+    filter: drop-shadow(0 2px 2px rgba(0, 0, 0, 0.2)) blur(0.3px) saturate(1);
+  }
+  50% {
+    background-position: 100% 50%;
+    filter: drop-shadow(0 3px 3px rgba(0, 0, 0, 0.3)) blur(0.4px) saturate(1.08);
+  }
+  100% {
+    background-position: 0% 50%;
+    filter: drop-shadow(0 2px 2px rgba(0, 0, 0, 0.2)) blur(0.3px) saturate(1);
   }
 }
 
