@@ -8,13 +8,10 @@ import { TailwindIndicator } from '@/components/ui-helpers/tailwind-indicator'
 import { PageTransition } from '@/components/page-transition'
 import { LockScreenProvider } from './lock-screen-provider'
 import { ThemeProvider } from './theme-provider'
-import { useEffect } from 'react'
 import { easterEgg } from '@/lib/easter-egg'
 
 export function ProvidersTree({ children }: { children: React.ReactNode }) {
-  useEffect(() => {
-    easterEgg()
-  }, [])
+  easterEgg()
 
   return (
     <ThemeProvider
@@ -24,13 +21,12 @@ export function ProvidersTree({ children }: { children: React.ReactNode }) {
       disableTransitionOnChange
     >
       <TooltipProvider>
-        <PageTransition>
-          <LockScreenProvider>{children}</LockScreenProvider>
-          <CursorStyleInjector />
-          <Toaster />
-          <MagnifyingGlass />
-          <TailwindIndicator />
-        </PageTransition>
+        <LockScreenProvider>{children}</LockScreenProvider>
+        <PageTransition />
+        <CursorStyleInjector />
+        <Toaster />
+        <MagnifyingGlass />
+        <TailwindIndicator />
       </TooltipProvider>
     </ThemeProvider>
   )

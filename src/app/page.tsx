@@ -6,20 +6,42 @@ import { JourneyScroll } from '@/components/landing/journey'
 import IntroView from '@/components/landing/intro/intro-view'
 import { HobbyView } from '@/components/landing/hobby'
 import { ContactHero } from '@/components/landing/contact'
+import { AboutMe } from '@/components/landing/intro/about-me'
 import { useGSAP } from '@gsap/react'
-import { ScrollSmoother } from 'gsap/ScrollSmoother'
 import { ScrollTrigger } from 'gsap/ScrollTrigger'
+import { ScrollSmoother } from 'gsap/ScrollSmoother'
 import gsap from 'gsap'
+import { SplitText } from 'gsap/all'
 
-gsap.registerPlugin(ScrollSmoother, ScrollTrigger)
+import {
+  DrawSVGPlugin,
+  MorphSVGPlugin,
+  MotionPathPlugin,
+  Physics2DPlugin,
+  ScrambleTextPlugin,
+} from 'gsap/all'
+
+gsap.registerPlugin(
+  ScrollTrigger,
+  ScrollSmoother,
+  useGSAP,
+  SplitText,
+  MorphSVGPlugin,
+  ScrambleTextPlugin,
+  DrawSVGPlugin,
+  MotionPathPlugin,
+  Physics2DPlugin
+)
 
 export default function HomePage() {
   useGSAP(() => {
-    // GLOBAL SCROLLSMOOTHER
+    // SMOOTH SCROLL
     ScrollSmoother.create({
-      smooth: 3,
+      smooth: 1.3,
       effects: true,
+      normalizeScroll: true,
     })
+
     // INTRO ABOUT ME SCROLL CONTROLLER
     gsap.to('.about-me-text', {
       x: () =>
@@ -29,7 +51,6 @@ export default function HomePage() {
         ),
       ease: 'none',
       scrollTrigger: {
-        trigger: '.about-me-section',
         start: 'top top',
         end: 'bottom bottom',
         scrub: true,
@@ -41,6 +62,7 @@ export default function HomePage() {
     <div id='smooth-wrapper'>
       <div id='smooth-content'>
         <Hero />
+        <AboutMe />
         <IntroView />
         <JourneyScroll />
         <ScrollStory />

@@ -77,9 +77,9 @@
   background: linear-gradient(
     135deg,
     oklch(0.78 0.22 50),
-    /* warm gold-orange */ oklch(0.82 0.18 110),
-    /* soft mossy green */ oklch(0.8 0.2 230),
-    /* deep indigo-blue */ oklch(0.85 0.18 320) /* soft magenta-pink */
+    oklch(0.82 0.18 110),
+    oklch(0.8 0.2 230),
+    oklch(0.85 0.18 320)
   );
   background-size: 300% 300%;
   background-position: 0% 50%;

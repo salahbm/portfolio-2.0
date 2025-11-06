@@ -5,80 +5,85 @@ import { useState } from 'react'
 import HoverText from './hover-text'
 import { InfoCircledIcon } from '@radix-ui/react-icons'
 import { WaveUnderline } from './wave-underline'
-import { AboutMe } from './about-me'
 import { useGSAP } from '@gsap/react'
 import { SplitText } from 'gsap/all'
 import gsap from 'gsap'
+
+gsap.registerPlugin(SplitText)
 
 export default function IntroView() {
   const [activeWord, setActiveWord] = useState<string | null>(null)
 
   useGSAP(() => {
+    let intro1: SplitText
+    let intro2: SplitText
+    let intro3: SplitText
+
     // SplitText instances
-    const intro1 = SplitText.create('.intro-1', { type: 'words' })
-    const intro2 = SplitText.create('.intro-2', { type: 'words' })
-    const intro3 = SplitText.create('.intro-3', { type: 'words' })
+    document.fonts.ready.then(() => {
+      intro1 = SplitText.create('.intro-1', { type: 'words' })
+      intro2 = SplitText.create('.intro-2', { type: 'words' })
+      intro3 = SplitText.create('.intro-3', { type: 'words' })
 
-    // Faster coloring animation (short scroll + small stagger)
-    gsap.to(intro1.words, {
-      color: '#2e54d1',
-      ease: 'power1.inOut',
-      stagger: 0.15,
-      scrollTrigger: {
-        trigger: '.intro-1',
-        start: 'top 85%',
-        end: 'top 70%',
-        scrub: true,
-      },
-    })
+      // Faster coloring animation (short scroll + small stagger)
+      gsap.to(intro1.words, {
+        color: '#2e54d1',
+        ease: 'power1.inOut',
+        stagger: 0.15,
+        scrollTrigger: {
+          trigger: '.intro-1',
+          start: 'top 110%',
+          end: 'top 100%',
+          scrub: true,
+        },
+      })
 
-    gsap.to(intro2.words, {
-      color: '#2e54d1',
-      ease: 'power1.inOut',
-      stagger: 0.15,
-      scrollTrigger: {
-        trigger: '.intro-2',
-        start: 'top 80%',
-        end: 'top 65%',
-        scrub: true,
-      },
-    })
+      gsap.to(intro2.words, {
+        color: '#2e54d1',
+        ease: 'power1.inOut',
+        stagger: 0.15,
+        scrollTrigger: {
+          trigger: '.intro-2',
+          start: 'top 105%',
+          end: 'top 95%',
+          scrub: true,
+        },
+      })
 
-    gsap.to(intro3.words, {
-      color: '#2e54d1',
-      ease: 'power1.inOut',
-      stagger: 0.15,
-      scrollTrigger: {
-        trigger: '.intro-3',
-        start: 'top 80%',
-        end: 'top 65%',
-        scrub: true,
-      },
+      gsap.to(intro3.words, {
+        color: '#2e54d1',
+        ease: 'power1.inOut',
+        stagger: 0.15,
+        scrollTrigger: {
+          trigger: '.intro-3',
+          start: 'top 100%',
+          end: 'top 93%',
+          scrub: true,
+        },
+      })
     })
 
     // Hero timeline
     const heroTL = gsap.timeline({
       scrollTrigger: {
         trigger: '.intro-section',
-        start: '1% top',
+        start: '10% top',
         end: 'bottom top',
         scrub: true,
       },
     })
 
     heroTL.to('.intro-section', {
-      rotate: 7,
+      rotate: 10,
       scale: 0.3,
-      yPercent: 30,
+      yPercent: 20,
       ease: 'power1.inOut',
     })
   })
 
   return (
     <section className='relative flex flex-col items-center justify-center overflow-hidden'>
-      <AboutMe />
-
-      <div className='intro-section relative z-10 mx-auto my-[500px] w-full max-w-5xl px-6 text-end font-syne leading-relaxed'>
+      <div className='intro-section relative z-10 mx-auto mt-[70vh] w-full max-w-5xl px-6 text-end font-syne leading-relaxed'>
         <div
           className='intro-1 text-outline mb-8 font-light leading-[1.4] tracking-wide'
           style={{
@@ -136,7 +141,7 @@ export default function IntroView() {
         </div>
       </div>
 
-      <span className='mt-10 flex items-center gap-2 text-sm text-muted-foreground'>
+      <span className='mb-[40vh] mt-5 flex w-full max-w-4xl items-center justify-end gap-2 text-sm text-muted-foreground'>
         <InfoCircledIcon className='inline-block' />
         Hover on the gradient texts to see the images
       </span>

@@ -138,7 +138,7 @@ export function ContactHero() {
           <h1 className='text-gradient-harmony mb-6 font-monument-extended text-[44px] leading-[1.05] md:text-7xl'>
             let&apos;s bring your ideas to life
           </h1>
-          <p className='text-secondary'>
+          <p className='text-secondary-foreground'>
             Contact me or{' '}
             <a
               onClick={() => window.open('https://t.me/imsalah19')}

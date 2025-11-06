@@ -6,8 +6,6 @@ import { gsap } from 'gsap'
 import { ScrollTrigger } from 'gsap/ScrollTrigger'
 import './journey.component.css'
 
-gsap.registerPlugin(ScrollTrigger)
-
 const FONTSIZE_MIN = 16
 const FONTSIZE_MAX = 20
 const FONT_RATIO_MIN = 1.15
@@ -109,7 +107,7 @@ export function JourneyScroll() {
       whileInView={{ opacity: 1 }}
       viewport={{ once: true, amount: 0.2 }}
       transition={{ duration: 1, ease: 'easeOut' }}
-      className='no-scrollbar relative isolate box-border h-screen w-full overflow-y-auto overflow-x-hidden font-sf-medium'
+      className='no-scrollbar font-sf-medium relative isolate box-border h-screen w-full overflow-y-auto overflow-x-hidden'
     >
       <div ref={scrollContentRef} className='relative h-[150vh]'>
         {/* Left edge line - hidden on mobile */}
@@ -133,7 +131,7 @@ export function JourneyScroll() {
 
             <div className='relative h-full'>
               <motion.span
-                className='absolute left-0 top-0 inline-block text-background'
+                className='absolute left-0 top-0 inline-block text-primary'
                 style={{
                   y: progressYPixels,
                 }}

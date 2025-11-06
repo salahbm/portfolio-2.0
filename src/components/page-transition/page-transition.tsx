@@ -1,67 +1,85 @@
 'use client'
 
-import { Fragment, PropsWithChildren, useEffect, useRef } from 'react'
+import { useRef } from 'react'
 import { usePathname } from 'next/navigation'
-import { gsap } from 'gsap'
-import { animateRippleWave } from '@/animations/page-transition-effects'
+import { useGSAP } from '@gsap/react'
+import gsap from 'gsap'
 import { cn } from '@/lib/utils'
 
-export function PageTransition({ children }: PropsWithChildren) {
+export function PageTransition() {
   const pathname = usePathname()
   const overlayRef = useRef<HTMLDivElement>(null)
-  const contentRef = useRef<HTMLDivElement>(null)
   const elementsRef = useRef<HTMLDivElement[]>([])
   const isInitialMount = useRef(true)
 
-  useEffect(() => {
-    if (isInitialMount.current) {
-      isInitialMount.current = false
-      return
-    }
+  useGSAP(
+    () => {
+      if (isInitialMount.current) {
+        isInitialMount.current = false
+        return
+      }
 
-    const content = contentRef.current
-    const elements = elementsRef.current
-    if (!content || elements.length === 0) return
+      const elements = elementsRef.current
+      if (!elements.length) return
 
-    const tl = gsap.timeline({ defaults: { overwrite: 'auto' } })
-    animateRippleWave(tl, elements, content)
+      const tl = gsap.timeline()
 
-    return () => {
-      tl.kill()
-    }
-  }, [pathname])
+      tl.to(elements, {
+        scaleX: 1,
+        opacity: 0.9,
+        duration: 0.5,
+        ease: 'power2.inOut',
+        stagger: { amount: 0.15, from: 'center' },
+      })
+
+      tl.to(
+        elements,
+        {
+          scaleX: 0,
+          opacity: 0,
+          transformOrigin: 'right center',
+          duration: 0.4,
+          ease: 'power2.inOut',
+          stagger: { amount: 0.1, from: 'center' },
+        },
+        '+=0.1'
+      )
+
+      // Reset WITHOUT clearProps
+      tl.set(elements, {
+        scaleX: 0,
+        opacity: 0,
+        transformOrigin: 'left center',
+      })
+    },
+    { dependencies: [pathname], scope: overlayRef }
+  )
 
   return (
-    <Fragment>
-      {/* Smooth transition overlay */}
-      <div
-        ref={overlayRef}
-        className='pointer-events-none fixed inset-0 z-[9999] select-none overflow-hidden'
-        aria-hidden='true'
-      >
-        {[...Array(9)].map((_, i) => (
-          <div
-            key={i}
-            ref={(el) => {
-              if (el) elementsRef.current[i] = el
-            }}
-            className={cn(
-              'absolute inset-0 h-full w-full',
-              'bg-gradient-to-r from-primary/20 via-primary/25 to-primary/15',
-              'rounded-2xl backdrop-blur-[2px]'
-            )}
-            style={{ transform: 'scaleX(0)' }}
-          />
-        ))}
-      </div>
-
-      {/* Main content */}
-      <div
-        ref={contentRef}
-        className='relative h-full w-full overflow-hidden will-change-transform'
-      >
-        {children}
-      </div>
-    </Fragment>
+    <div
+      ref={overlayRef}
+      className='pointer-events-none fixed inset-0 z-[9999] select-none'
+      aria-hidden='true'
+    >
+      {[...Array(5)].map((_, i) => (
+        <div
+          key={i}
+          ref={(el) => {
+            if (el) elementsRef.current[i] = el
+          }}
+          className={cn(
+            'absolute inset-0',
+            'bg-[linear-gradient(135deg,transparent,hsl(var(--primary)/0.25),transparent)]',
+            'backdrop-blur-sm',
+            'will-change-opacity will-change-transform'
+          )}
+          style={{
+            transform: 'scaleX(0)',
+            opacity: 0,
+            transformOrigin: 'left center',
+          }}
+        />
+      ))}
+    </div>
   )
 }

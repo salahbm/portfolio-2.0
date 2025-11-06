@@ -4,7 +4,6 @@ import { useRef, useEffect } from 'react'
 import { motion } from 'framer-motion'
 import { gsap } from 'gsap'
 import Image from 'next/image'
-import { cn } from '@/lib/utils'
 
 type ImageData = { id: number; src: string }
 
@@ -65,16 +64,13 @@ const HoverText = ({
   }
 
   return (
-    <span
+    <div
       className='relative z-[60] inline-block'
       onMouseEnter={handleMouseEnter}
       onMouseLeave={handleMouseLeave}
     >
-      <motion.a
-        className={cn(
-          'relative inline-block cursor-pointer font-semibold tracking-wide transition-all duration-300',
-          'text-foreground'
-        )}
+      <motion.p
+        className='relative inline-block cursor-pointer font-bold tracking-wide !text-accent transition-all duration-300'
         whileHover={{
           scaleY: 1.1,
           transition: {
@@ -84,7 +80,7 @@ const HoverText = ({
         }}
       >
         {label}
-      </motion.a>
+      </motion.p>
 
       {/* Image holders - positioned around the text */}
       {isActive && (
@@ -205,7 +201,7 @@ const HoverText = ({
           )}
         </div>
       )}
-    </span>
+    </div>
   )
 }
 

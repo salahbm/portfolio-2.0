@@ -1,8 +1,5 @@
 import { gsap } from 'gsap'
-import { MotionPathPlugin } from 'gsap/MotionPathPlugin'
 import SplitType from 'split-type'
-
-gsap.registerPlugin(MotionPathPlugin)
 
 export const animateName = (): (() => void) => {
   const ctx = gsap.context(() => {
