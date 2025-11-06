@@ -2,7 +2,7 @@
 
 An immersive, animation-rich developer portfolio built with Next.js 15 that blends storytelling, 3D experiences, and performant web techniques. This project showcases professional work, experiments, and craft case studies while delivering a memorable user journey on every device.
 
-![Portfolio Preview](./public/opengraph-image.png)
+![Portfolio Preview](./src/app/opengraph-image.png)
 
 <p align="center">
   <a href="https://www.salah.uz" target="_blank" rel="noreferrer">🌐 Live Site</a>
@@ -185,11 +185,11 @@ Distributed under the MIT License. See [LICENSE](./LICENSE) for more information
 - **GitHub:** [@salahbm](https://github.com/salahbm)
 - **LinkedIn:** [linkedin.com/in/salahbm](https://www.linkedin.com/in/salahbm)
 
+## SHOUTOUTS
+
+- Big Thanks to [SugarDarius](https://github.com/SugarDarius) for the layout of the portfolio.
+- Big Thanks to [Jhey Tompkins](https://codepen.io/jh3y) for the effect inspirations.
+
 ---
 
 Built with ❤️ using Next.js, TypeScript, and a passion for delightful web experiences.
-
-## SHOUTOUTS
-
-- [SugarDarius](https://github.com/SugarDarius)
-- [Jhey Tompkins](https://codepen.io/jh3y)
