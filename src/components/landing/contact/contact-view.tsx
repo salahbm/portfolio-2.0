@@ -122,7 +122,7 @@ export function ContactHero() {
 
   return (
     <section className='w-full'>
-      <div className='mx-auto flex min-h-[70vh] max-w-7xl flex-col items-center justify-center gap-8 px-6 py-16 lg:flex-row lg:items-center lg:gap-12 lg:px-12'>
+      <div className='mx-auto flex min-h-[70vh] max-w-7xl flex-col items-center justify-center gap-16 px-6 py-16 lg:flex-row lg:items-center lg:gap-12 lg:px-12'>
         {/* Left: Text */}
         <motion.div
           initial={{ opacity: 0, y: 40 }}

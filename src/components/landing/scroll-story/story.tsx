@@ -21,109 +21,108 @@ import {
   ArrowPathIcon,
 } from '@heroicons/react/24/outline'
 import './story.component.css'
+import { StoryIcons } from './story-icons'
 
 const WORDS = [
-  {
-    text: 'design.',
-    icon: PaintBrushIcon,
-    color: 'from-pink-400 to-rose-500',
-  },
+  { text: 'design.', icon: PaintBrushIcon, color: 'from-pink-500 to-rose-600' },
   {
     text: 'prototype.',
     icon: CubeIcon,
-    color: 'from-purple-400 to-indigo-500',
+    color: 'from-purple-500 to-indigo-600',
   },
   {
     text: 'solve.',
     icon: LightBulbIcon,
-    color: 'from-yellow-400 to-orange-500',
+    color: 'from-yellow-500 to-orange-600',
   },
   {
     text: 'build.',
     icon: WrenchScrewdriverIcon,
-    color: 'from-blue-400 to-cyan-500',
+    color: 'from-blue-500 to-cyan-600',
   },
   {
     text: 'develop.',
     icon: CodeBracketIcon,
-    color: 'from-green-400 to-emerald-500',
+    color: 'from-green-500 to-emerald-600',
   },
-  {
-    text: 'debug.',
-    icon: BugAntIcon,
-    color: 'from-red-400 to-pink-500',
-  },
+  { text: 'debug.', icon: BugAntIcon, color: 'from-red-500 to-pink-600' },
   {
     text: 'learn.',
     icon: AcademicCapIcon,
-    color: 'from-indigo-400 to-purple-500',
+    color: 'from-indigo-500 to-purple-600',
   },
   {
     text: 'ship.',
     icon: RocketLaunchIcon,
-    color: 'from-orange-400 to-red-500',
+    color: 'from-orange-500 to-red-600',
   },
   {
     text: 'collaborate.',
     icon: UserGroupIcon,
-    color: 'from-teal-400 to-cyan-500',
+    color: 'from-teal-500 to-cyan-600',
   },
   {
     text: 'create.',
     icon: SparklesIcon,
-    color: 'from-fuchsia-400 to-pink-500',
+    color: 'from-fuchsia-500 to-pink-600',
   },
   {
     text: 'innovate.',
     icon: BeakerIcon,
-    color: 'from-violet-400 to-purple-500',
+    color: 'from-violet-500 to-purple-600',
   },
   {
     text: 'test.',
     icon: CheckBadgeIcon,
-    color: 'from-emerald-400 to-green-500',
+    color: 'from-emerald-500 to-green-600',
   },
-  {
-    text: 'optimize.',
-    icon: ChartBarIcon,
-    color: 'from-sky-400 to-blue-500',
-  },
+  { text: 'optimize.', icon: ChartBarIcon, color: 'from-sky-500 to-blue-600' },
   {
     text: 'scale.',
     icon: ArrowTrendingUpIcon,
-    color: 'from-amber-400 to-orange-500',
+    color: 'from-amber-500 to-orange-600',
   },
-  {
-    text: 'repeat.',
-    icon: ArrowPathIcon,
-    color: 'from-cyan-400 to-teal-500',
-  },
+  { text: 'repeat.', icon: ArrowPathIcon, color: 'from-cyan-500 to-teal-600' },
 ]
 
 export function ScrollStory() {
   const itemsRef = useRef<HTMLLIElement[]>([])
+  const iconsRef = useRef<HTMLDivElement[]>([])
 
   useEffect(() => {
-    // Check if browser supports CSS scroll-driven animations
     const supportsScrollTimeline =
       CSS.supports('(animation-timeline: scroll())') &&
       CSS.supports('(animation-range: 0% 100%)')
 
-    if (supportsScrollTimeline) {
-      // Modern browsers will use CSS animations, no JS needed
-      return
-    }
-
-    // Fallback to GSAP for browsers without scroll-driven animation support
     gsap.registerPlugin(ScrollTrigger)
 
     const items = itemsRef.current.filter(Boolean)
+    const icons = iconsRef.current.filter(Boolean)
     if (items.length === 0) return
 
-    // Set initial opacity
+    // Parallax effect for icons
+    icons.forEach((icon, i) => {
+      gsap.to(icon, {
+        y: -50,
+        rotation: 360,
+        scrollTrigger: {
+          trigger: items[i],
+          start: 'top bottom',
+          end: 'bottom top',
+          scrub: 1,
+        },
+      })
+    })
+
+    if (supportsScrollTimeline) {
+      return () => {
+        ScrollTrigger.getAll().forEach((st) => st.kill())
+      }
+    }
+
+    // Fallback opacity animation
     gsap.set(items, { opacity: (i) => (i !== 0 ? 0.2 : 1) })
 
-    // Create the dimming animation
     const dimmer = gsap
       .timeline()
       .to(items.slice(1), {
@@ -159,25 +158,26 @@ export function ScrollStory() {
       whileInView={{ opacity: 1, y: 0 }}
       viewport={{ once: true, amount: 0.2 }}
       transition={{ duration: 1, ease: 'easeOut' }}
-      className='scroll-story relative flex w-full flex-col items-center justify-center overflow-hidden py-16 md:py-24 lg:py-32'
+      className='scroll-story relative flex w-full flex-col items-center justify-center py-12 md:py-24'
     >
-      {/* Title */}
-      <div className='mb-20 px-6 text-center md:mb-32 lg:mb-44'>
-        <h1 className='text-gradient-flare font-monument-extended text-3xl font-extrabold leading-tight sm:text-4xl md:text-5xl lg:text-7xl'>
-          This is how I bring ideas to life
-        </h1>
-      </div>
+      <StoryIcons />
+      <h1 className='text-gradient-flare mb-16 px-4 text-center font-monument-extended text-3xl font-extrabold leading-tight md:mb-32 md:text-5xl lg:mb-44 lg:text-7xl'>
+        This is how I bring ideas to life
+      </h1>
 
-      {/* headline + scroll words */}
-      <div className='content-wrapper flex w-full flex-col items-center px-4 sm:px-6 md:flex-row md:items-start md:justify-center md:gap-8 md:px-8 lg:gap-16 lg:px-12'>
-        {/* headline */}
-        <h2 className='sticky-heading sticky top-[35%] mb-8 text-4xl font-semibold leading-tight text-foreground/90 sm:text-5xl md:top-[40%] md:mb-0 md:text-6xl lg:text-7xl'>
+      <div className='content-wrapper flex w-full flex-col items-center px-4 md:flex-row md:items-start md:justify-center md:gap-10 md:px-12'>
+        <h2 className='sticky-heading sticky left-0 top-[30%] mb-8 w-full text-3xl font-semibold leading-tight md:top-[40%] md:mb-0 md:text-5xl lg:w-auto lg:text-7xl'>
           <span className='sr-only'> This is how I bring ideas to life </span>
-          <span aria-hidden='true'>I do&nbsp;</span>
+          <span
+            aria-hidden='true'
+            className='text-gradient-flare font-monument-vibe'
+          >
+            I do&nbsp;
+          </span>
         </h2>
 
         <ul
-          className='word-list scroll-snap-y w-full space-y-[15vh] pb-[15vh] pt-[5vh] md:w-auto md:space-y-[12vh] md:pb-[12vh] md:pt-[10vh]'
+          className='word-list scroll-snap-y space-y-[10vh] pb-[10vh] pt-[10vh]'
           style={{ '--count': WORDS.length } as React.CSSProperties}
         >
           {WORDS.map((word, i) => {
@@ -188,26 +188,24 @@ export function ScrollStory() {
                 ref={(el) => {
                   if (el) itemsRef.current[i] = el
                 }}
-                className='scroll-item scroll-snap-center relative flex items-center justify-center gap-4 md:justify-start md:gap-6 lg:gap-8'
+                className='scroll-item scroll-snap-center flex items-center gap-3 md:gap-6'
                 style={{ '--i': i } as React.CSSProperties}
               >
-                {/* Icon with 3D effect and ripple */}
-                <div className='icon-wrapper relative'>
-                  <div className='ripple-container absolute inset-0'>
-                    <div className='ripple ripple-1' />
-                    <div className='ripple ripple-2' />
-                    <div className='ripple ripple-3' />
-                  </div>
+                <div className='icon-wrapper shrink-0'>
                   <div
-                    className={`icon-3d relative z-10 flex h-16 w-16 items-center justify-center rounded-2xl bg-gradient-to-br shadow-2xl sm:h-20 sm:w-20 md:h-24 md:w-24 lg:h-28 lg:w-28 ${word.color}`}
+                    className={`icon-glow ${word.color.replace('from-', 'text-').split(' ')[0]}`}
+                  />
+                  <div
+                    ref={(el) => {
+                      if (el) iconsRef.current[i] = el
+                    }}
+                    className={`relative flex h-12 w-12 items-center justify-center rounded-xl bg-gradient-to-br shadow-lg md:h-16 md:w-16 lg:h-20 lg:w-20 ${word.color}`}
                   >
-                    <Icon className='h-8 w-8 text-white drop-shadow-lg sm:h-10 sm:w-10 md:h-12 md:w-12 lg:h-14 lg:w-14' />
+                    <Icon className='h-6 w-6 text-white md:h-8 md:w-8 lg:h-10 lg:w-10' />
                   </div>
                 </div>
-
-                {/* Word */}
                 <span
-                  className={`word-text bg-gradient-to-r bg-clip-text text-3xl font-semibold text-transparent sm:text-4xl md:text-5xl lg:text-6xl ${word.color}`}
+                  className={`bg-gradient-to-r bg-clip-text text-2xl font-semibold text-transparent md:text-4xl lg:text-6xl ${word.color}`}
                 >
                   {word.text}
                 </span>
@@ -217,9 +215,8 @@ export function ScrollStory() {
         </ul>
       </div>
 
-      {/* Closing message */}
-      <div className='mt-20 flex min-h-[40vh] items-center justify-center px-6 text-center md:mt-32 md:min-h-[50vh] md:px-8 lg:px-0'>
-        <p className='text-gradient-vibe max-w-2xl text-base font-light leading-relaxed sm:text-lg md:max-w-3xl md:text-xl lg:text-3xl'>
+      <div className='mt-16 flex min-h-[30vh] items-center justify-center px-6 text-center md:mt-24 md:min-h-[50vh] md:px-0'>
+        <p className='text-gradient-vibe max-w-2xl text-base font-light leading-relaxed md:max-w-3xl md:text-lg lg:text-2xl xl:text-4xl'>
           Each project is an experiment — a new blend of design, motion, and
           development that grows into something living and memorable.
         </p>
