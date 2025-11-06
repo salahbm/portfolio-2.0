@@ -9,7 +9,7 @@ import { ContactHero } from '@/components/landing/contact'
 
 export default function HomePage() {
   return (
-    <div className='relative pb-12'>
+    <div className='relative overflow-x-hidden pb-12'>
       <Header />
       <MacOSWaves />
       <Hero />

@@ -140,7 +140,10 @@ export function ContactHero() {
           </h1>
           <p className='text-secondary'>
             Contact me or{' '}
-            <a href='#chat' className='font-syne text-yellow-500 underline'>
+            <a
+              onClick={() => window.open('https://t.me/imsalah19')}
+              className='font-syne text-yellow-500 underline'
+            >
               chat with me
             </a>{' '}
             right now.
