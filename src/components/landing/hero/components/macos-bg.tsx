@@ -252,11 +252,9 @@ export default function MacOSWaves() {
   }, [theme])
 
   return (
-    <div className='pointer-events-none fixed inset-0 -z-10 h-screen w-screen overflow-hidden'>
-      <div
-        ref={sketchRef}
-        className='absolute inset-0 -z-10 h-full w-full overflow-hidden'
-      />
-    </div>
+    <div
+      ref={sketchRef}
+      className='absolute inset-0 -z-10 h-dvh w-full overflow-hidden'
+    />
   )
 }

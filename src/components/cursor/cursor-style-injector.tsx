@@ -59,10 +59,10 @@ export function CursorStyleInjector() {
     style.id = 'custom-cursor-styles'
 
     // Default cursor size (adjust this to make cursors larger/smaller)
-    const defaultSize = 24
-    const pointerSize = 24
-    const textSize = 22
-    const clickSize = 28
+    const defaultSize = 36
+    const pointerSize = 36
+    const textSize = 36
+    const clickSize = 34
 
     style.textContent = `
       /* Base cursor (default) */
