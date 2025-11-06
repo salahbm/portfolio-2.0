@@ -13,7 +13,7 @@ import {
   DialogTitle,
 } from '@/components/ui/dialog'
 
-const LOGO_SRC = '/medias/images/salah-logo.png'
+const LOGO_SRC = '/medias/images/logo.webp'
 
 export function QRCodeDialog({
   value,
