@@ -89,7 +89,7 @@ const HobbyView: React.FC = () => {
           <h1 className='text-gradient-lilac mb-8 text-5xl font-semibold leading-tight md:text-6xl lg:text-7xl'>
             Outside the Code
           </h1>
-          <p className='font-sf-medium text-gradient-flare max-w-3xl text-base leading-loose tracking-wide md:text-lg lg:text-2xl'>
+          <p className='text-gradient-flare max-w-3xl font-sf-medium text-base leading-loose tracking-wide md:text-lg lg:text-2xl'>
             When I’m not building things for the web, I’m usually at the gym,
             trying to make stretching look like strength training.
             <br />

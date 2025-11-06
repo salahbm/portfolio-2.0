@@ -109,7 +109,7 @@ export function JourneyScroll() {
       whileInView={{ opacity: 1 }}
       viewport={{ once: true, amount: 0.2 }}
       transition={{ duration: 1, ease: 'easeOut' }}
-      className='font-sf-medium no-scrollbar relative isolate box-border h-screen w-full overflow-y-auto overflow-x-hidden'
+      className='no-scrollbar relative isolate box-border h-screen w-full overflow-y-auto overflow-x-hidden font-sf-medium'
     >
       <div ref={scrollContentRef} className='relative h-[150vh]'>
         {/* Left edge line - hidden on mobile */}
