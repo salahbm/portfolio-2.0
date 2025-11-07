@@ -74,7 +74,7 @@
   }
 
   body {
-    @apply font-sf-medium bg-background text-foreground antialiased;
+    @apply bg-background font-sf-medium text-foreground antialiased;
   }
 
   .font-sf-medium {

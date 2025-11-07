@@ -47,7 +47,7 @@ export function ScrollStory() {
         gsap.set(exitText, {
           position: 'absolute',
           left: '50%',
-          top: '65%',
+          top: '40%',
           xPercent: -50,
           yPercent: -50,
           opacity: 0,
@@ -112,8 +112,8 @@ export function ScrollStory() {
         tl.to(
           exitText,
           {
-            scale: 2.3,
-            yPercent: 30,
+            scale: 2,
+            yPercent: -5,
             duration: 2,
             ease: 'power2.inOut',
           },

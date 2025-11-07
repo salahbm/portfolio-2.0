@@ -98,7 +98,7 @@ const HobbyView: React.FC = () => {
             was a chef)
             <br />
             <br />
-            And I love a good café with loud jazz and stronger coffee — that’s
+            And I love a good café with beautiful view and lofi song — that’s
             where most of my “deep work” happens.
           </p>
         </motion.div>
