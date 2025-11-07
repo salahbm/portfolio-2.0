@@ -70,7 +70,7 @@ const HoverText = ({
       onMouseLeave={handleMouseLeave}
     >
       <motion.p
-        className='relative inline-block cursor-pointer font-bold tracking-wide !text-accent transition-all duration-300'
+        className='hover-word relative inline-block cursor-pointer font-bold tracking-wide !text-accent transition-all duration-300'
         whileHover={{
           scaleY: 1.1,
           transition: {

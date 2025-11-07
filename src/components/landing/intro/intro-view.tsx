@@ -1,7 +1,6 @@
 'use client'
 
 import { useState } from 'react'
-
 import HoverText from './hover-text'
 import { InfoCircledIcon } from '@radix-ui/react-icons'
 import { WaveUnderline } from './wave-underline'
@@ -11,29 +10,36 @@ import gsap from 'gsap'
 
 gsap.registerPlugin(SplitText)
 
+/* Prevent outline affecting SplitText children */
+const outlineFix = `
+.text-outline span:not(.hover-word),
+.text-outline div:not(.hover-word) {
+  color: transparent;
+  -webkit-text-stroke: inherit;
+}
+`
+
 export default function IntroView() {
   const [activeWord, setActiveWord] = useState<string | null>(null)
 
   useGSAP(() => {
-    let intro1: SplitText
-    let intro2: SplitText
-    let intro3: SplitText
+    let intro1, intro2, intro3
 
-    // SplitText instances
     document.fonts.ready.then(() => {
-      intro1 = SplitText.create('.intro-1', { type: 'words' })
-      intro2 = SplitText.create('.intro-2', { type: 'words' })
-      intro3 = SplitText.create('.intro-3', { type: 'words' })
+      // ✅ Split ONLY the main text parts
+      intro1 = SplitText.create('.intro-1-split', { type: 'words' })
+      intro2 = SplitText.create('.intro-2-split', { type: 'words' })
+      intro3 = SplitText.create('.intro-3-split', { type: 'words' })
 
-      // Faster coloring animation (short scroll + small stagger)
+      // ✅ COLOR ANIMATIONS — ONLY for split parts
       gsap.to(intro1.words, {
         color: '#2e54d1',
         ease: 'power1.inOut',
         stagger: 0.15,
         scrollTrigger: {
           trigger: '.intro-1',
-          start: 'top 110%',
-          end: 'top 100%',
+          start: 'top 70%',
+          end: '30% center',
           scrub: true,
         },
       })
@@ -44,8 +50,8 @@ export default function IntroView() {
         stagger: 0.15,
         scrollTrigger: {
           trigger: '.intro-2',
-          start: 'top 105%',
-          end: 'top 95%',
+          start: 'top 50%',
+          end: 'bottom center',
           scrub: true,
         },
       })
@@ -56,14 +62,14 @@ export default function IntroView() {
         stagger: 0.15,
         scrollTrigger: {
           trigger: '.intro-3',
-          start: 'top 100%',
-          end: 'top 93%',
+          start: 'top 60%',
+          end: 'bottom center',
           scrub: true,
         },
       })
     })
 
-    // Hero timeline
+    // ✅ HERO SCALE/ROTATE
     const heroTL = gsap.timeline({
       scrollTrigger: {
         trigger: '.intro-section',
@@ -82,62 +88,80 @@ export default function IntroView() {
   })
 
   return (
-    <section className='relative flex flex-col items-center justify-center overflow-hidden'>
-      <div className='intro-section relative z-10 mx-auto mt-[40vh] w-full max-w-5xl px-6 text-end font-syne leading-relaxed'>
+    <section className='relative flex min-h-[150vh] flex-col items-center justify-center overflow-hidden'>
+      {/* FIXED OUTLINE BEHAVIOR */}
+      <style>{outlineFix}</style>
+      <div className='absolute inset-0 -z-10 h-full w-full bg-white bg-[linear-gradient(to_right,#f0f0f0_1px,transparent_1px),linear-gradient(to_bottom,#f0f0f0_1px,transparent_1px)] bg-[size:6rem_4rem]'></div>
+
+      <div className='intro-section relative z-10 mx-auto w-full max-w-5xl px-6 text-end font-syne leading-relaxed'>
+        {/* INTRO 1 */}
         <div
           className='intro-1 text-outline mb-8 font-light leading-[1.4] tracking-wide'
-          style={{
-            fontSize: 'clamp(1.6rem, 3.5vw, 2.5rem)',
-          }}
+          style={{ fontSize: 'clamp(1.6rem, 3.5vw, 2.5rem)' }}
         >
-          Hey, I’m{' '}
-          <span className='relative font-semibold'>
+          <span className='intro-1-split'>Hey, I’m </span>
+
+          <span className='intro-1-split relative font-semibold'>
             Muhammad,
             <span className='absolute -bottom-2 left-0 right-0'>
               <WaveUnderline />
             </span>{' '}
           </span>
-          but most people just call me Salah (살라).
+
+          <span className='intro-1-split'>
+            but most people just call me Salah (살라).
+          </span>
         </div>
 
+        {/* INTRO 2 */}
         <div
           className='intro-2 text-outline mb-8 font-light leading-normal'
-          style={{
-            fontSize: 'clamp(1.4rem, 3vw, 2.5rem)',
-          }}
+          style={{ fontSize: 'clamp(1.4rem, 3vw, 2.5rem)' }}
         >
-          Originally from{' '}
+          <span className='intro-2-split'>Originally from </span>
+
+          {/* ✅ Hover text IGNORE GSAP */}
           <HoverText
             wordKey='bukhara'
             label='Bukhara, Uzbekistan'
             activeWord={activeWord}
             setActiveWord={setActiveWord}
           />
-          . These days, you’ll find me wandering through{' '}
+
+          <span className='intro-2-split'>
+            . These days, you’ll find me wandering through{' '}
+          </span>
+
           <HoverText
             wordKey='seoul'
             label='Seoul, South Korea'
             activeWord={activeWord}
             setActiveWord={setActiveWord}
           />
-          , chasing light and ideas since 2019.
+
+          <span className='intro-2-split'>
+            , chasing light and ideas since 2019.
+          </span>
         </div>
 
+        {/* INTRO 3 */}
         <div
           className='intro-3 text-outline font-light leading-[1.6]'
-          style={{
-            fontSize: 'clamp(1.2rem, 2.5vw, 2.5rem)',
-          }}
+          style={{ fontSize: 'clamp(1.2rem, 2.5vw, 2.5rem)' }}
         >
-          Studied Computer Science at{' '}
+          <span className='intro-3-split'>Studied Computer Science at </span>
+
           <HoverText
             wordKey='dankook'
             label='Dankook University'
             activeWord={activeWord}
             setActiveWord={setActiveWord}
           />
-          , and I’ve been writing code, breaking things, and learning to fix
-          them better ever since.
+
+          <span className='intro-3-split'>
+            , and I’ve been writing code, breaking things, and learning to fix
+            them better ever since.
+          </span>
         </div>
       </div>
 

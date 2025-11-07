@@ -121,129 +121,122 @@ export function ContactHero() {
   )
 
   return (
-    <section className='w-full'>
-      <div className='mx-auto flex min-h-[70vh] max-w-7xl flex-col items-center justify-center gap-16 px-6 py-16 lg:flex-row lg:items-center lg:gap-12 lg:px-12'>
-        {/* Left: Text */}
-        <motion.div
-          initial={{ opacity: 0, y: 40 }}
-          whileInView={{ opacity: 1, y: 0 }}
-          viewport={{ once: true }}
-          transition={{ duration: 0.8, ease: [0.16, 1, 0.3, 1] }}
-          className='max-w-2xl text-center lg:text-left'
+    <div className='mx-auto flex min-h-screen max-w-7xl flex-col items-center justify-center gap-16 px-6 py-16 lg:flex-row lg:items-center lg:gap-12 lg:px-12'>
+      {/* Left: Text */}
+      <motion.div
+        initial={{ opacity: 0, y: 40 }}
+        whileInView={{ opacity: 1, y: 0 }}
+        viewport={{ once: true }}
+        transition={{ duration: 0.8, ease: [0.16, 1, 0.3, 1] }}
+        className='max-w-2xl text-center lg:text-left'
+      >
+        <p className='mb-3 text-sm text-primary'>
+          Are you looking for a talented developer to enhance your digital
+          presence?
+        </p>
+        <h1 className='text-gradient-harmony mb-6 font-monument-extended text-[44px] leading-[1.05] md:text-7xl'>
+          let&apos;s bring your ideas to life
+        </h1>
+        <p className='text-secondary-foreground'>
+          Contact me or{' '}
+          <a
+            onClick={() => window.open('https://t.me/imsalah19')}
+            className='font-syne text-yellow-500 underline'
+          >
+            chat with me
+          </a>{' '}
+          right now.
+        </p>
+      </motion.div>
+
+      {/* Middle: Unique Arrows */}
+      <motion.div
+        initial={{ opacity: 0, x: -12 }}
+        whileInView={{ opacity: 1, x: 0 }}
+        viewport={{ once: true }}
+        transition={{ duration: 0.6, ease: [0.16, 1, 0.3, 1], delay: 0.3 }}
+        className='flex rotate-180 items-center gap-2 sm:gap-3'
+        aria-hidden
+      >
+        <ArrowA delay={0} />
+        <ArrowB delay={0.12} />
+        <ArrowC delay={0.24} />
+      </motion.div>
+
+      {/* Right: Blob + Mail */}
+      <motion.div
+        animate={controls}
+        className='relative flex size-[200px] cursor-pointer items-center justify-center lg:size-[240px]'
+        onClick={openEmail}
+        role='button'
+        aria-label='Email: salahbm.001@gmail.com'
+        title='Email me'
+      >
+        <svg
+          width='240'
+          height='240'
+          viewBox='0 0 220 220'
+          className='overflow-visible'
+          xmlns='http://www.w3.org/2000/svg'
         >
-          <p className='mb-3 text-sm text-primary'>
-            Are you looking for a talented developer to enhance your digital
-            presence?
-          </p>
-          <h1 className='text-gradient-harmony mb-6 font-monument-extended text-[44px] leading-[1.05] md:text-7xl'>
-            let&apos;s bring your ideas to life
-          </h1>
-          <p className='text-secondary-foreground'>
-            Contact me or{' '}
-            <a
-              onClick={() => window.open('https://t.me/imsalah19')}
-              className='font-syne text-yellow-500 underline'
+          <defs>
+            <filter
+              id='blob-shadow-glow'
+              x='-50%'
+              y='-50%'
+              width='200%'
+              height='200%'
             >
-              chat with me
-            </a>{' '}
-            right now.
-          </p>
-        </motion.div>
-
-        {/* Middle: Unique Arrows */}
-        <motion.div
-          initial={{ opacity: 0, x: -12 }}
-          whileInView={{ opacity: 1, x: 0 }}
-          viewport={{ once: true }}
-          transition={{ duration: 0.6, ease: [0.16, 1, 0.3, 1], delay: 0.3 }}
-          className='flex items-center gap-2 sm:gap-3'
-          aria-hidden
-        >
-          <ArrowA delay={0} />
-          <ArrowB delay={0.12} />
-          <ArrowC delay={0.24} />
-        </motion.div>
-
-        {/* Right: Blob + Mail */}
-        <motion.div
-          animate={controls}
-          className='relative flex size-[200px] cursor-pointer items-center justify-center lg:size-[240px]'
-          onClick={openEmail}
-          role='button'
-          aria-label='Email: salahbm.001@gmail.com'
-          title='Email me'
-        >
-          <svg
-            width='240'
-            height='240'
-            viewBox='0 0 220 220'
-            className='overflow-visible'
-            xmlns='http://www.w3.org/2000/svg'
-          >
-            <defs>
-              <filter
-                id='blob-shadow-glow'
-                x='-50%'
-                y='-50%'
-                width='200%'
-                height='200%'
-              >
-                <feGaussianBlur
-                  in='SourceAlpha'
-                  stdDeviation='3'
-                  result='shadow-blur'
-                />
-                <feOffset
-                  in='shadow-blur'
-                  dx='0'
-                  dy='6'
-                  result='shadow-offset'
-                />
-                <feFlood
-                  floodColor='#000000'
-                  floodOpacity='0.25'
-                  result='shadow-color'
-                />
-                <feComposite
-                  in='shadow-color'
-                  in2='shadow-offset'
-                  operator='in'
-                  result='shadow'
-                />
-                <feMerge>
-                  <feMergeNode in='shadow' />
-                  <feMergeNode in='SourceGraphic' />
-                </feMerge>
-              </filter>
-            </defs>
-
-            <g transform='translate(110,110)'>
-              <motion.path
-                d={blobPath}
-                fill='#ef4444'
-                filter='url(#blob-shadow-glow)'
-                style={{ transformOrigin: 'center' }}
+              <feGaussianBlur
+                in='SourceAlpha'
+                stdDeviation='3'
+                result='shadow-blur'
               />
-            </g>
-          </svg>
+              <feOffset in='shadow-blur' dx='0' dy='6' result='shadow-offset' />
+              <feFlood
+                floodColor='#000000'
+                floodOpacity='0.25'
+                result='shadow-color'
+              />
+              <feComposite
+                in='shadow-color'
+                in2='shadow-offset'
+                operator='in'
+                result='shadow'
+              />
+              <feMerge>
+                <feMergeNode in='shadow' />
+                <feMergeNode in='SourceGraphic' />
+              </feMerge>
+            </filter>
+          </defs>
 
-          {/* Mail Icon (Radix) */}
-          <motion.button
-            type='button'
-            onClick={openEmail}
-            className='absolute inset-0 grid place-items-center rounded-full outline-none'
-            whileHover={{ scale: 1.05 }}
-            whileTap={{ scale: 0.98 }}
-            aria-label='Open mail to salahbm.001@gmail.com'
-            style={{
-              filter:
-                'drop-shadow(0 4px 10px rgba(0,0,0,0.25)) drop-shadow(0 0 12px rgba(255,255,255,0.3))',
-            }}
-          >
-            <EnvelopeClosedIcon className='size-12 text-white drop-shadow-lg sm:size-14' />
-          </motion.button>
-        </motion.div>
-      </div>
-    </section>
+          <g transform='translate(110,110)'>
+            <motion.path
+              d={blobPath}
+              fill='#ef4444'
+              filter='url(#blob-shadow-glow)'
+              style={{ transformOrigin: 'center' }}
+            />
+          </g>
+        </svg>
+
+        {/* Mail Icon (Radix) */}
+        <motion.button
+          type='button'
+          onClick={openEmail}
+          className='absolute inset-0 grid place-items-center rounded-full outline-none'
+          whileHover={{ scale: 1.05 }}
+          whileTap={{ scale: 0.98 }}
+          aria-label='Open mail to salahbm.001@gmail.com'
+          style={{
+            filter:
+              'drop-shadow(0 4px 10px rgba(0,0,0,0.25)) drop-shadow(0 0 12px rgba(255,255,255,0.3))',
+          }}
+        >
+          <EnvelopeClosedIcon className='size-12 text-white drop-shadow-lg sm:size-14' />
+        </motion.button>
+      </motion.div>
+    </div>
   )
 }
