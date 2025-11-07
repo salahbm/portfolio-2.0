@@ -74,7 +74,7 @@
   }
 
   body {
-    @apply bg-background font-sf-medium text-foreground antialiased;
+    @apply font-sf-medium bg-background text-foreground antialiased;
   }
 
   .font-sf-medium {
@@ -119,5 +119,37 @@
   .wave-layer {
     will-change: transform;
     mix-blend-mode: screen;
+  }
+
+  @keyframes scribble-spin {
+    0% {
+      transform: rotate(0deg);
+    }
+    50% {
+      transform: rotate(6deg);
+    }
+    100% {
+      transform: rotate(0deg);
+    }
+  }
+
+  @keyframes float {
+    0% {
+      transform: translateY(0px);
+    }
+    50% {
+      transform: translateY(-12px);
+    }
+    100% {
+      transform: translateY(0px);
+    }
+  }
+
+  .animate-scribble-spin {
+    animation: scribble-spin 6s ease-in-out infinite;
+  }
+
+  .animate-float {
+    animation: float 5s ease-in-out infinite;
   }
 }

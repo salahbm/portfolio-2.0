@@ -19,8 +19,7 @@ import { useGSAP } from '@gsap/react'
 import { MorphSVGPlugin } from 'gsap/MorphSVGPlugin'
 import { MotionPathPlugin } from 'gsap/MotionPathPlugin'
 import gsap from 'gsap'
-import JourneyHeader from '@/components/landing/journey/journey-header'
-import HobbyScroll from '@/components/landing/hobby/hobby-sroll'
+import { JourneyScroll } from '@/components/landing/journey'
 
 gsap.registerPlugin(
   ScrollTrigger,
@@ -36,11 +35,10 @@ gsap.registerPlugin(
 
 export default function HomePage() {
   useGSAP(() => {
-    // SMOOTH SCROLL
+    // Only enable ScrollSmoother on non-touch devices (desktop)
     ScrollSmoother.create({
       smooth: 1.3,
       effects: true,
-      normalizeScroll: true,
     })
 
     // INTRO ABOUT ME SCROLL CONTROLLER
@@ -65,10 +63,8 @@ export default function HomePage() {
         <Hero />
         <AboutMe />
         <IntroView />
-        <JourneyHeader />
-        {/* <JourneyScroll /> */}
+        <JourneyScroll />
         <ScrollStory />
-        <HobbyScroll />
         <HobbyView />
         <ContactHero />
       </div>
