@@ -2,24 +2,24 @@
 
 import { ScrollStory } from '@/components/landing/scroll-story'
 import { Hero } from '@/components/landing/hero/hero-view'
-import { JourneyScroll } from '@/components/landing/journey'
 import IntroView from '@/components/landing/intro/intro-view'
 import { HobbyView } from '@/components/landing/hobby'
 import { ContactHero } from '@/components/landing/contact'
 import { AboutMe } from '@/components/landing/intro/about-me'
-import { useGSAP } from '@gsap/react'
-import { ScrollTrigger } from 'gsap/ScrollTrigger'
-import { ScrollSmoother } from 'gsap/ScrollSmoother'
-import gsap from 'gsap'
-import { SplitText } from 'gsap/all'
 
 import {
   DrawSVGPlugin,
-  MorphSVGPlugin,
-  MotionPathPlugin,
   Physics2DPlugin,
   ScrambleTextPlugin,
+  ScrollSmoother,
+  ScrollTrigger,
+  SplitText,
 } from 'gsap/all'
+import { useGSAP } from '@gsap/react'
+import { MorphSVGPlugin } from 'gsap/MorphSVGPlugin'
+import { MotionPathPlugin } from 'gsap/MotionPathPlugin'
+import gsap from 'gsap'
+import JourneyHeader from '@/components/landing/journey/journey-header'
 
 gsap.registerPlugin(
   ScrollTrigger,
@@ -64,7 +64,8 @@ export default function HomePage() {
         <Hero />
         <AboutMe />
         <IntroView />
-        <JourneyScroll />
+        <JourneyHeader />
+        {/* <JourneyScroll /> */}
         <ScrollStory />
         <HobbyView />
         <ContactHero />

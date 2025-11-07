@@ -83,7 +83,7 @@ export default function IntroView() {
 
   return (
     <section className='relative flex flex-col items-center justify-center overflow-hidden'>
-      <div className='intro-section relative z-10 mx-auto mt-[70vh] w-full max-w-5xl px-6 text-end font-syne leading-relaxed'>
+      <div className='intro-section relative z-10 mx-auto mt-[40vh] w-full max-w-5xl px-6 text-end font-syne leading-relaxed'>
         <div
           className='intro-1 text-outline mb-8 font-light leading-[1.4] tracking-wide'
           style={{
@@ -141,7 +141,7 @@ export default function IntroView() {
         </div>
       </div>
 
-      <span className='mb-[40vh] mt-5 flex w-full max-w-4xl items-center justify-end gap-2 text-sm text-muted-foreground'>
+      <span className='mt-5 flex w-full max-w-4xl items-center justify-end gap-2 text-sm text-muted-foreground'>
         <InfoCircledIcon className='inline-block' />
         Hover on the gradient texts to see the images
       </span>

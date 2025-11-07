@@ -8,11 +8,8 @@ import { TailwindIndicator } from '@/components/ui-helpers/tailwind-indicator'
 import { PageTransition } from '@/components/page-transition'
 import { LockScreenProvider } from './lock-screen-provider'
 import { ThemeProvider } from './theme-provider'
-import { easterEgg } from '@/lib/easter-egg'
 
 export function ProvidersTree({ children }: { children: React.ReactNode }) {
-  easterEgg()
-
   return (
     <ThemeProvider
       attribute='class'
