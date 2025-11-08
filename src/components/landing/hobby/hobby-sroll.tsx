@@ -241,12 +241,11 @@ const HobbyScroll = () => {
           NEW HEADER
       ========================== */}
       <section className='hobbies-header relative flex h-[190vh] w-full flex-col items-center justify-center px-8 pt-10'>
-        <h2 className='font-monument-extended text-6xl font-extrabold uppercase tracking-[0.18em] text-primary md:text-7xl'>
-          Hobbies
+        <h2 className='text-center font-monument-extended text-5xl font-extrabold uppercase tracking-[0.18em] text-primary md:text-5xl'>
+          You think I only code?
         </h2>
         <p className='mt-6 max-w-[850px] text-center font-syne text-2xl font-semibold text-popover-foreground'>
-          What keeps me curious, grounded, and balanced outside of building for
-          the web.
+          Lemme in, you will be surprised ;)
         </p>
 
         <HorryIcons />
@@ -318,8 +317,8 @@ const HobbyScroll = () => {
                   className='mt-6 w-full rotate-1 rounded-2xl border-2 border-amber-400/60 bg-white px-6 py-8 font-syne text-lg font-semibold text-amber-900 shadow-md md:text-xl'
                   style={{ opacity: 0 }}
                 >
-                  I experiment in the kitchen, mostly learning what <em>not</em>{' '}
-                  to do. (FYI: I was a chef.)
+                  I experiment in the kitchen, mostly on weekends <em>not</em>{' '}
+                  creating something yummy. (FYI: I am ex-chef.)
                 </p>
               </div>
             </div>

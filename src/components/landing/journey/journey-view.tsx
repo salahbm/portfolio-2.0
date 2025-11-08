@@ -92,13 +92,14 @@ export function JourneyScroll() {
       {/* FIXED HEIGHT + SPACING */}
       <section className='journey-section relative flex min-h-screen w-dvw items-center justify-center overflow-visible px-6'>
         <p className='journey-content mx-auto max-w-4xl font-syne text-xl leading-[3rem] tracking-wide md:text-4xl md:leading-[4rem] 2xl:text-6xl'>
-          I thought coding would make me{' '}
+          Once I thought coding would make me{' '}
           <span className='journey-content-dynamic text-primary'>
-            shi*t a lot of money{' '}
+            shi*t lot of money{' '}
             <span className='dollar-text inline-block'>💵🤑💸💰</span>
           </span>
-          , and would be easy for just a couple of weekends. Several years,
-          thousands of bugs, and way too much coffee later — I’m still here.
+          , and would be easy to achieve in some weeks. Several years, thousands
+          of bugs, and way too much coffee later — I’m still here. Since then
+          ...
         </p>
       </section>
     </Fragment>

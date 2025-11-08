@@ -38,7 +38,6 @@ gsap.registerPlugin(
 
 export default function HomePage() {
   useGSAP(() => {
-    // Only enable ScrollSmoother on non-touch devices (desktop)
     ScrollSmoother.create({
       smooth: 1.3,
       effects: true,

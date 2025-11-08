@@ -75,6 +75,7 @@ const ThankingView = () => {
         .to('#thanking-title-1', { xPercent: 60 }, 0)
         .to('#thanking-title-2', { xPercent: 20 }, 0)
         .to('#thanking-title-3', { xPercent: -45 }, 0)
+        .to('#thanking-title-4', { xPercent: 10 }, 0)
 
       // Add character split animation for extra coolness
       const titles = document.querySelectorAll('.thanking-text')
@@ -128,15 +129,22 @@ const ThankingView = () => {
             className='thanking-text mb-2 text-4xl font-extrabold tracking-tight text-primary sm:text-5xl md:mb-4 md:text-7xl lg:text-8xl xl:text-9xl'
             style={{ transformStyle: 'preserve-3d' }}
           >
-            Thanks for
+            you really
           </h1>
           <h1
             id='thanking-title-3'
             className='thanking-text text-2xl font-extrabold tracking-tight text-[#ef4333] dark:text-[#d70000] sm:text-3xl md:text-5xl lg:text-6xl xl:text-8xl'
             style={{ transformStyle: 'preserve-3d' }}
           >
-            scrolling till here
+            scrolling huh ?
           </h1>
+          <em
+            id='thanking-title-4'
+            className='thanking-text mt-2 text-xl font-extrabold tracking-tight text-accent sm:text-3xl md:text-5xl lg:text-4xl xl:text-5xl'
+            style={{ transformStyle: 'preserve-3d' }}
+          >
+            not bottom but close
+          </em>
         </div>
 
         {/* Decorative elements */}

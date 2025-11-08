@@ -7,6 +7,7 @@ import { WaveUnderline } from './wave-underline'
 import { useGSAP } from '@gsap/react'
 import { SplitText } from 'gsap/all'
 import gsap from 'gsap'
+import { useTheme } from 'next-themes'
 
 gsap.registerPlugin(SplitText)
 
@@ -20,7 +21,10 @@ const outlineFix = `
 `
 
 export default function IntroView() {
+  const { theme } = useTheme()
   const [activeWord, setActiveWord] = useState<string | null>(null)
+
+  const color = theme === 'light' ? '#1C00C4' : '#fff'
 
   useGSAP(() => {
     let intro1, intro2, intro3
@@ -33,7 +37,7 @@ export default function IntroView() {
 
       //  COLOR ANIMATIONS — ONLY for split parts
       gsap.to(intro1.words, {
-        color: '#1C00C4',
+        color,
         ease: 'power1.inOut',
         stagger: 0.15,
         scrollTrigger: {
@@ -45,7 +49,7 @@ export default function IntroView() {
       })
 
       gsap.to(intro2.words, {
-        color: '#1C00C4',
+        color,
         ease: 'power1.inOut',
         stagger: 0.15,
         scrollTrigger: {
@@ -57,7 +61,7 @@ export default function IntroView() {
       })
 
       gsap.to(intro3.words, {
-        color: '#1C00C4',
+        color,
         ease: 'power1.inOut',
         stagger: 0.15,
         scrollTrigger: {
@@ -85,7 +89,7 @@ export default function IntroView() {
       yPercent: 20,
       ease: 'power1.inOut',
     })
-  })
+  }, [theme])
 
   return (
     <section className='relative flex min-h-[150vh] flex-col items-center justify-center overflow-hidden'>
