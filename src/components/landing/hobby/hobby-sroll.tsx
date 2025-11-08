@@ -26,9 +26,9 @@ const HobbyScroll = () => {
           // HEADER GROW AFTER CENTER
           gsap.fromTo(
             '.hobbies-header',
-            { scale: 1 },
+            { scale: 0.7 },
             {
-              scale: 1.5,
+              scale: 1.6,
               scrollTrigger: {
                 trigger: '.hobbies-header',
                 start: 'top center', // starts earlier

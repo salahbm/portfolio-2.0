@@ -1,11 +1,6 @@
 'use client'
 
-import { ScrollStory } from '@/components/landing/scroll-story'
-import { Hero } from '@/components/landing/hero/hero-view'
-import IntroView from '@/components/landing/intro/intro-view'
-import { HobbyView } from '@/components/landing/hobby'
-import { ContactHero } from '@/components/landing/contact'
-import { AboutMe } from '@/components/landing/intro/about-me'
+import gsap from 'gsap'
 
 import {
   DrawSVGPlugin,
@@ -18,9 +13,16 @@ import {
 import { useGSAP } from '@gsap/react'
 import { MorphSVGPlugin } from 'gsap/MorphSVGPlugin'
 import { MotionPathPlugin } from 'gsap/MotionPathPlugin'
-import gsap from 'gsap'
+
+import { ScrollStory } from '@/components/landing/scroll-story'
+import { Hero } from '@/components/landing/hero/hero-view'
+import IntroView from '@/components/landing/intro/intro-view'
+import { HobbyView } from '@/components/landing/hobby'
+import { ContactHero } from '@/components/landing/contact'
+import { AboutMe } from '@/components/landing/intro/about-me'
 import { JourneyScroll } from '@/components/landing/journey'
 import { ThankingView } from '@/components/landing/thanking'
+import { Footer } from '@/components/landing/footer'
 
 gsap.registerPlugin(
   ScrollTrigger,
@@ -69,6 +71,7 @@ export default function HomePage() {
         <HobbyView />
         <ThankingView />
         <ContactHero />
+        <Footer />
       </div>
     </div>
   )
