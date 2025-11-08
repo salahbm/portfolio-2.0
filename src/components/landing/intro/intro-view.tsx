@@ -26,14 +26,14 @@ export default function IntroView() {
     let intro1, intro2, intro3
 
     document.fonts.ready.then(() => {
-      // ✅ Split ONLY the main text parts
+      //  Split ONLY the main text parts
       intro1 = SplitText.create('.intro-1-split', { type: 'words' })
       intro2 = SplitText.create('.intro-2-split', { type: 'words' })
       intro3 = SplitText.create('.intro-3-split', { type: 'words' })
 
-      // ✅ COLOR ANIMATIONS — ONLY for split parts
+      //  COLOR ANIMATIONS — ONLY for split parts
       gsap.to(intro1.words, {
-        color: '#2e54d1',
+        color: '#1C00C4',
         ease: 'power1.inOut',
         stagger: 0.15,
         scrollTrigger: {
@@ -45,7 +45,7 @@ export default function IntroView() {
       })
 
       gsap.to(intro2.words, {
-        color: '#2e54d1',
+        color: '#1C00C4',
         ease: 'power1.inOut',
         stagger: 0.15,
         scrollTrigger: {
@@ -57,7 +57,7 @@ export default function IntroView() {
       })
 
       gsap.to(intro3.words, {
-        color: '#2e54d1',
+        color: '#1C00C4',
         ease: 'power1.inOut',
         stagger: 0.15,
         scrollTrigger: {
@@ -69,7 +69,7 @@ export default function IntroView() {
       })
     })
 
-    // ✅ HERO SCALE/ROTATE
+    //  HERO SCALE/ROTATE
     const heroTL = gsap.timeline({
       scrollTrigger: {
         trigger: '.intro-section',
@@ -91,7 +91,7 @@ export default function IntroView() {
     <section className='relative flex min-h-[150vh] flex-col items-center justify-center overflow-hidden'>
       {/* FIXED OUTLINE BEHAVIOR */}
       <style>{outlineFix}</style>
-      <div className='absolute inset-0 -z-10 h-full w-full bg-white bg-[linear-gradient(to_right,#f0f0f0_1px,transparent_1px),linear-gradient(to_bottom,#f0f0f0_1px,transparent_1px)] bg-[size:6rem_4rem]'></div>
+      <div className='absolute inset-0 -z-10 h-full w-full bg-white bg-[linear-gradient(to_right,theme(colors.gray.200)_1px,transparent_1px),linear-gradient(to_bottom,theme(colors.gray.200)_1px,transparent_1px)] bg-[size:6rem_4rem] dark:bg-neutral-900 dark:bg-[linear-gradient(to_right,theme(colors.gray.800)_1px,transparent_1px),linear-gradient(to_bottom,theme(colors.gray.800)_1px,transparent_1px)]' />
 
       <div className='intro-section relative z-10 mx-auto w-full max-w-5xl px-6 text-end font-syne leading-relaxed'>
         {/* INTRO 1 */}
@@ -120,7 +120,7 @@ export default function IntroView() {
         >
           <span className='intro-2-split'>Originally from </span>
 
-          {/* ✅ Hover text IGNORE GSAP */}
+          {/*  Hover text IGNORE GSAP */}
           <HoverText
             wordKey='bukhara'
             label='Bukhara, Uzbekistan'

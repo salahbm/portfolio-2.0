@@ -24,6 +24,7 @@ export function ScrollStory() {
 
         // -------- Initial state
         gsap.set(wrapper, { position: 'relative' })
+        gsap.set('.scroll-story-background', { opacity: 0.1 })
 
         gsap.set(heading, {
           position: 'absolute',
@@ -70,6 +71,17 @@ export function ScrollStory() {
         tl.to(heading, { top: '50%', scale: 1, duration: 1.2 })
 
         tl.to(rail, { x: 0, opacity: 1, duration: 0.8 }, '>-0.1')
+
+        // fade 0.4 → 1
+        tl.to(
+          '.scroll-story-background',
+          {
+            opacity: 1,
+            duration: 1.2,
+            ease: 'power2.out',
+          },
+          '>-0.2'
+        )
 
         tl.to(heading, { opacity: 0, scale: 0.6, duration: 0.6 }, '>')
 
@@ -131,8 +143,10 @@ export function ScrollStory() {
       <div
         ref={wrapperRef}
         id='scroll-story'
-        className='bg-gradient-harmonic relative mb-[300vh] flex h-screen items-center justify-start overflow-hidden'
+        className='relative mb-[300vh] flex h-screen items-center justify-start overflow-hidden'
       >
+        <div className='scroll-story-background bg-gradient-harmonic pointer-events-none absolute inset-0 -z-10' />
+
         <h2
           ref={headingRef}
           id='scroll-story-heading'

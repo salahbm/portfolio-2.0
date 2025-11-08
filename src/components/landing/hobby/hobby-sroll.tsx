@@ -28,7 +28,7 @@ const HobbyScroll = () => {
             '.hobbies-header',
             { scale: 1 },
             {
-              scale: 2.2,
+              scale: 1.5,
               scrollTrigger: {
                 trigger: '.hobbies-header',
                 start: 'top center', // starts earlier
@@ -240,10 +240,10 @@ const HobbyScroll = () => {
           NEW HEADER
       ========================== */}
       <section className='hobbies-header relative flex h-[190vh] w-full flex-col items-center justify-center px-8 pt-10'>
-        <h2 className='font-syne text-6xl font-extrabold uppercase tracking-[0.18em] text-primary md:text-7xl'>
+        <h2 className='font-monument-extended text-6xl font-extrabold uppercase tracking-[0.18em] text-primary md:text-7xl'>
           Hobbies
         </h2>
-        <p className='mt-6 max-w-[850px] text-center font-syne text-2xl font-semibold text-neutral-700'>
+        <p className='mt-6 max-w-[850px] text-center font-syne text-2xl font-semibold text-popover-foreground'>
           What keeps me curious, grounded, and balanced outside of building for
           the web.
         </p>
@@ -360,8 +360,8 @@ const HobbyScroll = () => {
       {/* =========================
           FINAL: "Don't believe?"
       ========================== */}
-      <section className='disbelief relative flex min-h-[120vh] w-full items-center justify-center px-6 py-24 md:py-36'>
-        <div className='relative z-[1] mx-auto flex max-w-[1200px] flex-wrap items-center justify-center gap-x-4 gap-y-3 text-center'>
+      <section className='disbelief relative flex min-h-[120vh] w-full flex-col items-center justify-center px-6 py-24 md:py-36'>
+        <div className='fel relative z-[1] mx-auto flex max-w-[1200px] flex-wrap items-center justify-center gap-x-4 gap-y-3 text-center'>
           <span className='disbelief-word block font-syne text-5xl font-extrabold uppercase tracking-[0.08em] md:text-7xl'>
             Don’t
           </span>
@@ -370,6 +370,17 @@ const HobbyScroll = () => {
           </span>
           <span className='disbelief-word block font-syne text-5xl font-extrabold uppercase tracking-[0.08em] md:text-7xl'>
             ?
+          </span>
+        </div>
+        <div className='relative z-[1] mx-auto flex max-w-[1200px] flex-wrap items-center justify-center gap-x-4 gap-y-3 text-center'>
+          <span className='disbelief-word block font-syne text-3xl font-extrabold uppercase tracking-[0.08em] md:text-5xl'>
+            check
+          </span>
+          <span className='disbelief-word block font-syne text-3xl font-extrabold uppercase tracking-[0.08em] md:text-5xl'>
+            this
+          </span>
+          <span className='disbelief-word block font-syne text-3xl font-extrabold uppercase tracking-[0.08em] md:text-5xl'>
+            out
           </span>
         </div>
       </section>

@@ -20,6 +20,7 @@ import { MorphSVGPlugin } from 'gsap/MorphSVGPlugin'
 import { MotionPathPlugin } from 'gsap/MotionPathPlugin'
 import gsap from 'gsap'
 import { JourneyScroll } from '@/components/landing/journey'
+import { ThankingView } from '@/components/landing/thanking'
 
 gsap.registerPlugin(
   ScrollTrigger,
@@ -66,6 +67,7 @@ export default function HomePage() {
         <JourneyScroll />
         <ScrollStory />
         <HobbyView />
+        <ThankingView />
         <ContactHero />
       </div>
     </div>

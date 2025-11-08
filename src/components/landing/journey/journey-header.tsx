@@ -56,7 +56,7 @@ const JourneyHeader = () => {
       This container takes full viewport height and width.
       It centers the inner title block.
     */
-    <div className='journey-header-container relative flex h-[210vh] min-h-screen w-dvw items-center justify-center overflow-hidden font-monument-extended'>
+    <div className='journey-header-container relative flex h-[150vh] min-h-screen w-dvw items-center justify-center overflow-hidden font-monument-extended'>
       {/* ENERGY RING BACKGROUND */}
       <div className='pointer-events-none absolute inset-0 flex items-center justify-center'>
         <div className='h-[600px] w-[600px] rounded-full bg-[radial-gradient(circle,_rgba(84,132,255,0.45),_rgba(0,0,0,0)_70%)] opacity-40 blur-3xl md:h-[800px] md:w-[800px]'></div>
@@ -109,7 +109,7 @@ const JourneyHeader = () => {
       <div className='pointer-events-none absolute inset-0 bg-[url("/grain.png")] opacity-[0.07] mix-blend-soft-light'></div>
 
       {/* TITLE CONTENT (YOUR ORIGINAL SECTION) */}
-      <div className='journey-header-title flex scale-[10] flex-col items-center justify-center'>
+      <div className='journey-header-title flex scale-[4] flex-col items-center justify-center'>
         <h2 className='text-center font-syne text-4xl font-extrabold uppercase leading-6 tracking-tighter md:text-5xl lg:text-6xl'>
           How I Ended Up Here <span className='text-accent'>?¿?</span>
         </h2>
