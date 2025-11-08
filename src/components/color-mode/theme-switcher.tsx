@@ -19,6 +19,9 @@ import {
 import { useMousePosition } from '@/hooks/use-mouse-position'
 import { useDock } from '@/components/dock'
 import { DockContextType } from '@/components/dock/dock.types'
+import { Button } from '../ui/button'
+import { cn } from '@/lib/utils'
+import { MoonIcon, SunIcon } from '@radix-ui/react-icons'
 
 export function ColorModeDropdownSwitcher() {
   const ref = useRef<HTMLButtonElement>(null)
@@ -103,6 +106,20 @@ export function ColorModeDropdownSwitcher() {
           />
         </motion.button>
       </TooltipTrigger>
+      <Button
+        variant='outline'
+        className={cn(
+          'flex h-9 w-9 flex-col items-center justify-center rounded-xl border-border p-0 data-[active]:bg-accent lg:hidden'
+        )}
+        onClick={handleClick}
+        aria-label='Switch color mode'
+      >
+        {theme === 'light' ? (
+          <SunIcon className='h-4 w-4 stroke-[1.5px]' />
+        ) : (
+          <MoonIcon className='h-4 w-4 stroke-[1.5px]' />
+        )}
+      </Button>
       <TooltipContent
         className='flex flex-row items-center gap-1'
         sideOffset={8}

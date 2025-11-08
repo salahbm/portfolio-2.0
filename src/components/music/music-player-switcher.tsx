@@ -1,6 +1,6 @@
 'use client'
 
-import { useEffect, useRef, useState } from 'react'
+import { Fragment, useEffect, useRef, useState } from 'react'
 import Image from 'next/image'
 import {
   motion,
@@ -21,6 +21,8 @@ import { useDock } from '@/components/dock'
 import { DockContextType } from '@/components/dock/dock.types'
 import { PlayIcon, PauseIcon } from '@heroicons/react/24/solid'
 import { useHotkeys } from 'react-hotkeys-hook'
+import { Button } from '../ui/button'
+import { cn } from '@/lib/utils'
 
 export function MusicPlayerSwitcher() {
   const ref = useRef<HTMLButtonElement>(null)
@@ -45,6 +47,7 @@ export function MusicPlayerSwitcher() {
   })
 
   useEffect(() => {
+    if (dock?.isLocked) return spring.set(40)
     const updateCenter = () => {
       const rect = ref.current?.getBoundingClientRect()
       if (rect) setCenterX(rect.x + rect.width / 2)
@@ -52,7 +55,7 @@ export function MusicPlayerSwitcher() {
     updateCenter()
     window.addEventListener('resize', updateCenter)
     return () => window.removeEventListener('resize', updateCenter)
-  }, [])
+  }, [dock?.isLocked, spring])
 
   const { isPlaying, togglePlayPause, initAudio, cleanupAudio } =
     useMusicPlayerStore()
@@ -76,6 +79,10 @@ export function MusicPlayerSwitcher() {
   )
 
   useEffect(() => {
+    if (dock?.isLocked) {
+      spring.set(40)
+      return
+    }
     const unsubscribe = dimension.on('change', (val) => {
       if (dock?.hovered) {
         spring.set(val)
@@ -121,6 +128,23 @@ export function MusicPlayerSwitcher() {
           </div>
         </motion.button>
       </TooltipTrigger>
+      <Button
+        variant='outline'
+        className={cn(
+          'relative flex h-9 w-9 flex-col items-center justify-center rounded-xl border-border p-0 data-[active]:bg-accent lg:hidden'
+        )}
+        onClick={togglePlayPause}
+        aria-label='Music Player'
+      >
+        {isPlaying ? (
+          <Fragment>
+            <PauseIcon className='size-4 drop-shadow-lg' />
+            <span className='absolute right-0 top-0 h-2 w-2 animate-pulse rounded-full bg-green-500' />
+          </Fragment>
+        ) : (
+          <PlayIcon className='size-4 drop-shadow-lg' />
+        )}
+      </Button>
       <TooltipContent sideOffset={8}>
         {isPlaying ? 'Pause' : 'Play'} Music
         <span className='pointer-events-none flex select-none items-center gap-1 rounded border bg-muted px-1.5 text-[10px] font-medium tracking-[2px] text-muted-foreground'>

@@ -26,6 +26,9 @@ import Image from 'next/image'
 import { useMousePosition } from '@/hooks/use-mouse-position'
 import { useDock } from '../dock'
 import { DockContextType } from '../dock/dock.types'
+import { cn } from '@/lib/utils'
+import { CommandIcon } from '../icons/command-icon'
+import { Button } from '../ui/button'
 
 export function CommandCenter() {
   const ref = useRef<HTMLButtonElement>(null)
@@ -103,7 +106,13 @@ export function CommandCenter() {
   })
 
   useEffect(() => {
-    if (commandDialogOpen || !dock?.width || dock?.isLocked) {
+    if (
+      commandDialogOpen ||
+      qrcodeDialogOpen ||
+      keyboardShortcutsDialogOpen ||
+      !dock?.width ||
+      dock?.isLocked
+    ) {
       spring.set(40)
       return
     }
@@ -116,18 +125,35 @@ export function CommandCenter() {
     })
 
     return () => unsubscribe()
-  }, [dimension, spring, dock, commandDialogOpen])
+  }, [
+    dimension,
+    spring,
+    dock,
+    commandDialogOpen,
+    qrcodeDialogOpen,
+    keyboardShortcutsDialogOpen,
+  ])
 
   useEffect(() => {
-    if (commandDialogOpen) {
+    if (commandDialogOpen || qrcodeDialogOpen || keyboardShortcutsDialogOpen) {
       dock?.addLock('command-center')
     } else {
       dock?.removeLock('command-center')
     }
-  }, [dock, commandDialogOpen])
+  }, [dock, commandDialogOpen, qrcodeDialogOpen, keyboardShortcutsDialogOpen])
 
   return (
     <div className='flex flex-col'>
+      <Button
+        variant='outline'
+        className={cn(
+          'flex h-9 w-9 flex-col items-center justify-center rounded-xl border-border p-0 data-[active]:bg-accent lg:hidden'
+        )}
+        onClick={handleButtonClick}
+        aria-label='Command Center'
+      >
+        <CommandIcon className='h-4 w-4 stroke-[1.5px]' />
+      </Button>
       <Tooltip>
         <TooltipTrigger asChild>
           <motion.button

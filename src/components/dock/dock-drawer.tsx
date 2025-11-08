@@ -53,30 +53,26 @@ export function DockDrawer({
         <button
           type='button'
           aria-label='Open navigation drawer'
-          onClick={() => setOpen(true)}
           className={cn(
-            'group relative mx-auto flex aspect-video h-11 items-center justify-center gap-2 rounded-2xl',
-            'bg-gradient-glow',
-            'border border-white/20 shadow-md backdrop-blur-xl',
-            'transition-all duration-300 ease-out hover:shadow-lg hover:brightness-105 active:scale-95',
+            'relative mx-auto flex h-11 w-11 items-center justify-center',
+            'rounded-2xl backdrop-blur-2xl',
+            'border border-white/25 bg-white/15 shadow-[0_4px_20px_rgba(0,0,0,0.25)]',
+            'transition-all duration-300 ease-out hover:bg-white/20 active:scale-95',
             className
           )}
         >
           <span
-            className='absolute inset-0 rounded-2xl bg-white/10 opacity-0 transition-opacity duration-300 group-hover:opacity-100'
             aria-hidden='true'
+            className='absolute inset-0 rounded-2xl bg-gradient-to-b from-white/30 to-white/5 opacity-60'
           />
 
           <Bars3Icon
-            className='h-5 w-5 text-[oklch(0.28_0.05_260)] drop-shadow-sm transition-transform duration-300 group-hover:scale-110'
-            strokeWidth={1.8}
+            className='relative h-5 w-5 text-primary drop-shadow-md transition-transform duration-300 group-hover:scale-110'
+            strokeWidth={1.6}
           />
-
-          <span className='text-sm font-medium text-primary-foreground'>
-            Menu
-          </span>
         </button>
       </DrawerTrigger>
+
       <DrawerContent className='!outline-none' aria-describedby={undefined}>
         <div className='flex w-full flex-col px-4 pb-4'>
           <DrawerHeader className='sm:text-center'>
@@ -131,7 +127,7 @@ export function DockDrawer({
           </div>
 
           {/* Utilities */}
-          <div className='mx-auto mt-6 flex w-full max-w-[496px] items-center justify-center gap-3 border-t pt-4'>
+          <div className='mx-auto mt-6 flex w-full items-center justify-center gap-3 border-t pt-4'>
             <CommandCenter />
             <MusicPlayerSwitcher />
             <ColorModeDropdownSwitcher />

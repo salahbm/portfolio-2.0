@@ -219,7 +219,7 @@ const workHistory: WorkExperience[] = [
 
 const WorkHistoryUpdate = () => {
   return (
-    <div className='bg-background pb-24'>
+    <div className='bg-background pb-16 lg:pb-24'>
       <PageHeader
         title='Professional Work History'
         description='Building exceptional products with React, Next.js, and cutting-edge technologies'

@@ -17,7 +17,7 @@ export function PageHeader({ title, description, className }: PageHeaderProps) {
   const titleRef = useRef<HTMLHeadingElement | null>(null)
   const descRef = useRef<HTMLParagraphElement | null>(null)
 
-  // Parallax setup with smoother values
+  // Parallax setup - track window scroll for consistent behavior across all pages
   const { scrollY } = useScroll()
   const yGrid = useTransform(scrollY, [0, 500], [0, 150])
   const yTitle = useTransform(scrollY, [0, 500], [0, 80])
