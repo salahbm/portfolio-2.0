@@ -6,6 +6,7 @@ import { ScrollTrigger } from 'gsap/ScrollTrigger'
 
 import { useGSAP } from '@gsap/react'
 import { useUserAgent } from '@/hooks/use-user-agent'
+import HorryIcons from './horry-icons'
 
 const HobbyScroll = () => {
   const rootRef = useRef<HTMLDivElement | null>(null)
@@ -247,6 +248,8 @@ const HobbyScroll = () => {
           What keeps me curious, grounded, and balanced outside of building for
           the web.
         </p>
+
+        <HorryIcons />
       </section>
 
       {/* =========================

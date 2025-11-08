@@ -161,7 +161,7 @@ export function Footer() {
           <p className='font-syne text-primary-foreground'>
             Developed with patience I didn't know I had.
           </p>
-          <p className='pt-2 font-mono text-sm text-secondary'>© 2025</p>
+          <p className='pt-2 font-mono text-sm text-primary'>© 2025</p>
         </div>
       </div>
     </footer>

@@ -30,10 +30,7 @@ export function LinkedInChatWidget() {
     <div className='flex h-full w-full flex-col items-center justify-center'>
       <div className='flex w-4/5 flex-col gap-2 max-sm:w-full max-sm:scale-[0.85]'>
         <div className='flex flex-row items-center'>
-          <ChatBubble
-            src='/medias/images/memoji-avatar.webp'
-            alt='linkedin memoji'
-          >
+          <ChatBubble src='/medias/images/memoji.webp' alt='linkedin memoji'>
             Let&apos;s connect?
           </ChatBubble>
         </div>

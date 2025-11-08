@@ -52,12 +52,7 @@ export default function ScrollBlob() {
 
   // === Click scroll to next section ===
   const handleScroll = () => {
-    const nextSection = document.querySelector('section:nth-of-type(2)')
-    if (nextSection) {
-      nextSection.scrollIntoView({ behavior: 'smooth', block: 'start' })
-    } else {
-      window.scrollTo({ top: window.innerHeight / 2, behavior: 'smooth' })
-    }
+    window.scrollTo({ top: 250, behavior: 'smooth' })
   }
 
   // === Blob paths ===

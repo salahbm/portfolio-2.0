@@ -165,7 +165,7 @@ export default function IntroView() {
         </div>
       </div>
 
-      <span className='mt-5 flex w-full max-w-4xl items-center justify-end gap-2 text-sm text-muted-foreground'>
+      <span className='mt-5 flex w-full items-center justify-end gap-2 px-4 text-sm text-muted-foreground opacity-80 lg:max-w-4xl'>
         <InfoCircledIcon className='inline-block' />
         Hover on the gradient texts to see the images
       </span>
