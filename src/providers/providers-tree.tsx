@@ -9,8 +9,10 @@ import { GlobalKeyboardShortcuts } from '@/components/keyboard-shortcuts'
 import { LockScreenProvider } from './lock-screen-provider'
 import { ThemeProvider } from './theme-provider'
 import { MagnifyingGlass } from '@/components/shared/magnifying-glass/magnifying-glass'
+import { easterEgg } from '@/lib/easter-egg'
 
 export function ProvidersTree({ children }: { children: React.ReactNode }) {
+  easterEgg()
   return (
     <ThemeProvider
       attribute='class'

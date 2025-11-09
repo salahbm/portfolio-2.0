@@ -16,7 +16,6 @@ import { ProvidersTree } from '@/providers'
 import { Dock } from '@/components/dock'
 
 import { sfMedium, monumentExtended, syne } from './font'
-import { easterEgg } from '@/lib/easter-egg'
 
 export const metadata: Metadata = {
   metadataBase: new URL(baseUrl),
@@ -72,7 +71,6 @@ export default function RootLayout({
 }: Readonly<{
   children: React.ReactNode
 }>) {
-  easterEgg()
   return (
     <html lang='en' suppressHydrationWarning>
       <body
