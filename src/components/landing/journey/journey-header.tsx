@@ -105,9 +105,6 @@ const JourneyHeader = () => {
         </svg>
       </div>
 
-      {/* GRAIN TEXTURE OVERLAY */}
-      <div className='pointer-events-none absolute inset-0 bg-[url("/grain.png")] opacity-[0.07] mix-blend-soft-light'></div>
-
       {/* TITLE CONTENT (YOUR ORIGINAL SECTION) */}
       <div className='journey-header-title flex scale-[4] flex-col items-center justify-center'>
         <h2 className='text-center font-syne text-4xl font-extrabold uppercase leading-6 tracking-tighter md:text-5xl lg:text-6xl'>

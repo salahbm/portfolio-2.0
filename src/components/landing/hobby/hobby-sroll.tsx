@@ -204,12 +204,12 @@ const HobbyScroll = () => {
               y: 0,
               opacity: 1,
               scale: 1,
-              stagger: 0.08,
+              stagger: 0.15,
               ease: 'power2.out',
-              duration: 0.6,
+              duration: 1,
               scrollTrigger: {
                 trigger: disbelief,
-                start: 'top 70%',
+                start: 'top 45%',
               },
             })
           }
