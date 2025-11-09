@@ -57,16 +57,7 @@ export function MusicPlayerSwitcher() {
     return () => window.removeEventListener('resize', updateCenter)
   }, [dock?.isLocked, spring])
 
-  const { isPlaying, togglePlayPause, initAudio, cleanupAudio } =
-    useMusicPlayerStore()
-
-  // Initialize global audio on mount
-  useEffect(() => {
-    initAudio()
-    return () => {
-      cleanupAudio()
-    }
-  }, [initAudio, cleanupAudio])
+  const { isPlaying, togglePlayPause } = useMusicPlayerStore()
 
   useHotkeys(
     'meta+m',

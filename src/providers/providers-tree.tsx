@@ -10,6 +10,7 @@ import { LockScreenProvider } from './lock-screen-provider'
 import { ThemeProvider } from './theme-provider'
 import { MagnifyingGlass } from '@/components/shared/magnifying-glass/magnifying-glass'
 import { easterEgg } from '@/lib/easter-egg'
+import { MusicPlayerInitializer } from '@/components/music/music-player-initializer'
 
 export function ProvidersTree({ children }: { children: React.ReactNode }) {
   easterEgg()
@@ -25,6 +26,7 @@ export function ProvidersTree({ children }: { children: React.ReactNode }) {
         <PageTransition />
         <CursorStyleInjector />
         <GlobalKeyboardShortcuts />
+        <MusicPlayerInitializer />
         <Toaster />
         <MagnifyingGlass />
         <TailwindIndicator />
