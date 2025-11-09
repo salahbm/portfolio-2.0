@@ -40,7 +40,7 @@ const HobbyIcons = () => {
         viewBox='-28.5 0 156 156'
         fill='none'
         xmlns='http://www.w3.org/2000/svg'
-        className='absolute right-40 top-1/2 h-24 w-24 -rotate-12'
+        className='absolute -right-4 h-24 w-24 -rotate-12 lg:right-40 lg:top-1/2'
       >
         <g id='SVGRepo_bgCarrier' strokeWidth='0'></g>
         <g
@@ -60,7 +60,7 @@ const HobbyIcons = () => {
         viewBox='0 -2.5 160 160'
         fill='none'
         xmlns='http://www.w3.org/2000/svg'
-        className='absolute left-1/2 top-1/3 h-24 w-24 rotate-3'
+        className='absolute left-1/2 top-1/3 h-24 w-24 rotate-6'
       >
         <g id='SVGRepo_bgCarrier' strokeWidth='0'></g>
         <g

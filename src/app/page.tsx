@@ -38,10 +38,24 @@ gsap.registerPlugin(
 
 export default function HomePage() {
   useGSAP(() => {
-    ScrollSmoother.create({
-      smooth: 1.3,
-      effects: true,
-    })
+    // Detect touch device synchronously (before any GSAP setup)
+    const isTouchDevice =
+      'ontouchstart' in window ||
+      navigator.maxTouchPoints > 0 ||
+      // @ts-expect-error - msMaxTouchPoints is IE-specific
+      navigator.msMaxTouchPoints > 0
+
+    // Enable normalizeScroll for better touch device support
+    ScrollTrigger.normalizeScroll(true)
+
+    // Only enable ScrollSmoother on non-touch devices
+    if (!isTouchDevice) {
+      ScrollSmoother.create({
+        smooth: 1.3,
+        effects: true,
+        normalizeScroll: true,
+      })
+    }
 
     // INTRO ABOUT ME SCROLL CONTROLLER
     gsap.to('.about-me-text', {
