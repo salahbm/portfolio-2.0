@@ -90,7 +90,7 @@ export function JourneyScroll() {
       <JourneyHeader />
 
       {/* FIXED HEIGHT + SPACING */}
-      <section className='journey-section relative flex min-h-screen w-dvw items-center justify-center overflow-visible px-6'>
+      <section className='journey-section relative flex min-h-[120vh] w-dvw items-center justify-center overflow-visible px-6'>
         <p className='journey-content mx-auto max-w-4xl font-syne text-xl leading-[3rem] tracking-wide md:text-4xl md:leading-[4rem] 2xl:text-6xl'>
           Once I thought coding would make me{' '}
           <span className='journey-content-dynamic text-primary'>

@@ -139,11 +139,11 @@ export function ScrollStory() {
   )
 
   return (
-    <section className='h-fit min-h-screen'>
+    <section className='relative h-[400vh]'>
       <div
         ref={wrapperRef}
         id='scroll-story'
-        className='relative mb-[300vh] flex h-screen items-center justify-start overflow-hidden'
+        className='relative flex h-screen items-center justify-start overflow-hidden'
       >
         <div className='scroll-story-background bg-gradient-harmonic pointer-events-none absolute inset-0 -z-10' />
 
@@ -201,8 +201,9 @@ export function ScrollStory() {
           className='px-6 text-center'
         >
           <p className='max-w-2xl bg-gradient-to-r from-purple-400 via-pink-400 to-blue-400 bg-clip-text text-base font-extrabold leading-relaxed text-transparent md:max-w-3xl md:text-lg lg:text-2xl xl:text-4xl'>
-            Each project is an experiment — a new blend of design, motion, and
-            development that grows into something living and memorable.
+            By the time you reach the end of this scroll, I’m probably brewing
+            another idea, breaking something, fixing it again, and calling it
+            “innovation.”
           </p>
         </div>
       </div>

@@ -38,11 +38,33 @@ gsap.registerPlugin(
 
 export default function HomePage() {
   useGSAP(() => {
-    ScrollSmoother.create({
-      smooth: 1.3,
-      effects: true,
-      normalizeScroll: true,
-    })
+    // Detect touch device synchronously (before any GSAP setup)
+    // Check multiple indicators to catch real devices AND Chrome DevTools emulator
+    const hasTouchEvents = 'ontouchstart' in window
+    const hasTouchPoints = navigator.maxTouchPoints > 0
+    // @ts-expect-error - msMaxTouchPoints is IE-specific
+    const hasMsTouchPoints = navigator.msMaxTouchPoints > 0
+    const isMobileUserAgent =
+      /Android|webOS|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini/i.test(
+        navigator.userAgent
+      )
+    const isSmallScreen = window.innerWidth <= 1024
+
+    // Consider it a touch device if ANY of these are true
+    const isTouchDevice =
+      hasTouchEvents ||
+      hasTouchPoints ||
+      hasMsTouchPoints ||
+      (isMobileUserAgent && isSmallScreen)
+
+    // Only enable ScrollSmoother on non-touch devices
+    if (!isTouchDevice) {
+      ScrollSmoother.create({
+        smooth: 1.3,
+        effects: true,
+        normalizeScroll: true, // Only normalize when using ScrollSmoother
+      })
+    }
 
     // INTRO ABOUT ME SCROLL CONTROLLER
     gsap.to('.about-me-text', {

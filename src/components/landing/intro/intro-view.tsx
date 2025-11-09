@@ -89,6 +89,22 @@ export default function IntroView() {
       yPercent: 20,
       ease: 'power1.inOut',
     })
+
+    //  HELP TEXT Scale/opacity
+    const helpTextTL = gsap.timeline({
+      scrollTrigger: {
+        trigger: '.help-text',
+        start: 'top 30%',
+        end: 'top 30%',
+        scrub: true,
+      },
+    })
+
+    helpTextTL.to('.help-text', {
+      scale: 0.2,
+      opacity: 0.1,
+      ease: 'power1.inOut',
+    })
   }, [theme])
 
   return (
@@ -169,7 +185,7 @@ export default function IntroView() {
         </div>
       </div>
 
-      <span className='mt-5 flex w-full items-center justify-end gap-2 px-4 text-sm text-muted-foreground opacity-80 lg:max-w-4xl'>
+      <span className='help-text mt-5 flex w-full items-center justify-end gap-2 px-4 text-sm text-muted-foreground opacity-80 lg:max-w-4xl'>
         <InfoCircledIcon className='inline-block' />
         Hover on the gradient texts to see the images
       </span>

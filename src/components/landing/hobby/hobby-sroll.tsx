@@ -29,7 +29,7 @@ const HobbyScroll = () => {
             '.hobbies-header',
             { scale: 0.7 },
             {
-              scale: 1.6,
+              scale: 1.2,
               scrollTrigger: {
                 trigger: '.hobbies-header',
                 start: 'top center', // starts earlier
@@ -241,7 +241,7 @@ const HobbyScroll = () => {
           NEW HEADER
       ========================== */}
       <section className='hobbies-header relative flex h-[120vh] w-full flex-col items-center justify-center pt-10 lg:px-8'>
-        <h2 className='text-center font-monument-extended text-3xl font-extrabold uppercase tracking-[0.18em] text-primary md:text-5xl'>
+        <h2 className='text-center font-syne text-3xl font-extrabold uppercase tracking-[0.18em] text-primary md:text-5xl'>
           You think I only code?
         </h2>
         <p className='mt-6 max-w-[850px] text-center font-syne text-2xl font-semibold text-popover-foreground'>
