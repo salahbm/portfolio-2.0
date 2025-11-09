@@ -51,7 +51,7 @@ const HobbyView: React.FC = () => {
   return (
     <Fragment>
       <HobbyScroll />
-      <div className='relative flex min-h-screen w-full items-center justify-center overflow-hidden py-20'>
+      <div className='relative flex w-full items-center justify-center overflow-hidden px-4 py-12 md:py-16 lg:min-h-screen lg:py-20'>
         {/* Gradient lights */}
         <motion.div
           initial={{ opacity: 0, scale: 0 }}
@@ -62,7 +62,7 @@ const HobbyView: React.FC = () => {
           }}
           viewport={{ once: true }}
           transition={{ duration: 2, ease: 'easeOut' }}
-          className='bg-gradient-lilac absolute left-16 top-24 h-72 w-72 rounded-full blur-3xl'
+          className='bg-gradient-lilac absolute left-4 top-12 h-40 w-40 rounded-full blur-3xl sm:left-8 sm:top-16 sm:h-56 sm:w-56 md:left-12 md:top-20 md:h-64 md:w-64 lg:left-16 lg:top-24 lg:h-72 lg:w-72'
         />
         <motion.div
           initial={{ opacity: 0, scale: 0 }}
@@ -77,7 +77,7 @@ const HobbyView: React.FC = () => {
             ease: 'easeOut',
             delay: 0.3,
           }}
-          className='bg-gradient-glow absolute bottom-20 right-10 h-80 w-80 rounded-full blur-3xl'
+          className='bg-gradient-glow absolute bottom-10 right-4 h-48 w-48 rounded-full blur-3xl sm:bottom-12 sm:right-6 sm:h-60 sm:w-60 md:bottom-16 md:right-8 md:h-72 md:w-72 lg:bottom-20 lg:right-10 lg:h-80 lg:w-80'
         />
 
         {/* Reel */}
@@ -86,7 +86,7 @@ const HobbyView: React.FC = () => {
           whileInView={{ opacity: 1, x: 0, rotateY: 0 }}
           viewport={{ once: true }}
           transition={{ duration: 1, delay: 0.5, ease: 'easeOut' }}
-          className='w-full shrink-0 md:max-w-md xl:max-w-xl'
+          className='w-full max-w-sm shrink-0 sm:max-w-md md:max-w-lg lg:max-w-xl'
         >
           <IPhoneMockup>
             <Reel

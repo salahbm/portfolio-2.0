@@ -150,13 +150,14 @@ export function ScrollStory() {
         <h2
           ref={headingRef}
           id='scroll-story-heading'
-          className='shrink-0 whitespace-nowrap bg-gradient-to-r from-purple-400 via-pink-400 to-blue-400 bg-clip-text font-monument-extended text-6xl font-extrabold text-transparent md:text-9xl'
+          className='shrink-0 whitespace-nowrap bg-gradient-to-r from-purple-400 via-pink-400 to-blue-400 bg-clip-text font-monument-extended font-extrabold text-transparent'
+          style={{ fontSize: 'clamp(3rem, 10vw, 9rem)' }}
         >
           I do
         </h2>
 
         <div
-          className='flex items-center px-20'
+          className='flex items-center px-8 md:px-12 lg:px-20'
           id='scroll-story-rail'
           ref={railRef}
         >
@@ -165,29 +166,30 @@ export function ScrollStory() {
             return (
               <div
                 key={i}
-                className='blob-container relative flex min-w-fit items-center gap-8'
+                className='blob-container relative flex min-w-fit items-center gap-4 md:gap-6 lg:gap-8'
               >
                 <div
                   className={cn(
-                    'blob pointer-events-none absolute inset-0 h-40 w-40 rounded-full bg-gradient-to-br',
+                    'blob pointer-events-none absolute inset-0 h-24 w-24 rounded-full bg-gradient-to-br sm:h-32 sm:w-32 md:h-40 md:w-40',
                     w.color,
                     'opacity-40 blur-3xl'
                   )}
                 />
                 <div
                   className={cn(
-                    'relative flex h-20 w-20 items-center justify-center rounded-xl bg-gradient-to-br',
+                    'relative flex h-12 w-12 items-center justify-center rounded-lg bg-gradient-to-br sm:h-16 sm:w-16 md:h-20 md:w-20 md:rounded-xl',
                     w.color
                   )}
                 >
-                  <Icon className='h-10 w-10 text-white' />
+                  <Icon className='h-6 w-6 text-white sm:h-8 sm:w-8 md:h-10 md:w-10' />
                 </div>
                 <span
                   className={cn(
-                    'cursor-text bg-gradient-to-r text-6xl font-semibold text-transparent',
+                    'cursor-text bg-gradient-to-r font-semibold text-transparent',
                     w.color,
                     'bg-clip-text'
                   )}
+                  style={{ fontSize: 'clamp(2rem, 6vw, 4rem)' }}
                 >
                   {w.text}
                 </span>
@@ -198,9 +200,12 @@ export function ScrollStory() {
         <div
           ref={exitTextRef}
           id='scroll-story-exit-text'
-          className='px-6 text-center'
+          className='px-4 text-center md:px-6'
         >
-          <p className='max-w-2xl bg-gradient-to-r from-purple-400 via-pink-400 to-blue-400 bg-clip-text text-base font-extrabold leading-relaxed text-transparent md:max-w-3xl md:text-lg lg:text-2xl xl:text-4xl'>
+          <p
+            className='max-w-xl bg-gradient-to-r from-purple-400 via-pink-400 to-blue-400 bg-clip-text font-extrabold leading-relaxed text-transparent md:max-w-2xl lg:max-w-3xl'
+            style={{ fontSize: 'clamp(1rem, 2.5vw, 2.5rem)' }}
+          >
             By the time you reach the end of this scroll, I’m probably brewing
             another idea, breaking something, fixing it again, and calling it
             “innovation.”

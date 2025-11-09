@@ -8,7 +8,7 @@ const HobbyIcons = () => {
         fill='none'
         xmlns='http://www.w3.org/2000/svg'
         stroke='#007bff'
-        className='absolute bottom-1/4 left-1/4 h-24 w-24 rotate-12'
+        className='absolute bottom-1/4 left-1/4 h-12 w-12 rotate-12 lg:h-24 lg:w-24'
       >
         <g id='SVGRepo_bgCarrier' strokeWidth='0'></g>
         <g
@@ -40,7 +40,7 @@ const HobbyIcons = () => {
         viewBox='-28.5 0 156 156'
         fill='none'
         xmlns='http://www.w3.org/2000/svg'
-        className='absolute -right-4 h-24 w-24 -rotate-12 lg:right-40 lg:top-1/2'
+        className='absolute -right-4 h-12 w-12 -rotate-12 lg:right-40 lg:top-1/2 lg:h-24 lg:w-24'
       >
         <g id='SVGRepo_bgCarrier' strokeWidth='0'></g>
         <g
@@ -60,7 +60,7 @@ const HobbyIcons = () => {
         viewBox='0 -2.5 160 160'
         fill='none'
         xmlns='http://www.w3.org/2000/svg'
-        className='absolute left-1/2 top-1/3 h-24 w-24 rotate-6'
+        className='absolute left-1/2 top-1/3 h-12 w-12 rotate-6 lg:h-24 lg:w-24'
       >
         <g id='SVGRepo_bgCarrier' strokeWidth='0'></g>
         <g

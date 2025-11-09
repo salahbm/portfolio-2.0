@@ -56,21 +56,21 @@ const JourneyHeader = () => {
       This container takes full viewport height and width.
       It centers the inner title block.
     */
-    <div className='journey-header-container relative flex h-[150vh] min-h-screen w-dvw items-center justify-center overflow-hidden font-monument-extended'>
+    <div className='journey-header-container relative flex h-screen w-dvw items-center justify-center overflow-hidden font-monument-extended md:h-[120vh] lg:h-[150vh]'>
       {/* ENERGY RING BACKGROUND */}
       <div className='pointer-events-none absolute inset-0 flex items-center justify-center'>
-        <div className='h-[600px] w-[600px] rounded-full bg-[radial-gradient(circle,_rgba(84,132,255,0.45),_rgba(0,0,0,0)_70%)] opacity-40 blur-3xl md:h-[800px] md:w-[800px]'></div>
+        <div className='h-[300px] w-[300px] rounded-full bg-[radial-gradient(circle,_rgba(84,132,255,0.45),_rgba(0,0,0,0)_70%)] opacity-40 blur-3xl sm:h-[400px] sm:w-[400px] md:h-[600px] md:w-[600px] lg:h-[800px] lg:w-[800px]'></div>
       </div>
 
       {/* FLOATING DOODLE 1 — scribble circle */}
-      <div className='animate-scribble-spin pointer-events-none absolute left-12 top-1/2 w-32 opacity-40 md:w-40'>
+      <div className='animate-scribble-spin pointer-events-none absolute left-4 top-1/2 w-16 opacity-40 sm:left-8 sm:w-24 md:left-12 md:w-32 lg:w-40'>
         <svg viewBox='0 0 100 100' fill='none' stroke='#4F46E5' strokeWidth='3'>
           <path d='M10 50c10-20 30-40 60-30 30 10 20 50-10 65-25 12-50-5-45-35z' />
         </svg>
       </div>
 
       {/* FLOATING DOODLE 2 — wavy zigzag */}
-      <div className='animate-float pointer-events-none absolute bottom-1/4 right-1/2 w-28 opacity-30 md:w-36'>
+      <div className='animate-float pointer-events-none absolute bottom-1/4 right-1/2 w-16 opacity-30 sm:w-20 md:w-28 lg:w-36'>
         <svg viewBox='0 0 120 30' fill='none' stroke='#6366F1' strokeWidth='4'>
           <path d='M0 20 L20 5 L40 20 L60 5 L80 20 L100 5 L120 20' />
         </svg>
@@ -106,11 +106,11 @@ const JourneyHeader = () => {
       </div>
 
       {/* TITLE CONTENT (YOUR ORIGINAL SECTION) */}
-      <div className='journey-header-title flex scale-[4] flex-col items-center justify-center'>
-        <h2 className='text-center font-syne text-4xl font-extrabold uppercase leading-6 tracking-tighter md:text-5xl lg:text-6xl'>
+      <div className='journey-header-title flex scale-[2] flex-col items-center justify-center px-4 sm:scale-[2.5] md:scale-[3] lg:scale-[4]'>
+        <h2 className='text-center font-syne text-xl font-extrabold uppercase leading-tight tracking-tighter sm:text-3xl md:text-4xl md:leading-6 lg:text-5xl xl:text-6xl'>
           How I Ended Up Here <span className='text-accent'>?¿?</span>
         </h2>
-        <h2 className='mt-2 text-center font-syne text-4xl font-extrabold uppercase tracking-tighter md:text-5xl lg:text-6xl'>
+        <h2 className='text-md mt-1 text-center font-syne font-extrabold uppercase tracking-tighter sm:text-3xl md:mt-2 md:text-4xl lg:text-5xl xl:text-6xl'>
           (And Still Coding Somehow)
         </h2>
       </div>

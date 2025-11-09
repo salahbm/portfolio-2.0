@@ -74,7 +74,7 @@ const ThankingView = () => {
         })
         .to('#thanking-title-1', { xPercent: 60 }, 0)
         .to('#thanking-title-2', { xPercent: 20 }, 0)
-        .to('#thanking-title-3', { xPercent: -45 }, 0)
+        .to('#thanking-title-3', { xPercent: -25 }, 0)
         .to('#thanking-title-4', { xPercent: 10 }, 0)
 
       // Add character split animation for extra coolness
@@ -119,15 +119,21 @@ const ThankingView = () => {
         <div className='perspective-1000 px-4 md:px-8'>
           <h1
             id='thanking-title-1'
-            className='thanking-text mb-2 text-4xl font-extrabold tracking-tight text-foreground sm:text-5xl md:mb-4 md:text-7xl lg:text-9xl xl:text-[10rem]'
-            style={{ transformStyle: 'preserve-3d' }}
+            className='thanking-text mb-2 font-extrabold tracking-tight text-foreground md:mb-4'
+            style={{
+              transformStyle: 'preserve-3d',
+              fontSize: 'clamp(5rem, 8vw, 10rem)',
+            }}
           >
             Hey,
           </h1>
           <h1
             id='thanking-title-2'
-            className='thanking-text mb-2 text-4xl font-extrabold tracking-tight text-primary sm:text-5xl md:mb-4 md:text-7xl lg:text-8xl xl:text-9xl'
-            style={{ transformStyle: 'preserve-3d' }}
+            className='thanking-text mb-2 font-extrabold tracking-tight text-primary md:mb-4'
+            style={{
+              transformStyle: 'preserve-3d',
+              fontSize: 'clamp(3.5rem, 8vw, 9rem)',
+            }}
           >
             you really
           </h1>
@@ -140,8 +146,11 @@ const ThankingView = () => {
           </h1>
           <em
             id='thanking-title-4'
-            className='thanking-text mt-2 text-xl font-extrabold tracking-tight text-accent sm:text-3xl md:text-5xl lg:text-4xl xl:text-5xl'
-            style={{ transformStyle: 'preserve-3d' }}
+            className='thanking-text mt-2 font-extrabold tracking-tight text-accent'
+            style={{
+              transformStyle: 'preserve-3d',
+              fontSize: 'clamp(2rem, 5vw, 5rem)',
+            }}
           >
             not bottom but close
           </em>
@@ -149,8 +158,8 @@ const ThankingView = () => {
 
         {/* Decorative elements */}
         <div className='pointer-events-none absolute inset-0 overflow-hidden'>
-          <div className='absolute left-10 top-20 h-32 w-32 rounded-full bg-indigo-500 opacity-20 blur-3xl dark:bg-blue-500' />
-          <div className='absolute bottom-20 right-10 h-40 w-40 rounded-full bg-purple-500 opacity-20 blur-3xl' />
+          <div className='absolute left-4 top-10 h-20 w-20 rounded-full bg-indigo-500 opacity-20 blur-3xl dark:bg-blue-500 sm:left-6 sm:top-12 sm:h-24 sm:w-24 md:left-10 md:top-20 md:h-32 md:w-32' />
+          <div className='absolute bottom-10 right-4 h-24 w-24 rounded-full bg-purple-500 opacity-20 blur-3xl sm:bottom-12 sm:right-6 sm:h-32 sm:w-32 md:bottom-20 md:right-10 md:h-40 md:w-40' />
         </div>
       </section>
 

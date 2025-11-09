@@ -3,6 +3,7 @@
 import React, { useRef } from 'react'
 import gsap from 'gsap'
 import { ScrollTrigger } from 'gsap/ScrollTrigger'
+import { motion } from 'framer-motion'
 
 import { useGSAP } from '@gsap/react'
 import { useUserAgent } from '@/hooks/use-user-agent'
@@ -236,11 +237,11 @@ const HobbyScroll = () => {
   )
 
   return (
-    <div ref={rootRef} className='w-full bg-transparent'>
+    <div ref={rootRef} className='w-full overflow-x-hidden bg-transparent'>
       {/* =========================
           NEW HEADER
       ========================== */}
-      <section className='hobbies-header relative flex h-[120vh] w-full flex-col items-center justify-center pt-10 lg:px-8'>
+      <section className='hobbies-header relative flex h-[120vh] w-full flex-col items-center justify-center overflow-hidden pt-10 lg:px-8'>
         <h2 className='text-center font-syne text-3xl font-extrabold uppercase tracking-[0.18em] text-primary md:text-5xl'>
           You think I only code?
         </h2>
@@ -252,9 +253,12 @@ const HobbyScroll = () => {
       </section>
 
       {/* =========================
-          PINNED HORIZONTAL SCROLL
+          PINNED HORIZONTAL SCROLL (Desktop only)
       ========================== */}
-      <div ref={wrapperRef} className='h-screen w-full overflow-hidden'>
+      <div
+        ref={wrapperRef}
+        className='hidden h-screen w-full overflow-hidden lg:block'
+      >
         <div
           ref={sliderRef}
           className='flex h-full w-max flex-nowrap items-stretch will-change-transform'
@@ -273,7 +277,7 @@ const HobbyScroll = () => {
                   <div className='absolute -inset-1 -skew-y-1 rounded-2xl bg-gradient-to-r from-primary/40 via-primary/10 to-transparent blur-md' />
                   <h3
                     id='hobby-problem-1'
-                    className='relative w-full rounded-2xl border border-border/50 bg-secondary/70 px-6 py-10 font-syne text-2xl font-extrabold text-secondary-foreground shadow-2xl md:text-4xl'
+                    className='text-md relative w-full rounded-2xl border border-border/50 bg-secondary/70 px-3 py-2 font-syne font-extrabold text-secondary-foreground shadow-2xl md:text-4xl lg:px-6 lg:py-10'
                   >
                     Gym • Push limits, build consistency.
                   </h3>
@@ -281,7 +285,7 @@ const HobbyScroll = () => {
 
                 <p
                   id='hobby-solution-1'
-                  className='mt-6 w-full rounded-xl border border-primary/30 bg-primary/90 px-6 py-8 font-syne text-lg font-semibold text-primary-foreground shadow-lg md:text-xl'
+                  className='mt-6 w-full rounded-xl border border-primary/30 bg-primary/90 px-3 py-2 font-syne text-lg font-semibold text-primary-foreground shadow-lg lg:px-6 lg:py-8 lg:text-xl'
                 >
                   When I’m not building things for the web, I’m usually at the
                   gym, trying to test my limits.
@@ -300,7 +304,7 @@ const HobbyScroll = () => {
                   <div className='pointer-events-none absolute -inset-2 rounded-3xl [background:repeating-linear-gradient(135deg,theme(colors.amber.500/_20),theme(colors.amber.500/_20)_6px,transparent_6px,transparent_12px)]' />
                   <h3
                     id='hobby-problem-2'
-                    className='relative w-full -rotate-1 rounded-3xl border-2 border-amber-500/60 bg-amber-50/90 px-6 py-10 font-syne text-2xl font-extrabold text-amber-900 shadow-xl md:text-4xl'
+                    className='text-md relative w-full -rotate-1 rounded-xl border-2 border-amber-500/60 bg-amber-50/90 px-3 py-2 font-syne text-lg font-extrabold text-amber-900 shadow-xl lg:rounded-3xl lg:px-6 lg:py-10 lg:text-4xl'
                     style={{
                       opacity: 0,
                       rotate: '3deg',
@@ -314,7 +318,7 @@ const HobbyScroll = () => {
 
                 <p
                   id='hobby-solution-2'
-                  className='mt-6 w-full rotate-1 rounded-2xl border-2 border-amber-400/60 bg-white px-6 py-8 font-syne text-lg font-semibold text-amber-900 shadow-md md:text-xl'
+                  className='mt-6 w-full rotate-1 rounded-2xl border-2 border-amber-400/60 bg-white px-3 py-2 font-syne text-lg font-semibold text-amber-900 shadow-md md:text-xl lg:px-6 lg:py-8'
                   style={{ opacity: 0 }}
                 >
                   I experiment in the kitchen, mostly on weekends <em>not</em>{' '}
@@ -334,7 +338,7 @@ const HobbyScroll = () => {
                   <div className='absolute -inset-2 rounded-3xl bg-primary/10 blur-2xl' />
                   <h3
                     id='hobby-problem-3'
-                    className='relative w-full rounded-3xl border border-slate-200/60 bg-white/60 px-6 py-10 font-syne text-2xl font-extrabold text-slate-900 shadow-lg backdrop-blur-md md:text-4xl'
+                    className='relative w-full rounded-xl border border-slate-200/60 bg-white/60 px-3 py-2 font-syne text-lg font-extrabold text-slate-900 shadow-lg backdrop-blur-md lg:rounded-3xl lg:px-6 lg:py-10 lg:text-4xl'
                     style={{
                       opacity: 0,
                       filter: 'blur(6px)',
@@ -347,7 +351,7 @@ const HobbyScroll = () => {
 
                 <p
                   id='hobby-solution-3'
-                  className='mt-6 w-full rounded-2xl border border-slate-200/60 bg-white px-6 py-8 font-syne text-lg font-semibold text-slate-900 shadow-sm md:text-xl'
+                  className='mt-6 w-full rounded-2xl border border-slate-200/60 bg-white px-6 py-8 font-syne text-lg font-semibold text-slate-900 shadow-sm lg:text-xl'
                   style={{ opacity: 0 }}
                 >
                   I love a good café with a beautiful view and lofi songs —
@@ -360,28 +364,93 @@ const HobbyScroll = () => {
       </div>
 
       {/* =========================
+          MOBILE VERSION (Vertical Stack)
+      ========================== */}
+      <div className='flex flex-col gap-16 px-4 py-16 lg:hidden'>
+        {/* Hobby 1 - Gym */}
+        <motion.div
+          initial={{ opacity: 0, y: 40 }}
+          whileInView={{ opacity: 1, y: 0 }}
+          viewport={{ once: true, amount: 0.3 }}
+          transition={{ duration: 0.6, ease: 'easeOut' }}
+          className='relative mx-auto w-full max-w-[600px]'
+        >
+          <div className='relative'>
+            <div className='absolute -inset-1 -skew-y-1 rounded-2xl bg-gradient-to-r from-primary/40 via-primary/10 to-transparent blur-md' />
+            <h3 className='relative w-full rounded-2xl border border-border/50 bg-secondary/70 px-4 py-4 font-syne text-xl font-extrabold text-secondary-foreground shadow-2xl'>
+              Gym • Push limits, build consistency.
+            </h3>
+          </div>
+          <p className='mt-4 w-full rounded-xl border border-primary/30 bg-primary/90 px-4 py-4 font-syne text-base font-semibold text-primary-foreground shadow-lg'>
+            When I'm not building things for the web, I'm usually at the gym,
+            trying to test my limits.
+          </p>
+        </motion.div>
+
+        {/* Hobby 2 - Kitchen */}
+        <motion.div
+          initial={{ opacity: 0, y: 40 }}
+          whileInView={{ opacity: 1, y: 0 }}
+          viewport={{ once: true, amount: 0.3 }}
+          transition={{ duration: 0.6, ease: 'easeOut', delay: 0.1 }}
+          className='relative mx-auto w-full max-w-[600px]'
+        >
+          <div className='relative'>
+            <div className='pointer-events-none absolute -inset-2 rounded-3xl [background:repeating-linear-gradient(135deg,theme(colors.amber.500/_20),theme(colors.amber.500/_20)_6px,transparent_6px,transparent_12px)]' />
+            <h3 className='relative w-full -rotate-1 rounded-xl border-2 border-amber-500/60 bg-amber-50/90 px-4 py-4 font-syne text-xl font-extrabold text-amber-900 shadow-xl'>
+              Kitchen experiments • Learning what <em>not</em> to do.
+            </h3>
+          </div>
+          <p className='mt-4 w-full rotate-1 rounded-2xl border-2 border-amber-400/60 bg-white px-4 py-4 font-syne text-base font-semibold text-amber-900 shadow-md'>
+            I experiment in the kitchen, mostly on weekends <em>not</em>{' '}
+            creating something yummy. (FYI: I am ex-chef.)
+          </p>
+        </motion.div>
+
+        {/* Hobby 3 - Cafés */}
+        <motion.div
+          initial={{ opacity: 0, y: 40 }}
+          whileInView={{ opacity: 1, y: 0 }}
+          viewport={{ once: true, amount: 0.3 }}
+          transition={{ duration: 0.6, ease: 'easeOut', delay: 0.2 }}
+          className='relative mx-auto w-full max-w-[600px]'
+        >
+          <div className='relative'>
+            <div className='absolute -inset-2 rounded-3xl bg-primary/10 blur-2xl' />
+            <h3 className='relative w-full rounded-xl border border-slate-200/60 bg-white/60 px-4 py-4 font-syne text-xl font-extrabold text-slate-900 shadow-lg backdrop-blur-md'>
+              Cafés + lofi • Where deep work happens.
+            </h3>
+          </div>
+          <p className='mt-4 w-full rounded-2xl border border-slate-200/60 bg-white px-4 py-4 font-syne text-base font-semibold text-slate-900 shadow-sm'>
+            I love a good café with a beautiful view and lofi songs — that's
+            where most of my deep work happens.
+          </p>
+        </motion.div>
+      </div>
+
+      {/* =========================
           FINAL: "Don't believe?"
       ========================== */}
-      <section className='disbelief relative flex min-h-[120vh] w-full flex-col items-center justify-center px-6 py-24 md:py-36'>
+      <section className='disbelief relative flex h-screen w-full flex-col items-center justify-center px-6 py-24 lg:min-h-[120vh] lg:py-36'>
         <div className='fel relative z-[1] mx-auto flex max-w-[1200px] flex-wrap items-center justify-center gap-x-4 gap-y-3 text-center'>
-          <span className='disbelief-word block font-syne text-5xl font-extrabold uppercase tracking-[0.08em] md:text-7xl'>
+          <span className='disbelief-word block font-syne text-2xl font-extrabold uppercase tracking-[0.08em] lg:text-7xl'>
             Don’t
           </span>
-          <span className='disbelief-word block font-syne text-5xl font-extrabold uppercase tracking-[0.08em] md:text-7xl'>
+          <span className='disbelief-word block font-syne text-2xl font-extrabold uppercase tracking-[0.08em] lg:text-7xl'>
             believe
           </span>
-          <span className='disbelief-word block font-syne text-5xl font-extrabold uppercase tracking-[0.08em] md:text-7xl'>
+          <span className='disbelief-word block font-syne text-2xl font-extrabold uppercase tracking-[0.08em] lg:text-7xl'>
             ?
           </span>
         </div>
         <div className='relative z-[1] mx-auto flex max-w-[1200px] flex-wrap items-center justify-center gap-x-4 gap-y-3 text-center'>
-          <span className='disbelief-word block font-syne text-3xl font-extrabold uppercase tracking-[0.08em] md:text-5xl'>
+          <span className='disbelief-word block font-syne text-xl font-extrabold uppercase tracking-[0.08em] lg:text-5xl'>
             check
           </span>
-          <span className='disbelief-word block font-syne text-3xl font-extrabold uppercase tracking-[0.08em] md:text-5xl'>
+          <span className='disbelief-word block font-syne text-xl font-extrabold uppercase tracking-[0.08em] lg:text-5xl'>
             this
           </span>
-          <span className='disbelief-word block font-syne text-3xl font-extrabold uppercase tracking-[0.08em] md:text-5xl'>
+          <span className='disbelief-word block font-syne text-xl font-extrabold uppercase tracking-[0.08em] lg:text-5xl'>
             out
           </span>
         </div>

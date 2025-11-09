@@ -90,8 +90,11 @@ export function JourneyScroll() {
       <JourneyHeader />
 
       {/* FIXED HEIGHT + SPACING */}
-      <section className='journey-section relative flex min-h-[120vh] w-dvw items-center justify-center overflow-visible px-6'>
-        <p className='journey-content mx-auto max-w-4xl font-syne text-xl leading-[3rem] tracking-wide md:text-4xl md:leading-[4rem] 2xl:text-6xl'>
+      <section className='journey-section relative flex min-h-screen w-dvw items-center justify-center overflow-visible px-4 py-12 md:min-h-screen md:px-6 lg:min-h-[120vh]'>
+        <p
+          className='journey-content mx-auto max-w-4xl font-syne leading-relaxed tracking-wide md:leading-[3rem] lg:leading-[4rem]'
+          style={{ fontSize: 'clamp(1.125rem, 3vw, 2.5rem)' }}
+        >
           Once I thought coding would make me{' '}
           <span className='journey-content-dynamic text-primary'>
             shi*t lot of money{' '}

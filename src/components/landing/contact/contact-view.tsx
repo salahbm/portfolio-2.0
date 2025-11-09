@@ -176,19 +176,22 @@ export function ContactHero() {
   return (
     <div
       ref={containerRef}
-      className='relative mx-auto flex min-h-[120vh] flex-col items-center justify-center gap-16 bg-gradient-to-br from-slate-50 to-slate-200 px-6 py-16 dark:from-slate-950 dark:to-slate-900 lg:flex-row lg:items-center lg:gap-12 lg:px-12'
+      className='relative mx-auto flex min-h-screen flex-col items-center justify-center gap-8 bg-gradient-to-br from-slate-50 to-slate-200 px-4 py-12 dark:from-slate-950 dark:to-slate-900 sm:gap-12 md:min-h-screen md:px-6 md:py-16 lg:min-h-[120vh] lg:flex-row lg:items-center lg:gap-12 lg:px-12'
     >
       <div className='absolute bottom-0 left-0 right-0 top-0 bg-[linear-gradient(to_right,#4f4f4f2e_1px,transparent_1px),linear-gradient(to_bottom,#4f4f4f2e_1px,transparent_1px)] bg-[size:14px_24px] opacity-15 [mask-image:radial-gradient(ellipse_80%_50%_at_50%_0%,#000_70%,transparent_110%)]'></div>
       {/* Left: Text */}
       <div ref={textRef} className='max-w-4xl text-center lg:text-left'>
-        <p className='mb-3 text-sm text-primary'>
+        <p className='mb-2 text-xs text-primary md:mb-3 md:text-sm'>
           Are you looking for a talented developer to enhance your digital
           presence?
         </p>
-        <h1 className='text-gradient-harmony mb-6 font-monument-extended text-[44px] leading-[1.05] md:text-7xl'>
+        <h1
+          className='text-gradient-harmony mb-4 font-monument-extended leading-[1.05] md:mb-6'
+          style={{ fontSize: 'clamp(2rem, 7vw, 7rem)' }}
+        >
           let&apos;s bring your ideas to life
         </h1>
-        <p className='text-secondary-foreground'>
+        <p className='text-sm text-secondary-foreground md:text-base'>
           Contact me or{' '}
           <a
             onClick={() => window.open('https://t.me/imsalah19')}
@@ -203,7 +206,7 @@ export function ContactHero() {
       {/* Middle: Unique Arrows */}
       <div
         ref={arrowsRef}
-        className='flex rotate-90 flex-row items-center gap-2 sm:gap-3 lg:rotate-0'
+        className='hidden rotate-90 flex-row items-center gap-1 sm:gap-2 md:gap-3 lg:flex lg:rotate-0'
         aria-hidden
       >
         <ArrowA delay={0} />
@@ -214,7 +217,11 @@ export function ContactHero() {
       {/* Right: Blob + Mail */}
       <motion.div
         animate={controls}
-        className='relative flex size-[200px] cursor-pointer items-center justify-center lg:size-[240px]'
+        className='relative mt-10 flex cursor-pointer items-center justify-center lg:mt-0'
+        style={{
+          width: 'clamp(160px, 30vw, 240px)',
+          height: 'clamp(160px, 30vw, 240px)',
+        }}
         onClick={openEmail}
         role='button'
         aria-label='Email: salahbm.001@gmail.com'
@@ -282,7 +289,13 @@ export function ContactHero() {
               'drop-shadow(0 4px 10px rgba(0,0,0,0.25)) drop-shadow(0 0 12px rgba(255,255,255,0.3))',
           }}
         >
-          <EnvelopeClosedIcon className='size-12 text-white drop-shadow-lg sm:size-14' />
+          <EnvelopeClosedIcon
+            className='text-white drop-shadow-lg'
+            style={{
+              width: 'clamp(2.5rem, 6vw, 3.5rem)',
+              height: 'clamp(2.5rem, 6vw, 3.5rem)',
+            }}
+          />
         </motion.button>
       </motion.div>
     </div>

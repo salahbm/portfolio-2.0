@@ -108,16 +108,16 @@ export default function IntroView() {
   }, [theme])
 
   return (
-    <section className='relative flex min-h-[150vh] flex-col items-center justify-center overflow-hidden'>
+    <section className='relative flex min-h-screen flex-col items-center justify-center overflow-hidden py-12 md:min-h-[120vh] lg:min-h-[150vh]'>
       {/* FIXED OUTLINE BEHAVIOR */}
       <style>{outlineFix}</style>
       <div className='absolute inset-0 -z-10 h-full w-full bg-white bg-[linear-gradient(to_right,theme(colors.gray.200)_1px,transparent_1px),linear-gradient(to_bottom,theme(colors.gray.200)_1px,transparent_1px)] bg-[size:6rem_4rem] dark:bg-neutral-900 dark:bg-[linear-gradient(to_right,theme(colors.gray.800)_1px,transparent_1px),linear-gradient(to_bottom,theme(colors.gray.800)_1px,transparent_1px)]' />
 
-      <div className='intro-section relative z-10 mx-auto w-full max-w-5xl px-6 text-end font-syne leading-relaxed'>
+      <div className='intro-section relative z-10 mx-auto w-full max-w-5xl px-4 text-end font-syne leading-relaxed md:px-6'>
         {/* INTRO 1 */}
         <div
-          className='intro-1 text-outline mb-8 font-light leading-[1.4] tracking-wide'
-          style={{ fontSize: 'clamp(1.6rem, 3.5vw, 2.5rem)' }}
+          className='intro-1 text-outline mb-6 font-light leading-[1.4] tracking-wide md:mb-8'
+          style={{ fontSize: 'clamp(1.25rem, 3.5vw, 2.5rem)' }}
         >
           <span className='intro-1-split'>Hey, I’m </span>
 
@@ -135,8 +135,8 @@ export default function IntroView() {
 
         {/* INTRO 2 */}
         <div
-          className='intro-2 text-outline mb-8 font-light leading-normal'
-          style={{ fontSize: 'clamp(1.4rem, 3vw, 2.5rem)' }}
+          className='intro-2 text-outline mb-6 font-light leading-normal md:mb-8'
+          style={{ fontSize: 'clamp(1.1rem, 3vw, 2.5rem)' }}
         >
           <span className='intro-2-split'>Originally from </span>
 
@@ -167,7 +167,7 @@ export default function IntroView() {
         {/* INTRO 3 */}
         <div
           className='intro-3 text-outline font-light leading-[1.6]'
-          style={{ fontSize: 'clamp(1.2rem, 2.5vw, 2.5rem)' }}
+          style={{ fontSize: 'clamp(1rem, 2.5vw, 2.5rem)' }}
         >
           <span className='intro-3-split'>Studied Computer Science at </span>
 
@@ -185,7 +185,7 @@ export default function IntroView() {
         </div>
       </div>
 
-      <span className='help-text mt-5 flex w-full items-center justify-end gap-2 px-4 text-sm text-muted-foreground opacity-80 lg:max-w-4xl'>
+      <span className='help-text mt-4 flex w-full items-center justify-end gap-2 px-4 text-xs text-muted-foreground opacity-80 md:mt-5 md:text-sm lg:max-w-4xl'>
         <InfoCircledIcon className='inline-block' />
         Hover on the gradient texts to see the images
       </span>
