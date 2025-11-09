@@ -1,7 +1,6 @@
 import { PageContent } from '@/components/content/page-content'
 import { BentoGrid } from '@/components/grids/bento-grid'
-import { SmartStack } from '@/components/lab/smart-stack'
-
+import { SmartStack } from '@/components/shared/smart-stack'
 import { GitHubBentoItem } from '@/components/bento/github-bento-item'
 import { HeroBentoItem } from '@/components/bento/hero-bento-item'
 import { TwitterBentoItem } from '@/components/bento/twitter-bento-item'

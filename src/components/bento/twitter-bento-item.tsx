@@ -5,7 +5,7 @@ import { siteConfig } from '@/config/site-config'
 
 import { VFXBorderBeam } from '@/components/ui-vfx/vfx-border-beam'
 import { BentoCard } from '@/components/grids/bento-card'
-import { TwitterSquareIcon } from '@/components/icons/twitter-square-icon'
+import { TwitterSquareIcon } from '@/components/shared/icons/twitter-square-icon'
 import { TwitterPostWidget } from '@/components/widgets/twitter-post-widget'
 
 export function TwitterBentoItem() {

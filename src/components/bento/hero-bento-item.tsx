@@ -3,8 +3,8 @@
 import { cn } from '@/lib/utils'
 import { useUserAgent } from '@/hooks/use-user-agent'
 
-import { ReactIcon } from '@/components/icons/react-icon'
-import { NextJSSquareIcon } from '@/components/icons/nextjs-square-icon'
+import { ReactIcon } from '@/components/shared/icons/react-icon'
+import { NextJSSquareIcon } from '@/components/shared/icons/nextjs-square-icon'
 
 import { VFXWavingHand } from '@/components/ui-vfx/vfx-waving-hand'
 import { VFXPresenceSurface } from '@/components/ui-vfx/vfx-presence-surface'

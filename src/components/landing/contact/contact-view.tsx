@@ -1,11 +1,64 @@
 'use client'
 
-import { useEffect } from 'react'
+import { useRef, useEffect } from 'react'
 import { motion, useAnimation } from 'motion/react'
 import { EnvelopeClosedIcon } from '@radix-ui/react-icons'
+import gsap from 'gsap'
+import { ScrollTrigger } from 'gsap/ScrollTrigger'
+import { useGSAP } from '@gsap/react'
+
+gsap.registerPlugin(ScrollTrigger)
 
 export function ContactHero() {
   const controls = useAnimation()
+  const containerRef = useRef<HTMLDivElement>(null)
+  const textRef = useRef<HTMLDivElement>(null)
+  const arrowsRef = useRef<HTMLDivElement>(null)
+
+  // === GSAP ScrollTrigger Animations ===
+  useGSAP(
+    () => {
+      if (!containerRef.current || !textRef.current || !arrowsRef.current)
+        return
+
+      const ctx = gsap.context(() => {
+        // Text animation
+        gsap.fromTo(
+          textRef.current,
+          { opacity: 0, y: 60 },
+          {
+            opacity: 1,
+            y: 0,
+            duration: 1.2,
+            ease: 'power3.out',
+            scrollTrigger: {
+              trigger: containerRef.current,
+              start: 'top 70%',
+            },
+          }
+        )
+
+        // Arrows animation
+        gsap.fromTo(
+          arrowsRef.current,
+          { opacity: 0, x: -20 },
+          {
+            opacity: 1,
+            x: 0,
+            duration: 0.8,
+            ease: 'power2.out',
+            scrollTrigger: {
+              trigger: containerRef.current,
+              start: 'top 70%',
+            },
+          }
+        )
+      }, containerRef)
+
+      return () => ctx.revert()
+    },
+    { scope: containerRef }
+  )
 
   // === Blob Entrance (scale + breathing) ===
   useEffect(() => {
@@ -121,16 +174,13 @@ export function ContactHero() {
   )
 
   return (
-    <div className='relative mx-auto flex min-h-screen flex-col items-center justify-center gap-16 bg-gradient-to-br from-slate-50 to-slate-200 px-6 py-16 dark:from-slate-950 dark:to-slate-900 lg:flex-row lg:items-center lg:gap-12 lg:px-12'>
+    <div
+      ref={containerRef}
+      className='relative mx-auto flex min-h-screen flex-col items-center justify-center gap-16 bg-gradient-to-br from-slate-50 to-slate-200 px-6 py-16 dark:from-slate-950 dark:to-slate-900 lg:flex-row lg:items-center lg:gap-12 lg:px-12'
+    >
       <div className='absolute bottom-0 left-0 right-0 top-0 bg-[linear-gradient(to_right,#4f4f4f2e_1px,transparent_1px),linear-gradient(to_bottom,#4f4f4f2e_1px,transparent_1px)] bg-[size:14px_24px] opacity-15 [mask-image:radial-gradient(ellipse_80%_50%_at_50%_0%,#000_70%,transparent_110%)]'></div>
       {/* Left: Text */}
-      <motion.div
-        initial={{ opacity: 0, y: 40 }}
-        whileInView={{ opacity: 1, y: 0 }}
-        viewport={{ once: true }}
-        transition={{ duration: 0.8, ease: [0.16, 1, 0.3, 1] }}
-        className='max-w-4xl text-center lg:text-left'
-      >
+      <div ref={textRef} className='max-w-4xl text-center lg:text-left'>
         <p className='mb-3 text-sm text-primary'>
           Are you looking for a talented developer to enhance your digital
           presence?
@@ -148,21 +198,18 @@ export function ContactHero() {
           </a>{' '}
           right now.
         </p>
-      </motion.div>
+      </div>
 
       {/* Middle: Unique Arrows */}
-      <motion.div
-        initial={{ opacity: 0, x: -12 }}
-        whileInView={{ opacity: 1, x: 0 }}
-        viewport={{ once: true }}
-        transition={{ duration: 0.6, ease: [0.16, 1, 0.3, 1], delay: 0.3 }}
-        className='flex rotate-180 items-center gap-2 sm:gap-3'
+      <div
+        ref={arrowsRef}
+        className='flex rotate-90 items-center gap-2 sm:gap-3 lg:rotate-0'
         aria-hidden
       >
         <ArrowA delay={0} />
         <ArrowB delay={0.12} />
         <ArrowC delay={0.24} />
-      </motion.div>
+      </div>
 
       {/* Right: Blob + Mail */}
       <motion.div

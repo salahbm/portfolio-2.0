@@ -24,6 +24,7 @@ export default async function CraftPage() {
         title='Craft'
         description='A dazzling playground of creativity and fun. Take a dip into my personal craft and let the imagination run wild!'
       />
+      <div></div>
       <PageContent>
         <CraftGrid>
           {sortedPages.map((page) => (

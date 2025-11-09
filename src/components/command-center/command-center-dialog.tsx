@@ -42,19 +42,16 @@ import {
   useCommandState,
 } from '@/components/ui/command'
 import { Badge } from '@/components/ui/badge'
-
-import { TwitterLogoIcon } from '@/components/icons/twitter-logo-icon'
-import { CommandIcon } from '@/components/icons/command-icon'
-import { ReturnIcon } from '@/components/icons/return-icon'
-import { SelectIcon } from '@/components/icons/select-icon'
-import { ConfettiIcon } from '@/components/icons/confetti-icon'
-import { KeyboardIcon } from '@/components/icons/keyboard-icon'
-
+import { TwitterLogoIcon } from '@/components/shared/icons/twitter-logo-icon'
+import { CommandIcon } from '@/components/shared/icons/command-icon'
+import { ReturnIcon } from '@/components/shared/icons/return-icon'
+import { SelectIcon } from '@/components/shared/icons/select-icon'
+import { ConfettiIcon } from '@/components/shared/icons/confetti-icon'
+import { KeyboardIcon } from '@/components/shared/icons/keyboard-icon'
 import {
   toggleMagnifyingGlass,
   useMagnifyingGlassStore,
-} from '@/components/lab/magnifying-glass/magnifying-glass-store'
-
+} from '@/components/shared/magnifying-glass'
 import {
   addSuggestionCommand,
   getSuggestedCommands,

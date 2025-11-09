@@ -1,6 +1,6 @@
 import { siteConfig } from '@/config/site-config'
 
-import { GitHubSquareIcon } from '@/components/icons/github-square-icon'
+import { GitHubSquareIcon } from '@/components/shared/icons/github-square-icon'
 import { SocialBentoItem } from '@/components/bento/social-bento-item'
 import { GitHubContributionsWidget } from '@/components/widgets/github-contributions-widget'
 

@@ -21,7 +21,7 @@ import {
   InstagramLogoIcon,
   LinkedInLogoIcon,
 } from '@radix-ui/react-icons'
-import { TwitterLogoIcon } from '@/components/icons/twitter-logo-icon'
+import { TwitterLogoIcon } from '@/components/shared/icons/twitter-logo-icon'
 import { CommandCenter } from '@/components/command-center/command-center'
 import { ColorModeDropdownSwitcher } from '@/components/color-mode/theme-switcher'
 import { MusicPlayerSwitcher } from '../music/music-player-switcher'

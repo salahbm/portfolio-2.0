@@ -1,6 +1,6 @@
 import { siteConfig } from '@/config/site-config'
 
-import { LinkedInSquareIcon } from '@/components/icons/linkedin-square-icon'
+import { LinkedInSquareIcon } from '@/components/shared/icons/linkedin-square-icon'
 import { SocialBentoItem } from '@/components/bento/social-bento-item'
 import { LinkedInChatWidget } from '@/components/widgets/linkedin-chat-widget'
 

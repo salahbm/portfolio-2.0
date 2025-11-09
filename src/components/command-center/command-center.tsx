@@ -27,7 +27,7 @@ import { useMousePosition } from '@/hooks/use-mouse-position'
 import { useDock } from '../dock'
 import { DockContextType } from '../dock/dock.types'
 import { cn } from '@/lib/utils'
-import { CommandIcon } from '../icons/command-icon'
+import { CommandIcon } from '../shared/icons/command-icon'
 import { Button } from '../ui/button'
 
 export function CommandCenter() {

@@ -3,12 +3,12 @@
 import { TooltipProvider } from '@/components/ui/tooltip'
 import { CursorStyleInjector } from '@/components/cursor'
 import { Toaster } from '@/components/ui/sonner'
-import { MagnifyingGlass } from '@/components/lab/magnifying-glass/magnifying-glass'
-import { TailwindIndicator } from '@/components/ui-helpers/tailwind-indicator'
+import { TailwindIndicator } from '@/components/shared/tailwind-indicator'
 import { PageTransition } from '@/components/page-transition'
 import { GlobalKeyboardShortcuts } from '@/components/keyboard-shortcuts'
 import { LockScreenProvider } from './lock-screen-provider'
 import { ThemeProvider } from './theme-provider'
+import { MagnifyingGlass } from '@/components/shared/magnifying-glass/magnifying-glass'
 
 export function ProvidersTree({ children }: { children: React.ReactNode }) {
   return (
