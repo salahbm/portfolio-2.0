@@ -33,7 +33,7 @@ export function ContactHero() {
             ease: 'power3.out',
             scrollTrigger: {
               trigger: containerRef.current,
-              start: 'top 70%',
+              start: 'top 45%',
             },
           }
         )
@@ -49,7 +49,7 @@ export function ContactHero() {
             ease: 'power2.out',
             scrollTrigger: {
               trigger: containerRef.current,
-              start: 'top 70%',
+              start: 'top 40%',
             },
           }
         )
@@ -176,7 +176,7 @@ export function ContactHero() {
   return (
     <div
       ref={containerRef}
-      className='relative mx-auto flex min-h-screen flex-col items-center justify-center gap-16 bg-gradient-to-br from-slate-50 to-slate-200 px-6 py-16 dark:from-slate-950 dark:to-slate-900 lg:flex-row lg:items-center lg:gap-12 lg:px-12'
+      className='relative mx-auto flex min-h-[120vh] flex-col items-center justify-center gap-16 bg-gradient-to-br from-slate-50 to-slate-200 px-6 py-16 dark:from-slate-950 dark:to-slate-900 lg:flex-row lg:items-center lg:gap-12 lg:px-12'
     >
       <div className='absolute bottom-0 left-0 right-0 top-0 bg-[linear-gradient(to_right,#4f4f4f2e_1px,transparent_1px),linear-gradient(to_bottom,#4f4f4f2e_1px,transparent_1px)] bg-[size:14px_24px] opacity-15 [mask-image:radial-gradient(ellipse_80%_50%_at_50%_0%,#000_70%,transparent_110%)]'></div>
       {/* Left: Text */}
