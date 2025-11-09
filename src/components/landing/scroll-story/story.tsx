@@ -95,7 +95,7 @@ export function ScrollStory() {
               ) -
               window.innerWidth * 0.3,
             ease: 'none',
-            duration: 4,
+            duration: 6,
           },
           '>-0.2'
         )

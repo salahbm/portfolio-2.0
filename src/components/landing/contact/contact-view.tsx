@@ -203,7 +203,7 @@ export function ContactHero() {
       {/* Middle: Unique Arrows */}
       <div
         ref={arrowsRef}
-        className='flex rotate-180 items-center gap-2 sm:gap-3 lg:rotate-0'
+        className='flex rotate-90 flex-row items-center gap-2 sm:gap-3 lg:rotate-0'
         aria-hidden
       >
         <ArrowA delay={0} />
