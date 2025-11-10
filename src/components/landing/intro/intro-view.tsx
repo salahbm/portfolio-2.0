@@ -24,7 +24,7 @@ export default function IntroView() {
   const { theme } = useTheme()
   const [activeWord, setActiveWord] = useState<string | null>(null)
 
-  const color = theme === 'light' ? '#1C00C4' : '#fff'
+  const color = theme === 'light' ? '#5A85F2' : '#fff'
 
   useGSAP(() => {
     let intro1, intro2, intro3
@@ -119,7 +119,7 @@ export default function IntroView() {
           className='intro-1 text-outline mb-6 font-light leading-[1.4] tracking-wide md:mb-8'
           style={{ fontSize: 'clamp(1.25rem, 3.5vw, 2.5rem)' }}
         >
-          <span className='intro-1-split'>Hey, I’m </span>
+          <span className='intro-1-split'>Hey👋, I’m </span>
 
           <span className='intro-1-split relative font-semibold'>
             Muhammad,
@@ -129,7 +129,7 @@ export default function IntroView() {
           </span>
 
           <span className='intro-1-split'>
-            but most people just call me Salah (살라).
+            but some people call me Salah (살라).
           </span>
         </div>
 
@@ -169,15 +169,17 @@ export default function IntroView() {
           className='intro-3 text-outline font-light leading-[1.6]'
           style={{ fontSize: 'clamp(1rem, 2.5vw, 2.5rem)' }}
         >
-          <span className='intro-3-split'>Studied Computer Science at </span>
-
+          <span className='intro-3-split'>
+            Studied Mobile Software Engineering & Global Software Engineering at{' '}
+            (I know it's a long name, but u can call it Software Engineering
+            ){' '}
+          </span>
           <HoverText
             wordKey='dankook'
             label='Dankook University'
             activeWord={activeWord}
             setActiveWord={setActiveWord}
           />
-
           <span className='intro-3-split'>
             , and I’ve been writing code, breaking things, and learning to fix
             them better ever since.

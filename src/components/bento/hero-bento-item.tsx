@@ -54,7 +54,7 @@ export function HeroBentoItem() {
             <div className='mt-6 text-center text-[15px] leading-loose text-muted-foreground max-sm:text-[13px]'>
               I&apos;m a software engineer from{' '}
               <span className='align-middle font-semibold text-foreground'>
-                Uzbekistan 🇺🇿
+                Bukhara 🇺🇿
               </span>
               , passionate about crafting <br className='max-md:hidden' />
               smooth, user-centric interfaces with{' '}
