@@ -22,6 +22,7 @@ import { DockContextType } from '@/components/dock/dock.types'
 import { Button } from '../ui/button'
 import { cn } from '@/lib/utils'
 import { MoonIcon, SunIcon } from '@radix-ui/react-icons'
+import { useHotkeys } from 'react-hotkeys-hook'
 
 export function ColorModeDropdownSwitcher() {
   const ref = useRef<HTMLButtonElement>(null)
@@ -78,6 +79,16 @@ export function ColorModeDropdownSwitcher() {
   const handleClick = useEvent(() => {
     setColorMode(theme === 'light' ? 'dark' : 'light')
   })
+
+  useHotkeys(
+    's+c',
+    (): void => {
+      handleClick()
+    },
+    {
+      enabled: true,
+    }
+  )
 
   return (
     <Tooltip>

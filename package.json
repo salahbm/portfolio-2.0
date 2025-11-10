@@ -21,7 +21,12 @@
     "tailwindcss",
     "shadcn",
     "ui",
-    "threejs"
+    "threejs",
+    "p5",
+    "motion",
+    "react-hotkeys-hook",
+    "react-use-event-hook",
+    "gsap"
   ],
   "scripts": {
     "dev": "next dev --turbopack --experimental-https",
