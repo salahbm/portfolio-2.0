@@ -62,7 +62,7 @@ export const StoryOverlay: React.FC<StoryOverlayProps> = ({
           animate={{ opacity: 1 }}
           exit={{ opacity: 0 }}
           className={cn(
-            'pointer-events-none absolute inset-0 z-30 flex flex-col justify-end p-6 pb-24',
+            'pointer-events-none absolute inset-0 z-30 hidden flex-col justify-end p-6 pb-24 lg:flex',
             className
           )}
         >

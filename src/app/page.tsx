@@ -38,31 +38,24 @@ gsap.registerPlugin(
 
 export default function HomePage() {
   useGSAP(() => {
-    // Detect touch device synchronously (before any GSAP setup)
-    // Check multiple indicators to catch real devices AND Chrome DevTools emulator
-    const hasTouchEvents = 'ontouchstart' in window
-    const hasTouchPoints = navigator.maxTouchPoints > 0
-    // @ts-expect-error - msMaxTouchPoints is IE-specific
-    const hasMsTouchPoints = navigator.msMaxTouchPoints > 0
-    const isMobileUserAgent =
-      /Android|webOS|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini/i.test(
-        navigator.userAgent
-      )
-    const isSmallScreen = window.innerWidth <= 1024
+    const isMobile =
+      /iPhone|iPad|iPod|Android/i.test(navigator.userAgent) ||
+      'ontouchstart' in window
 
-    // Consider it a touch device if ANY of these are true
-    const isTouchDevice =
-      hasTouchEvents ||
-      hasTouchPoints ||
-      hasMsTouchPoints ||
-      (isMobileUserAgent && isSmallScreen)
+    // Configure ScrollTrigger for better mobile performance
+    ScrollTrigger.config({
+      // Prevent issues with mobile browsers
+      autoRefreshEvents: 'visibilitychange,DOMContentLoaded,load',
+      // Disable on touch devices to prevent conflicts
+      ignoreMobileResize: true,
+    })
 
     // Only enable ScrollSmoother on non-touch devices
-    if (!isTouchDevice) {
+    if (!isMobile) {
       ScrollSmoother.create({
         smooth: 1.3,
         effects: true,
-        normalizeScroll: true, // Only normalize when using ScrollSmoother
+        normalizeScroll: false, // Disable to prevent mobile conflicts
       })
     }
 
@@ -80,6 +73,12 @@ export default function HomePage() {
         scrub: true,
       },
     })
+
+    // Cleanup function
+    return () => {
+      ScrollTrigger.getAll().forEach((trigger) => trigger.kill())
+      ScrollSmoother.get()?.kill()
+    }
   })
 
   return (

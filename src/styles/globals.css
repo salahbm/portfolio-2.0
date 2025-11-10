@@ -71,10 +71,32 @@
 
   * {
     @apply border-border selection:bg-primary/20 dark:selection:bg-primary/30;
+    /* Improve touch handling on mobile */
+    -webkit-tap-highlight-color: transparent;
   }
 
   body {
-    @apply font-sf-medium bg-background text-foreground antialiased;
+    @apply bg-background font-sf-medium text-foreground antialiased;
+    /* Prevent scroll issues on mobile */
+    touch-action: pan-y;
+    position: relative;
+  }
+
+  html,
+  body {
+    overflow-y: auto;
+    -ms-overflow-style: none;
+    scrollbar-width: none;
+    /* Mobile scroll fixes */
+    -webkit-overflow-scrolling: touch;
+    overscroll-behavior-y: none;
+  }
+
+  html::-webkit-scrollbar,
+  body::-webkit-scrollbar {
+    display: none;
+    width: 0;
+    height: 0;
   }
 
   .font-sf-medium {

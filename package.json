@@ -5,7 +5,7 @@
   "license": "MIT",
   "author": "Salah",
   "description": "Portfolio 2.0",
-  "homepage": "https://www.salah.uz",
+  "homepage": "https://salahx.vercel.app",
   "repository": {
     "type": "git",
     "url": "https://github.com/salah/portfolio-2.0.git"
@@ -62,10 +62,8 @@
     "date-fns": "^4.1.0",
     "geist": "^1.5.1",
     "gsap": "^3.13.0",
-    "i": "^0.3.7",
     "mini-svg-data-uri": "^1.4.4",
     "motion": "^12.23.24",
-    "nanoid": "^5.1.6",
     "next": "^15.5.6",
     "next-mdx-remote": "^5.0.0",
     "next-themes": "^0.4.6",
@@ -80,7 +78,6 @@
     "sonner": "^2.0.7",
     "split-type": "^0.3.4",
     "sugar-high": "^0.9.4",
-    "swr": "^2.3.6",
     "tailwind-merge": "^3.3.1",
     "tailwindcss-animate": "^1.0.7",
     "three": "^0.180.0",
@@ -114,5 +111,5 @@
     "tailwindcss": "^3.4.18",
     "typescript": "^5.9.3"
   },
-  "packageManager": "yarn@1.22.22+sha512.a6b2f7906b721bba3d67d4aff083df04dad64c399707841b7acf00f6b133b7ac24255f2652fa22ae3534329dc6180534e98d17432037ff6fd140556e2bb3137e"
+  "packageManager": "bun@1.1.56"
 }
