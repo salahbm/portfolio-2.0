@@ -23,6 +23,7 @@ import { AboutMe } from '@/components/landing/intro/about-me'
 import { JourneyScroll } from '@/components/landing/journey'
 import { ThankingView } from '@/components/landing/thanking'
 import { Footer } from '@/components/landing/footer'
+import { toast } from 'sonner'
 
 gsap.registerPlugin(
   ScrollTrigger,
@@ -42,26 +43,29 @@ export default function HomePage() {
       /iPhone|iPad|iPod|Android/i.test(navigator.userAgent) ||
       'ontouchstart' in window
 
-    // Configure ScrollTrigger for better mobile performance
+    // Mobile browsers change viewport height on scroll,
+    // which breaks scroll-based animations.
     ScrollTrigger.config({
-      // Prevent issues with mobile browsers
       autoRefreshEvents: 'visibilitychange,DOMContentLoaded,load',
-      // Disable on touch devices to prevent conflicts
       ignoreMobileResize: true,
     })
 
-    // Only enable ScrollSmoother on non-touch devices
-    if (!isMobile) {
+    if (isMobile) {
+      toast('Mobile browsers may cause animation glitches.', {
+        description: 'For the best experience, use desktop.',
+        action: { label: 'Close', onClick: () => toast.dismiss() },
+      })
+    } else {
       ScrollSmoother.create({
         smooth: 2.5,
         effects: true,
-        normalizeScroll: false, // Disable to prevent mobile conflicts
+        normalizeScroll: false,
       })
     }
 
-    // Cleanup function
+    // Cleanup
     return () => {
-      ScrollTrigger.getAll().forEach((trigger) => trigger.kill())
+      ScrollTrigger.getAll().forEach((t) => t.kill())
       ScrollSmoother.get()?.kill()
     }
   })

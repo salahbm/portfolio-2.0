@@ -254,7 +254,7 @@ export default function MacOSWaves() {
   return (
     <div
       ref={sketchRef}
-      className='absolute inset-0 -z-10 h-dvh w-full overflow-hidden'
+      className='absolute inset-0 -z-10 h-full w-full overflow-hidden'
     />
   )
 }
