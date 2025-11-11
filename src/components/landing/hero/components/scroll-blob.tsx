@@ -62,7 +62,7 @@ export default function ScrollBlob() {
     'M55,-65C75,-45,95,-25,95,0C95,25,75,45,55,65C35,85,15,105,-10,105C-35,105,-55,85,-75,65C-95,45,-105,25,-105,0C-105,-25,-95,-45,-75,-65C-55,-85,-35,-105,-10,-105C15,-105,35,-85,55,-65Z'
 
   return (
-    <div className='absolute right-6 top-12 z-10'>
+    <div className='right-6 top-12 z-10 hidden lg:absolute lg:block'>
       <motion.div
         animate={controls}
         onClick={handleScroll}

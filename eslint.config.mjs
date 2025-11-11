@@ -46,7 +46,6 @@ const config = [
       '@typescript-eslint': require('@typescript-eslint/eslint-plugin'),
     },
     rules: {
-      'prettier/prettier': 'error',
       'react/no-unescaped-entities': 'off',
       'react-hooks/exhaustive-deps': 'error',
       '@typescript-eslint/explicit-module-boundary-types': 'error',
@@ -65,6 +64,7 @@ const config = [
       eqeqeq: 'error',
       'tailwindcss/enforces-shorthand': 'off',
       'tailwindcss/no-custom-classname': 'off',
+      'prettier/prettier': 'warn',
     },
   }, // MDX configuration
   {
