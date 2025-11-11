@@ -119,8 +119,8 @@ const HoverText = ({
                   style={{
                     mixBlendMode: 'plus-lighter',
                   }}
-                  unoptimized
                   priority
+                  loading='eager'
                 />
               </div>
             </div>
@@ -156,8 +156,8 @@ const HoverText = ({
                   style={{
                     mixBlendMode: 'plus-lighter',
                   }}
-                  unoptimized
                   priority
+                  loading='eager'
                 />
               </div>
             </div>
@@ -193,8 +193,8 @@ const HoverText = ({
                   style={{
                     mixBlendMode: 'plus-lighter',
                   }}
-                  unoptimized
                   priority
+                  loading='eager'
                 />
               </div>
             </div>

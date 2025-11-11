@@ -12,30 +12,29 @@ export function JourneyScroll() {
     // 1. SECTION ZOOM OUT — now triggers later
     // ---------------------------------------
     gsap.set('.journey-section', {
-      yPercent: -10,
-      rotate: -1,
-      scale: 1.1,
+      rotate: -3,
+      scale: 1.05,
     })
 
     gsap
       .timeline({
         scrollTrigger: {
           trigger: '.journey-section',
-          start: 'top 85%',
+          start: 'top 45%',
           end: 'top top',
           scrub: 0.8,
         },
       })
       .to('.journey-section', {
-        yPercent: 5,
+        rotate: 0,
+        scale: 0.95,
         ease: 'none',
       })
       .to(
         '.journey-section',
         {
-          rotate: 1.5,
-          scale: 0.95,
-          yPercent: 0,
+          scale: 1.05,
+          rotate: 3,
           ease: 'none',
         },
         '+=0.5'

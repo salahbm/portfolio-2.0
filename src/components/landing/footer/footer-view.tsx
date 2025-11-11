@@ -140,7 +140,7 @@ export function Footer() {
   return (
     <footer
       ref={footerRef}
-      className='relative h-full w-full -translate-y-1/4 overflow-hidden'
+      className='relative h-full w-full -translate-y-1/4 overflow-hidden pb-10'
     >
       <div className='relative h-[250px] w-full'>
         <svg
@@ -173,7 +173,7 @@ export function Footer() {
 
       <button
         onClick={scrollToTop}
-        className='absolute bottom-0 right-4 z-10 cursor-pointer rounded-full bg-primary p-2 transition-all duration-300 hover:bg-primary/80 lg:right-1/2 lg:translate-x-1/2'
+        className='absolute bottom-8 right-1/2 z-10 translate-x-1/2 cursor-pointer rounded-full bg-primary p-2 transition-all duration-300 hover:bg-primary/80'
       >
         <svg
           width='15'
