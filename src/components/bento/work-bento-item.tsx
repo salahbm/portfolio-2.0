@@ -11,7 +11,7 @@ export function WorkBentoItem() {
       <div className='flex h-full w-full flex-col items-center justify-end'>
         <div className='relative flex size-4/5 flex-col'>
           <Image
-            src='/medias/images/work-preview@4.webp'
+            src='/medias/images/work.png'
             fill
             alt='work preview'
             style={{ objectFit: 'contain' }}
