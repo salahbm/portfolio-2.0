@@ -74,7 +74,7 @@ const ThankingView = () => {
         })
         .to('#thanking-title-1', { xPercent: 60 }, 0)
         .to('#thanking-title-2', { xPercent: 20 }, 0)
-        .to('#thanking-title-3', { xPercent: -25 }, 0)
+        .to('#thanking-title-3', { xPercent: -15 }, 0)
         .to('#thanking-title-4', { xPercent: 10 }, 0)
 
       // Add character split animation for extra coolness

@@ -35,7 +35,7 @@ const JourneyHeader = () => {
           - second 'center' = the center of the viewport
           The animation begins exactly when the title reaches the center of the screen.
         */
-        start: 'top 60%',
+        start: 'top 80%',
 
         /*
           end: 'center top'
@@ -106,7 +106,7 @@ const JourneyHeader = () => {
       </div>
 
       {/* TITLE CONTENT (YOUR ORIGINAL SECTION) */}
-      <div className='journey-header-title flex scale-[2] flex-col items-center justify-center px-4 sm:scale-[2.5] md:scale-[3] lg:scale-[4]'>
+      <div className='journey-header-title flex scale-150 flex-col items-center justify-center px-4 sm:scale-[2.5] md:scale-[3] lg:scale-[4]'>
         <h2 className='text-center font-syne text-xl font-extrabold uppercase leading-tight tracking-tighter sm:text-3xl md:text-4xl md:leading-6 lg:text-5xl xl:text-6xl'>
           How I Ended Up Here <span className='text-accent'>?¿?</span>
         </h2>

@@ -46,7 +46,7 @@ export function MusicPlayerWidget() {
           className='absolute inset-0 z-0'
         >
           <div
-            className='absolute inset-0 bg-cover bg-center'
+            className='absolute inset-0 z-10 bg-cover bg-center'
             style={{ backgroundImage: `url(${currentSong.image})` }}
           />
           <div
@@ -106,7 +106,7 @@ export function MusicPlayerWidget() {
             <motion.button
               whileTap={{ scale: 0.9 }}
               onClick={playPrevious}
-              className='rounded-full bg-neutral-200/70 p-2 hover:bg-neutral-300 dark:bg-white/10 dark:hover:bg-white/20'
+              className='cursor-pointer rounded-full bg-neutral-200/70 p-2 hover:bg-neutral-300 dark:bg-white/10 dark:hover:bg-white/20'
             >
               <BackwardIcon className='size-5' />
             </motion.button>
@@ -114,7 +114,7 @@ export function MusicPlayerWidget() {
             <motion.button
               whileTap={{ scale: 0.95 }}
               onClick={togglePlayPause}
-              className='flex-center rounded-full bg-gradient-to-br from-rose-500 to-purple-500 p-4 text-white shadow-md hover:shadow-lg'
+              className='flex-center cursor-pointer rounded-full bg-gradient-to-br from-rose-500 to-purple-500 p-4 text-white shadow-md hover:shadow-lg'
             >
               <AnimatePresence mode='wait'>
                 {isPlaying ? (
@@ -142,16 +142,16 @@ export function MusicPlayerWidget() {
             <motion.button
               whileTap={{ scale: 0.9 }}
               onClick={playNext}
-              className='rounded-full bg-neutral-200/70 p-2 hover:bg-neutral-300 dark:bg-white/10 dark:hover:bg-white/20'
+              className='cursor-pointer rounded-full bg-neutral-200/70 p-2 hover:bg-neutral-300 dark:bg-white/10 dark:hover:bg-white/20'
             >
               <ForwardIcon className='size-5' />
             </motion.button>
           </div>
 
           {/* Volume */}
-          <div className='flex items-center justify-center gap-2 text-neutral-700 dark:text-neutral-300'>
+          <div className='flex items-center justify-center gap-2 text-neutral-100 dark:text-neutral-300'>
             <SpeakerWaveIcon className='size-4' />
-            <div className='h-0.5 w-20 overflow-hidden rounded-full bg-neutral-300/60 dark:bg-white/20'>
+            <div className='h-0.5 w-20 overflow-hidden rounded-full bg-neutral-100 dark:bg-white/20'>
               <div className='h-full w-3/4 bg-gradient-to-r from-rose-500 to-purple-500' />
             </div>
           </div>

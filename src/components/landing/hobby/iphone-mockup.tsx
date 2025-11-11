@@ -25,7 +25,7 @@ export const IPhoneMockup: React.FC<IPhoneMockupProps> = ({
       style={{ perspective: '1000px' }}
     >
       {/* iPhone Frame */}
-      <div className='/* Mobile */ /* Small tablet */ /* Large tablet */ /* Desktop */ relative mx-auto h-[500px] w-[240px] sm:h-[600px] sm:w-[300px] md:h-[650px] md:w-[320px] lg:h-[700px] lg:w-[340px]'>
+      <div className='/* Mobile */ /* Small tablet */ /* Large tablet */ /* Desktop */ relative mx-auto h-[600px] w-[300px] sm:h-[620px] sm:w-[320px] md:h-[650px] md:w-[320px] lg:h-[700px] lg:w-[340px]'>
         <div className='absolute inset-0 rounded-[55px] bg-gradient-to-br from-gray-800 via-gray-900 to-black shadow-2xl'>
           <div className='absolute inset-[3px] rounded-[52px] bg-black'>
             <div className='absolute left-1/2 top-0 z-50 h-[30px] w-[150px] -translate-x-1/2 rounded-b-3xl bg-black'>

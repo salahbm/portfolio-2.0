@@ -104,7 +104,7 @@ export function ScrollStory() {
           rail,
           {
             opacity: 0,
-            duration: 0.8,
+            duration: 0.9,
             ease: 'power1.out',
           },
           '>-0.3'
@@ -115,7 +115,7 @@ export function ScrollStory() {
           {
             opacity: 1,
             y: 0,
-            duration: 1,
+            duration: 1.5,
             ease: 'power2.out',
           },
           '-=1'

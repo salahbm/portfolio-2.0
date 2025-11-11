@@ -53,7 +53,7 @@ export default function HomePage() {
     // Only enable ScrollSmoother on non-touch devices
     if (!isMobile) {
       ScrollSmoother.create({
-        smooth: 1.3,
+        smooth: 2.5,
         effects: true,
         normalizeScroll: false, // Disable to prevent mobile conflicts
       })
