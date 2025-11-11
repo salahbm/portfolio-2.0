@@ -59,21 +59,6 @@ export default function HomePage() {
       })
     }
 
-    // INTRO ABOUT ME SCROLL CONTROLLER
-    gsap.to('.about-me-text', {
-      x: () =>
-        -(
-          document.querySelector('.about-me-text')!.scrollWidth -
-          window.innerWidth
-        ),
-      ease: 'none',
-      scrollTrigger: {
-        start: 'top top',
-        end: 'bottom bottom',
-        scrub: true,
-      },
-    })
-
     // Cleanup function
     return () => {
       ScrollTrigger.getAll().forEach((trigger) => trigger.kill())

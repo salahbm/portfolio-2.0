@@ -130,7 +130,7 @@ export const LockScreen: React.FC<LockScreenProps> = ({ onLoadComplete }) => {
   return (
     <div
       ref={containerRef}
-      className='relative z-[999] h-screen overflow-hidden font-sf-medium'
+      className='relative z-[999] h-dvh overflow-hidden font-sf-medium'
     >
       {/* Dynamic wallpaper gradient (animated positions) */}
       <div
@@ -176,7 +176,7 @@ export const LockScreen: React.FC<LockScreenProps> = ({ onLoadComplete }) => {
       {/* Bottom cluster: avatar + progress or start */}
       <div
         ref={bottomRef}
-        className='absolute bottom-24 left-1/2 flex -translate-x-1/2 flex-col items-center gap-5 text-white lg:bottom-14'
+        className='absolute bottom-14 left-1/2 flex -translate-x-1/2 flex-col items-center gap-5 text-white'
       >
         {/* Avatar */}
         <div

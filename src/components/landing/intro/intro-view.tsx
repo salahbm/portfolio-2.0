@@ -108,7 +108,7 @@ export default function IntroView() {
   }, [theme])
 
   return (
-    <section className='relative flex min-h-screen flex-col items-center justify-center overflow-hidden py-12 md:min-h-[120vh] lg:min-h-[150vh]'>
+    <section className='relative flex min-h-dvh flex-col items-center justify-center overflow-hidden py-12 md:min-h-[120vh] lg:min-h-[150vh]'>
       {/* FIXED OUTLINE BEHAVIOR */}
       <style>{outlineFix}</style>
       <div className='absolute inset-0 -z-10 h-full w-full bg-white bg-[linear-gradient(to_right,theme(colors.gray.200)_1px,transparent_1px),linear-gradient(to_bottom,theme(colors.gray.200)_1px,transparent_1px)] bg-[size:6rem_4rem] dark:bg-neutral-900 dark:bg-[linear-gradient(to_right,theme(colors.gray.800)_1px,transparent_1px),linear-gradient(to_bottom,theme(colors.gray.800)_1px,transparent_1px)]' />

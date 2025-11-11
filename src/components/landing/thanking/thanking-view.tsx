@@ -111,7 +111,7 @@ const ThankingView = () => {
   return (
     <div ref={sectionRef} className='w-full'>
       {/* Main thanking section */}
-      <section className='thanking-scroll relative flex h-screen w-full flex-col items-center justify-center overflow-hidden bg-white dark:bg-gray-900'>
+      <section className='thanking-scroll relative flex h-dvh w-full flex-col items-center justify-center overflow-hidden bg-white dark:bg-gray-900'>
         {/* Animated background layer - supports light/dark mode */}
         <div className='thanking-background absolute inset-0 -z-10 h-full w-full bg-gray-100 bg-[linear-gradient(to_right,#8080800a_1px,transparent_1px),linear-gradient(to_bottom,#8080800a_1px,transparent_1px)] bg-[size:14px_24px] dark:bg-gray-800 dark:bg-[linear-gradient(to_right,#ffffff0a_1px,transparent_1px),linear-gradient(to_bottom,#ffffff0a_1px,transparent_1px)]' />
 

@@ -11,21 +11,35 @@ export function JourneyScroll() {
     // ---------------------------------------
     // 1. SECTION ZOOM OUT — now triggers later
     // ---------------------------------------
+    gsap.set('.journey-section', {
+      yPercent: 10,
+      rotate: 0,
+      scale: 1,
+    })
+
     gsap
       .timeline({
         scrollTrigger: {
           trigger: '.journey-section',
-          start: 'top 80%',
-          end: 'bottom 20%',
-          scrub: true,
+          start: 'top 75%',
+          end: 'top top',
+          scrub: 0.8,
         },
       })
       .to('.journey-section', {
-        rotate: 3,
-        scale: 0.88,
-        yPercent: 10,
-        ease: 'power2.inOut',
+        yPercent: 5,
+        ease: 'none',
       })
+      .to(
+        '.journey-section',
+        {
+          rotate: 10,
+          scale: 0.88,
+          yPercent: 0,
+          ease: 'none',
+        },
+        '+=0.5'
+      )
 
     // ---------------------------------------
     // 2. SPLIT TEXT SETUP
@@ -34,7 +48,7 @@ export function JourneyScroll() {
       type: 'words,lines',
     })
 
-    const dollarSplit = SplitText.create('.dollar-text', {
+    const dollarSplit = SplitText.create('.emoji-text', {
       type: 'chars',
     })
 
@@ -45,7 +59,7 @@ export function JourneyScroll() {
       .timeline({
         scrollTrigger: {
           trigger: '.journey-content',
-          start: 'top 85%',
+          start: 'top 65%',
           end: 'bottom 40%',
           scrub: false,
         },
@@ -90,7 +104,7 @@ export function JourneyScroll() {
       <JourneyHeader />
 
       {/* FIXED HEIGHT + SPACING */}
-      <section className='journey-section relative flex min-h-screen w-dvw items-center justify-center overflow-visible px-4 py-12 md:min-h-screen md:px-6 lg:min-h-[120vh]'>
+      <section className='journey-section relative flex min-h-dvh w-dvw items-center justify-center overflow-visible px-4 py-12 md:min-h-dvh md:px-6 lg:min-h-[120vh]'>
         <p
           className='journey-content mx-auto max-w-4xl font-syne leading-relaxed tracking-wide md:leading-[3rem] lg:leading-[4rem]'
           style={{ fontSize: 'clamp(1.125rem, 3vw, 2.5rem)' }}
@@ -98,7 +112,7 @@ export function JourneyScroll() {
           Once I thought coding would make me{' '}
           <span className='journey-content-dynamic text-primary'>
             shi*t lot of money{' '}
-            <span className='dollar-text inline-block'>💵🤑💸💰</span>
+            <span className='emoji-text inline-block'>💵🤑💸💰</span>
           </span>
           , and would be easy to achieve in some weeks. Several years, thousands
           of bugs, and way too much coffee later — I’m still here. Since then

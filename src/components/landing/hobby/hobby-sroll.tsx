@@ -257,7 +257,7 @@ const HobbyScroll = () => {
       ========================== */}
       <div
         ref={wrapperRef}
-        className='hidden h-screen w-full overflow-hidden lg:block'
+        className='hidden h-dvh w-full overflow-hidden lg:block'
       >
         <div
           ref={sliderRef}
@@ -266,7 +266,7 @@ const HobbyScroll = () => {
           {/* =========================
               HOBBY 1
           ========================== */}
-          <section className='hobbies-1 flex h-screen w-screen items-center justify-center px-6 md:px-10'>
+          <section className='hobbies-1 flex h-dvh w-screen items-center justify-center px-6 md:px-10'>
             <div className='relative mx-auto grid w-full max-w-[1200px] grid-cols-1 items-center gap-10 md:grid-cols-12'>
               <div className='hidden md:col-span-1 md:block'>
                 <div className='h-56 w-1 rounded-full bg-gradient-to-b from-primary to-primary/20' />
@@ -297,7 +297,7 @@ const HobbyScroll = () => {
           {/* =========================
               HOBBY 2
           ========================== */}
-          <section className='hobbies-2 flex h-screen w-screen items-center justify-center px-6 md:px-10'>
+          <section className='hobbies-2 flex h-dvh w-screen items-center justify-center px-6 md:px-10'>
             <div className='relative mx-auto grid w-full max-w-[1200px] grid-cols-1 items-center gap-10 md:grid-cols-12'>
               <div className='md:col-span-12'>
                 <div className='relative'>
@@ -331,7 +331,7 @@ const HobbyScroll = () => {
           {/* =========================
               HOBBY 3
           ========================== */}
-          <section className='hobbies-3 flex h-screen w-screen items-center justify-center px-6 md:px-10'>
+          <section className='hobbies-3 flex h-dvh w-screen items-center justify-center px-6 md:px-10'>
             <div className='relative mx-auto grid w-full max-w-[1200px] grid-cols-1 items-center gap-10 md:grid-cols-12'>
               <div className='md:col-span-12'>
                 <div className='relative'>
@@ -431,7 +431,7 @@ const HobbyScroll = () => {
       {/* =========================
           FINAL: "Don't believe?"
       ========================== */}
-      <section className='disbelief relative flex h-screen w-full flex-col items-center justify-center px-6 py-24 lg:min-h-[120vh] lg:py-36'>
+      <section className='disbelief relative flex h-dvh w-full flex-col items-center justify-center px-6 py-24 lg:min-h-[120vh] lg:py-36'>
         <div className='fel relative z-[1] mx-auto flex max-w-[1200px] flex-wrap items-center justify-center gap-x-4 gap-y-3 text-center'>
           <span className='disbelief-word block font-syne text-2xl font-extrabold uppercase tracking-[0.08em] lg:text-7xl'>
             Don’t

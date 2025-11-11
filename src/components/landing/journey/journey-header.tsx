@@ -56,7 +56,7 @@ const JourneyHeader = () => {
       This container takes full viewport height and width.
       It centers the inner title block.
     */
-    <div className='journey-header-container relative flex h-screen w-dvw items-center justify-center overflow-hidden font-monument-extended md:h-[120vh] lg:h-[150vh]'>
+    <div className='journey-header-container relative flex h-dvh w-dvw items-center justify-center overflow-hidden font-monument-extended md:h-[120vh] lg:h-[150vh]'>
       {/* ENERGY RING BACKGROUND */}
       <div className='pointer-events-none absolute inset-0 flex items-center justify-center'>
         <div className='h-[300px] w-[300px] rounded-full bg-[radial-gradient(circle,_rgba(84,132,255,0.45),_rgba(0,0,0,0)_70%)] opacity-40 blur-3xl sm:h-[400px] sm:w-[400px] md:h-[600px] md:w-[600px] lg:h-[800px] lg:w-[800px]'></div>

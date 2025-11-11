@@ -83,7 +83,7 @@ export default function RootLayout({
         )}
       >
         <ProvidersTree>
-          <main className='relative flex min-h-screen w-screen flex-col'>
+          <main className='relative flex min-h-dvh w-screen flex-col'>
             {children}
             <Dock />
           </main>

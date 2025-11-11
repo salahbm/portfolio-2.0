@@ -143,7 +143,7 @@ export function ScrollStory() {
       <div
         ref={wrapperRef}
         id='scroll-story'
-        className='relative flex h-screen items-center justify-start overflow-hidden'
+        className='relative flex h-dvh items-center justify-start overflow-hidden'
       >
         <div className='scroll-story-background bg-gradient-harmonic pointer-events-none absolute inset-0 -z-10' />
 

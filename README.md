@@ -188,7 +188,6 @@ Distributed under the MIT License. See [LICENSE](./LICENSE) for more information
 ## SHOUTOUTS
 
 - Big Thanks to [SugarDarius](https://github.com/SugarDarius) for the layout of the portfolio.
-- Big Thanks to [Jhey Tompkins](https://codepen.io/jh3y) for the effect inspirations.
 
 ---
 

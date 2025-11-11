@@ -51,7 +51,7 @@ const HobbyView: React.FC = () => {
   return (
     <Fragment>
       <HobbyScroll />
-      <div className='relative flex w-full items-center justify-center overflow-hidden px-4 py-12 md:py-16 lg:min-h-screen lg:py-20'>
+      <div className='relative flex w-full items-center justify-center overflow-hidden px-4 py-12 md:py-16 lg:min-h-dvh lg:py-20'>
         {/* Gradient lights */}
         <motion.div
           initial={{ opacity: 0, scale: 0 }}
