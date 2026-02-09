@@ -5,7 +5,7 @@ An immersive, animation-rich developer portfolio built with Next.js 15 that blen
 ![Portfolio Preview](./src/app/opengraph-image.png)
 
 <p align="center">
-  <a href="https://www.salah.uz" target="_blank" rel="noreferrer">🌐 Live Site</a>
+  <a href="https://www.salahm.uz" target="_blank" rel="noreferrer">🌐 Live Site</a>
   ·
   <a href="https://github.com/salah/portfolio-2.0/issues">🐛 Report Bug</a>
   ·
@@ -181,7 +181,7 @@ Distributed under the MIT License. See [LICENSE](./LICENSE) for more information
 ## 📬 Contact
 
 - **Author:** Muhammad (aka Salah)
-- **Website:** [salah.uz](https://www.salah.uz)
+- **Website:** [salah.uz](https://www.salahm.uz)
 - **GitHub:** [@salahbm](https://github.com/salahbm)
 - **LinkedIn:** [linkedin.com/in/salahbm](https://www.linkedin.com/in/salahbm)
 
