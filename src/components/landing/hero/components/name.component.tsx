@@ -37,18 +37,23 @@ const NameComponent: React.FC = () => {
 
       const tlMain = gsap.timeline()
       splitMain.chars.forEach((char, i) => {
-        const delay = i * 0.05 // reduced from 0.1
+        const delay = i * 0.03 // further reduced for faster load
+        gsap.set(char, { willChange: 'transform, opacity' })
         tlMain.from(
           char,
           {
-            x: gsap.utils.random(-200, 200),
-            y: gsap.utils.random(-150, 150),
-            z: gsap.utils.random(-200, 200),
+            x: gsap.utils.random(-150, 150),
+            y: gsap.utils.random(-100, 100),
+            z: gsap.utils.random(-150, 150),
             opacity: 0,
-            rotateX: gsap.utils.random(-90, 90),
-            rotateY: gsap.utils.random(-90, 90),
-            rotateZ: gsap.utils.random(-90, 90),
-            duration: gsap.utils.random(0.6, 1), // reduced from 1.2–1.8
+            rotateX: gsap.utils.random(-60, 60),
+            rotateY: gsap.utils.random(-60, 60),
+            rotateZ: gsap.utils.random(-60, 60),
+            duration: gsap.utils.random(0.4, 0.7), // faster animation
+            ease: 'power2.out',
+            onComplete: () => {
+              gsap.set(char, { willChange: 'auto' })
+            },
           },
           delay
         )
@@ -58,12 +63,16 @@ const NameComponent: React.FC = () => {
       // === "a full-stack": Slide from right ===
       const splitSub1 = new SplitType(fullStack, { types: 'chars' })
       const tlSub1 = gsap.timeline()
+      gsap.set(splitSub1.chars, { willChange: 'transform, opacity' })
       tlSub1.from(splitSub1.chars, {
-        x: 100,
+        x: 80,
         opacity: 0,
-        duration: 0.6, // reduced from 1.2
-        stagger: 0.03, // reduced from 0.05
-        ease: 'power3.out',
+        duration: 0.4,
+        stagger: 0.02,
+        ease: 'power2.out',
+        onComplete: () => {
+          gsap.set(splitSub1.chars, { willChange: 'auto' })
+        },
       })
       gsap.to(splitSub1.chars, {
         y: `+=${gsap.utils.random(-5, 5)}`,
@@ -79,12 +88,16 @@ const NameComponent: React.FC = () => {
       // === "software engineer": Slide from right (softer) ===
       const splitSub2 = new SplitType(engineer, { types: 'chars' })
       const tlSub2 = gsap.timeline()
+      gsap.set(splitSub2.chars, { willChange: 'transform, opacity' })
       tlSub2.from(splitSub2.chars, {
-        x: 120,
+        x: 100,
         opacity: 0,
-        duration: 0.8, // reduced from 1.4
-        stagger: 0.04, // reduced from 0.06
+        duration: 0.5,
+        stagger: 0.025,
         ease: 'power2.out',
+        onComplete: () => {
+          gsap.set(splitSub2.chars, { willChange: 'auto' })
+        },
       })
       gsap.to(splitSub2.chars, {
         y: `+=${gsap.utils.random(-4, 4)}`,

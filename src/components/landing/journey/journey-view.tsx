@@ -9,36 +9,22 @@ import JourneyHeader from './journey-header'
 export function JourneyScroll() {
   useGSAP(() => {
     // ---------------------------------------
-    // 1. SECTION ZOOM OUT — now triggers later
+    // 1. SECTION PARALLAX SCALE
     // ---------------------------------------
     gsap.set('.journey-section', {
-      rotate: -3,
-      scale: 1.05,
+      scale: 0.92,
     })
 
-    gsap
-      .timeline({
-        scrollTrigger: {
-          trigger: '.journey-section',
-          start: 'top 45%',
-          end: 'top top',
-          scrub: 0.8,
-        },
-      })
-      .to('.journey-section', {
-        rotate: 0,
-        scale: 0.95,
-        ease: 'none',
-      })
-      .to(
-        '.journey-section',
-        {
-          scale: 1.05,
-          rotate: 3,
-          ease: 'none',
-        },
-        '+=0.5'
-      )
+    gsap.to('.journey-section', {
+      scale: 1,
+      ease: 'none',
+      scrollTrigger: {
+        trigger: '.journey-section',
+        start: 'top bottom',
+        end: 'top center',
+        scrub: 1.2,
+      },
+    })
 
     // ---------------------------------------
     // 2. SPLIT TEXT SETUP
@@ -52,57 +38,83 @@ export function JourneyScroll() {
     })
 
     // ---------------------------------------
-    // 3. TEXT ANIMATION — NOW SCROLL TRIGGERED
+    // 3. TEXT REVEAL WITH SCROLL
     // ---------------------------------------
-    gsap
-      .timeline({
-        scrollTrigger: {
-          trigger: '.journey-content',
-          start: 'top 75%',
-          end: 'bottom 40%',
-          scrub: false,
-        },
-      })
-      .from(titleSplit.words, {
-        ease: 'power2.out',
-        stagger: 0.035,
-        opacity: 0,
-        rotate: 5,
-        duration: 0.7,
-        y: 50,
-      })
+    gsap.set(titleSplit.words, {
+      opacity: 0,
+      y: 60,
+      rotateX: -90,
+    })
+
+    gsap.set('.journey-content-dynamic', {
+      opacity: 0,
+    })
+
+    gsap.set(dollarSplit.chars, {
+      opacity: 0,
+      scale: 0,
+      y: 50,
+      rotate: -45,
+    })
+
+    const tl = gsap.timeline({
+      scrollTrigger: {
+        trigger: '.journey-content',
+        start: 'top 80%',
+        end: 'top 30%',
+        scrub: 1,
+      },
+    })
+
+    tl.to(titleSplit.words, {
+      opacity: 1,
+      y: 0,
+      rotateX: 0,
+      stagger: 0.02,
+      ease: 'power3.out',
+    })
       .to(
         '.journey-content-dynamic',
         {
           opacity: 1,
-          scrambleText: {
-            text: '{original}',
-            chars: 'lowerCase',
-          },
-          duration: 2.3,
+          duration: 0.3,
         },
-        '-=.3'
+        '-=0.4'
       )
-      .fromTo(
+      .to(
         dollarSplit.chars,
-        { opacity: 0, scale: 0, y: 40, rotate: -25 },
         {
           opacity: 1,
           scale: 1,
           y: 0,
           rotate: 0,
-          ease: 'elastic.out(1, 0.4)',
-          stagger: 0.18,
+          stagger: 0.05,
+          ease: 'back.out(2)',
         },
-        '-=1.8'
+        '-=0.2'
       )
+
+    // ---------------------------------------
+    // 4. FLOATING EMOJI LOOP (AFTER SCROLL)
+    // ---------------------------------------
+    gsap.to('.emoji-text', {
+      y: -8,
+      rotate: 5,
+      repeat: -1,
+      yoyo: true,
+      duration: 1.2,
+      ease: 'sine.inOut',
+      scrollTrigger: {
+        trigger: '.emoji-text',
+        start: 'top 60%',
+      },
+    })
   })
 
   return (
     <Fragment>
       <JourneyHeader />
 
-      {/* FIXED HEIGHT + SPACING */}
       <section className='journey-section relative flex min-h-dvh w-dvw items-center justify-center overflow-visible px-4 py-12 md:min-h-dvh md:px-6 lg:min-h-[120vh]'>
         <p
           className='journey-content mx-auto max-w-4xl font-syne leading-relaxed tracking-wide md:leading-[3rem] lg:leading-[4rem]'
@@ -114,7 +126,7 @@ export function JourneyScroll() {
             <span className='emoji-text inline-block'>💵🤑💸💰</span>
           </span>
           , and would be easy to achieve in some weeks. Several years, thousands
-          of bugs, and way too much coffee later — I’m still here. Since then
+          of bugs, and way too much coffee later — I'm still here. Since then
           ...
         </p>
       </section>

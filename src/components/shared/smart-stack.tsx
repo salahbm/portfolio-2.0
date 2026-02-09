@@ -197,6 +197,8 @@ export function SmartStack({
   const [direction, setDirection] = useState<number>(1)
 
   const [containerSize, setContainerSize] = useState<[number, number]>([0, 0])
+  const lastScrollTime = useRef<number>(0)
+  const scrollThrottle = 800 // ms between scroll changes
 
   const handleDragStart = useEvent((): void => {
     isDraggingRef.current = true
@@ -243,6 +245,29 @@ export function SmartStack({
     }
   })
 
+  const handleWheel = useEvent((e: WheelEvent): void => {
+    const now = Date.now()
+    if (now - lastScrollTime.current < scrollThrottle) return
+
+    const maxIndex = count - 1
+    const delta = e.deltaY
+
+    if (Math.abs(delta) > 10) {
+      // Significant scroll
+      if (delta > 0 && index < maxIndex) {
+        // Scroll down - next item
+        setDirection(1)
+        setIndex(index + 1)
+        lastScrollTime.current = now
+      } else if (delta < 0 && index > 0) {
+        // Scroll up - previous item
+        setDirection(-1)
+        setIndex(index - 1)
+        lastScrollTime.current = now
+      }
+    }
+  })
+
   useLayoutEffect(() => {
     const handleResize = (): void => {
       if (containerRef.current) {
@@ -258,6 +283,18 @@ export function SmartStack({
       window.removeEventListener('resize', handleResize)
     }
   }, [])
+
+  // Add wheel event listener for scroll support
+  useLayoutEffect(() => {
+    const container = containerRef.current
+    if (!container) return
+
+    container.addEventListener('wheel', handleWheel, { passive: true })
+
+    return (): void => {
+      container.removeEventListener('wheel', handleWheel)
+    }
+  }, [handleWheel, index, count])
 
   const custom = { direction, height: containerSize[1] }
 

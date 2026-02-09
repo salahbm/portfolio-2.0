@@ -14,6 +14,7 @@ import { baseUrl, siteConfig } from '@/config/site-config'
 
 import { ProvidersTree } from '@/providers'
 import { Dock } from '@/components/dock'
+import { StructuredData } from '@/components/seo/structured-data'
 
 import { sfMedium, monumentExtended, syne } from './font'
 
@@ -24,6 +25,7 @@ export const metadata: Metadata = {
     template: `%s | ${siteConfig.title}`,
   },
   description: siteConfig.description,
+  keywords: siteConfig.keywords,
   authors: siteConfig.authors,
   creator: siteConfig.creator,
   openGraph: {
@@ -33,13 +35,26 @@ export const metadata: Metadata = {
     description: siteConfig.description,
     siteName: siteConfig.title,
     url: baseUrl,
+    images: [
+      {
+        url: `${baseUrl}/og-image.png`,
+        width: 1200,
+        height: 630,
+        alt: 'Muhammad (Salah) - Full-Stack Software Engineer',
+      },
+    ],
   },
   twitter: {
     card: 'summary_large_image',
     title: siteConfig.title,
     description: siteConfig.description,
     creator: siteConfig.socialLinks.twitter.name,
+    images: [`${baseUrl}/og-image.png`],
   },
+  alternates: {
+    canonical: baseUrl,
+  },
+  category: 'technology',
   robots: {
     index: true,
     follow: true,
@@ -79,6 +94,9 @@ export default function RootLayout({
 }>) {
   return (
     <html lang='en' suppressHydrationWarning>
+      <head>
+        <StructuredData />
+      </head>
       <body
         className={cn(
           GeistSans.variable,
