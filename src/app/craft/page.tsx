@@ -7,7 +7,6 @@ import { PageHeader } from '@/components/content/page-header'
 import { PageContent } from '@/components/content/page-content'
 import { CraftGrid } from '@/components/grids/craft-grid'
 import { CraftCard } from '@/components/grids/craft-card'
-import { Fragment } from 'react'
 import { VFXBorderBeam } from '@/components/ui-vfx/vfx-border-beam'
 
 export const metadata: Metadata = {
@@ -20,12 +19,12 @@ export default async function CraftPage() {
   const sortedPages = sortPagesByPublicationDate(pages)
 
   return (
-    <Fragment>
+    <section className='no-scrollbar h-screen overflow-y-auto'>
       <PageHeader
         title='Craft'
         description='A dazzling playground of creativity and fun. Take a dip into my personal craft and let the imagination run wild!'
       />
-      <div className='relative mx-4 my-12 max-w-4xl self-center rounded-xl border border-neutral-300 bg-white/60 p-6 backdrop-blur-sm dark:border-neutral-800 dark:bg-neutral-900/40'>
+      <div className='mx-auto my-12 max-w-4xl rounded-xl border border-neutral-300 bg-white/60 p-6 backdrop-blur-sm dark:border-neutral-800 dark:bg-neutral-900/40'>
         <h2 className='mb-3 text-2xl font-semibold tracking-tight text-neutral-900 dark:text-white'>
           Note
         </h2>
@@ -52,6 +51,6 @@ export default async function CraftPage() {
           ))}
         </CraftGrid>
       </PageContent>
-    </Fragment>
+    </section>
   )
 }

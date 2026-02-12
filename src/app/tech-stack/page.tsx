@@ -15,7 +15,6 @@ import { PageContent } from '@/components/content/page-content'
 import { PageHeader } from '@/components/content/page-header'
 import { TechStackGrid } from '@/components/grids/tech-stack-grid'
 import { TechStackCard } from '@/components/grids/tech-stack-card'
-import { Fragment } from 'react'
 
 export const metadata: Metadata = {
   title: 'Tech Stack',
@@ -30,7 +29,7 @@ const StackItem = ({ Icon, ...props }: TechStackItem) => (
 
 export default function TechStackPage() {
   return (
-    <Fragment>
+    <section className='no-scrollbar h-screen overflow-y-auto'>
       <PageHeader
         title='Tech Stack'
         description='Explore the programming languages, tools, frameworks and libraries I have experience and interest in. I constantly update and expand my tech stack to stay current with the latest technologies and best practices.'
@@ -69,6 +68,6 @@ export default function TechStackPage() {
           ))}
         </TechStackGrid>
       </PageContent>
-    </Fragment>
+    </section>
   )
 }

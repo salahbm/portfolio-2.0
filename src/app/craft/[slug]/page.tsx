@@ -12,7 +12,6 @@ import { PageContent } from '@/components/content/page-content'
 import { PageHeader } from '@/components/content/page-header'
 import { GitHubRepositoryLink } from '@/components/content/github-repository-link'
 import { CategoryTag } from '@/components/content/category-tag'
-import { Fragment } from 'react'
 
 type StaticParam = { slug: string }
 
@@ -79,7 +78,7 @@ export default async function CraftSlugPage(props: {
   const isLab = page.metadata.category?.includes('Lab')
 
   return (
-    <Fragment>
+    <section className='no-scrollbar h-screen overflow-y-auto'>
       <PageHeader
         title={page.metadata.title}
         description={page.metadata.summary}
@@ -109,6 +108,6 @@ export default async function CraftSlugPage(props: {
           <MDXContentRenderer source={page.content} />
         </div>
       </PageContent>
-    </Fragment>
+    </section>
   )
 }

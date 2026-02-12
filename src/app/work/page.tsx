@@ -219,12 +219,12 @@ const workHistory: WorkExperience[] = [
 
 const WorkHistoryUpdate = () => {
   return (
-    <div className='bg-background pb-16 lg:pb-24'>
+    <div className='no-scrollbar h-screen overflow-y-auto pb-16 lg:pb-24'>
       <PageHeader
         title='Professional Work History'
         description='Building exceptional products with React, Next.js, and cutting-edge technologies'
       />
-      <div className='mx-auto max-w-4xl space-y-8 px-4 md:p-0'>
+      <div className='mx-auto flex max-w-4xl flex-col gap-y-8 px-4 md:p-0'>
         {workHistory.map((work, index) => (
           <div
             key={index}
