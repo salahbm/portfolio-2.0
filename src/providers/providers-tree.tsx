@@ -6,7 +6,7 @@ import { Toaster } from '@/components/ui/sonner'
 import { TailwindIndicator } from '@/components/shared/tailwind-indicator'
 import { PageTransitionProvider } from '@/components/page-transition'
 import { GlobalKeyboardShortcuts } from '@/components/keyboard-shortcuts'
-import { LockScreenProvider } from './lock-screen-provider'
+// import { LockScreenProvider } from './lock-screen-provider'
 import { ThemeProvider } from './theme-provider'
 import { MagnifyingGlass } from '@/components/shared/magnifying-glass/magnifying-glass'
 import { easterEgg } from '@/lib/easter-egg'
@@ -23,7 +23,9 @@ export function ProvidersTree({ children }: { children: React.ReactNode }) {
     >
       <TooltipProvider>
         <PageTransitionProvider>
-          <LockScreenProvider>{children}</LockScreenProvider>
+          {/* <LockScreenProvider> */}
+          {children}
+          {/* </LockScreenProvider> */}
           <CursorStyleInjector />
           <GlobalKeyboardShortcuts />
           <MusicPlayerInitializer />

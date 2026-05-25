@@ -2,7 +2,6 @@
 
 import { useState } from 'react'
 import HoverText from './hover-text'
-import { InfoCircledIcon } from '@radix-ui/react-icons'
 import { WaveUnderline } from './wave-underline'
 import { useGSAP } from '@gsap/react'
 import { SplitText } from 'gsap/all'
@@ -15,7 +14,7 @@ gsap.registerPlugin(SplitText)
 const outlineFix = `
 .text-outline span:not(.hover-word),
 .text-outline div:not(.hover-word) {
-  color: transparent;
+  color: gray;
   -webkit-text-stroke: inherit;
 }
 `
@@ -31,12 +30,12 @@ export default function IntroView() {
 
     document.fonts.ready.then(() => {
       //  Split ONLY the main text parts
-      intro1 = SplitText.create('.intro-1-split', { type: 'words' })
-      intro2 = SplitText.create('.intro-2-split', { type: 'words' })
-      intro3 = SplitText.create('.intro-3-split', { type: 'words' })
+      intro1 = SplitText.create('.intro-1-split', { type: 'chars' })
+      intro2 = SplitText.create('.intro-2-split', { type: 'chars' })
+      intro3 = SplitText.create('.intro-3-split', { type: 'chars' })
 
       //  COLOR ANIMATIONS — ONLY for split parts
-      gsap.to(intro1.words, {
+      gsap.to(intro1.chars, {
         color,
         ease: 'power1.inOut',
         stagger: 0.15,
@@ -48,7 +47,7 @@ export default function IntroView() {
         },
       })
 
-      gsap.to(intro2.words, {
+      gsap.to(intro2.chars, {
         color,
         ease: 'power1.inOut',
         stagger: 0.15,
@@ -60,7 +59,7 @@ export default function IntroView() {
         },
       })
 
-      gsap.to(intro3.words, {
+      gsap.to(intro3.chars, {
         color,
         ease: 'power1.inOut',
         stagger: 0.15,
@@ -84,25 +83,8 @@ export default function IntroView() {
     })
 
     heroTL.to('.intro-section', {
-      rotate: 10,
       scale: 0.3,
       yPercent: 20,
-      ease: 'power1.inOut',
-    })
-
-    //  HELP TEXT Scale/opacity
-    const helpTextTL = gsap.timeline({
-      scrollTrigger: {
-        trigger: '.help-text',
-        start: 'top 30%',
-        end: 'top 30%',
-        scrub: true,
-      },
-    })
-
-    helpTextTL.to('.help-text', {
-      scale: 0.2,
-      opacity: 0.1,
       ease: 'power1.inOut',
     })
   }, [theme])
@@ -111,7 +93,6 @@ export default function IntroView() {
     <section className='relative flex min-h-dvh flex-col items-center justify-center overflow-hidden py-12 md:min-h-[120vh] lg:min-h-[150vh]'>
       {/* FIXED OUTLINE BEHAVIOR */}
       <style>{outlineFix}</style>
-      <div className='absolute inset-0 -z-10 h-full w-full bg-white bg-[linear-gradient(to_right,theme(colors.gray.200)_1px,transparent_1px),linear-gradient(to_bottom,theme(colors.gray.200)_1px,transparent_1px)] bg-[size:6rem_4rem] dark:bg-neutral-900 dark:bg-[linear-gradient(to_right,theme(colors.gray.800)_1px,transparent_1px),linear-gradient(to_bottom,theme(colors.gray.800)_1px,transparent_1px)]' />
 
       <div className='intro-section relative z-10 mx-auto w-full max-w-5xl px-4 text-end font-syne leading-relaxed md:px-6'>
         {/* INTRO 1 */}
@@ -187,10 +168,7 @@ export default function IntroView() {
         </div>
       </div>
 
-      <span className='help-text mt-4 flex w-full items-center justify-end gap-2 px-4 text-xs text-muted-foreground opacity-80 md:mt-5 md:text-sm lg:max-w-4xl'>
-        <InfoCircledIcon className='inline-block' />
-        Hover on the gradient texts to see the images
-      </span>
+      <div className='absolute inset-0 -z-10 h-full w-full bg-white bg-[linear-gradient(to_right,theme(colors.gray.200)_1px,transparent_1px),linear-gradient(to_bottom,theme(colors.gray.200)_1px,transparent_1px)] bg-[size:6rem_4rem] dark:bg-neutral-900 dark:bg-[linear-gradient(to_right,theme(colors.gray.800)_1px,transparent_1px),linear-gradient(to_bottom,theme(colors.gray.800)_1px,transparent_1px)]' />
     </section>
   )
 }
