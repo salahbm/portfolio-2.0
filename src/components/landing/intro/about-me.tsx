@@ -15,7 +15,7 @@ const AboutMe: React.FC = () => {
     const windowWidth = window.innerWidth
 
     gsap.to(textElement, {
-      x: -(scrollWidth - windowWidth),
+      x: -(scrollWidth - windowWidth * 2.5),
       ease: 'none',
       scrollTrigger: {
         trigger: containerRef.current,

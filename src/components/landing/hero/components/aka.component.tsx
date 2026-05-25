@@ -1,6 +1,6 @@
 'use client'
 
-import { useEffect, useRef, useMemo } from 'react'
+import { useEffect, useRef } from 'react'
 import { gsap } from 'gsap'
 
 const layerColors = [
@@ -14,18 +14,21 @@ const layerColors = [
 
 const sparkColors = ['#1f2f4d', '#ec6a5f', '#f3bf61']
 
+const sparks = [
+  { top: '14%', left: '42%', width: '8.5px', height: '5.7px' },
+  { top: '84%', left: '22%', width: '5.7px', height: '6.8px' },
+  { top: '74%', left: '28%', width: '7.8px', height: '5.5px' },
+  { top: '52%', left: '83%', width: '6.8px', height: '6.3px' },
+  { top: '26%', left: '31%', width: '7.3px', height: '6.3px' },
+  { top: '46%', left: '29%', width: '5.7px', height: '6.9px' },
+  { top: '36%', left: '13%', width: '8.8px', height: '6.2px' },
+  { top: '31%', left: '57%', width: '8.5px', height: '7.3px' },
+]
+
 export default function AkaComponent() {
   const containerRef = useRef<HTMLDivElement>(null)
   const layersRef = useRef<HTMLSpanElement[]>([])
   const sparkRefs = useRef<HTMLSpanElement[]>([])
-
-  // --- generate random spark positions ONCE per mount ---
-  const sparkPositions = useMemo(() => {
-    return Array.from({ length: 8 }).map(() => ({
-      top: `${Math.random() * 80 + 10}%`, // between 10%–90%
-      left: `${Math.random() * 80 + 10}%`, // between 10%–90%
-    }))
-  }, [])
 
   useEffect(() => {
     const container = containerRef.current
@@ -123,7 +126,7 @@ export default function AkaComponent() {
         </span>
 
         {/* Sparks */}
-        {sparkPositions.map((pos, i) => (
+        {sparks.map((spark, i) => (
           <span
             key={i}
             ref={(el) => {
@@ -131,10 +134,10 @@ export default function AkaComponent() {
             }}
             className='absolute rounded-full blur-[3px]'
             style={{
-              width: `${5 + Math.random() * 4}px`,
-              height: `${5 + Math.random() * 4}px`,
-              top: pos.top,
-              left: pos.left,
+              width: spark.width,
+              height: spark.height,
+              top: spark.top,
+              left: spark.left,
               background: sparkColors[i % sparkColors.length],
               boxShadow: `0 0 10px ${sparkColors[i % sparkColors.length]}, 0 0 20px ${sparkColors[i % sparkColors.length]}`,
               opacity: 0.8,
