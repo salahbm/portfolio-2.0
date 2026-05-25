@@ -1,7 +1,5 @@
 'use client'
 
-import { useRouter } from 'next/navigation'
-
 import { useMemo } from 'react'
 import useEvent from 'react-use-event-hook'
 
@@ -29,6 +27,7 @@ import { navigationItems } from '@/lib/navigation'
 import { useSwitchColorMode } from '@/hooks/use-switch-color-mode'
 import { useUserAgent } from '@/hooks/use-user-agent'
 import { useCopyToClipboard } from '@/hooks/use-copy-to-clipboard'
+import { usePageTransition } from '@/components/page-transition'
 
 import {
   CommandDialog,
@@ -210,7 +209,7 @@ export function CommandCenterDialog({
   createQRCode: (currentURL: string) => void
   openKeyboardShortcutsDialog: () => void
 }) {
-  const router = useRouter()
+  const { navigate } = usePageTransition()
   const { setColorMode, theme } = useSwitchColorMode()
 
   const { isSafari, isFirefox } = useUserAgent()
@@ -236,7 +235,7 @@ export function CommandCenterDialog({
   const handleSelectNavigation = useEvent(
     (name: string, href: string): void => {
       execCommand(name, (): void => {
-        router.push(href)
+        navigate(href)
       })
     }
   )

@@ -3,11 +3,11 @@ import { z } from 'zod'
 
 export const env = createEnv({
   client: {
-    NEXT_PUBLIC_PROJECT_BASE_URL: z.string().url(),
+    NEXT_PUBLIC_PROJECT_BASE_URL: z.url(),
     NEXT_PUBLIC_GOOGLE_VERIFICATION_TOKEN: z.string(),
   },
   server: {
-    GITHUB_GRAPHQL_API_URL: z.string().url(),
+    GITHUB_GRAPHQL_API_URL: z.url(),
     GITHUB_CONTRIBUTIONS_READER_TOKEN: z.string(),
   },
   runtimeEnv: {

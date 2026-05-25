@@ -1,20 +1,20 @@
 'use client'
 
-import { useRouter } from 'next/navigation'
 import { useHotkeys } from 'react-hotkeys-hook'
+import { usePageTransition } from '@/components/page-transition'
 
 /**
  * Global keyboard shortcuts handler
  * Implements navigation shortcuts (G+H, G+A, G+T, G+W, G+C)
  */
 export function GlobalKeyboardShortcuts() {
-  const router = useRouter()
+  const { navigate } = usePageTransition()
 
   // Home: G+H
   useHotkeys(
     'g+h',
     () => {
-      router.push('/')
+      navigate('/')
     },
     {
       enableOnFormTags: false,
@@ -26,7 +26,7 @@ export function GlobalKeyboardShortcuts() {
   useHotkeys(
     'g+a',
     () => {
-      router.push('/dashboard')
+      navigate('/dashboard')
     },
     {
       enableOnFormTags: false,
@@ -38,7 +38,7 @@ export function GlobalKeyboardShortcuts() {
   useHotkeys(
     'g+t',
     () => {
-      router.push('/tech-stack')
+      navigate('/tech-stack')
     },
     {
       enableOnFormTags: false,
@@ -50,7 +50,7 @@ export function GlobalKeyboardShortcuts() {
   useHotkeys(
     'g+w',
     () => {
-      router.push('/work')
+      navigate('/work')
     },
     {
       enableOnFormTags: false,
@@ -62,7 +62,7 @@ export function GlobalKeyboardShortcuts() {
   useHotkeys(
     'g+c',
     () => {
-      router.push('/craft')
+      navigate('/craft')
     },
     {
       enableOnFormTags: false,
