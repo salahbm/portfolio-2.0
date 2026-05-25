@@ -10,6 +10,7 @@ import {
 } from 'motion/react'
 
 import { useSwitchColorMode } from '@/hooks/use-switch-color-mode'
+import { useMounted } from '@/hooks/use-mounted'
 
 import {
   Tooltip,
@@ -32,6 +33,7 @@ export function ColorModeDropdownSwitcher() {
   const [centerX, setCenterX] = useState(0)
   const [hasError, setHasError] = useState(false)
   const controls = useAnimationControls()
+  const mounted = useMounted()
 
   // Responsive motion size
   const dimension = useTransform(x, (mouseX) => {
@@ -74,10 +76,11 @@ export function ColorModeDropdownSwitcher() {
     return () => window.removeEventListener('resize', updateCenter)
   }, [])
 
-  const { setColorMode, theme } = useSwitchColorMode()
+  const { setColorMode, resolvedTheme } = useSwitchColorMode()
+  const isLight = resolvedTheme === 'light'
 
   const handleClick = useEvent(() => {
-    setColorMode(theme === 'light' ? 'dark' : 'light')
+    setColorMode(isLight ? 'dark' : 'light')
   })
 
   useHotkeys(
@@ -125,7 +128,9 @@ export function ColorModeDropdownSwitcher() {
         onClick={handleClick}
         aria-label='Switch color mode'
       >
-        {theme === 'light' ? (
+        {!mounted ? (
+          <span className='h-4 w-4' aria-hidden='true' />
+        ) : isLight ? (
           <SunIcon className='h-4 w-4 stroke-[1.5px]' />
         ) : (
           <MoonIcon className='h-4 w-4 stroke-[1.5px]' />

@@ -22,6 +22,17 @@ export function ScrollStory() {
       const ctx = gsap.context(() => {
         wrapper.querySelectorAll<HTMLElement>('.blob-container')
 
+        const getRailTravel = () =>
+          Math.max(
+            0,
+            Math.max(rail.scrollWidth, rail.getBoundingClientRect().width) -
+              window.innerWidth +
+              window.innerWidth * 1.3
+          )
+
+        const getScrollDistance = () =>
+          Math.max(window.innerHeight * 4.5, getRailTravel() * 1.35)
+
         // -------- Initial state
         gsap.set(wrapper, { position: 'relative' })
         gsap.set('.scroll-story-background', { opacity: 0.1 })
@@ -56,58 +67,66 @@ export function ScrollStory() {
         })
 
         const tl = gsap.timeline({
-          defaults: { ease: 'power2.inOut' },
+          defaults: { ease: 'none' },
           scrollTrigger: {
             trigger: wrapper,
             start: 'top top',
-            end: '+=300%',
-            scrub: 1,
+            end: () => `+=${getScrollDistance()}`,
+            scrub: 0.65,
             pin: true,
             invalidateOnRefresh: true,
             anticipatePin: 1,
           },
         })
 
-        tl.to(heading, { top: '50%', scale: 1, duration: 1.2 })
+        tl.to(heading, {
+          top: '50%',
+          scale: 1,
+          duration: 1.1,
+          ease: 'power1.out',
+        })
 
-        tl.to(rail, { x: 0, opacity: 1, duration: 0.8 }, '>-0.1')
+        tl.to(
+          rail,
+          { x: 0, opacity: 1, duration: 0.9, ease: 'power1.out' },
+          '>-0.05'
+        )
 
         // fade 0.4 → 1
         tl.to(
           '.scroll-story-background',
           {
             opacity: 1,
-            duration: 1.2,
-            ease: 'power2.out',
+            duration: 1,
+            ease: 'none',
           },
-          '>-0.2'
+          '<'
         )
 
-        tl.to(heading, { opacity: 0, scale: 0.6, duration: 0.6 }, '>')
+        tl.to(
+          heading,
+          { opacity: 0, scale: 0.72, duration: 0.75, ease: 'power1.in' },
+          '>-0.05'
+        )
 
         tl.to(
           rail,
           {
-            x: () =>
-              -(
-                Math.max(rail.scrollWidth, rail.getBoundingClientRect().width) -
-                window.innerWidth
-              ) -
-              window.innerWidth * 0.3,
+            x: () => -getRailTravel(),
             ease: 'none',
-            duration: 6,
+            duration: 8.5,
           },
-          '>-0.2'
+          '>-0.05'
         )
         // Fade rail out when finished
         tl.to(
           rail,
           {
             opacity: 0,
-            duration: 0.9,
-            ease: 'power1.out',
+            duration: 1,
+            ease: 'none',
           },
-          '>-0.3'
+          '>-0.1'
         )
         // Continue zooming exit text
         tl.to(
@@ -115,21 +134,21 @@ export function ScrollStory() {
           {
             opacity: 1,
             y: 0,
-            duration: 1.5,
-            ease: 'power2.out',
+            duration: 1.25,
+            ease: 'power1.out',
           },
-          '-=1'
+          '<'
         )
 
         tl.to(
           exitText,
           {
-            scale: 2,
+            scale: 1.9,
             yPercent: -5,
-            duration: 2,
-            ease: 'power2.inOut',
+            duration: 1.8,
+            ease: 'none',
           },
-          '-=0.5'
+          '>-0.2'
         )
       }, wrapper)
 
@@ -139,7 +158,7 @@ export function ScrollStory() {
   )
 
   return (
-    <section className='relative h-[400vh]'>
+    <section className='relative min-h-dvh'>
       <div
         ref={wrapperRef}
         id='scroll-story'

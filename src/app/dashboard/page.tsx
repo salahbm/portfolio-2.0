@@ -15,8 +15,8 @@ import { InstagramBentoItem } from '@/components/bento/instagram-bento-item'
 
 export default async function DashboardPage() {
   return (
-    <PageContent className='no-scrollbar mt-10 h-screen min-h-dvh items-center justify-center gap-0 overflow-y-auto'>
-      <BentoGrid>
+    <PageContent className='no-scrollbar h-dvh min-h-dvh overflow-y-auto overflow-x-visible pb-32 pt-10 md:pb-28 md:pt-20 lg:justify-center lg:pt-24 xl:pt-32'>
+      <BentoGrid className='overflow-visible p-1'>
         <HeroBentoItem />
         <GitHubBentoItem />
         <TwitterBentoItem />

@@ -146,7 +146,7 @@ export function VFXPresenceSurface({
         isCursorInside ? getCursorColorName(cursorColor) : undefined
       }
       className={cn(
-        'relative flex size-full overflow-hidden [border-radius:inherit]',
+        'relative flex size-full overflow-visible [border-radius:inherit]',
         className
       )}
     >
